@@ -1,6 +1,6 @@
 
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 const AddUserPage = () => {
 
   const [loader, setLoader] = useState(false);
+  const [roles, setRoles] = useState([]);
   const router = useRouter();
  
   const {
@@ -25,10 +26,35 @@ const AddUserPage = () => {
       name: "",
       email: "",
       role: "",
+      phone:"",
       
     
     },
   });
+
+  useEffect(() => {
+    fetchRoles();
+  }, []);
+
+  const fetchRoles = async () => {
+    try {
+      const response = await axios({
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}role`,
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+      setRoles(response.data?.roles || []);
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+      toast("Failed to fetch roles", {
+        theme: "dark",
+        position: "top-right",
+        type: "error",
+      });
+    }
+  };
 
  
 
@@ -47,6 +73,7 @@ const AddUserPage = () => {
     if (!data.email) missingFields.push("Email");
     
     if (!data.role) missingFields.push("Role");
+  if (!data.phone) missingFields.push("Phone number");
 
    
     if (missingFields.length > 0) {
@@ -69,7 +96,7 @@ const AddUserPage = () => {
       data: {
         name: data.name,
         email: data.email,
-      
+      phone:data.phone,
         role: data.role,
        
       },
@@ -84,7 +111,7 @@ const AddUserPage = () => {
         });
         reset();
         // Navigate back to user list page
-        router.push("/admin/user");
+        router.push("/admin/users");
       })
       .catch((err) => {
         setLoader(false);
@@ -132,14 +159,20 @@ const AddUserPage = () => {
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="role">Role</label>
-                        <input
-                          type="text"
+                        <select
                           className="form-control"
                           name="role"
                           id="role"
                           value={watch("role") || ""}
                           {...register("role")}
-                        />
+                        >
+                          <option value="">Select a role</option>
+                          {roles.map((role) => (
+                            <option key={role._id} value={role._id}>
+                              {role.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
@@ -156,6 +189,21 @@ const AddUserPage = () => {
                         />
                       </div>
                     </div>
+
+                       <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <div className="form_group">
+                        <label htmlFor="email">Mobile Number</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="text"
+                          id="text"
+                          aria-describedby="helpId"
+                          value={watch("phone") || ""}
+                          {...register("phone")}
+                        />
+                      </div>
+                    </div>
                   
                     <div className="col-12 mt-3 d-flex gap-3">
                       <button type="submit" className="admin_button">
@@ -164,7 +212,7 @@ const AddUserPage = () => {
                       <button 
                         type="button" 
                         className="admin_button cancel_button"
-                        onClick={() => router.push("/admin/user")}
+                        onClick={() => router.push("/admin/users")}
                       >
                         Cancel
                       </button>

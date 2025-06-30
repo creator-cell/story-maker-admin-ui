@@ -112,7 +112,7 @@ console.log("hii");
                         <li className="nav-item">
                           <CustomLink
                             className={`nav-link ${activeLink === "/admin/cms" ? "active" : ""}`}
-                            href={`/admin/cms`}
+                            href={`/admin/role`}
                           >
                             <i className="fa-solid fa-newspaper"></i>
                             Role

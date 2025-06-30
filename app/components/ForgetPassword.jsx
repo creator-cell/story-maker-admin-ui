@@ -18,7 +18,7 @@ export default function ForgetPassword(){
         setShowLoader(true);
         try{
             const response = await axios ({
-                url : `${API_URL}/auth/forgot-password`,
+                url : `${API_URL}users/forgot-password`,
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

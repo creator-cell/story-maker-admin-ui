@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
-import DeleteUser from '../../(adminSide)/model/DeleteUser';
+import DeleteUser from '../../(adminSide)/model/DeleteRole';
+import EditRole from '../../(adminSide)/model/EditRole'
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import CustomLink from "../CustomLink";
@@ -14,17 +15,15 @@ export default function Roles() {
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
   const [userId, setUserId] = useState();
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [sortByValue, setSortByValue] = useState("");
-  const itemsPerPage = 20;
-  const [sortOrder, setSortOrder] = useState(true);
+   const [updateUser, setUpdateUser] = useState(false);
+  const [updateUserId, setUpdateUserId] = useState();
+  
   const router = useRouter();
 
 
   const getRole = async () => {
     try {
-      let url = `${API_URL}/role?`;
+      let url = `${API_URL}role`;
 
       const response = await axios({
         url,
@@ -33,24 +32,14 @@ export default function Roles() {
       });
       console.log("res", response.data);
       const userData = response.data;
-      setUsers(userData);
-      setTotalPages(response.data.totalPages);
-      setCurrentPage(page - 1);
+      setUsers(userData.roles);
+
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
 
-  const handleSearchInputChange = (e) => {
-    setSearchUser(e.target.value);
-  }
-
-  const handleSearchKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  }
 
 
   useEffect(() => {
@@ -64,8 +53,13 @@ export default function Roles() {
     setDeleteUser(true)
   }
 
+   const handleUserUpdate = (id) => {
+    setUpdateUser(true);
+    setUpdateUserId(id);
+  }
+
   const handleNewUser = () => {
-    router.push('/admin/users/add-user');
+    router.push('/admin/role/add-role');
   }
 
   return (
@@ -87,7 +81,7 @@ export default function Roles() {
 
                     <div className="col-lg-4 col-md-6 col-12 p-0">
                       <div className="filter_field">
-                      
+
                         <button className="button" onClick={handleNewUser}>
                           Add Role
                         </button>
@@ -116,17 +110,18 @@ export default function Roles() {
 
                               <td data-label="Email Address">{user.menu ? user.menu : ""}</td>
 
-                              <td data-label="Email Address">{user.read ? user.read : ""}</td>
+                              <td data-label="Email Address">{user.read ===true?  "Yes"  : "No"}</td>
 
-                              <td data-label="Email Address">{user.write ? user.write : ""}</td>
+                              <td data-label="Email Address">{user.write ===true? "Yes" : "No"}</td>
+                              <td data-label="Email Address">{user.both === true ? "Yes" : "No"}</td>
 
 
                               <td data-label="Action">
                                 <div className="d-flex justify-content-start align-items-center gap-2">
-                                  <CustomLink
-                                    href={`/admin/users/${user._id}`} className="admin_action_btn">
+                                  <button className="admin_action_btn"
+                                    onClick={() => handleUserUpdate(user)}>
                                     <i className="fa fa-edit"></i>
-                                  </CustomLink>
+                                  </button>
 
                                   <button className="admin_action_btn"
                                     onClick={() => handleUserDelete(user._id)}>
@@ -158,7 +153,12 @@ export default function Roles() {
       <DeleteUser
         show={deleteUser}
         data={userId}
-        onHide={() => (setDeleteUser(false), getUsers())}
+        onHide={() => (setDeleteUser(false), getRole())}
+      />
+       <EditRole
+        show={updateUser}
+        data={updateUserId}
+        onHide={() => (setUpdateUser(false), getRole())}
       />
     </>
   );

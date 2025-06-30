@@ -22,13 +22,14 @@ export default function ResetPassword(){
     const handleResetPassword = async (data) =>{
         try{
             const response = await axios ({
-                url : `${API_URL}/auth/reset-password?token=${resetToken}`,
+                url : `${API_URL}users/reset-password?token=${resetToken}`,
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 data:JSON.stringify({
-                    password: data.newPassword,
+                    newpassword: data.newPassword,
+                    token:resetToken
                 })
             })
             if (response.data === '') {

@@ -14,39 +14,55 @@ export default function EditUser({ userId  }){
     const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
     const route = useRouter();
     const [dob, setDob] = useState(null);
+    const [roles, setRoles] = useState([]);
 
     const getUserDetails = async ()=>{
         try{
             const response = await axios({
-                url: `${API_URL}/users/${userId}`,
+                url: `${API_URL}users/${userId}`,
                 method: "GET",
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
             });
-            const user = response.data;
+            const user = response.data.user;
          
-            const userBirthDate = user.birthDate;
-            if (userBirthDate) {
-                setDob(new Date(userBirthDate));
-            }
+         console.log(response);
             
             reset({
-                firstName: user.firstName,
-                lastName: user.lastName,
-                address: user.address,
-                birthDate : user.birthDate,
-                townCity: user.townCity,
-                state: user.state,
-                zipCode: user.zipCode,
+                firstName: user.name,
+               
                 email: user.email,
-                phoneNumber: user.phoneNumber
+                phone: user.phoneNumber,
+                role: user.role
             });
 
         }catch(error){
             console.error(error);
         }
     }
+
+    const fetchRoles = async () => {
+        try {
+            const response = await axios({
+                url: `${API_URL}role`,
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            setRoles(response.data.roles || []);
+        } catch (error) {
+            console.error("Error fetching roles:", error);
+            toast("Failed to fetch roles", {
+                theme: "dark",
+                position: "top-right",
+                type: "error",
+            });
+        }
+    };
+
     useEffect(()=>{
         getUserDetails();
+        fetchRoles();
     },[])
 
     const handleUserUpdate = async (data)=>{ 
@@ -68,6 +84,7 @@ export default function EditUser({ userId  }){
                         state: data.state,
                         zipCode: data.zipCode,
                         email: user.email,
+                        role: data.role,
                     },
                 });
                 console.log("Update=> ",response.data);
@@ -130,40 +147,8 @@ export default function EditUser({ userId  }){
                                                 }
                                             </div>
                                         </div>
-                                        <div className="col-lg-4 col-md-6 col-12">
-                                            <div className="form_group">
-                                                <label htmlFor="lastName">Last Name *</label>
-                                                <input type="text" name="" id="lastName" className="form-control" {...register("lastName",{ required: "Last name is required" })} />
-                                                {errors.lastName && 
-                                                    (<span className="errMsg">
-                                                        {errors.lastName.message}
-                                                    </span>)
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-4 col-md-6 col-12">
-                                            <div className="form_group">
-                                                <label htmlFor="dob">Date of Birth *</label>
-                                                <DatePicker
-                                                className="form-control"
-                                                selected={dob}
-                                                onChange={(date) => {
-                                                    setDob(date);
-                                                    setValue("dob", date, {
-                                                    shouldValidate: true,
-                                                    shouldDirty: true,
-                                                    });
-                                                }}
-                                                dateFormat="dd-MM-yyyy"
-                                                placeholderText="Date of Birth *"
-                                                showYearDropdown
-                                                scrollableYearDropdown
-                                                yearDropdownItemNumber={100}
-                                                maxDate={new Date()}
-                                                />
-                                                {errors.dob && <p className="errMsg">{errors.dob.message}</p>}
-                                            </div>
-                                        </div>
+                                      
+                                      
                                         <div className="col-lg-auto col-md-auto col-12 visually-hidden">
                                             <input
                                                 type="hidden"
@@ -173,48 +158,30 @@ export default function EditUser({ userId  }){
                                                 })}
                                             />
                                         </div>
-                                        <div className="col-lg-4 col-md-12 col-12">
+                                       
+                                    
+                                      
+                                        <div className="col-lg-6 col-md-6 col-12">
                                             <div className="form_group">
-                                                <label htmlFor="address">Address *</label>
-                                                <input type="text" className="form-control" id="address" name="address" placeholder="Address *"
-                                                {...register("address", {
-                                                    required: { value: true, message: ('Address is required.')},
-                                                })} />
-                                                {errors.address ? <p className="errMsg">{errors.address.message}</p> : null}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-3 col-md-12 col-12 ps-lg-0">
-                                            <div className="form_group">
-                                                <label htmlFor="city">City *</label>
-                                                <input type="text" className="form-control" name="city" id="city" placeholder="City *"
-                                                {...register("townCity", {
-                                                    required: { value: true, message: ('City is required.')},
-                                                })} />
-                                                {errors.townCity ? <p className="errMsg">{errors.townCity.message}</p> : null}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-3 col-md-6 col-12">
-                                            <div className="form_group">
-                                                <label htmlFor="state">State *</label>
-                                                <input type="text" className="form-control" name="state" id="state" placeholder="State *"
-                                                {...register("state", {
-                                                    required: { value: true, message: ('State is required.')},
-                                                })} />
-                                                {errors.state ? <p className="errMsg">{errors.state.message}</p> : null}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-2 col-md-6 col-12">
-                                            <div className="form_group">
-                                                <label htmlFor="zipCode">Zip Code *</label>
-                                                <input type="text" className="form-control" placeholder="Zipcode *"
-                                                {...register("zipCode", {
-                                                    required: { value: true, message: ('Zipcode is required.')},
-                                                    pattern: {
-                                                        value: /^[A-Za-z0-9\s\-]{3,10}$/,
-                                                        message: "Invalid zipcode.",
-                                                    },
-                                                })} />
-                                                {errors.zipCode ? <p className="errMsg">{errors.zipCode.message}</p> : null}
+                                                <label htmlFor="role">Role *</label>
+                                                <select
+                                                    className="form-control"
+                                                    name="role"
+                                                    id="role"
+                                                    {...register("role", { required: "Role is required" })}
+                                                >
+                                                    <option value="">Select a role</option>
+                                                    {roles.map((role) => (
+                                                        <option key={role._id} value={role._id}>
+                                                            {role.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                {errors.role && 
+                                                    (<span className="errMsg">
+                                                        {errors.role.message}
+                                                    </span>)
+                                                }
                                             </div>
                                         </div>
                                         <div className="col-lg-6 col-md-6 col-12">

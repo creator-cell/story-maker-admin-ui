@@ -23,22 +23,12 @@ export default function Register() {
     const [regions, setRegions] = useState([]);
     const { control, formState: { errors }, handleSubmit, register, reset, setValue, watch, trigger } = useForm({
         defaultValues: {
-            firstName: '',
-            lastName: '',
-            dob: '',
+            name: '',
             email: '',
-            address: '',
-            address2: '',
-            townCity: '',
-            state: '',
-            zipCode: '',
-            phoneNumber: '',
+            phone: '',
             password: '',
             confirmPassword: '',
-            termsCondition: true,
-            sendMarketingEmail: false,
-            country: '',
-            region: '',
+
         }
     });
 
@@ -53,77 +43,27 @@ export default function Register() {
         );
     };
 
-    const getRegions = async () => {
-        try {
-            const response = await axios({
-                url: `${API_URL}/regional/getAllRegional`,
-                method: "GET",
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-            });
-            const regionsData = response.data;
-            console.log("regional", response);
-            setRegions(regionsData);
-
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    useEffect(() => {
-        getRegions();
-    }, []);
-
-    const getCountries = async () => {
-        try {
-            const response = await axios({
-                url: `${API_URL}/country/getAllCountry`,
-                method: "GET",
-                // headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-            });
-            console.log("res", response);
-            const filteredCountries = response.data.filter(
-                (country) => country.is_type_one === true
-            );
-
-            setCountries(filteredCountries);
-
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    useEffect(() => {
-        getCountries();
-    }, []);
     const handleRegister = async (data) => {
 
-        const birthDate = data.dob.getMonth() + '-' + data.dob.getMonth() + '-' + data.dob.getFullYear();
+      console.log(data);
         setShowLoader(true);
         try {
             const response = await axios({
-                url: `${API_URL}/auth/register`,
+                url: `${API_URL}users/register`,
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 data: JSON.stringify({
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                    birthDate: birthDate,
-                    address: data.address,
-                    address2: data.address2,
-                    townCity: data.townCity,
-                    state: data.state,
-                    zipCode: data.zipCode,
+                    name: data.firstName,
+                  role:"68627f97b3c3ae03656441fa",
                     email: data.email,
                     password: data.password,
-                    phoneNumber: data.phoneNumber,
-                    sendMarketingEmail: data.sendMarketingEmail,
-                    country: data.country,
-                    region: data.region
+                    phone: data.phone,
+                   
                 })
             })
-            const verifyToken = response.data.tokens.access.token;
+           
             if (verifyToken) {
                 setShowLoader(false);
                 toast("Registration successfull, please check your email to verify your account.", {
@@ -165,22 +105,21 @@ export default function Register() {
                 <div className="container">
                     <div className="row justify-content-center align-items-center">
                         <div className="col-lg-5 col-md-6 col-12 d-lg-flex d-md-flex d-none">
-                            <Image src={'/images/register.svg'} width={500} height={500} alt="register image" />
+                            <Image src={'/images/register.jpg'} width={500} height={500} alt="register image" />
                         </div>
                         <div className="col-lg-5 col-md-6 col-12">
                             <div className="auth_form">
                                 <div className="title-dark">
-                                    <h2>Join the Future of Travel</h2>
-                                    <span>Sign up in seconds and get instant access to seamless eSIM connectivity in over 190 countries. Travel smart, stay online.</span>
+                                    <h2>Register Now</h2>
                                 </div>
                                 <div className="boxwrap">
                                     <form action={handleSubmit(handleRegister)} className="row justify-content-center needs-validation">
                                         <div className="col-lg-6 col-md-6 col-12">
                                             <div className="mb-input">
-                                                <input type="text" className="form-control" placeholder="First Name *"
+                                                <input type="text" className="form-control" placeholder="Full Name *"
                                                     value={watch("firstName") || ""}
                                                     {...register("firstName", {
-                                                        required: { value: true, message: ('First name required.') },
+                                                        required: { value: true, message: ('Full name required.') },
                                                         pattern: {
                                                             value: /^[A-Za-z\s]+$/,
                                                             message: "First name should not contain numbers or special characters",
@@ -189,106 +128,19 @@ export default function Register() {
                                                 {errors.firstName ? <p className="errMsg">{errors.firstName.message}</p> : null}
                                             </div>
                                         </div>
-                                        <div className="col-lg-6 col-md-6 col-12">
-                                            <div className="mb-input">
-                                                <input type="text" className="form-control" placeholder="Last Name *"
-                                                    value={watch("lastName") || ""}
-                                                    {...register("lastName", {
-                                                        required: { value: true, message: ('Last name required.') },
-                                                        pattern: {
-                                                            value: /^[A-Za-z\s]+$/,
-                                                            message: "Last name should not contain numbers or special characters",
-                                                        },
-                                                    })} />
-                                                {errors.lastName ? <p className="errMsg">{errors.lastName.message}</p> : null}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6 col-12">
-                                            <div className="mb-input">
-                                                <DatePicker
-                                                    className="form-control"
-                                                    selected={dob}
-                                                    onChange={(date) => {
-                                                        setDob(date);
-                                                        setValue("dob", date, {
-                                                            shouldValidate: true,
-                                                        });
-                                                    }}
-                                                    dateFormat="dd/MM/yyyy"
-                                                    placeholderText="Date of Birth *"
-                                                    showYearDropdown
-                                                    scrollableYearDropdown
-                                                    yearDropdownItemNumber={100}
-                                                    maxDate={new Date()}
-                                                />
-                                                {errors.dob && <p className="errMsg">{errors.dob.message}</p>}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-12 col-12 visually-hidden">
-                                            {/* Hidden input to register with react-hook-form */}
-                                            <input
-                                                type="hidden"
-                                                {...register("dob", {
-                                                    required: { value: true, message: ('Birth date required.') },
-                                                    validate: checkAge,
-                                                })}
-                                            />
-                                        </div>
-                                        <div className="col-lg-6 col-md-12 col-12">
-                                            <div className="mb-input">
-                                                <PhoneInput
-                                                    placeholder="Enter phone number"
-                                                    className="form-control"
-                                                    value={watch("phoneNumber") || ""}
-                                                    onChange={(value) => {
-                                                        setValue("phoneNumber", value, { shouldValidate: true });
-                                                        trigger("phoneNumber");
-                                                    }}
-                                                    defaultCountry="GB" // Default country (change as needed)
-                                                    international // Shows country code in the input
-                                                    countryCallingCodeEditable={false}
-                                                    addInternationalOption={false}
-                                                />
+                                        <div className="col-lg-6 col-md-6 col-12 mb-3">
+                                            <div className="form_group">
+
                                                 <input
-                                                    type="hidden"
-                                                    {...register("phoneNumber", {
-                                                        required: {
-                                                            value: true,
-                                                            message: 'Phone Number Required.'
-                                                        },
-                                                        validate: {
-                                                            validFormat: (value) => {
-                                                                if (!value) return "Phone number is required";
-
-                                                                // Check if it's a valid international format
-                                                                const phoneRegex = /^\+[1-9]\d{1,14}$/;
-                                                                if (!phoneRegex.test(value)) {
-                                                                    return "Please enter a valid phone number with country code";
-                                                                }
-
-                                                                // Check minimum length (country code + at least 7 digits)
-                                                                if (value.length < 8) {
-                                                                    return "Phone number is too short";
-                                                                }
-
-                                                                // Check maximum length (E.164 format allows up to 15 digits)
-                                                                if (value.length > 16) { // +1 for the + sign
-                                                                    return "Phone number is too long";
-                                                                }
-
-                                                                return true;
-                                                            },
-                                                            noConsecutiveZeros: (value) => {
-                                                                // Prevent numbers with too many consecutive zeros
-                                                                if (value && /0{4,}/.test(value)) {
-                                                                    return "Invalid phone number format";
-                                                                }
-                                                                return true;
-                                                            }
-                                                        }
-                                                    })}
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Mobile Number *"
+                                                    name="text"
+                                                    id="text"
+                                                    aria-describedby="helpId"
+                                                    value={watch("phone") || ""}
+                                                    {...register("phone")}
                                                 />
-                                                {errors.phoneNumber ? <p className="errMsg">{errors.phoneNumber.message}</p> : null}
                                             </div>
                                         </div>
                                         <div className="col-lg-12 col-md-12 col-12">
@@ -301,105 +153,6 @@ export default function Register() {
                                                     })}
                                                 />
                                                 {errors.email ? <p className="errMsg">{errors.email.message}</p> : null}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-12">
-                                            <div className="mb-input">
-                                                <input type="text" className="form-control" placeholder="Address *"
-                                                    value={watch("address") || ""}
-                                                    {...register("address", {
-                                                        required: { value: true, message: ('Address is required.') },
-                                                    })} />
-                                                {errors.address ? <p className="errMsg">{errors.address.message}</p> : null}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-12">
-                                            <div className="mb-input">
-                                                <input type="text" className="form-control" placeholder="Address 2(optional)*"
-                                                    value={watch("address2") || ""}
-                                                    {...register("address2")} />
-                                                {errors.address2 ? <p className="errMsg">{errors.address2.message}</p> : null}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6 col-12 ps-lg-0px 12px">
-                                            <div className="mb-input">
-                                                <input type="text" className="form-control" placeholder="City *"
-                                                    value={watch("townCity") || ""}
-                                                    {...register("townCity", {
-                                                        required: { value: true, message: ('City is required.') },
-                                                    })} />
-                                                {errors.townCity ? <p className="errMsg">{errors.townCity.message}</p> : null}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6 col-12">
-                                            <div className="mb-input">
-                                                <input type="text" className="form-control" placeholder="State *"
-                                                    value={watch("state") || ""}
-                                                    {...register("state", {
-                                                        required: { value: true, message: ('State is required.') },
-                                                    })} />
-                                                {errors.state ? <p className="errMsg">{errors.state.message}</p> : null}
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-12 ps-lg-0px 12px">
-                                            <div className="mb-input">
-                                                <input type="text" className="form-control" placeholder="Zipcode *"
-                                                    value={watch("zipCode") || ""}
-                                                    {...register("zipCode", {
-                                                        required: { value: true, message: ('Zipcode is required.') },
-                                                        pattern: {
-                                                            value: /^[A-Za-z0-9\s\-]{3,10}$/,
-                                                            message: "Invalid zipcode.",
-                                                        },
-                                                    })} />
-                                                {errors.zipCode ? <p className="errMsg">{errors.zipCode.message}</p> : null}
-                                            </div>
-                                        </div>
-
-                                        <div className="col-lg-6 col-md-6 col-12 w-100">
-                                            <div className="form_group">
-                                                <select
-                                                    className="form-control"
-                                                    {...register("country", {
-                                                        required: "Country is required",
-                                                    })}
-                                                >
-                                                    <option value="">Select Country *</option>
-                                                    {countries.map((country) => (
-                                                        <option key={country._id} value={country._id}>
-                                                            {country.name}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                                {errors.country && (
-                                                    <span className="errMsg" style={{ color: "red" }}>
-                                                        {errors.country.message}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-
-
-                                        <div className="col-lg-6 col-md-6 col-12 w-100 ">
-                                            <div className="form_group">
-                                                <select
-                                                    className="form-control"
-                                                    {...register("region", {
-                                                        required: "Region is required",
-                                                    })}
-                                                >
-                                                    <option value="">Select Region *</option>
-                                                    {regions.map((region) => (
-                                                        <option key={region._id} value={region._id}>
-                                                            {region.name}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                                {errors.region && (
-                                                    <span className="errMsg" style={{ color: "red" }}>
-                                                        {errors.region.message}
-                                                    </span>
-                                                )}
                                             </div>
                                         </div>
 
@@ -434,16 +187,7 @@ export default function Register() {
                                                 {errors.confirmPassword ? <p className="errMsg">{errors.confirmPassword.message}</p> : null}
                                             </div>
                                         </div>
-                                        <div className="col-lg-12 col-md-12 col-12 mb-3">
-                                            <div className="form-check">
-                                                <input className="form-check-input" type="checkbox" id="marketingEmail"
-                                                    {...register("sendMarketingEmail")}
-                                                />
-                                                <label className="form-check-label" htmlFor="marketingEmail">
-                                                    Please tick if you consent to receive marketing emails from us.
-                                                </label>
-                                            </div>
-                                        </div>
+
                                         <div className="col-lg-12 col-md-12 col-12 mb-3">
                                             <div className="form-check">
                                                 <input className="form-check-input" type="checkbox" id="acceptTerms"

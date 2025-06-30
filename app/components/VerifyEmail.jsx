@@ -14,7 +14,7 @@ export default function VerifyEmail() {
         const verifyEmail = async () => {
             try{
                 const response = await axios ({
-                    url : `${API_URL}/auth/verify-email?token=${verifyToken}`,
+                    url : `${API_URL}users/verify-email?token=${verifyToken}`,
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

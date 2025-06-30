@@ -138,7 +138,7 @@ export default function Users() {
                           </th>
 
                           <th>Email Address</th>
-
+                          <th>Phone Number</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -150,6 +150,7 @@ export default function Users() {
                                 <td data-label="First Name">{user.name} </td>
 
                                 <td data-label="Email Address">{user.email}</td>
+                                  <td data-label="Email Address">{user.phone?user.phone:""}</td>
 
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
