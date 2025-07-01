@@ -22,7 +22,7 @@ export default function ResetPassword(){
     const handleResetPassword = async (data) =>{
         try{
             const response = await axios ({
-                url : `${API_URL}users/reset-password?token=${resetToken}`,
+                url : `${API_URL}users/reset-password`,
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -8,7 +8,7 @@ import { useRouter, usePathname } from "next/navigation";
 const AdminSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
-console.log("hii");
+
   const handleNavigation = (path) => {
     if (path === "/") {
       router.push(path);
@@ -19,6 +19,7 @@ console.log("hii");
   const [role, setRole] = useState("");
   const [activeLink, setActiveLink] = useState("");
   const [shouldRender, setShouldRender] = useState(true);
+  const [userMenus, setUserMenus] = useState([]);
 
   useEffect(() => {
     // Check if we should render the sidebar
@@ -33,25 +34,33 @@ console.log("hii");
     const userRole = localStorage.getItem("role") || "";
     setRole(userRole);
     setActiveLink(pathname);
+
+    // Get user menus from localStorage
+    try {
+      const userData = JSON.parse(localStorage.getItem("user") || "{}");
+      console.log(userData.role?.menu);
+      setUserMenus(userData.role?.menu || []);
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+      setUserMenus([]);
+    }
   }, [pathname]);
 
   // Use useEffect to watch for pathname changes
   useEffect(() => {
-
-    // const timer = setTimeout(() => {
-    //   setIsNavigating(false);
-    // }, 1000);
-    // return () => clearTimeout(timer);
-
     // Update active link
     setActiveLink(pathname);
-
   }, [pathname]);
 
   // if (!shouldRender) {
   //   return null;
   // }
 
+  // Helper function to check if menu is available
+  const hasMenuAccess = (menuName) => {
+   
+    return userMenus.includes(menuName);
+  };
 
   return (
     <>
@@ -99,25 +108,32 @@ console.log("hii");
                             Dashboard
                           </CustomLink>
                         </li> */}
-                        <li className="nav-item">
-                          <CustomLink
-                            className={`nav-link ${activeLink === "/admin/users" ? "active" : ""}`}
-                            href={`/admin/users`}
-                          >
-                            <i className="fa-solid fa-users"></i>
-                            Users
-                          </CustomLink>
-                        </li>
+                        
+                        {/* Users menu - only show if user has "Users" in their menu array */}
+                        {hasMenuAccess("Users") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${activeLink === "/admin/users" ? "active" : ""}`}
+                              href={`/admin/users`}
+                            >
+                              <i className="fa-solid fa-users"></i>
+                              Users
+                            </CustomLink>
+                          </li>
+                        )}
                      
-                        <li className="nav-item">
-                          <CustomLink
-                            className={`nav-link ${activeLink === "/admin/cms" ? "active" : ""}`}
-                            href={`/admin/role`}
-                          >
-                            <i className="fa-solid fa-newspaper"></i>
-                            Role
-                          </CustomLink>
-                        </li>
+                        {/* Roles menu - only show if user has "Roles" in their menu array */}
+                        {hasMenuAccess("Roles") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${activeLink === "/admin/role" ? "active" : ""}`}
+                              href={`/admin/role`}
+                            >
+                              <i className="fa-solid fa-newspaper"></i>
+                              Role
+                            </CustomLink>
+                          </li>
+                        )}
                    
                         <li className="nav-item">
                           <button className="nav-link"

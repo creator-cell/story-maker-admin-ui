@@ -64,32 +64,19 @@ export default function Register() {
                 })
             })
            
-            if (verifyToken) {
+            if (response) {
                 setShowLoader(false);
                 toast("Registration successfull, please check your email to verify your account.", {
                     theme: "light",
                     position: "top-right",
                     type: "success"
                 });
-                const verifyEmail = await axios({
-                    url: `${API_URL}/auth/send-verification-email`,
-                    method: "POST",
-                    headers: { Authorization: `Bearer ${verifyToken}` }
-                });
-                if (verifyEmail.data === '') {
-                    router.push('/login');
-                } else {
-                    toast(verifyEmail.data.message || "Email not sent", {
-                        theme: "light",
-                        position: "top-right",
-                        type: "error"
-                    });
-                }
+               
             }
             reset({ firstName: '', lastName: '', dob: '', address: '', townCity: '', zipCode: '', state: '', email: '', phoneNumber: '', password: '', confirmPassword: '', termsCondition: false, sendMarketingEmail: false, });
         } catch (error) {
             setShowLoader(false);
-            console.log('error ', error.response.data);
+           // console.log('error ', error.response.data);
             toast(error.response.data?.message || "Somthing went wrong", {
                 theme: "dark",
                 position: "top-right",

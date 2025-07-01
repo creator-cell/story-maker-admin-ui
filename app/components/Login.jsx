@@ -49,7 +49,7 @@ export default function Login() {
                 const adminUser = {
                     ...response.data?.user,
                     isAdmin: true,
-                    role: response.data?.user.role.name
+                    role: response.data?.user.role
                 };
 
                 localStorage.setItem('user', JSON.stringify(adminUser));
