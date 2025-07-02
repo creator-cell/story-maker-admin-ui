@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import CustomLink from "./CustomLink";
 import axios from "axios";
@@ -15,12 +15,32 @@ export default function Login() {
     const { control, formState: { errors }, handleSubmit, register, reset, watch } = useForm({
         defaultValues: { email: '', password: '' }
     });
+    const [user, setUser] = useState();
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const [showLoader, setShowLoader] = useState(false);
     const [showVerifyLink, setShowVerifyLink] = useState(false);
     const [verifyToken, setVerifyToken] = useState('');
-
+    const getUser = async () => {
+        try {
+            const response = await axios({
+                url: `${API_URL}me`,
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                     "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+             
+            })
+            console.log(response);
+        }
+        catch (err) {
+            console.log("err", err)
+        }
+    }
+    useEffect(() => {
+        getUser()
+    }, [user]);
     const handleLogin = async (data) => {
         setShowLoader(true);
         try {
@@ -39,7 +59,7 @@ export default function Login() {
             localStorage.setItem('role', response.data?.user.role.name);
             // setVerifyToken(response.data.tokens.access.token);
             if (response.data) {
-
+                setUser(response.data);
                 toast(response.data?.message || "Login Successfully", {
                     theme: "dark",
                     position: "top-right",
@@ -60,7 +80,7 @@ export default function Login() {
                 };
                 console.log("token", response.data.token);
                 setCookie('token', response.data.token);
-           
+
                 userStore.dispatch(login({
                     user: adminUser,
                     token: response.data.token
