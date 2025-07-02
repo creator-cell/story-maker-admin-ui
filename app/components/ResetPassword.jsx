@@ -28,11 +28,12 @@ export default function ResetPassword(){
                     "Content-Type": "application/json",
                 },
                 data:JSON.stringify({
-                    newpassword: data.newPassword,
-                    token:resetToken
+                     token:resetToken,
+                    newPassword: data.newPassword,
+                   
                 })
             })
-            if (response.data === '') {
+            if (response.data) {
                 toast(response.data?.message || "Your password has been successfully reset.", {
                     theme: "dark",
                     position: "top-right",
@@ -63,8 +64,7 @@ export default function ResetPassword(){
                         <div className="auth_form">
                             <div className="title-dark">
                                 <h2>Reset Your Password</h2>
-                                <span>Time to start fresh.</span>
-                                <span>Enter your new password below and get ready to roam again. Make sure it’s something secure—but something you’ll remember on your next adventure.</span>
+                               
                             </div>
                             <div className="boxwrap">
                                 <form action={handleSubmit(handleResetPassword)} className="row justify-content-center needs-validation" noValidate="">

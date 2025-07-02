@@ -9,33 +9,33 @@ import "react-datepicker/dist/react-datepicker.css";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 
-export default function EditUser({ userId  }){
-    const { handleSubmit, register,reset,watch, setValue, formState: { errors }, trigger } = useForm();
+export default function EditUser({ userId }) {
+    const { handleSubmit, register, reset, watch, setValue, formState: { errors }, trigger } = useForm();
     const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
     const route = useRouter();
     const [dob, setDob] = useState(null);
     const [roles, setRoles] = useState([]);
 
-    const getUserDetails = async ()=>{
-        try{
+    const getUserDetails = async () => {
+        try {
             const response = await axios({
                 url: `${API_URL}users/${userId}`,
                 method: "GET",
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
             });
             const user = response.data.user;
-         
-         console.log(response);
-            
+
+            console.log(response);
+
             reset({
                 firstName: user.name,
-               
+
                 email: user.email,
-                phone: user.phoneNumber,
-                role: user.role
+                phone: user.phone,
+                role: user.role._id
             });
 
-        }catch(error){
+        } catch (error) {
             console.error(error);
         }
     }
@@ -60,36 +60,29 @@ export default function EditUser({ userId  }){
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         getUserDetails();
         fetchRoles();
-    },[])
+    }, [])
 
-    const handleUserUpdate = async (data)=>{ 
-        const birthDate = data.dob.toISOString().split("T")[0];
+    const handleUserUpdate = async (data) => {
        
-        if(data){
-            try{
+        if (data) {
+            try {
                 const response = await axios({
-                    url: `${API_URL}/users/${userId}`,
-                    method: "PATCH",
+                    url: `${API_URL}users/${userId}`,
+                    method: "PUT",
                     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-                    data:{
-                        firstName: data.firstName,
-                        lastName: data.lastName,
-                        birthDate : birthDate,
-                        phoneNumber: data.phoneNumber,
-                        address: data.address,
-                        townCity: data.townCity,
-                        state: data.state,
-                        zipCode: data.zipCode,
+                    data: {
+                        name: data.firstName,
+                        phone: data.phoneNumber,
                         email: user.email,
                         role: data.role,
                     },
                 });
-                console.log("Update=> ",response.data);
-                
-                if(response.status === 200){
+                console.log("Update=> ", response.data);
+
+                if (response.status === 200) {
                     toast("User updated successfully.", {
                         theme: "dark",
                         position: "top-right",
@@ -98,13 +91,13 @@ export default function EditUser({ userId  }){
                     getUserDetails();
                     route.push('/admin/users');
                 }
-            }catch(error){
+            } catch (error) {
                 toast("Error while updating user.", {
                     theme: "dark",
                     position: "top-right",
                     type: "error"
                 });
-                console.error("error",error);
+                console.error("error", error);
             }
         }
     }
@@ -119,115 +112,96 @@ export default function EditUser({ userId  }){
         );
     };
 
-    return(
+    return (
         <>
-        <div id="main_container">
-            <div className="inner_container">
-                <div className="container p-0">
-                    <div id="user" className="comman_admin_layout">
-                        <div className="container p-0">
-                            <div className="row">
-                                <div className="col-lg-12 col-md-12 col-sm-12">
-                                    <div className="title_head">
-                                        <h3>Edit User</h3>
+            <div id="main_container">
+                <div className="inner_container">
+                    <div className="container p-0">
+                        <div id="user" className="comman_admin_layout">
+                            <div className="container p-0">
+                                <div className="row">
+                                    <div className="col-lg-12 col-md-12 col-sm-12">
+                                        <div className="title_head">
+                                            <h3>Edit User</h3>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="admin_forms mt-5">
-                                <form action={handleSubmit(handleUserUpdate)}>
-                                    <div className="row">
-                                        <div className="col-lg-4 col-md-6 col-12">
-                                            <div className="form_group">
-                                                <label htmlFor="firstName">First Name *</label>
-                                                <input type="text" name="" id="firstName" className="form-control" {...register("firstName",{ required: "First name is required" })} />
-                                                {errors.firstName && 
-                                                    (<span className="errMsg">
-                                                        {errors.firstName.message}
-                                                    </span>)
-                                                }
+                                <div className="admin_forms mt-5">
+                                    <form action={handleSubmit(handleUserUpdate)}>
+                                        <div className="row">
+                                            <div className="col-lg-4 col-md-6 col-12">
+                                                <div className="form_group">
+                                                    <label htmlFor="firstName">First Name *</label>
+                                                    <input type="text" name="" id="firstName" className="form-control" {...register("firstName", { required: "First name is required" })} />
+                                                    {errors.firstName &&
+                                                        (<span className="errMsg">
+                                                            {errors.firstName.message}
+                                                        </span>)
+                                                    }
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div className="col-lg-6 col-md-6 col-12">
+                                                <div className="form_group">
+                                                    <label htmlFor="role">Role *</label>
+                                                    <select
+                                                        className="form-control"
+                                                        name="role"
+                                                        id="role"
+                                                        {...register("role", { required: "Role is required" })}
+                                                    >
+                                                        <option value="">Select a role</option>
+                                                        {roles.map((role) => (
+                                                            <option key={role._id} value={role._id}>
+                                                                {role.name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                    {errors.role &&
+                                                        (<span className="errMsg">
+                                                            {errors.role.message}
+                                                        </span>)
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-6 col-md-6 col-12">
+                                                <div className="form_group">
+                                                    <label htmlFor="email">Email *</label>
+                                                    <input type="email" name="" id="email" className="form-control"
+                                                        {...register("email")}
+                                                        readOnly disabled />
+                                                </div>
+                                            </div>
+
+                                            <div className="col-lg-6 col-md-6 col-12 mb-3">
+                                                <div className="form_group">
+                                                    <label htmlFor="email">Mobile Number</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        name="text"
+                                                        id="text"
+                                                        aria-describedby="helpId"
+                                                        value={watch("phone") || ""}
+                                                        {...register("phone")}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-12 col-md-12 col-12">
+                                                <input type="submit" value="Update" className="button" />
                                             </div>
                                         </div>
-                                      
-                                      
-                                        <div className="col-lg-auto col-md-auto col-12 visually-hidden">
-                                            <input
-                                                type="hidden"
-                                                {...register("dob", {
-                                                    required: { value: true, message: "Birth date required." },
-                                                    validate: checkAge,
-                                                })}
-                                            />
-                                        </div>
-                                       
-                                    
-                                      
-                                        <div className="col-lg-6 col-md-6 col-12">
-                                            <div className="form_group">
-                                                <label htmlFor="role">Role *</label>
-                                                <select
-                                                    className="form-control"
-                                                    name="role"
-                                                    id="role"
-                                                    {...register("role", { required: "Role is required" })}
-                                                >
-                                                    <option value="">Select a role</option>
-                                                    {roles.map((role) => (
-                                                        <option key={role._id} value={role._id}>
-                                                            {role.name}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                                {errors.role && 
-                                                    (<span className="errMsg">
-                                                        {errors.role.message}
-                                                    </span>)
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6 col-12">
-                                            <div className="form_group">
-                                                <label htmlFor="email">Email *</label>
-                                                <input type="email" name="" id="email" className="form-control" 
-                                                {...register("email")}
-                                                readOnly disabled />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6 col-12">
-                                            <div className="form_group">
-                                                <label htmlFor="phoneNumber">Phone Number *</label>
-                                                <PhoneInput
-                                                    placeholder="Enter phone number"
-                                                    className="form-control"
-                                                    value={watch("phoneNumber") || ""}
-                                                    onChange={(value) => {
-                                                        setPhoneNumber(value);
-                                                        setValue("phoneNumber", value);
-                                                        trigger("phoneNumber");
-                                                    }}
-                                                    {...register("phoneNumber", {
-                                                        required: { value: true, message: ('Phone Number Required.') },
-                                                    })}
-                                                />
-                                                {/* <input type="text" name="" id="phoneNumber" className="form-control" 
-                                                {...register("phoneNumber",{ required: "Phone Number is required." })} /> */}
-                                                {errors.phoneNumber && 
-                                                    (<span className="errMsg">
-                                                        {errors.phoneNumber.message}
-                                                    </span>)
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-12">
-                                            <input type="submit" value="Update" className="button" />
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </>
     )
 }

@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Rivaro Roaming",
-  description: "Rivaro Roaming",
+  title: "Story Maker",
+  description: "Story Maker",
 };
 
 export default function RootLayout({ children }) {

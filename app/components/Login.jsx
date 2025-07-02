@@ -109,7 +109,7 @@ export default function Login() {
                             <div className="col-lg-5 col-md-5 col-12 d-lg-flex d-md-flex d-none">
                                 <Image src={'/images/auth.jpg'} width={400} height={400} alt="Login Image" />
                             </div>
-                            <div className="col-lg-5 col-md-7 col-12">
+                            <div className="col-lg-5 col-md-7 col-12 mt-10">
                                 <div className="auth_form">
                                     <div className="title-dark">
                                         <h2>Welcome Back</h2>

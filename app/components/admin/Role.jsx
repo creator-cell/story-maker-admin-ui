@@ -15,9 +15,13 @@ export default function Roles() {
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
   const [userId, setUserId] = useState();
-   const [updateUser, setUpdateUser] = useState(false);
+  const [updateUser, setUpdateUser] = useState(false);
   const [updateUserId, setUpdateUserId] = useState();
-  
+  const [userPermissions, setUserPermissions] = useState({
+    read: false,
+    write: false,
+    both: false
+  });
   const router = useRouter();
 
 
@@ -39,9 +43,54 @@ export default function Roles() {
     }
   };
 
+  const getUserPermissions = () => {
+    try {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const user = JSON.parse(userData);
+        if (user.role) {
+          return {
+            read: user.role.read || false,
+            write: user.role.write || false,
+            both: user.role.both || false,
+            hasUsersMenu: user.role.menu && user.role.menu.includes("Users")
+          };
+        }
+      }
+      return { read: false, write: false, both: false, hasUsersMenu: false };
+    } catch (error) {
+      console.error("Error parsing user permissions:", error);
+      return { read: false, write: false, both: false, hasUsersMenu: false };
+    }
+  };
+
+  // Check if user has write permissions
+  const hasWritePermission = () => {
+    return userPermissions.write || userPermissions.both;
+  };
 
 
+  const hasReadPermission = () => {
+    return userPermissions.read || userPermissions.both;
+  };
 
+
+  const hasUsersMenuAccess = () => {
+    return userPermissions.hasUsersMenu;
+  };
+
+  useEffect(() => {
+    // Set user permissions on component mount
+    const permissions = getUserPermissions();
+    setUserPermissions(permissions);
+
+    // Only fetch users if user has read permission and Users menu access
+    if ((permissions.read || permissions.both) && permissions.hasUsersMenu) {
+      getRole(1);
+    } else {
+      toast.error("You don't have permission to access this page");
+    }
+  }, []);
   useEffect(() => {
     getRole();
   }, []);
@@ -53,7 +102,7 @@ export default function Roles() {
     setDeleteUser(true)
   }
 
-   const handleUserUpdate = (id) => {
+  const handleUserUpdate = (id) => {
     setUpdateUser(true);
     setUpdateUserId(id);
   }
@@ -82,9 +131,11 @@ export default function Roles() {
                     <div className="col-lg-4 col-md-6 col-12 p-0">
                       <div className="filter_field">
 
-                        <button className="button" onClick={handleNewUser}>
-                          Add Role
-                        </button>
+                        {hasWritePermission() && (
+                          <button className="button" onClick={handleNewUser}>
+                            Add Role
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -98,7 +149,7 @@ export default function Roles() {
                           <th>Write</th>
                           <th>Both</th>
 
-                          <th>Action</th>
+                          {hasWritePermission() && <th>Action</th>}
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -108,27 +159,29 @@ export default function Roles() {
                             <tr key={user._id}>
                               <td data-label="First Name">{user.name} </td>
 
-                              <td data-label="Email Address">{user.menu ? user.menu : ""}</td>
+                              <td data-label="Email Address">
+                                {user.menu ? (Array.isArray(user.menu) ? user.menu.join(', ') : user.menu) : ""}
+                              </td>
 
-                              <td data-label="Email Address">{user.read ===true?  "Yes"  : "No"}</td>
+                              <td data-label="Email Address">{user.read === true ? "Yes" : "No"}</td>
 
-                              <td data-label="Email Address">{user.write ===true? "Yes" : "No"}</td>
+                              <td data-label="Email Address">{user.write === true ? "Yes" : "No"}</td>
                               <td data-label="Email Address">{user.both === true ? "Yes" : "No"}</td>
 
+                              {hasWritePermission() &&
+                                <td data-label="Action">
+                                  <div className="d-flex justify-content-start align-items-center gap-2">
+                                    <button className="admin_action_btn"
+                                      onClick={() => handleUserUpdate(user)}>
+                                      <i className="fa fa-edit"></i>
+                                    </button>
 
-                              <td data-label="Action">
-                                <div className="d-flex justify-content-start align-items-center gap-2">
-                                  <button className="admin_action_btn"
-                                    onClick={() => handleUserUpdate(user)}>
-                                    <i className="fa fa-edit"></i>
-                                  </button>
-
-                                  <button className="admin_action_btn"
-                                    onClick={() => handleUserDelete(user._id)}>
-                                    <i className="fa fa-trash"></i>
-                                  </button>
-                                </div>
-                              </td>
+                                    <button className="admin_action_btn"
+                                      onClick={() => handleUserDelete(user._id)}>
+                                      <i className="fa fa-trash"></i>
+                                    </button>
+                                  </div>
+                                </td>}
                             </tr>
                           )
 
@@ -155,7 +208,7 @@ export default function Roles() {
         data={userId}
         onHide={() => (setDeleteUser(false), getRole())}
       />
-       <EditRole
+      <EditRole
         show={updateUser}
         data={updateUserId}
         onHide={() => (setUpdateUser(false), getRole())}

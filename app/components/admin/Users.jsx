@@ -19,8 +19,49 @@ export default function Users() {
   const [sortByValue, setSortByValue] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
   const [loading, setLoading] = useState(false);
-  const itemsPerPage = 5
+  const [userPermissions, setUserPermissions] = useState({
+    read: false,
+    write: false,
+    both: false
+  });
+  const itemsPerPage = 20;
   const router = useRouter();
+
+ 
+  const getUserPermissions = () => {
+    try {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const user = JSON.parse(userData);
+        if (user.role) {
+          return {
+            read: user.role.read || false,
+            write: user.role.write || false,
+            both: user.role.both || false,
+            hasUsersMenu: user.role.menu && user.role.menu.includes("Users")
+          };
+        }
+      }
+      return { read: false, write: false, both: false, hasUsersMenu: false };
+    } catch (error) {
+      console.error("Error parsing user permissions:", error);
+      return { read: false, write: false, both: false, hasUsersMenu: false };
+    }
+  };
+
+  
+  const hasWritePermission = () => {
+    return userPermissions.write || userPermissions.both;
+  };
+
+  const hasReadPermission = () => {
+    return userPermissions.read || userPermissions.both;
+  };
+
+ 
+  const hasUsersMenuAccess = () => {
+    return userPermissions.hasUsersMenu;
+  };
 
   const getUsers = async (page = 1, sort = sortByValue, search = searchUser, order = sortOrder) => {
     try {
@@ -36,15 +77,17 @@ export default function Users() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-   
+      console.log("API Response:", response.data);
+      
+      // Handle the new response structure
       if (response.data.items) {
-    
+        // New pagination structure
         setUsers(response.data.items);
         setTotalPages(response.data.pagination.totalPages);
         setTotalItems(response.data.pagination.totalItems);
-        setCurrentPage(response.data.pagination.currentPage - 1); 
+        setCurrentPage(response.data.pagination.currentPage - 1); // ReactPaginate uses 0-based indexing
       } else {
-       
+        // Fallback for old structure
         setUsers(response.data.user || response.data || []);
         setTotalPages(response.data.totalPages || 1);
         setTotalItems(response.data.totalItems || 0);
@@ -52,7 +95,11 @@ export default function Users() {
       }
     } catch (error) {
       console.error("Error fetching users:", error);
-      toast.error("Failed to fetch users");
+      if (error.response?.status === 403) {
+        toast.error("You don't have permission to view users");
+      } else {
+        toast.error("Failed to fetch users");
+      }
       setUsers([]);
       setTotalPages(0);
       setTotalItems(0);
@@ -78,7 +125,7 @@ export default function Users() {
 
   const handleClearSearch = () => {
     setSearchUser("");
-    setCurrentPage(0);
+    setCurrentPage(0); 
     getUsers(1, sortByValue, "", sortOrder);
   };
 
@@ -92,7 +139,7 @@ export default function Users() {
     const newOrder = sortByValue === field && sortOrder === "asc" ? "desc" : "asc";
     setSortByValue(field);
     setSortOrder(newOrder);
-    setCurrentPage(0);
+    setCurrentPage(0); 
     getUsers(1, field, searchUser, newOrder);
   };
 
@@ -102,24 +149,41 @@ export default function Users() {
   };
 
   useEffect(() => {
-    getUsers(1);
-  }, []); 
+  
+    const permissions = getUserPermissions();
+    setUserPermissions(permissions);
+    
+    if ((permissions.read || permissions.both) && permissions.hasUsersMenu) {
+      getUsers(1);
+    } else {
+      toast.error("You don't have permission to access this page");
+    }
+  }, []); // Only run on component mount
 
   const handleUserDelete = (id) => {
+    
     setUserId(id);
     setDeleteUser(true);
   };
 
   const handleNewUser = () => {
+    
     router.push('/admin/users/add-user');
+  };
+
+  const handleEditUser = (userId) => {
+  
+    router.push(`/admin/users/${userId}`);
   };
 
   const handleDeleteSuccess = () => {
     setDeleteUser(false);
   
     getUsers(currentPage + 1, sortByValue, searchUser, sortOrder);
-    toast.success("User deleted successfully");
+    //toast.success("User deleted successfully");
   };
+
+  
 
   return (
     <>
@@ -132,14 +196,17 @@ export default function Users() {
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
                       <h3>User List</h3>
-                     
+                    
+                    
                     </div>
                   </div>
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-6 col-md-6 col-12">
-                    
+                      <div className="d-flex gap-2 align-items-center">
+                       
+                      </div>
                     </div>
                     
                     <div className="col-lg-6 col-md-6 col-12">
@@ -172,10 +239,12 @@ export default function Users() {
                             Clear
                           </button>
                         )}
-                        
-                        <button className="button" onClick={handleNewUser}>
-                          Add User
-                        </button>
+                       
+                        {hasWritePermission() && (
+                          <button className="button" onClick={handleNewUser}>
+                            Add User
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -207,7 +276,8 @@ export default function Users() {
                             <i className={`fa ${getSortIcon('email')} ms-1`}></i>
                           </th>
                           <th>Phone Number</th>
-                          <th>Action</th>
+                       
+                          {hasWritePermission() && <th>Action</th>}
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -217,32 +287,35 @@ export default function Users() {
                               <td data-label="First Name">{user.name}</td>
                               <td data-label="Email Address">{user.email}</td>
                               <td data-label="Phone Number">{user.phone || user.phoneNumber || ""}</td>
-                              <td data-label="Action">
-                                <div className="d-flex justify-content-start align-items-center gap-2">
-                                  <CustomLink
-                                    href={`/admin/users/${user._id}`} 
-                                    className="admin_action_btn"
-                                    title="Edit User"
-                                  >
-                                    <i className="fa fa-edit"></i>
-                                  </CustomLink>
-                                 
-                                  <button 
-                                    className="admin_action_btn"
-                                    onClick={() => handleUserDelete(user._id)}
-                                    title="Delete User"
-                                  >
-                                    <i className="fa fa-trash"></i>
-                                  </button>
-                                </div>
-                              </td>
+                            
+                              {hasWritePermission() && (
+                                <td data-label="Action">
+                                  <div className="d-flex justify-content-start align-items-center gap-2">
+                                    <button
+                                      className="admin_action_btn"
+                                      onClick={() => handleEditUser(user._id)}
+                                      title="Edit User"
+                                    >
+                                      <i className="fa fa-edit"></i>
+                                    </button>
+                                   
+                                    <button 
+                                      className="admin_action_btn"
+                                      onClick={() => handleUserDelete(user._id)}
+                                      title="Delete User"
+                                    >
+                                      <i className="fa fa-trash"></i>
+                                    </button>
+                                  </div>
+                                </td>
+                              )}
                             </tr>
                           );
                         })}
                         
                         {!loading && users.length === 0 && (
                           <tr>
-                            <td colSpan="4" className="text-center py-4">
+                            <td colSpan={hasWritePermission() ? "4" : "3"} className="text-center py-4">
                               {searchUser ? 
                                 `No users found matching "${searchUser}"` : 
                                 "No users found"
@@ -271,7 +344,7 @@ export default function Users() {
                         activeClassName="active"
                         previousLabel="Previous"
                         nextLabel="Next"
-                        breakLabel="..."
+                                              breakLabel="..."
                         forcePage={currentPage}
                         disabledClassName="disabled"
                       />
@@ -284,11 +357,15 @@ export default function Users() {
         </div>
       </div>
       
-      <DeleteUser
-        show={deleteUser}
-        data={userId}
-        onHide={handleDeleteSuccess}
-      />
+  
+      {hasWritePermission() && (
+        <DeleteUser
+          show={deleteUser}
+          data={userId}
+          onHide={handleDeleteSuccess}
+        />
+      )}
     </>
   );
 }
+

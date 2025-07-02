@@ -27,9 +27,10 @@ export default function ForgetPassword(){
                     email: data.email
                 })
             })
-            if (response.data == '') {
+           
+            if (response) {
                 // router.push('/reset-password');
-                setShowLoader(false);
+                 setShowLoader(false);
                 toast(response.data?.message || "Reset password link has been sent to your email address.", {
                     theme: "dark",
                     position: "top-right",
@@ -62,7 +63,7 @@ export default function ForgetPassword(){
                             <div className="title-dark">
                                 <h2>Forgot your password?</h2>
                                 <span>No worries—happens to the best of us.</span>
-                                <span>Just enter your email below, and we’ll send you a link to reset your password. Quick and simple, just like the Rivaro Roamin way.</span>
+                                <span>Just enter your email below, and we’ll send you a link to reset your password.</span>
                             </div>
                             <div className="boxwrap">
                                 <form action={handleSubmit(handleForgotPassword)} className="row justify-content-center needs-validation" noValidate="">
