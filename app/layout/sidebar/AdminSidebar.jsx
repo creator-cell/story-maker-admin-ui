@@ -4,7 +4,7 @@ import Image from "next/image";
 import CustomLink from "../../components/CustomLink";
 import { logout, userStore } from "../../redux/UserStore";
 import { useRouter, usePathname } from "next/navigation";
-
+import axios from "axios";
 const AdminSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -20,7 +20,7 @@ const AdminSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
   const [shouldRender, setShouldRender] = useState(true);
   const [userMenus, setUserMenus] = useState([]);
-
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   useEffect(() => {
     // Check if we should render the sidebar
     const isAdminRoute = pathname?.includes("/admin");
@@ -52,11 +52,28 @@ const AdminSidebar = () => {
     setActiveLink(pathname);
   }, [pathname]);
 
-  // if (!shouldRender) {
-  //   return null;
-  // }
-
-  // Helper function to check if menu is available
+   const [verifyToken, setVerifyToken] = useState('');
+    const getUser = async () => {
+        try {
+            const response = await axios({
+                url: `${API_URL}me`,
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                     "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+             
+            })
+            console.log(response);
+            return;
+        }
+        catch (err) {
+            console.log("err", err)
+        }
+    }
+    useEffect(() => {
+        getUser()
+    }, []);
   const hasMenuAccess = (menuName) => {
    
     return userMenus.includes(menuName);
