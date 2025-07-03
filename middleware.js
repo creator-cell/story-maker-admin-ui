@@ -1,64 +1,4 @@
-// import { NextResponse } from 'next/server';
-// import { jwtVerify } from 'jose';
 
-// const PUBLIC_ROUTES = ['/login', '/register', '/forget-password'];
-
-// export async function middleware(req) {
-//   const { pathname } = req.nextUrl;
-//   const token = req.cookies.get('token')?.value;
-// console.log(token);
-//   console.log('PATH:', pathname);
-//   console.log('TOKEN:', token ? 'Present' : 'Missing');
-
-//   const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
-//   const isAdminRoute = pathname.startsWith('/admin');
-
-//   // Public routes: allow even if token is missing
-//   if (isPublicRoute) {
-//     console.log('Public route → allow');
-//     return NextResponse.next();
-//   }
-
-//   // Protected admin route
-//   if (isAdminRoute) {
-//     if (!token) {
-//       console.log('No token → redirect to /login');
-//       return NextResponse.redirect(new URL('/login', req.url));
-//     }
-
-//     try {
-//       const secret = process.env.NEXT_PUBLIC_JWT_SECRET
-//       console.log('secret',secret);
-//       const decoded = await jwtVerify(token, secret);
-//       console.log("de",decoded);
-//       const isExpired = decoded.payload.exp * 1000 < Date.now();
-
-//       if (isExpired) {
-//         console.log('Token expired → redirect to /login');
-//         return NextResponse.redirect(new URL('/login', req.url));
-//       }
-
-//       console.log('Token valid → allow');
-//       return NextResponse.next();
-//     } catch (err) {
-//       console.log('Token invalid → redirect to /login');
-//       return NextResponse.redirect(new URL('/login', req.url));
-//     }
-//   }
-
-//   // All other routes: allow
-//   console.log('Non-admin route → allow');
-//   return NextResponse.next();
-// }
-
-// export const config = {
-//   matcher: [
-//     '/admin/:path*',
-//     '/login',
-//     '/register',
-//     '/forget-password'
-//   ]
-// };
 
 import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
@@ -104,13 +44,12 @@ export async function middleware(require) {
         try {
             const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET);
             const decode = await jwtVerify(token.value, secret);
-            console.log("token",decode);
-            // Add token refresh logic here if needed
+         
             if (decode.payload.exp * 1000 < Date.now()) {
                 return NextResponse.redirect(new URL("/login", require?.url));
             }
             
-            // Rest of your authorization logic
+          
         } catch (error) {
             return NextResponse.redirect(new URL("/login", require?.url));
         }

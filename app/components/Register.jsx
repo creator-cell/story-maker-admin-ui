@@ -45,7 +45,7 @@ export default function Register() {
 
     const handleRegister = async (data) => {
 
-      console.log(data);
+     
         setShowLoader(true);
         try {
             const response = await axios({

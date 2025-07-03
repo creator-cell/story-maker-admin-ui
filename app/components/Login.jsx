@@ -79,7 +79,7 @@ export default function Login() {
                     ...response.data?.token,
                     isAdmin: true
                 };
-                console.log("token", response.data.token);
+              
                 setCookie('token', response.data.token);
 
                 userStore.dispatch(login({
@@ -87,7 +87,7 @@ export default function Login() {
                     token: response.data.token
                 }));
                 router.push('/admin/users');
-                console.log("pushed");
+               
                 setShowLoader(false);
 
             }

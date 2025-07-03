@@ -19,7 +19,7 @@ export default function Success() {
       if (planData) {
         const parsedPlan = JSON.parse(planData);
         setSelectedPlan(parsedPlan);
-        console.log("Retrieved plan from localStorage:", parsedPlan);
+      
       }
     } catch (error) {
       console.error("Error retrieving plan from localStorage:", error);

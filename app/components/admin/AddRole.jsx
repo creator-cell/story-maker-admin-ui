@@ -112,8 +112,6 @@ const AddRole = () => {
       menuPermissions: filteredMenuPermissions
     };
 
-    console.log('Sending role data:', roleData);
-
     axios({
       url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}role`,
       method: "POST",

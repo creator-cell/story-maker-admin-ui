@@ -25,8 +25,6 @@ export default function EditRole({ show, onHide, data, onUpdate }) {
         { key: "Roles", label: "Roles" }
     ];
 
-    console.log(data);
-
     const {
         formState: { errors },
         handleSubmit,
@@ -127,8 +125,6 @@ export default function EditRole({ show, onHide, data, onUpdate }) {
                 menuPermissions: filteredMenuPermissions
             };
 
-            console.log('Updating role data:', roleData);
-
             const response = await fetch(`${API_URL}role/${data._id}`, {
                 method: 'PUT',
                 headers: {
@@ -176,12 +172,9 @@ export default function EditRole({ show, onHide, data, onUpdate }) {
                 },
             });
             
-            console.log("get res", response);
-            
             if (response.ok) {
                 const roleData = await response.json();
-                console.log("Role data:", roleData);
-                // Handle the response data if needed
+              
             }
         } catch (error) {
             toast('Error getting role.', {

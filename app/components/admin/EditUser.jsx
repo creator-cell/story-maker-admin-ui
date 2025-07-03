@@ -25,8 +25,6 @@ export default function EditUser({ userId }) {
             });
             const user = response.data.user;
 
-            console.log(response);
-
             reset({
                 firstName: user.name,
 
@@ -80,8 +78,7 @@ export default function EditUser({ userId }) {
                         role: data.role,
                     },
                 });
-                console.log("Update=> ", response.data);
-
+             
                 if (response.status === 200) {
                     toast("User updated successfully.", {
                         theme: "dark",

@@ -55,7 +55,7 @@ const AdminSidebar = () => {
         },
       });
       
-      console.log("User API response:", response.data);
+    
      
       if (response.data && response.data.rolePermissions) {
         setUserRolePermissions(response.data.rolePermissions);
@@ -76,7 +76,7 @@ const AdminSidebar = () => {
   // Function to check if user has access to a specific menu
   const hasMenuAccess = (menuName) => {
     if (!userRolePermissions?.menu) {
-      console.log("No role permissions found");
+   
       return false;
     }
 
@@ -85,14 +85,13 @@ const AdminSidebar = () => {
     );
 
     if (!menuPermission) {
-      console.log(`No permission found for menu: ${menuName}`);
+   
       return false;
     }
 
     // User has access if they have read, write, or both permissions
     const hasAccess = menuPermission.read || menuPermission.write || menuPermission.both;
-    console.log(`Menu ${menuName} access:`, hasAccess, menuPermission);
-    
+ 
     return hasAccess;
   };
 

@@ -6,7 +6,7 @@ export default function DeleteUser({ show, onHide, data, props }) {
     const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
     
     const handleUserDelete = async () => {
-        console.log(data);
+     
         try {
             const response = await fetch(`${API_URL}role/${data}`, {
                 method: 'DELETE',
