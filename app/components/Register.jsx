@@ -56,7 +56,7 @@ export default function Register() {
                 },
                 data: JSON.stringify({
                     name: data.firstName,
-                  role:"68627f97b3c3ae03656441fa",
+                  role:"68667042b241335e3769a26b",
                     email: data.email,
                     password: data.password,
                     phone: data.phone,
