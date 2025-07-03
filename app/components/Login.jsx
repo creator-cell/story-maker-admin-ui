@@ -21,27 +21,27 @@ export default function Login() {
     const [showLoader, setShowLoader] = useState(false);
     const [showVerifyLink, setShowVerifyLink] = useState(false);
     const [verifyToken, setVerifyToken] = useState('');
-    const getUser = async () => {
-        try {
-            const response = await axios({
-                url: `${API_URL}me`,
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                     "Authorization": `Bearer ${localStorage.getItem("token")}`
-                },
+    // const getUser = async () => {
+    //     try {
+    //         const response = await axios({
+    //             url: `${API_URL}me`,
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                  "Authorization": `Bearer ${localStorage.getItem("token")}`
+    //             },
              
-            })
-            console.log(response);
-            return;
-        }
-        catch (err) {
-            console.log("err", err)
-        }
-    }
-    useEffect(() => {
-        getUser()
-    }, [user]);
+    //         })
+    //         console.log(response);
+    //         return;
+    //     }
+    //     catch (err) {
+    //         console.log("err", err)
+    //     }
+    // }
+    // useEffect(() => {
+    //     getUser()
+    // }, [user]);
     const handleLogin = async (data) => {
         setShowLoader(true);
         try {

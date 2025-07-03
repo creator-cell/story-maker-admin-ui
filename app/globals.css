@@ -3003,6 +3003,32 @@ h6 {
   font-size: 14px;
 }
 
+.admin_action_delete {
+  display: block;
+  width: auto;
+  padding: 6px 9px;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  background-color: var( --badge_failed);
+  color: var(--white);
+  line-height: 1.2;
+  font-size: 14px;
+}
+
+.admin_action_edit {
+  display: block;
+  width: auto;
+  padding: 6px 9px;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  background-color: var(--omega);
+  color: var(--white);
+  line-height: 1.2;
+  font-size: 14px;
+}
+
 .admin_action_btn:hover,
 .admin_action_btn:focus,
 .admin_action_btn:active {
@@ -9763,3 +9789,87 @@ html {
     height: auto;
   }
 }
+.permission-item {
+  margin-bottom: 5px;
+}
+
+.permission-badges {
+  margin-top: 2px;
+}
+
+.badge {
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+.bg-success {
+  background-color: #28a745 !important;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: #212529;
+}
+
+.bg-info {
+  background-color: #17a2b8 !important;
+}
+
+.bg-secondary {
+  background-color: #6c757d !important;
+}
+.permission-item {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    padding: 8px;
+  }
+
+  .menu-header {
+    font-weight: 600;
+    color: #0d6efd;
+    margin-bottom: 4px;
+  }
+
+  .permission-badges .badge {
+    font-size: 10px;
+    padding: 3px 6px;
+    margin-right: 4px;
+  }
+
+  .menu-permissions-container {
+    max-width: 300px;
+  }
+
+  .menu-permission-row {
+    padding: 2px 0;
+  }
+
+  .menu-name {
+    min-width: 80px;
+    font-size: 12px;
+  }
+
+  .badge {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+
+  .bg-success {
+    background-color: #198754 !important;
+  }
+
+  .bg-warning {
+    background-color: #ffc107 !important;
+    color: #000;
+  }
+
+  .bg-info {
+    background-color: #0dcaf0 !important;
+    color: #000;
+  }
+
+  .bg-secondary {
+    background-color: #6c757d !important;
+  }

@@ -206,12 +206,13 @@ const AddUserPage = () => {
                     </div>
                   
                     <div className="col-12 mt-3 d-flex gap-3">
-                      <button type="submit" className="admin_button">
+                      <button type="submit" className="button">
                         Submit
                       </button>
                       <button 
                         type="button" 
-                        className="admin_button cancel_button"
+                        className="button"
+                        style={{ backgroundColor: '#6c757d' }}
                         onClick={() => router.push("/admin/users")}
                       >
                         Cancel

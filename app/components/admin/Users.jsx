@@ -26,42 +26,64 @@ export default function Users() {
   });
   const itemsPerPage = 20;
   const router = useRouter();
+const [role, setRole] = useState("");
+   const [userRolePermissions, setUserRolePermissions] = useState(null);
+  // const getUserPermissions = () => {
+  //   try {
+  //     const userData = localStorage.getItem("user");
+  //     if (userData) {
+  //       const user = JSON.parse(userData);
+  //       if (user.role) {
+  //         return {
+  //           read: user.role.read || false,
+  //           write: user.role.write || false,
+  //           both: user.role.both || false,
+  //           hasUsersMenu: user.role.menu && user.role.menu.includes("Users")
+  //         };
+  //       }
+  //     }
+  //     return { read: false, write: false, both: false, hasUsersMenu: false };
+  //   } catch (error) {
+  //     console.error("Error parsing user permissions:", error);
+  //     return { read: false, write: false, both: false, hasUsersMenu: false };
+  //   }
+  // };
 
- 
-  const getUserPermissions = () => {
+  const getUserDetail = async () => {
     try {
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        const user = JSON.parse(userData);
-        if (user.role) {
-          return {
-            read: user.role.read || false,
-            write: user.role.write || false,
-            both: user.role.both || false,
-            hasUsersMenu: user.role.menu && user.role.menu.includes("Users")
-          };
-        }
+      const response = await axios({
+        url: `${API_URL}me`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      });
+    
+     
+      if (response.data && response.data.rolePermissions) {
+        setUserRolePermissions(response.data.rolePermissions);
+        setRole(response.data.role || "");
       }
-      return { read: false, write: false, both: false, hasUsersMenu: false };
-    } catch (error) {
-      console.error("Error parsing user permissions:", error);
-      return { read: false, write: false, both: false, hasUsersMenu: false };
+      
+      return response.data;
+    } catch (err) {
+      console.log("Error fetching user data:", err);
+    
     }
   };
+const hasWritePermission = () => {
+  return userPermissions.write || userPermissions.both;
+};
 
-  
-  const hasWritePermission = () => {
-    return userPermissions.write || userPermissions.both;
-  };
+const hasReadPermission = () => {
+  return userPermissions.read || userPermissions.both;
+};
 
-  const hasReadPermission = () => {
-    return userPermissions.read || userPermissions.both;
-  };
+const hasUsersMenuAccess = () => {
+  return userPermissions.hasUsersMenu;
+};
 
- 
-  const hasUsersMenuAccess = () => {
-    return userPermissions.hasUsersMenu;
-  };
 
   const getUsers = async (page = 1, sort = sortByValue, search = searchUser, order = sortOrder) => {
     try {
@@ -77,15 +99,13 @@ export default function Users() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      console.log("API Response:", response.data);
-      
       // Handle the new response structure
       if (response.data.items) {
-        // New pagination structure
+     
         setUsers(response.data.items);
         setTotalPages(response.data.pagination.totalPages);
         setTotalItems(response.data.pagination.totalItems);
-        setCurrentPage(response.data.pagination.currentPage - 1); // ReactPaginate uses 0-based indexing
+        setCurrentPage(response.data.pagination.currentPage - 1); 
       } else {
         // Fallback for old structure
         setUsers(response.data.user || response.data || []);
@@ -96,7 +116,7 @@ export default function Users() {
     } catch (error) {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
-        toast.error("You don't have permission to view users");
+        toast.error("You don't have permission to view users 9999");
       } else {
         toast.error("Failed to fetch users");
       }
@@ -147,18 +167,66 @@ export default function Users() {
     if (sortByValue !== field) return "fa-sort";
     return sortOrder === "asc" ? "fa-sort-up" : "fa-sort-down";
   };
-
-  useEffect(() => {
-  
-    const permissions = getUserPermissions();
-    setUserPermissions(permissions);
-    
-    if ((permissions.read || permissions.both) && permissions.hasUsersMenu) {
-      getUsers(1);
-    } else {
-      toast.error("You don't have permission to access this page");
+useEffect(() => {
+  const initializeUserPermissions = async () => {
+    try {
+      const userData = await getUserDetail();
+      
+      if (userData && userData.rolePermissions && userData.rolePermissions.menu) {
+        // Find the Users menu permissions
+        const usersMenu = userData.rolePermissions.menu.find(
+          menu => menu.menuName === "Users"
+        );
+        
+        if (usersMenu) {
+          // Set permissions based on the Users menu
+          setUserPermissions({
+            read: usersMenu.read || false,
+            write: usersMenu.write || false,
+            both: usersMenu.both || false,
+            hasUsersMenu: true
+          });
+          
+          // If user has read permission or both, fetch users
+          if (usersMenu.read || usersMenu.both) {
+            getUsers(1);
+          } else {
+            toast.error("You don't have permission to access this page");
+          }
+        } else {
+          // User doesn't have Users menu access
+          setUserPermissions({
+            read: false,
+            write: false,
+            both: false,
+            hasUsersMenu: false
+          });
+          toast.error("You don't have permission to access this page");
+        }
+      } else {
+        // No role permissions found
+        setUserPermissions({
+          read: false,
+          write: false,
+          both: false,
+          hasUsersMenu: false
+        });
+        toast.error("You don't have permission to access this page");
+      }
+    } catch (error) {
+      console.error("Error initializing user permissions:", error);
+      setUserPermissions({
+        read: false,
+        write: false,
+        both: false,
+        hasUsersMenu: false
+      });
+      toast.error("Error loading user permissions");
     }
-  }, []); // Only run on component mount
+  };
+
+  initializeUserPermissions();
+}, []); // Only run on component mount
 
   const handleUserDelete = (id) => {
     
@@ -292,7 +360,7 @@ export default function Users() {
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
                                     <button
-                                      className="admin_action_btn"
+                                      className="admin_action_edit"
                                       onClick={() => handleEditUser(user._id)}
                                       title="Edit User"
                                     >
@@ -300,7 +368,7 @@ export default function Users() {
                                     </button>
                                    
                                     <button 
-                                      className="admin_action_btn"
+                                      className="admin_action_delete"
                                       onClick={() => handleUserDelete(user._id)}
                                       title="Delete User"
                                     >

@@ -56,8 +56,7 @@ const AdminSidebar = () => {
       });
       
       console.log("User API response:", response.data);
-      
-      // Set the user role permissions from API response
+     
       if (response.data && response.data.rolePermissions) {
         setUserRolePermissions(response.data.rolePermissions);
         setRole(response.data.role || "");
@@ -66,24 +65,7 @@ const AdminSidebar = () => {
       return response.data;
     } catch (err) {
       console.log("Error fetching user data:", err);
-      // If API fails, try to get basic info from localStorage as fallback
-      try {
-        const userData = JSON.parse(localStorage.getItem("user") || "{}");
-        if (userData.role?.menu) {
-          // Convert old format to new format if needed
-          const convertedPermissions = {
-            menu: userData.role.menu.map(menuName => ({
-              menuName: menuName,
-              read: true,
-              write: true,
-              both: true
-            }))
-          };
-          setUserRolePermissions(convertedPermissions);
-        }
-      } catch (parseError) {
-        console.error("Error parsing localStorage user data:", parseError);
-      }
+    
     }
   };
 
