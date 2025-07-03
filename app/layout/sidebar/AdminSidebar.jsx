@@ -5,6 +5,7 @@ import CustomLink from "../../components/CustomLink";
 import { logout, userStore } from "../../redux/UserStore";
 import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
+
 const AdminSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -19,8 +20,9 @@ const AdminSidebar = () => {
   const [role, setRole] = useState("");
   const [activeLink, setActiveLink] = useState("");
   const [shouldRender, setShouldRender] = useState(true);
-  const [userMenus, setUserMenus] = useState([]);
+  const [userRolePermissions, setUserRolePermissions] = useState(null);
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+
   useEffect(() => {
     // Check if we should render the sidebar
     const isAdminRoute = pathname?.includes("/admin");
@@ -34,16 +36,6 @@ const AdminSidebar = () => {
     const userRole = localStorage.getItem("role") || "";
     setRole(userRole);
     setActiveLink(pathname);
-
-    // Get user menus from localStorage
-    try {
-      const userData = JSON.parse(localStorage.getItem("user") || "{}");
-      console.log(userData.role?.menu);
-      setUserMenus(userData.role?.menu || []);
-    } catch (error) {
-      console.error("Error parsing user data:", error);
-      setUserMenus([]);
-    }
   }, [pathname]);
 
   // Use useEffect to watch for pathname changes
@@ -52,31 +44,87 @@ const AdminSidebar = () => {
     setActiveLink(pathname);
   }, [pathname]);
 
-   const [verifyToken, setVerifyToken] = useState('');
-    const getUser = async () => {
-        try {
-            const response = await axios({
-                url: `${API_URL}me`,
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                     "Authorization": `Bearer ${localStorage.getItem("token")}`
-                },
-             
-            })
-            console.log(response);
-            return;
+  const getUser = async () => {
+    try {
+      const response = await axios({
+        url: `${API_URL}me`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      });
+      
+      console.log("User API response:", response.data);
+      
+      // Set the user role permissions from API response
+      if (response.data && response.data.rolePermissions) {
+        setUserRolePermissions(response.data.rolePermissions);
+        setRole(response.data.role || "");
+      }
+      
+      return response.data;
+    } catch (err) {
+      console.log("Error fetching user data:", err);
+      // If API fails, try to get basic info from localStorage as fallback
+      try {
+        const userData = JSON.parse(localStorage.getItem("user") || "{}");
+        if (userData.role?.menu) {
+          // Convert old format to new format if needed
+          const convertedPermissions = {
+            menu: userData.role.menu.map(menuName => ({
+              menuName: menuName,
+              read: true,
+              write: true,
+              both: true
+            }))
+          };
+          setUserRolePermissions(convertedPermissions);
         }
-        catch (err) {
-            console.log("err", err)
-        }
+      } catch (parseError) {
+        console.error("Error parsing localStorage user data:", parseError);
+      }
     }
-    useEffect(() => {
-        getUser()
-    }, []);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  // Function to check if user has access to a specific menu
   const hasMenuAccess = (menuName) => {
-   
-    return userMenus.includes(menuName);
+    if (!userRolePermissions?.menu) {
+      console.log("No role permissions found");
+      return false;
+    }
+
+    const menuPermission = userRolePermissions.menu.find(
+      menu => menu.menuName === menuName
+    );
+
+    if (!menuPermission) {
+      console.log(`No permission found for menu: ${menuName}`);
+      return false;
+    }
+
+    // User has access if they have read, write, or both permissions
+    const hasAccess = menuPermission.read || menuPermission.write || menuPermission.both;
+    console.log(`Menu ${menuName} access:`, hasAccess, menuPermission);
+    
+    return hasAccess;
+  };
+
+  // Function to check if user has write access to a specific menu
+  const hasWriteAccess = (menuName) => {
+    if (!userRolePermissions?.menu) return false;
+
+    const menuPermission = userRolePermissions.menu.find(
+      menu => menu.menuName === menuName
+    );
+
+    if (!menuPermission) return false;
+
+    return menuPermission.write || menuPermission.both;
   };
 
   return (
@@ -116,7 +164,8 @@ const AdminSidebar = () => {
                     {/* <Image src={'/images/logo-white.png'} width={250} height={250} alt="Raivaro Roaming" /> */}
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
-                        {/* <li className="nav-item">
+                        {/* Dashboard - Show to all authenticated users */}
+                        <li className="nav-item">
                           <CustomLink
                             className={`nav-link ${activeLink === "/admin/dashboard" ? "active" : ""}`}
                             href={`/admin/dashboard`}
@@ -124,9 +173,9 @@ const AdminSidebar = () => {
                             <i className="fa-solid fa-dashboard"></i>
                             Dashboard
                           </CustomLink>
-                        </li> */}
+                        </li>
                         
-                        {/* Users menu - only show if user has "Users" in their menu array */}
+                        {/* Users menu - only show if user has "Users" permission */}
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
@@ -135,11 +184,14 @@ const AdminSidebar = () => {
                             >
                               <i className="fa-solid fa-users"></i>
                               Users
+                              {!hasWriteAccess("Users") && (
+                                <small className="text-muted ms-1">(Read Only)</small>
+                              )}
                             </CustomLink>
                           </li>
                         )}
                      
-                        {/* Roles menu - only show if user has "Roles" in their menu array */}
+                        {/* Roles menu - only show if user has "Roles" permission */}
                         {hasMenuAccess("Roles") && (
                           <li className="nav-item">
                             <CustomLink
@@ -148,7 +200,20 @@ const AdminSidebar = () => {
                             >
                               <i className="fa-solid fa-newspaper"></i>
                               Role
+                              {!hasWriteAccess("Roles") && (
+                                <small className="text-muted ms-1">(Read Only)</small>
+                              )}
                             </CustomLink>
+                          </li>
+                        )}
+
+                        {/* Debug info - remove in production */}
+                        {process.env.NODE_ENV === 'development' && (
+                          <li className="nav-item">
+                            <div className="nav-link text-muted small">
+                              <div>Role: {role}</div>
+                              <div>Permissions: {userRolePermissions?.menu?.length || 0} menus</div>
+                            </div>
                           </li>
                         )}
                    

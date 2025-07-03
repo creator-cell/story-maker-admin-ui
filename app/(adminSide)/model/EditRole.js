@@ -3,17 +3,30 @@ import React, { useState, useEffect } from "react";
 import { Modal, Container, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-// import { Plus, X } from "lucide-react";
 
 export default function EditRole({ show, onHide, data, onUpdate }) {
     const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
-    const [menus, setMenus] = useState([""]);
-    const [permissions, setPermissions] = useState({
-        read: false,
-        write: false,
-        both: false
+    const [menuPermissions, setMenuPermissions] = useState({
+        Users: {
+            read: false,
+            write: false,
+            both: false
+        },
+        Roles: {
+            read: false,
+            write: false,
+            both: false
+        }
     });
-console.log(data);
+
+    // Hardcoded menu options to match AddRole
+    const availableMenus = [
+        { key: "Users", label: "Users" },
+        { key: "Roles", label: "Roles" }
+    ];
+
+    console.log(data);
+
     const {
         formState: { errors },
         handleSubmit,
@@ -30,47 +43,62 @@ console.log(data);
     useEffect(() => {
         if (data && show) {
             setValue("name", data.name || "");
-            setMenus(data.menu || [""]);
-            setPermissions( { read: data.read, write: data.write, both: data.both });
+            
+            // Initialize menu permissions from data
+            if (data.menuPermissions) {
+                setMenuPermissions(data.menuPermissions);
+            } else {
+                // Reset to default if no data
+                setMenuPermissions({
+                    Users: { read: false, write: false, both: false },
+                    Roles: { read: false, write: false, both: false }
+                });
+            }
         }
     }, [data, show, setValue]);
 
-    const addMenu = () => {
-        setMenus([...menus, ""]);
-    };
+    const handlePermissionChange = (menuKey, permissionType) => {
+        setMenuPermissions(prev => {
+            const currentMenu = prev[menuKey];
+            let newPermissions = { ...currentMenu };
 
-    const removeMenu = (index) => {
-        setMenus(menus.filter((_, i) => i !== index));
-    };
-
-    const updateMenu = (index, value) => {
-        const newMenus = [...menus];
-        newMenus[index] = value;
-        setMenus(newMenus);
-    };
-
-    const handlePermissionChange = (type) => {
-        setPermissions(prev => {
-            if (type === "both") {
-                return {
-                    read: !prev.both,
-                    write: !prev.both,
-                    both: !prev.both
+            if (permissionType === "both") {
+                newPermissions = {
+                    ...newPermissions,
+                    read: !currentMenu.both,
+                    write: !currentMenu.both,
+                    both: !currentMenu.both
                 };
             } else {
-                const newPermissions = { ...prev, [type]: !prev[type] };
+                newPermissions = {
+                    ...newPermissions,
+                    [permissionType]: !currentMenu[permissionType]
+                };
+                // Update 'both' based on read and write
                 newPermissions.both = newPermissions.read && newPermissions.write;
-                return newPermissions;
             }
+
+            return {
+                ...prev,
+                [menuKey]: newPermissions
+            };
         });
     };
 
-   
     const handleRoleUpdate = async (formData) => {
         const missingFields = [];
 
         if (!formData.name) missingFields.push("Role Name");
-        if (menus.filter(menu => menu.trim() !== "").length === 0) missingFields.push("Menus");
+
+        // Check if at least one menu has at least one permission
+        const hasAnyPermission = Object.keys(menuPermissions).some(menu => {
+            const perms = menuPermissions[menu];
+            return perms.read || perms.write || perms.both;
+        });
+
+        if (!hasAnyPermission) {
+            missingFields.push("At least one permission for any menu");
+        }
 
         if (missingFields.length > 0) {
             toast(`${missingFields.join(", ")} is required`, {
@@ -82,19 +110,32 @@ console.log(data);
         }
 
         try {
+            // Filter out menus with no permissions selected
+            const filteredMenuPermissions = Object.keys(menuPermissions)
+                .filter(menu => {
+                    const perms = menuPermissions[menu];
+                    return perms.read || perms.write || perms.both;
+                })
+                .reduce((acc, menu) => {
+                    acc[menu] = menuPermissions[menu];
+                    return acc;
+                }, {});
+
+            // Prepare data for API - matching AddRole structure
+            const roleData = {
+                name: formData.name,
+                menuPermissions: filteredMenuPermissions
+            };
+
+            console.log('Updating role data:', roleData);
+
             const response = await fetch(`${API_URL}role/${data._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 },
-                body: JSON.stringify({
-                    name: formData.name,
-                    menu: menus.filter(menu => menu.trim() !== ""),
-                    read: permissions.read,
-                    write: permissions.write,
-                    both: permissions.both
-                })
+                body: JSON.stringify(roleData)
             });
             
             if (response.ok) {
@@ -106,7 +147,8 @@ console.log(data);
                 onHide();
                 if (onUpdate) onUpdate();
             } else {
-                toast('Failed to update role.', {
+                const errorData = await response.json();
+                toast(errorData?.message || 'Failed to update role.', {
                     theme: "dark",
                     position: "top-right",
                     type: "error"
@@ -122,34 +164,40 @@ console.log(data);
         }
     };
 
-      const getRole = async () => {
-     
+    const getRole = async () => {
+        if (!data?._id) return;
 
         try {
-            const response = await fetch(`${API_URL}role/${data}`, {
+            const response = await fetch(`${API_URL}role/${data._id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 },
-              
             });
-            console.log("get res",response);
-           
             
+            console.log("get res", response);
+            
+            if (response.ok) {
+                const roleData = await response.json();
+                console.log("Role data:", roleData);
+                // Handle the response data if needed
+            }
         } catch (error) {
             toast('Error getting role.', {
                 theme: "dark",
                 position: "top-right",
                 type: "error"
             });
-            console.error('Error updating role:', error);
+            console.error('Error getting role:', error);
         }
     };
 
-    useEffect(()=>{
-        getRole();
-    },[])
+    useEffect(() => {
+        if (data?._id) {
+            getRole();
+        }
+    }, [data?._id]);
     
     return (
         <>
@@ -163,95 +211,84 @@ console.log(data);
                             <Row>
                                 <div className="col-lg-6 col-md-6 col-12 mb-3">
                                     <div className="form_group">
-                                        <label htmlFor="role-name">Role Name</label>
+                                        <label htmlFor="role-name">Role Name <span className="text-danger">*</span></label>
                                         <input
                                             type="text"
                                             className="form-control"
                                             name="role-name"
                                             id="role-name"
+                                            placeholder="Enter role name"
                                             value={watch("name") || ""}
-                                            {...register("name")}
+                                            {...register("name", { required: "Role name is required" })}
                                         />
+                                        {errors.name && (
+                                            <small className="text-danger">{errors.name.message}</small>
+                                        )}
                                     </div>
                                 </div>
 
                                 <div className="col-lg-12 col-md-12 col-12 mb-3">
                                     <div className="form_group">
-                                        <label>Menus</label>
-                                        {menus.map((menu, index) => (
-                                            <div key={index} className="d-flex align-items-center mb-2">
-                                                <input
-                                                    type="text"
-                                                    className="form-control me-2"
-                                                    value={menu}
-                                                    onChange={(e) => updateMenu(index, e.target.value)}
-                                                    placeholder="Enter menu name"
-                                                />
-                                                {menus.length > 1 && (
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => removeMenu(index)}
-                                                        className="btn btn-outline-danger btn-sm"
-                                                    >
-                                                     Remove
-                                                    </button>
-                                                )}
-                                            </div>
-                                        ))}
-                                        <button
-                                            type="button"
-                                            onClick={addMenu}
-                                            className="btn btn-outline-primary btn-sm d-flex align-items-center"
-                                        >
-                                            {/* <Plus size={16} className="me-1" /> */}
-                                            Add Menu
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="col-lg-12 col-md-12 col-12 mb-3">
-                                    <div className="form_group">
-                                        <label>Permissions</label>
-                                        <div className="d-flex gap-3 mt-2">
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    checked={permissions.read}
-                                                    onChange={() => handlePermissionChange("read")}
-                                                    id="readPermission"
-                                                />
-                                                <label className="form-check-label" htmlFor="readPermission">
-                                                    Read
-                                                </label>
-                                            </div>
-                                            
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    checked={permissions.write}
-                                                    onChange={() => handlePermissionChange("write")}
-                                                    id="writePermission"
-                                                />
-                                                <label className="form-check-label" htmlFor="writePermission">
-                                                    Write
-                                                </label>
-                                            </div>
-                                            
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    checked={permissions.both}
-                                                    onChange={() => handlePermissionChange("both")}
-                                                    id="bothPermission"
-                                                />
-                                                <label className="form-check-label" htmlFor="bothPermission">
-                                                    Both (Read & Write)
-                                                </label>
+                                        <label>Menu Access & Permissions <span className="text-danger">*</span></label>
+                                        <div className="menu-permissions-table mt-3">
+                                            <div className="table-responsive">
+                                                <table className="table table-bordered">
+                                                    <thead className="table-light">
+                                                        <tr>
+                                                            <th style={{ width: '200px' }}>Menu</th>
+                                                            <th style={{ width: '150px' }} className="text-center">Read</th>
+                                                            <th style={{ width: '150px' }} className="text-center">Write</th>
+                                                            <th style={{ width: '150px' }} className="text-center">Both</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {availableMenus.map((menu) => (
+                                                            <tr key={menu.key}>
+                                                                <td>
+                                                                    <strong>{menu.label}</strong>
+                                                                </td>
+                                                                <td className="text-center">
+                                                                    <div className="form-check d-flex justify-content-center">
+                                                                        <input
+                                                                            className="form-check-input"
+                                                                            type="checkbox"
+                                                                            checked={menuPermissions[menu.key]?.read || false}
+                                                                            onChange={() => handlePermissionChange(menu.key, 'read')}
+                                                                            id={`read-${menu.key}`}
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                                <td className="text-center">
+                                                                    <div className="form-check d-flex justify-content-center">
+                                                                        <input
+                                                                            className="form-check-input"
+                                                                            type="checkbox"
+                                                                            checked={menuPermissions[menu.key]?.write || false}
+                                                                            onChange={() => handlePermissionChange(menu.key, 'write')}
+                                                                            id={`write-${menu.key}`}
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                                <td className="text-center">
+                                                                    <div className="form-check d-flex justify-content-center">
+                                                                        <input
+                                                                            className="form-check-input"
+                                                                            type="checkbox"
+                                                                            checked={menuPermissions[menu.key]?.both || false}
+                                                                            onChange={() => handlePermissionChange(menu.key, 'both')}
+                                                                            id={`both-${menu.key}`}
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
+                                        <small className="text-muted">
+                                            Select permissions for each menu. 'Both' automatically selects Read and Write.
+                                        </small>
                                     </div>
                                 </div>
 
@@ -260,7 +297,12 @@ console.log(data);
                                         <button type="submit" className="button">
                                             Update
                                         </button>
-                                        <button type="button" onClick={onHide} className="button">
+                                        <button 
+                                            type="button" 
+                                            onClick={onHide} 
+                                            className="button"
+                                            style={{ backgroundColor: '#6c757d' }}
+                                        >
                                             Cancel
                                         </button>
                                     </div>
