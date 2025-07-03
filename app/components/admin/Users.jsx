@@ -5,7 +5,6 @@ import ReactPaginate from 'react-paginate';
 import DeleteUser from '../../(adminSide)/model/DeleteUser';
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import CustomLink from "../CustomLink";
 
 export default function Users() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
@@ -28,26 +27,7 @@ export default function Users() {
   const router = useRouter();
 const [role, setRole] = useState("");
    const [userRolePermissions, setUserRolePermissions] = useState(null);
-  // const getUserPermissions = () => {
-  //   try {
-  //     const userData = localStorage.getItem("user");
-  //     if (userData) {
-  //       const user = JSON.parse(userData);
-  //       if (user.role) {
-  //         return {
-  //           read: user.role.read || false,
-  //           write: user.role.write || false,
-  //           both: user.role.both || false,
-  //           hasUsersMenu: user.role.menu && user.role.menu.includes("Users")
-  //         };
-  //       }
-  //     }
-  //     return { read: false, write: false, both: false, hasUsersMenu: false };
-  //   } catch (error) {
-  //     console.error("Error parsing user permissions:", error);
-  //     return { read: false, write: false, both: false, hasUsersMenu: false };
-  //   }
-  // };
+ 
 
   const getUserDetail = async () => {
     try {
