@@ -104,14 +104,10 @@ export default function Login() {
                 <div className="auth">
                     <div className="container">
                         <div className="row justify-content-center align-items-center">
-                            <div className="col-lg-5 col-md-5 col-12 d-lg-flex d-md-flex d-none">
-                                <Image src={'/images/auth.jpg'} width={400} height={400} alt="Login Image" />
-                            </div>
                             <div className="col-lg-5 col-md-7 col-12 mt-10">
                                 <div className="auth_form">
-                                    <div className="title-dark">
-                                        <h2>Welcome Back</h2>
-
+                                    <div className="mx-auto d-grid" style={{ width: '100px' }}>
+                                        <img src="/frontCloud.png" alt="" className="mx-auto" />
                                     </div>
                                     <div className="boxwrap">
                                         <form action={handleSubmit(handleLogin)} className="row justify-content-center needs-validation">
@@ -144,21 +140,6 @@ export default function Login() {
                                             </div>
                                             <div className="col-lg-12 col-md-12 col-12">
                                                 <input type="submit" value="Log in" className="button w-100" />
-                                            </div>
-
-                                            <div className="col-lg-8 col-md-12 col-12 mt-2">
-                                                <span className="form_text">* Signifies a compulsory field</span>
-                                            </div>
-                                            <div className="col-lg-4 col-md-12 col-12 mt-2">
-                                                <div className="back_link">
-                                                    <CustomLink href={'/forget-password'}>Forget Password?</CustomLink>
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-12 col-md-12 col-12 mt-4">
-                                                <div className="back_link justify-content-center">
-                                                    <span>Don't have an account? </span>
-                                                    <CustomLink href={'/register'}> Register now <i className="fa fa-arrow-right"></i></CustomLink>
-                                                </div>
                                             </div>
                                         </form>
                                     </div>

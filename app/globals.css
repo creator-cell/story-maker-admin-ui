@@ -2743,7 +2743,7 @@ h6 {
   display: block;
   width: 100%;
   padding: 40px 40px;
-  background: url(../public/images/login.jpg) center center / cover no-repeat;
+  background-color: ghostwhite;
   border-radius: 10px;
 }
 

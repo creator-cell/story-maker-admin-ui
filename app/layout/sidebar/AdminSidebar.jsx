@@ -139,8 +139,7 @@ const AdminSidebar = () => {
               <div className="container-fluid h-100">
                 <div className="side_bar_content">
                   <div className="d-flex flex-column w-100 h-100" id="">
-                    <h2>Story </h2>
-                    {/* <Image src={'/images/logo-white.png'} width={250} height={250} alt="Raivaro Roaming" /> */}
+                    <img className="mx-auto d-grid" style={{ width: '100px' }} src='/frontCloud.png' alt="Raivaro Roaming" />
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
                       
