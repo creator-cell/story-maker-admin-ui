@@ -89,13 +89,11 @@ const AdminSidebar = () => {
       return false;
     }
 
-    // User has access if they have read, write, or both permissions
     const hasAccess = menuPermission.read || menuPermission.write || menuPermission.both;
  
     return hasAccess;
   };
 
-  // Function to check if user has write access to a specific menu
   const hasWriteAccess = (menuName) => {
     if (!userRolePermissions?.menu) return false;
 
@@ -145,18 +143,8 @@ const AdminSidebar = () => {
                     {/* <Image src={'/images/logo-white.png'} width={250} height={250} alt="Raivaro Roaming" /> */}
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
-                        {/* Dashboard - Show to all authenticated users */}
-                        <li className="nav-item">
-                          <CustomLink
-                            className={`nav-link ${activeLink === "/admin/dashboard" ? "active" : ""}`}
-                            href={`/admin/dashboard`}
-                          >
-                            <i className="fa-solid fa-dashboard"></i>
-                            Dashboard
-                          </CustomLink>
-                        </li>
-                        
-                        {/* Users menu - only show if user has "Users" permission */}
+                      
+                     
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
@@ -165,14 +153,12 @@ const AdminSidebar = () => {
                             >
                               <i className="fa-solid fa-users"></i>
                               Users
-                              {!hasWriteAccess("Users") && (
-                                <small className="text-muted ms-1">(Read Only)</small>
-                              )}
+                           
                             </CustomLink>
                           </li>
                         )}
-                     
-                        {/* Roles menu - only show if user has "Roles" permission */}
+                    
+                    
                         {hasMenuAccess("Roles") && (
                           <li className="nav-item">
                             <CustomLink
@@ -188,15 +174,7 @@ const AdminSidebar = () => {
                           </li>
                         )}
 
-                        {/* Debug info - remove in production */}
-                        {process.env.NODE_ENV === 'development' && (
-                          <li className="nav-item">
-                            <div className="nav-link text-muted small">
-                              <div>Role: {role}</div>
-                              <div>Permissions: {userRolePermissions?.menu?.length || 0} menus</div>
-                            </div>
-                          </li>
-                        )}
+                       
                    
                         <li className="nav-item">
                           <button className="nav-link"

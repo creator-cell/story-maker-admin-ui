@@ -1,15 +1,10 @@
 'use client';
 import Image from "next/image";
 import CustomLink from "./CustomLink";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import PhoneInput from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import Loader from './Loader';
 
 export default function Register() {
@@ -17,11 +12,8 @@ export default function Register() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
-    const router = useRouter();
-    const [dob, setDob] = useState(null);
-    const [countries, setCountries] = useState([]);
-    const [regions, setRegions] = useState([]);
-    const { control, formState: { errors }, handleSubmit, register, reset, setValue, watch, trigger } = useForm({
+
+    const { formState: { errors }, handleSubmit, register, reset, watch, } = useForm({
         defaultValues: {
             name: '',
             email: '',
@@ -32,20 +24,8 @@ export default function Register() {
         }
     });
 
-    const checkAge = (date) => {
-        const today = new Date();
-        const dateofBirth = new Date(date);
-        const age = today.getFullYear() - dateofBirth.getFullYear();
-        const m = today.getMonth() - dateofBirth.getMonth();
-        const d = today.getDate() - dateofBirth.getDate();
-        return (
-            age > 12 || (age === 12 && (m > 0 || (m === 0 && d >= 0))) || "You must be at least 12 years old."
-        );
-    };
 
     const handleRegister = async (data) => {
-
-     
         setShowLoader(true);
         try {
             const response = await axios({
@@ -56,14 +36,13 @@ export default function Register() {
                 },
                 data: JSON.stringify({
                     name: data.firstName,
-                  role:"68667042b241335e3769a26b",
                     email: data.email,
                     password: data.password,
                     phone: data.phone,
-                   
+
                 })
             })
-           
+
             if (response) {
                 setShowLoader(false);
                 toast("Registration successfull, please check your email to verify your account.", {
@@ -71,12 +50,12 @@ export default function Register() {
                     position: "top-right",
                     type: "success"
                 });
-               
+
             }
             reset({ firstName: '', lastName: '', dob: '', address: '', townCity: '', zipCode: '', state: '', email: '', phoneNumber: '', password: '', confirmPassword: '', termsCondition: false, sendMarketingEmail: false, });
         } catch (error) {
             setShowLoader(false);
-           // console.log('error ', error.response.data);
+
             toast(error.response.data?.message || "Somthing went wrong", {
                 theme: "dark",
                 position: "top-right",

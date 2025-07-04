@@ -157,12 +157,9 @@ export default function Roles() {
     };
 
     initializeUserPermissions();
-  }, []); // Only run on component mount
+  }, []); 
 
-  // useEffect(() => {
-  //   getRole();
-  // }, []);
-
+  
 
 
   const handleUserDelete = (id) => {
@@ -171,8 +168,7 @@ export default function Roles() {
   }
 
   const handleUserUpdate = (id) => {
-    setUpdateUser(true);
-    setUpdateUserId(id);
+      router.push(`/admin/role/${id}`)
   }
 
   const handleNewUser = () => {
@@ -251,7 +247,7 @@ export default function Roles() {
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
                                     <button className="admin_action_edit"
-                                      onClick={() => handleUserUpdate(user)}>
+                                      onClick={() => handleUserUpdate(user._id)}>
                                       <i className="fa fa-edit"></i>
                                     </button>
 

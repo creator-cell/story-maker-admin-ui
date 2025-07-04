@@ -334,7 +334,7 @@ useEffect(() => {
                             <tr key={user._id}>
                               <td data-label="First Name">{user.name}</td>
                               <td data-label="Email Address">{user.email}</td>
-                              <td data-label="Phone Number">{user.phone || user.phoneNumber || ""}</td>
+                              <td data-label="Phone Number">{user.phone || user.phone || ""}</td>
                             
                               {hasWritePermission() && (
                                 <td data-label="Action">

@@ -1,10 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { UserProvider } from "../helper/UserProvider";
-import Header from "../layout/header/Header";
-import Footer from "../layout/footer/Footer";
+
 import { ToastContainer } from "react-toastify";
-import { CurrencyProvider } from "../helper/CurrencyContext";
+
 import { LoaderProvider } from "../helper/LoaderContext";
 import LoaderManager from "../helper/LoaderManager";
 import Script from "next/script";

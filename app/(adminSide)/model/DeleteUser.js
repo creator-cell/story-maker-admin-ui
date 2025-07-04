@@ -49,8 +49,8 @@ export default function DeleteUser({ show, onHide, data, props }) {
                             <div className="col-lg-12 col-md-12 col-12">
                                 <p>Are you sure? You want to delete this user?</p>
                                 <div className="btns">
-                                    <button onClick={handleUserDelete} className="button">Delete</button>
-                                    <button onClick={onHide} className="button">Cancel</button>
+                                    <button onClick={handleUserDelete} className="button" style={{backgroundColor:'red'}}>Delete</button>
+                                    <button onClick={onHide} className="button" style={{backgroundColor:'gray'}}>Cancel</button>
                                 </div>
                             </div>
                         </Row>

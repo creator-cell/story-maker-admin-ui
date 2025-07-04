@@ -12,7 +12,7 @@ import Loader from './Loader';
 
 export default function Login() {
     const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
-    const { control, formState: { errors }, handleSubmit, register, reset, watch } = useForm({
+    const { formState: { errors }, handleSubmit, register, watch } = useForm({
         defaultValues: { email: '', password: '' }
     });
     const [user, setUser] = useState();
@@ -20,28 +20,8 @@ export default function Login() {
     const router = useRouter();
     const [showLoader, setShowLoader] = useState(false);
     const [showVerifyLink, setShowVerifyLink] = useState(false);
-    const [verifyToken, setVerifyToken] = useState('');
-    // const getUser = async () => {
-    //     try {
-    //         const response = await axios({
-    //             url: `${API_URL}me`,
-    //             method: "GET",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                  "Authorization": `Bearer ${localStorage.getItem("token")}`
-    //             },
-             
-    //         })
-    //         console.log(response);
-    //         return;
-    //     }
-    //     catch (err) {
-    //         console.log("err", err)
-    //     }
-    // }
-    // useEffect(() => {
-    //     getUser()
-    // }, [user]);
+
+
     const handleLogin = async (data) => {
         setShowLoader(true);
         try {
@@ -56,9 +36,6 @@ export default function Login() {
                     password: data.password
                 })
             })
-
-            localStorage.setItem('role', response.data?.user.role.name);
-            // setVerifyToken(response.data.tokens.access.token);
             if (response.data) {
                 setUser(response.data);
                 toast(response.data?.message || "Login Successfully", {
@@ -79,7 +56,7 @@ export default function Login() {
                     ...response.data?.token,
                     isAdmin: true
                 };
-              
+
                 setCookie('token', response.data.token);
 
                 userStore.dispatch(login({
@@ -87,7 +64,7 @@ export default function Login() {
                     token: response.data.token
                 }));
                 router.push('/admin/users');
-               
+
                 setShowLoader(false);
 
             }

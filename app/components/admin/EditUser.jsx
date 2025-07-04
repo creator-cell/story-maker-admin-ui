@@ -64,7 +64,7 @@ export default function EditUser({ userId }) {
     }, [])
 
     const handleUserUpdate = async (data) => {
-       
+       console.log(data);
         if (data) {
             try {
                 const response = await axios({
@@ -73,7 +73,7 @@ export default function EditUser({ userId }) {
                     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
                     data: {
                         name: data.firstName,
-                        phone: data.phoneNumber,
+                        phone: data.phone,
                         email: user.email,
                         role: data.role,
                     },
@@ -98,16 +98,7 @@ export default function EditUser({ userId }) {
             }
         }
     }
-    const checkAge = (date) => {
-        const today = new Date();
-        const dateofBirth = new Date(date);
-        const age = today.getFullYear() - dateofBirth.getFullYear();
-        const m = today.getMonth() - dateofBirth.getMonth();
-        const d = today.getDate() - dateofBirth.getDate();
-        return (
-            age > 12 || (age === 12 && (m > 0 || (m === 0 && d >= 0))) || "You must be at least 12 years old."
-        );
-    };
+    
 
     return (
         <>
