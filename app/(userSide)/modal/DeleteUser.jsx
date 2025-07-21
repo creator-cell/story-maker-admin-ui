@@ -6,7 +6,7 @@ import axios from "axios";
 import { logout } from "@/app/redux/UserStore";
 import { useRouter } from "next/navigation";
 export default function DeleteUser({ show, onHide, data, props }) {
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
      const dispatch = useDispatch();
     const router = useRouter();
     const handleUserDelete = async () => {

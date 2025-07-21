@@ -11,7 +11,7 @@ import 'react-phone-number-input/style.css';
 
 export default function EditUser({ userId }) {
     const { handleSubmit, register, reset, watch, setValue, formState: { errors }, trigger } = useForm();
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
     const route = useRouter();
     const [dob, setDob] = useState(null);
     const [roles, setRoles] = useState([]);

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function EditRole({ roleId }) {
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
     const router = useRouter();
     const [menuPermissions, setMenuPermissions] = useState({
         Users: {
@@ -55,7 +55,11 @@ export default function EditRole({ roleId }) {
 
             // Initialize menu permissions from role data
             if (role.menuPermissions) {
-                setMenuPermissions(role.menuPermissions);
+                // role.menuPermissions
+                setMenuPermissions((prevState) => ({
+                    ...prevState,
+                    ...(role?.menuPermissions || {})
+                }));
             } else {
                 // Reset to default if no data
                 setMenuPermissions({

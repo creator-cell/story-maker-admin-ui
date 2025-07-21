@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function Users() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
@@ -25,9 +25,37 @@ export default function Users() {
   });
   const itemsPerPage = 20;
   const router = useRouter();
-const [role, setRole] = useState("");
-   const [userRolePermissions, setUserRolePermissions] = useState(null);
+  const [role, setRole] = useState("");
+  const [userRolePermissions, setUserRolePermissions] = useState(null);
  
+  const updateUserStatus = async (updateUserId) => {
+    try {
+      const response = await axios({
+        url: `${API_URL}users/status/${updateUserId}`,
+        method: "PUT",
+        headers: {
+          'Content-Type': "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      if (response.data?.status == "success") {
+        setUsers((prevState) => prevState.map(p => {
+          if (p?._id == updateUserId) {
+            return {
+              ...p,
+              isActive : !p?.isActive
+            } 
+          } else {
+            return p;
+          }
+        }));
+      }
+      
+    } catch (error) {
+      console.log("Error update user status :", error);
+    }
+  }
 
   const getUserDetail = async () => {
     try {
@@ -324,6 +352,13 @@ useEffect(() => {
                             <i className={`fa ${getSortIcon('email')} ms-1`}></i>
                           </th>
                           <th>Phone Number</th>
+                          <th
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => handleSort('isActive')}
+                          >
+                            Status
+                            <i className={`fa ${getSortIcon('isActive')} ms-1`}></i>
+                          </th>
                        
                           {hasWritePermission() && <th>Action</th>}
                         </tr>
@@ -335,6 +370,17 @@ useEffect(() => {
                               <td data-label="First Name">{user.name}</td>
                               <td data-label="Email Address">{user.email}</td>
                               <td data-label="Phone Number">{user.phone || user.phone || ""}</td>
+                              <td>
+                                {hasWritePermission() ? 
+                                  <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={user?.isActive} onChange={() => { updateUserStatus(user._id) }}/>
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
+                                  </div>
+                                  : <>
+                                    {user?.isActive ? <span class="badge bg-primary">Active</span> : <span class="badge bg-secondary">Deactivate</span>}
+                                  </>
+                                }
+                              </td>
                             
                               {hasWritePermission() && (
                                 <td data-label="Action">
@@ -346,7 +392,6 @@ useEffect(() => {
                                     >
                                       <i className="fa fa-edit"></i>
                                     </button>
-                                   
                                     <button 
                                       className="admin_action_delete"
                                       onClick={() => handleUserDelete(user._id)}

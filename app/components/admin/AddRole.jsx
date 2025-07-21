@@ -113,7 +113,7 @@ const AddRole = () => {
     };
 
     axios({
-      url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}role`,
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL_USER}role`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",

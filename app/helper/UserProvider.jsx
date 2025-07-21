@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
             return;
         }
         axios({
-            url:`${process.env.NEXT_PUBLIC_SERVER_URL_V1}users`,
+            url:`${process.env.NEXT_PUBLIC_SERVER_URL_USER}users`,
             method:"GET",
             headers: {
                 "Authorization":`Bearer ${localStorage.getItem("token")}`
