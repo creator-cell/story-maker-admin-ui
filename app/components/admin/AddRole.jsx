@@ -19,6 +19,11 @@ const AddRole = () => {
       read: false,
       write: false,
       both: false
+    },
+    Assets: {
+      read: false,
+      write: false,
+      both: false
     }
   });
   const router = useRouter();
@@ -26,7 +31,8 @@ const AddRole = () => {
   // Hardcoded menu options
   const availableMenus = [
     { key: "Users", label: "Users" },
-    { key: "Roles", label: "Roles" }
+    { key: "Roles", label: "Roles" },
+    { key: "Assets", label: "Assets" }
   ];
 
   const {
@@ -131,7 +137,8 @@ const AddRole = () => {
         reset();
         setMenuPermissions({
           Users: { read: false, write: false, both: false },
-          Roles: { read: false, write: false, both: false }
+          Roles: { read: false, write: false, both: false },
+          Assets: { read: false, write: false, both: false }
         });
         router.push("/admin/role");
       })

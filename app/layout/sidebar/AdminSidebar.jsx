@@ -173,6 +173,21 @@ const AdminSidebar = () => {
                           </li>
                         )}
 
+                        {hasMenuAccess("Assets") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${activeLink === "/admin/assets" ? "active" : ""}`}
+                              href={`/admin/assets`}
+                            >
+                              <i className="fa-solid fa-newspaper"></i>
+                              Assets
+                              {!hasWriteAccess("Assets") && (
+                                <small className="text-muted ms-1">(Read Only)</small>
+                              )}
+                            </CustomLink>
+                          </li>
+                        )}
+
                        
                    
                         <li className="nav-item">

@@ -40,6 +40,10 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Geist+Sans&display=swap"
+        />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <UserProvider>

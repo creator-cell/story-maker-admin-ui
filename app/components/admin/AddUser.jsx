@@ -27,8 +27,6 @@ const AddUserPage = () => {
       email: "",
       role: "",
       phone:"",
-      
-    
     },
   });
 

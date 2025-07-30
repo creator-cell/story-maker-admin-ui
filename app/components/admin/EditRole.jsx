@@ -18,13 +18,19 @@ export default function EditRole({ roleId }) {
             read: false,
             write: false,
             both: false
+        },
+        Assets: {
+            read: false,
+            write: false,
+            both: false
         }
     });
 
     // Hardcoded menu options
     const availableMenus = [
         { key: "Users", label: "Users" },
-        { key: "Roles", label: "Roles" }
+        { key: "Roles", label: "Roles" },
+        { key: "Assets", label: "Assets" }
     ];
 
     const {
@@ -64,7 +70,8 @@ export default function EditRole({ roleId }) {
                 // Reset to default if no data
                 setMenuPermissions({
                     Users: { read: false, write: false, both: false },
-                    Roles: { read: false, write: false, both: false }
+                    Roles: { read: false, write: false, both: false },
+                    Assets: { read: false, write: false, both: false }
                 });
             }
 
