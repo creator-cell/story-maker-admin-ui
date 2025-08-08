@@ -51,21 +51,18 @@ const AdminSidebar = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      
-    
-     
+
       if (response.data && response.data.rolePermissions) {
         setUserRolePermissions(response.data.rolePermissions);
         setRole(response.data.role || "");
       }
-      
+
       return response.data;
     } catch (err) {
       console.log("Error fetching user data:", err);
-    
     }
   };
 
@@ -76,21 +73,20 @@ const AdminSidebar = () => {
   // Function to check if user has access to a specific menu
   const hasMenuAccess = (menuName) => {
     if (!userRolePermissions?.menu) {
-   
       return false;
     }
 
     const menuPermission = userRolePermissions.menu.find(
-      menu => menu.menuName === menuName
+      (menu) => menu.menuName === menuName
     );
 
     if (!menuPermission) {
-   
       return false;
     }
 
-    const hasAccess = menuPermission.read || menuPermission.write || menuPermission.both;
- 
+    const hasAccess =
+      menuPermission.read || menuPermission.write || menuPermission.both;
+
     return hasAccess;
   };
 
@@ -98,7 +94,7 @@ const AdminSidebar = () => {
     if (!userRolePermissions?.menu) return false;
 
     const menuPermission = userRolePermissions.menu.find(
-      menu => menu.menuName === menuName
+      (menu) => menu.menuName === menuName
     );
 
     if (!menuPermission) return false;
@@ -133,50 +129,73 @@ const AdminSidebar = () => {
         </div>
       </div>
       <div className="navbar-expand-xl">
-        <div className="toggle_sideBar collapse navbar-collapse" id="navbarSupportedContent">
+        <div
+          className="toggle_sideBar collapse navbar-collapse"
+          id="navbarSupportedContent"
+        >
           <div id="sidebar">
             <nav className="navbar navbar-expand-lg">
               <div className="container-fluid h-100">
                 <div className="side_bar_content">
                   <div className="d-flex flex-column w-100 h-100" id="">
-                    <img className="mx-auto d-grid" style={{ width: '100px' }} src='/frontCloud.png' alt="Raivaro Roaming" />
+                    <img
+                      className="mx-auto d-grid"
+                      style={{ width: "100px" }}
+                      src="/frontCloud.png"
+                      alt="Raivaro Roaming"
+                    />
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
-                      
-                     
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/users" ? "active" : ""}`}
+                              className={`nav-link ${
+                                activeLink === "/admin/users" ? "active" : ""
+                              }`}
                               href={`/admin/users`}
                             >
                               <i className="fa-solid fa-users"></i>
                               Users
-                           
                             </CustomLink>
                           </li>
                         )}
-                    
-                    
+
+                        {hasMenuAccess("Users") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${
+                                activeLink === "/admin/tickets" ? "active" : ""
+                              }`}
+                              href={`/admin/tickets`}
+                            >
+                              <i className="fa-solid fa-ticket"></i>
+                              Ticket
+                            </CustomLink>
+                          </li>
+                        )}
+
                         {hasMenuAccess("Roles") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/role" ? "active" : ""}`}
+                              className={`nav-link ${
+                                activeLink === "/admin/role" ? "active" : ""
+                              }`}
                               href={`/admin/role`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
                               Role
                               {!hasWriteAccess("Roles") && (
-                                <small className="text-muted ms-1">(Read Only)</small>
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
                               )}
                             </CustomLink>
                           </li>
                         )}
 
-                       
-                   
                         <li className="nav-item">
-                          <button className="nav-link"
+                          <button
+                            className="nav-link"
                             onClick={() => {
                               userStore.dispatch(logout());
                               localStorage.clear();

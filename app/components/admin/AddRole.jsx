@@ -13,20 +13,26 @@ const AddRole = () => {
     Users: {
       read: false,
       write: false,
-      both: false
+      both: false,
     },
     Roles: {
       read: false,
       write: false,
-      both: false
-    }
+      both: false,
+    },
+    Tickets: {
+      read: false,
+      write: false,
+      both: false,
+    },
   });
   const router = useRouter();
 
   // Hardcoded menu options
   const availableMenus = [
     { key: "Users", label: "Users" },
-    { key: "Roles", label: "Roles" }
+    { key: "Roles", label: "Roles" },
+    { key: "Tickets", label: "Tickets" },
   ];
 
   const {
@@ -42,7 +48,7 @@ const AddRole = () => {
   });
 
   const handlePermissionChange = (menuKey, permissionType) => {
-    setMenuPermissions(prev => {
+    setMenuPermissions((prev) => {
       const currentMenu = prev[menuKey];
       let newPermissions = { ...currentMenu };
 
@@ -51,12 +57,12 @@ const AddRole = () => {
           ...newPermissions,
           read: !currentMenu.both,
           write: !currentMenu.both,
-          both: !currentMenu.both
+          both: !currentMenu.both,
         };
       } else {
         newPermissions = {
           ...newPermissions,
-          [permissionType]: !currentMenu[permissionType]
+          [permissionType]: !currentMenu[permissionType],
         };
         // Update 'both' based on read and write
         newPermissions.both = newPermissions.read && newPermissions.write;
@@ -64,18 +70,18 @@ const AddRole = () => {
 
       return {
         ...prev,
-        [menuKey]: newPermissions
+        [menuKey]: newPermissions,
       };
     });
   };
 
   const handleRegister = (data) => {
     const missingFields = [];
-    
+
     if (!data.name) missingFields.push("Role Name");
 
     // Check if at least one menu has at least one permission
-    const hasAnyPermission = Object.keys(menuPermissions).some(menu => {
+    const hasAnyPermission = Object.keys(menuPermissions).some((menu) => {
       const perms = menuPermissions[menu];
       return perms.read || perms.write || perms.both;
     });
@@ -97,7 +103,7 @@ const AddRole = () => {
 
     // Filter out menus with no permissions selected
     const filteredMenuPermissions = Object.keys(menuPermissions)
-      .filter(menu => {
+      .filter((menu) => {
         const perms = menuPermissions[menu];
         return perms.read || perms.write || perms.both;
       })
@@ -109,7 +115,7 @@ const AddRole = () => {
     // Prepare data for API - simplified structure
     const roleData = {
       name: data.name,
-      menuPermissions: filteredMenuPermissions
+      menuPermissions: filteredMenuPermissions,
     };
 
     axios({
@@ -117,7 +123,7 @@ const AddRole = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       data: roleData,
     })
@@ -131,7 +137,8 @@ const AddRole = () => {
         reset();
         setMenuPermissions({
           Users: { read: false, write: false, both: false },
-          Roles: { read: false, write: false, both: false }
+          Roles: { read: false, write: false, both: false },
+          Tickets: { read: false, write: false, both: false },
         });
         router.push("/admin/role");
       })
@@ -159,13 +166,15 @@ const AddRole = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="admin_form_panel">
                 <form onSubmit={handleSubmit(handleRegister)}>
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="role-name">Role Name <span className="text-danger">*</span></label>
+                        <label htmlFor="role-name">
+                          Role Name <span className="text-danger">*</span>
+                        </label>
                         <input
                           type="text"
                           className="form-control"
@@ -173,26 +182,48 @@ const AddRole = () => {
                           id="role-name"
                           placeholder="Enter role name"
                           value={watch("name") || ""}
-                          {...register("name", { required: "Role name is required" })}
+                          {...register("name", {
+                            required: "Role name is required",
+                          })}
                         />
                         {errors.name && (
-                          <small className="text-danger">{errors.name.message}</small>
+                          <small className="text-danger">
+                            {errors.name.message}
+                          </small>
                         )}
                       </div>
                     </div>
 
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
-                        <label>Menu Access & Permissions <span className="text-danger">*</span></label>
+                        <label>
+                          Menu Access & Permissions{" "}
+                          <span className="text-danger">*</span>
+                        </label>
                         <div className="menu-permissions-table mt-3">
                           <div className="table-responsive">
                             <table className="table table-bordered">
                               <thead className="table-light">
                                 <tr>
-                                  <th style={{ width: '200px' }}>Menu</th>
-                                  <th style={{ width: '150px' }} className="text-center">Read</th>
-                                  <th style={{ width: '150px' }} className="text-center">Write</th>
-                                  <th style={{ width: '150px' }} className="text-center">Both</th>
+                                  <th style={{ width: "200px" }}>Menu</th>
+                                  <th
+                                    style={{ width: "150px" }}
+                                    className="text-center"
+                                  >
+                                    Read
+                                  </th>
+                                  <th
+                                    style={{ width: "150px" }}
+                                    className="text-center"
+                                  >
+                                    Write
+                                  </th>
+                                  <th
+                                    style={{ width: "150px" }}
+                                    className="text-center"
+                                  >
+                                    Both
+                                  </th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -206,8 +237,15 @@ const AddRole = () => {
                                         <input
                                           className="form-check-input"
                                           type="checkbox"
-                                          checked={menuPermissions[menu.key].read}
-                                          onChange={() => handlePermissionChange(menu.key, 'read')}
+                                          checked={
+                                            menuPermissions[menu.key].read
+                                          }
+                                          onChange={() =>
+                                            handlePermissionChange(
+                                              menu.key,
+                                              "read"
+                                            )
+                                          }
                                           id={`read-${menu.key}`}
                                         />
                                       </div>
@@ -217,8 +255,15 @@ const AddRole = () => {
                                         <input
                                           className="form-check-input"
                                           type="checkbox"
-                                          checked={menuPermissions[menu.key].write}
-                                          onChange={() => handlePermissionChange(menu.key, 'write')}
+                                          checked={
+                                            menuPermissions[menu.key].write
+                                          }
+                                          onChange={() =>
+                                            handlePermissionChange(
+                                              menu.key,
+                                              "write"
+                                            )
+                                          }
                                           id={`write-${menu.key}`}
                                         />
                                       </div>
@@ -228,8 +273,15 @@ const AddRole = () => {
                                         <input
                                           className="form-check-input"
                                           type="checkbox"
-                                          checked={menuPermissions[menu.key].both}
-                                          onChange={() => handlePermissionChange(menu.key, 'both')}
+                                          checked={
+                                            menuPermissions[menu.key].both
+                                          }
+                                          onChange={() =>
+                                            handlePermissionChange(
+                                              menu.key,
+                                              "both"
+                                            )
+                                          }
                                           id={`both-${menu.key}`}
                                         />
                                       </div>
@@ -241,25 +293,26 @@ const AddRole = () => {
                           </div>
                         </div>
                         <small className="text-muted">
-                          Select permissions for each menu. 'Both' automatically selects Read and Write.
+                          Select permissions for each menu. 'Both' automatically
+                          selects Read and Write.
                         </small>
                       </div>
                     </div>
 
                     <div className="col-12 mt-3 d-flex gap-3">
-                      <button 
-                        type="submit" 
+                      <button
+                        type="submit"
                         className="button"
                         disabled={loader}
                       >
                         {loader ? "Creating..." : "Create Role"}
                       </button>
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         className="button"
                         onClick={() => router.push("/admin/role")}
                         disabled={loader}
-                        style={{ backgroundColor: '#6c757d' }}
+                        style={{ backgroundColor: "#6c757d" }}
                       >
                         Cancel
                       </button>
