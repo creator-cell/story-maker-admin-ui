@@ -24,6 +24,16 @@ export default function EditRole({ roleId }) {
       write: false,
       both: false,
     },
+    Category: {
+      read: false,
+      write: false,
+      both: false,
+    },
+    Template: {
+      read: false,
+      write: false,
+      both: false,
+    },
   });
 
   // Hardcoded menu options
@@ -31,6 +41,8 @@ export default function EditRole({ roleId }) {
     { key: "Users", label: "Users" },
     { key: "Roles", label: "Roles" },
     { key: "Tickets", label: "Tickets" },
+    { key: "Category", label: "Category" },
+    { key: "Template", label: "Template" },
   ];
 
   const {
@@ -62,6 +74,8 @@ export default function EditRole({ roleId }) {
         Users: { read: false, write: false, both: false },
         Roles: { read: false, write: false, both: false },
         Tickets: { read: false, write: false, both: false },
+        Category: { read: false, write: false, both: false },
+        Template: { read: false, write: false, both: false },
       };
       if (role.menuPermissions) {
         setMenuPermissions({

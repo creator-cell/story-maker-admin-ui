@@ -193,6 +193,44 @@ const AdminSidebar = () => {
                           </li>
                         )}
 
+                        {hasMenuAccess("Category") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${
+                                activeLink === "/admin/category" ? "active" : ""
+                              }`}
+                              href={`/admin/category`}
+                            >
+                              <i className="fa-solid fa-camera"></i>
+                              Category
+                              {!hasWriteAccess("Category") && (
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
+                              )}
+                            </CustomLink>
+                          </li>
+                        )}
+
+                        {hasMenuAccess("Template") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${
+                                activeLink === "/admin/template" ? "active" : ""
+                              }`}
+                              href={`/admin/template`}
+                            >
+                              <i className="fas fa-file"></i>
+                              Template
+                              {!hasWriteAccess("Template") && (
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
+                              )}
+                            </CustomLink>
+                          </li>
+                        )}
+
                         <li className="nav-item">
                           <button
                             className="nav-link"

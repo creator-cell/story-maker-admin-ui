@@ -25,6 +25,16 @@ const AddRole = () => {
       write: false,
       both: false,
     },
+    Category: {
+      read: false,
+      write: false,
+      both: false,
+    },
+    Template: {
+      read: false,
+      write: false,
+      both: false,
+    },
   });
   const router = useRouter();
 
@@ -33,6 +43,8 @@ const AddRole = () => {
     { key: "Users", label: "Users" },
     { key: "Roles", label: "Roles" },
     { key: "Tickets", label: "Tickets" },
+    { key: "Category", label: "Category" },
+    { key: "Template", label: "Template" },
   ];
 
   const {
@@ -139,8 +151,10 @@ const AddRole = () => {
           Users: { read: false, write: false, both: false },
           Roles: { read: false, write: false, both: false },
           Tickets: { read: false, write: false, both: false },
+          Category: { read: false, write: false, both: false },
+          Template: { read: false, write: false, both: false },
         });
-        router.push("/admin/role");
+        router.push("/admin/category");
       })
       .catch((err) => {
         setLoader(false);

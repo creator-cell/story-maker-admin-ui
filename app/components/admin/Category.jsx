@@ -3,37 +3,39 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
-// import Modal from "react-modal"; // For chat modal
 import { useRouter } from "next/navigation";
-export default function Tickets() {
+import DeleteCategory from "@/app/(adminSide)/model/DeleteCategory";
+
+export default function Categories() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
-  const [tickets, setTickets] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState();
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [search, setSearch] = useState("");
-
-  const [moderator, setAllModerator] = useState();
+  const [deleteUser, setDeleteUser] = useState(false);
   const itemsPerPage = 20;
+
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
-  const getTickets = async (page = 1, searchTerm = "") => {
+  const getCategories = async (page = 1, searchTerm = "") => {
     setLoading(true);
-
     try {
-      let url = `${API_URL}tickets?page=${page}&pageSize=${itemsPerPage}&user=${currentUser._id}&role=${currentUser.role.name}`;
+      let url = `${API_URL}category?`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      setTickets(res.data.data || []);
+      setCategories(res.data.categories || []);
       setTotalPages(res.data.pagination?.totalPages || 1);
       setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
     } catch (err) {
-      toast.error("Failed to fetch tickets");
-      setTickets([]);
+      toast.error("Failed to fetch categories");
+      setCategories([]);
       setTotalPages(0);
     } finally {
       setLoading(false);
@@ -41,64 +43,20 @@ export default function Tickets() {
   };
 
   useEffect(() => {
-    getAllModerator();
-  }, []);
-  useEffect(() => {
-    getTickets(1);
+    getCategories(1);
   }, []);
 
-  const handleUserUpdate = (id) => {
-    router.push(`/admin/tickets/${id}`);
+  const handleEditCategory = (id) => {
+    router.push(`/admin/category/${id}`);
   };
 
-  const handleResolve = async (ticketId) => {
-    try {
-      await axios.put(
-        `${API_URL}tickets/${ticketId}`,
-        { status: "Resolved" },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      toast.success("Ticket Resolved");
-      getTickets(currentPage + 1, search);
-    } catch (err) {
-      toast.error("Failed to assign moderator");
-    }
+  const handleAddCategory = () => {
+    router.push(`/admin/category/add-category`);
   };
 
-  const handleAssignModerator = async (ticketId, moderatorId) => {
-    try {
-      await axios.put(
-        `${API_URL}tickets/${ticketId}`,
-        { moderator: moderatorId },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      toast.success("Moderator assigned");
-      getTickets(currentPage + 1, search);
-    } catch (err) {
-      toast.error("Failed to assign moderator");
-    }
-  };
-
-  const getAllModerator = async () => {
-    try {
-      const response = await axios.get(
-        `${API_URL}tickets/moderator`,
-
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-
-      setAllModerator(response.data);
-    } catch (err) {}
-  };
-
-  const handleNewChat = () => {
-    router.push(`/admin/tickets/add`);
+  const handleDeleteCategory = (id) => {
+    setDeleteUser(true);
+    setCategoryId(id);
   };
 
   return (
@@ -111,7 +69,7 @@ export default function Tickets() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h3>Ticket List</h3>
+                      <h3>Category List</h3>
                     </div>
                   </div>
                 </div>
@@ -127,12 +85,12 @@ export default function Tickets() {
                           value={search}
                           onChange={(e) => setSearch(e.target.value)}
                           onKeyPress={(e) =>
-                            e.key === "Enter" && getTickets(1, search)
+                            e.key === "Enter" && getCategories(1, search)
                           }
                         />
                         <button
                           className="button"
-                          onClick={() => getTickets(1, search)}
+                          onClick={() => getCategories(1, search)}
                           disabled={loading}
                         >
                           {loading ? "Searching..." : "Search"}
@@ -142,7 +100,7 @@ export default function Tickets() {
                             className="button ms-2"
                             onClick={() => {
                               setSearch("");
-                              getTickets(1, "");
+                              getCategories(1, "");
                             }}
                             style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
@@ -150,8 +108,8 @@ export default function Tickets() {
                             Clear
                           </button>
                         )}
-                        <button className="button" onClick={handleNewChat}>
-                          Add New Ticket
+                        <button className="button" onClick={handleAddCategory}>
+                          Add New Category
                         </button>
                       </div>
                     </div>
@@ -167,79 +125,45 @@ export default function Tickets() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th>User</th>
-                          <th>Status</th>
-                          <th>Moderator</th>
-                          <th>Last Message</th>
+                          <th>Category name</th>
+                          <th>Category description</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody className="table_body">
                         {!loading &&
-                          tickets.map((ticket) => (
-                            <tr key={ticket._id}>
-                              <td>{ticket.userId.name}</td>
-                              <td>{ticket.status}</td>
-                              <td>
-                                <select
-                                  value={ticket?.moderator?._id || ""}
-                                  onChange={(e) =>
-                                    handleAssignModerator(
-                                      ticket._id,
-                                      e.target.value
-                                    )
-                                  }
-                                >
-                                  <option value="">Assign Moderator</option>
-                                  {moderator &&
-                                    moderator.map((item) => (
-                                      <option value={item._id}>
-                                        {item.name}
-                                      </option>
-                                    ))}
-                                </select>
-                              </td>
-                              <td>
-                                {ticket.messages?.length
-                                  ? ticket.messages[ticket.messages.length - 1]
-                                      .message
-                                  : ""}
-                              </td>
+                          categories.map((category) => (
+                            <tr key={category._id}>
+                              <td>{category.name}</td>
+                              <td>{category.description}</td>
+
                               <td>
                                 <button
-                                  className={`button mx-1 ${
-                                    ticket.status === "Resolved"
-                                      ? "btn-resolved"
-                                      : "btn-resolve"
-                                  }`}
-                                  onClick={() => handleUserUpdate(ticket._id)}
-                                  disabled={ticket.status === "Resolved"}
+                                  className={`button mx-1`}
+                                  onClick={() =>
+                                    handleEditCategory(category._id)
+                                  }
                                 >
-                                  Chat
+                                  Edit
                                 </button>
 
                                 <button
-                                  className={`button mx-4 ${
-                                    ticket.status === "Resolved"
-                                      ? "btn-resolved"
-                                      : "btn-resolve"
-                                  }`}
-                                  onClick={() => handleResolve(ticket._id)}
-                                  disabled={ticket.status === "Resolved"}
+                                  className={`button`}
+                                  onClick={() =>
+                                    handleDeleteCategory(category._id)
+                                  }
                                 >
-                                  {ticket.status === "Resolved"
-                                    ? "Resolved"
-                                    : "Click to Resolve"}
+                                  Delete
                                 </button>
                               </td>
                             </tr>
                           ))}
-                        {!loading && tickets.length === 0 && (
+                        {!loading && categories.length === 0 && (
                           <tr>
                             <td colSpan="5" className="text-center py-4">
                               {search
-                                ? `No tickets found matching "${search}"`
-                                : "No tickets found"}
+                                ? `No category found matching "${search}"`
+                                : "No category found"}
                             </td>
                           </tr>
                         )}
@@ -258,7 +182,7 @@ export default function Tickets() {
                         pageRangeDisplayed={3}
                         marginPagesDisplayed={1}
                         onPageChange={(selected) =>
-                          getTickets(selected.selected + 1, search)
+                          getCategories(selected.selected + 1, search)
                         }
                         containerClassName="pagination"
                         activeClassName="active"
@@ -276,6 +200,11 @@ export default function Tickets() {
           </div>
         </div>
       </div>
+      <DeleteCategory
+        show={deleteUser}
+        data={categoryId}
+        onHide={() => (setDeleteUser(false), getCategories())}
+      />
     </>
   );
 }
