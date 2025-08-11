@@ -12,9 +12,7 @@ export default function Tickets() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [search, setSearch] = useState("");
-  const [selectedTicket, setSelectedTicket] = useState(null);
-  const [chatModalOpen, setChatModalOpen] = useState(false);
-  const [chatMessage, setChatMessage] = useState("");
+
   const [moderator, setAllModerator] = useState();
   const itemsPerPage = 20;
   const router = useRouter();
@@ -24,12 +22,12 @@ export default function Tickets() {
     setLoading(true);
 
     try {
-      let url = `${API_URL}tickets?page=${page}&pageSize=${itemsPerPage}&user=${currentUser.role._id}&role=${currentUser.role.name}`;
+      let url = `${API_URL}tickets?page=${page}&pageSize=${itemsPerPage}&user=${currentUser._id}&role=${currentUser.role.name}`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      console.log(res.data.data);
+
       setTickets(res.data.data || []);
       setTotalPages(res.data.pagination?.totalPages || 1);
       setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
@@ -51,6 +49,22 @@ export default function Tickets() {
 
   const handleUserUpdate = (id) => {
     router.push(`/admin/tickets/${id}`);
+  };
+
+  const handleResolve = async (ticketId) => {
+    try {
+      await axios.put(
+        `${API_URL}tickets/${ticketId}`,
+        { status: "Resolved" },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      toast.success("Ticket Resolved");
+      getTickets(currentPage + 1, search);
+    } catch (err) {
+      toast.error("Failed to assign moderator");
+    }
   };
 
   const handleAssignModerator = async (ticketId, moderatorId) => {
@@ -81,6 +95,10 @@ export default function Tickets() {
 
       setAllModerator(response.data);
     } catch (err) {}
+  };
+
+  const handleNewChat = () => {
+    router.push(`/admin/tickets/add`);
   };
 
   return (
@@ -134,6 +152,9 @@ export default function Tickets() {
                             Clear
                           </button>
                         )}
+                        <button className="button" onClick={handleNewChat}>
+                          Add New Ticket
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -163,7 +184,7 @@ export default function Tickets() {
                               <td>{ticket.status}</td>
                               <td>
                                 <select
-                                  value={ticket.moderator || ""}
+                                  value={ticket?.moderator?._id || ""}
                                   onChange={(e) =>
                                     handleAssignModerator(
                                       ticket._id,
@@ -188,10 +209,29 @@ export default function Tickets() {
                               </td>
                               <td>
                                 <button
-                                  className="button"
+                                  className={`button mx-1 ${
+                                    ticket.status === "Resolved"
+                                      ? "btn-resolved"
+                                      : "btn-resolve"
+                                  }`}
                                   onClick={() => handleUserUpdate(ticket._id)}
+                                  disabled={ticket.status === "Resolved"}
                                 >
                                   Chat
+                                </button>
+
+                                <button
+                                  className={`button mx-4 ${
+                                    ticket.status === "Resolved"
+                                      ? "btn-resolved"
+                                      : "btn-resolve"
+                                  }`}
+                                  onClick={() => handleResolve(ticket._id)}
+                                  disabled={ticket.status === "Resolved"}
+                                >
+                                  {ticket.status === "Resolved"
+                                    ? "Resolved"
+                                    : "Click to Resolve"}
                                 </button>
                               </td>
                             </tr>

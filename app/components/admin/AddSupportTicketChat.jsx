@@ -2,20 +2,40 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import { useRouter } from "next/navigation";
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
 
-const AddTicket = () => {
+const AddChatHistory = () => {
+  const currentUser = localStorage.getItem("user");
+
   const [ticket, setTicket] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  //   const getTicket = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axios.get(`${API_URL}tickets`, {
+  //         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  //       });
+  //       setTicket(response.data.user);
+  //     } catch (err) {
+  //       toast.error("Failed to load ticket");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   useEffect(() => {
+  //     getTicket();
+  //   }, []);
 
   const sendChatMessage = async () => {
     if (!chatMessage.trim()) return;
-
+    const user = JSON.parse(localStorage.getItem("user"));
     const newMessage = {
-      sender: currentUser?._id,
-      role: currentUser?.role || "user",
+      sender: user._id,
+      role: user.role.name,
       message: chatMessage.trim(),
       sentAt: new Date(),
     };
@@ -23,16 +43,20 @@ const AddTicket = () => {
     try {
       await axios.post(
         `${API_URL}tickets`,
-        { messages: [newMessage] },
+        {
+          messages: [newMessage],
+          userId: user._id,
+        },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
       toast.success("Message sent");
       setChatMessage("");
-      getTicket();
+
+      router.push("/tickets");
     } catch (err) {
-      toast.error("Failed to send message");
+      // toast.error("Failed to send message");
     }
   };
 
@@ -40,31 +64,7 @@ const AddTicket = () => {
     <div className="chat-container" style={{ maxWidth: 600, margin: "0 auto" }}>
       <h3>Support Ticket Chat</h3>
       {loading && <div>Loading...</div>}
-      <div
-        style={{
-          maxHeight: 350,
-          overflowY: "auto",
-          border: "1px solid #eee",
-          padding: 16,
-          marginBottom: 16,
-        }}
-      >
-        {ticket?.messages?.length ? (
-          ticket.messages.map((msg) => (
-            <div key={msg._id} style={{ marginBottom: 12 }}>
-              <b>{msg.role === "user" ? "User" : "Moderator"}:</b> {msg.message}
-              <br />
-              <small style={{ color: "#888" }}>
-                {msg.sentAt
-                  ? new Date(msg.sentAt).toLocaleString()
-                  : "Just now"}
-              </small>
-            </div>
-          ))
-        ) : (
-          <div>No messages yet.</div>
-        )}
-      </div>
+
       <div className="d-flex gap-2">
         <input
           type="text"
@@ -85,4 +85,4 @@ const AddTicket = () => {
   );
 };
 
-export default AddTicket;
+export default AddChatHistory;

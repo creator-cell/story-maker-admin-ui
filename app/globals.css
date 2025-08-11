@@ -8243,7 +8243,7 @@ button.admin_menuToggler {
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+
   z-index: 10;
   display: flex;
   align-items: center;
@@ -9873,3 +9873,17 @@ html {
   .bg-secondary {
     background-color: #6c757d !important;
   }
+  .btn-resolve {
+  background-color: #28a745; /* Green */
+  color: white;
+}
+
+.btn-resolve:hover {
+  background-color: #218838;
+}
+
+.btn-resolved {
+  background-color: #6c757d; /* Grey */
+  color: white;
+  cursor: not-allowed;
+}
