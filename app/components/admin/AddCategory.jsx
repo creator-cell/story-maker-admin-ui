@@ -1,31 +1,23 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loader from "../../components/Loader";
-
 import { useRouter } from "next/navigation";
-import Category from "./../../(adminSide)/admin/category/page";
 
 const AddCategoryPage = () => {
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([
+    { name: "", description: "" },
+  ]);
   const router = useRouter();
 
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    register,
-    reset,
-    watch,
-  } = useForm({
+  const { handleSubmit, register, reset, watch } = useForm({
     defaultValues: {
       name: "",
       description: "",
-      subname: "",
-      subdescription: "",
     },
   });
 
@@ -44,8 +36,8 @@ const AddCategoryPage = () => {
       });
       setCategories(response.data?.categories || []);
     } catch (error) {
-      console.error("Error fetching roles:", error);
-      toast("Failed to fetch roles", {
+      console.error("Error fetching categories:", error);
+      toast("Failed to fetch categories", {
         theme: "dark",
         position: "top-right",
         type: "error",
@@ -56,11 +48,21 @@ const AddCategoryPage = () => {
   const handleCategory = (data) => {
     const missingFields = [];
 
-    // Check all required fields
     if (!data.name) missingFields.push("Category name");
     if (!data.description) missingFields.push("Category description");
-    if (data.subdescription && !data.subName)
-      missingFields.push("Sub category name");
+
+    // Validate subcategories: description only if name exists
+    const validSubCategories = subCategories.filter(
+      (sub) => sub.name && sub.description
+    );
+
+    const invalidSubs = subCategories.some(
+      (sub) => sub.description && !sub.name
+    );
+    if (invalidSubs) {
+      missingFields.push("Sub category name for provided description");
+    }
+
     if (missingFields.length > 0) {
       toast(`${missingFields.join(", ")} is required`, {
         theme: "dark",
@@ -69,14 +71,9 @@ const AddCategoryPage = () => {
       });
       return;
     }
+
     setLoader(true);
-    let subCategories = [];
-    if (data.subname && data.data.subdescription) {
-      subCategories.push({
-        name: data.subname,
-        description: data.subdescription,
-      });
-    }
+
     axios({
       url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}category`,
       method: "POST",
@@ -87,30 +84,45 @@ const AddCategoryPage = () => {
       data: {
         name: data.name,
         description: data.description,
-        subCategories,
+        subCategories: validSubCategories,
       },
     })
       .then((res) => {
         setLoader(false);
-
         toast("Category added", {
           theme: "dark",
           position: "top-right",
           type: "success",
         });
         reset();
-        // Navigate back to user list page
+        setSubCategories([{ name: "", description: "" }]); // Reset subs
         router.push("/admin/category");
       })
       .catch((err) => {
         setLoader(false);
         console.log("error", err);
-        toast(err?.response?.data?.message || "failed to add category", {
+        toast(err?.response?.data?.message || "Failed to add category", {
           type: "error",
           theme: "dark",
           position: "top-right",
         });
       });
+  };
+
+  const handleAddSubCategory = () => {
+    setSubCategories([...subCategories, { name: "", description: "" }]);
+  };
+
+  const handleRemoveSubCategory = (index) => {
+    const updated = [...subCategories];
+    updated.splice(index, 1);
+    setSubCategories(updated);
+  };
+
+  const handleSubCategoryChange = (index, field, value) => {
+    const updated = [...subCategories];
+    updated[index][field] = value;
+    setSubCategories(updated);
   };
 
   return (
@@ -130,68 +142,83 @@ const AddCategoryPage = () => {
               <div className="admin_form_panel">
                 <form onSubmit={handleSubmit(handleCategory)}>
                   <div className="row">
+                    {/* Category Name */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Category Name</label>
+                        <label>Category Name</label>
                         <input
-                          type="text"
-                          className="form-control"
                           name="full-name"
                           id="full-name"
-                          aria-describedby="helpId"
+                          className="form-control"
                           value={watch("name") || ""}
                           {...register("name")}
                         />
                       </div>
                     </div>
 
+                    {/* Category Description */}
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="email">Description</label>
+                        <label>Description</label>
                         <textarea
-                          type="textarea"
                           className="form-control"
-                          name="Description"
-                          id="Description"
-                          row={3}
-                          cols={3}
-                          aria-describedby="helpId"
-                          value={watch("description") || ""}
                           {...register("description")}
+                          value={watch("description") || ""}
                         />
                       </div>
                     </div>
 
-                    <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <div className="form_group">
-                        <label htmlFor="full-name">Sub Category Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="fname"
-                          id="fname"
-                          aria-describedby="helpId"
-                          value={watch("subname") || ""}
-                          {...register("subname")}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-lg-12 col-md-12 col-12 mb-3">
-                      <div className="form_group">
-                        <label htmlFor="email">Sub Category Description</label>
-                        <textarea
-                          type="textarea"
-                          className="form-control"
-                          name="subDescription"
-                          id="subDescription"
-                          row={3}
-                          cols={3}
-                          aria-describedby="helpId"
-                          value={watch("subdescription") || ""}
-                          {...register("subdescription")}
-                        />
-                      </div>
+                    <div className="col-12">
+                      <h5>Sub Categories</h5>
+                      {subCategories.map((sub, index) => (
+                        <div
+                          key={index}
+                          className="d-flex gap-2 align-items-start mb-2"
+                        >
+                          <input
+                            type="text"
+                            placeholder="Subcategory Name"
+                            className="form-control"
+                            value={sub.name}
+                            onChange={(e) =>
+                              handleSubCategoryChange(
+                                index,
+                                "name",
+                                e.target.value
+                              )
+                            }
+                          />
+                          <input
+                            type="text"
+                            placeholder="Subcategory Description"
+                            className="form-control"
+                            value={sub.description}
+                            onChange={(e) =>
+                              handleSubCategoryChange(
+                                index,
+                                "description",
+                                e.target.value
+                              )
+                            }
+                          />
+                          {subCategories.length > 1 && (
+                            <button
+                              type="button"
+                              className="btn btn-danger"
+                              onClick={() => handleRemoveSubCategory(index)}
+                            >
+                              X
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        className="btn btn-primary mt-2"
+                        onClick={handleAddSubCategory}
+                      >
+                        + Add Subcategory
+                      </button>
                     </div>
 
                     <div className="col-12 mt-3 d-flex gap-3">

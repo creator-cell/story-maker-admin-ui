@@ -1,192 +1,183 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 import Loader from "../Loader";
-import Categories from "./Category";
+
 export default function EditCategory({ userId }) {
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const router = useRouter();
+  const [loader, setLoader] = useState(false);
+
   const {
+    control,
     handleSubmit,
     register,
     reset,
     watch,
-    setValue,
     formState: { errors },
-    trigger,
-  } = useForm();
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
-  const route = useRouter();
-  const [dob, setDob] = useState(null);
-  const [roles, setRoles] = useState([]);
-  const router = useRouter();
-  const getUserDetails = async () => {
+  } = useForm({
+    defaultValues: {
+      name: "",
+      description: "",
+      subCategories: [{ name: "", description: "" }],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "subCategories",
+  });
+
+  const getCategoryDetails = async () => {
     try {
       const response = await axios({
         url: `${API_URL}category/${userId}`,
         method: "GET",
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      const user = response.data.category;
+
+      const category = response.data.category;
 
       reset({
-        name: user.name,
-
-        description: user.description,
+        name: category.name || "",
+        description: category.description || "",
+        subCategories: category.subCategories?.length
+          ? category.subCategories
+          : [{ name: "", description: "" }],
       });
     } catch (error) {
       console.error(error);
+      toast("Failed to load category", { type: "error" });
     }
   };
 
   useEffect(() => {
-    getUserDetails();
+    getCategoryDetails();
   }, []);
 
-  const handleUserUpdate = async (data) => {
-    if (data) {
-      try {
-        const response = await axios({
-          url: `${API_URL}category/${userId}`,
-          method: "PUT",
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          data: {
-            name: data.name,
-            description: data.description,
-          },
-        });
+  const handleUpdate = async (data) => {
+    if (!data.name || !data.description) {
+      toast("Category name and description are required", { type: "error" });
+      return;
+    }
 
-        if (response.status === 200) {
-          toast("User updated successfully.", {
-            theme: "dark",
-            position: "top-right",
-            type: "success",
-          });
-          getUserDetails();
-          route.push("/admin/category");
-        }
-      } catch (error) {
-        toast("Error while updating user.", {
-          theme: "dark",
-          position: "top-right",
-          type: "error",
-        });
-        console.error("error", error);
-      }
+    setLoader(true);
+    try {
+      await axios({
+        url: `${API_URL}category/${userId}`,
+        method: "PUT",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        data,
+      });
+
+      toast("Category updated successfully", { type: "success" });
+      router.push("/admin/category");
+    } catch (error) {
+      console.error(error);
+      toast(error?.response?.data?.message || "Failed to update category", {
+        type: "error",
+      });
+    } finally {
+      setLoader(false);
     }
   };
 
   return (
-    <>
-      <div id="main_container">
-        <div className="inner_container">
-          <div className="container-lg container-fluid p-0">
-            <div className="comman_admin_layout flex-column p-0">
-              <div className="container-lg container-fluid p-0">
-                <div className="row mb-4">
-                  <div className="col-lg-12 col-md-12 col-sm-12">
-                    <div className="title_head">
-                      <h3>Edit Category</h3>
-                    </div>
+    <div id="main_container">
+      <div className="inner_container">
+        <div className="container-lg container-fluid p-0">
+          <div className="comman_admin_layout flex-column p-0">
+            <div className="row mb-4">
+              <div className="col-12">
+                <h3>Edit Category</h3>
+              </div>
+            </div>
+
+            <div className="admin_form_panel">
+              <form onSubmit={handleSubmit(handleUpdate)}>
+                <div className="row">
+                  {/* Category Name */}
+                  <div className="col-lg-6 col-md-6 col-12 mb-3">
+                    <label>Category Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      {...register("name")}
+                    />
                   </div>
-                </div>
 
-                <div className="admin_form_panel">
-                  <form onSubmit={handleSubmit(handleUserUpdate)}>
-                    <div className="row">
-                      <div className="col-lg-6 col-md-6 col-12 mb-3">
-                        <div className="form_group">
-                          <label htmlFor="full-name">Category Name</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name="full-name"
-                            id="full-name"
-                            aria-describedby="helpId"
-                            value={watch("name") || ""}
-                            {...register("name")}
-                          />
-                        </div>
-                      </div>
+                  {/* Description */}
+                  <div className="col-lg-12 col-md-12 col-12 mb-3">
+                    <label>Description</label>
+                    <textarea
+                      className="form-control"
+                      rows={3}
+                      {...register("description")}
+                    />
+                  </div>
 
-                      <div className="col-lg-12 col-md-12 col-12 mb-3">
-                        <div className="form_group">
-                          <label htmlFor="email">Description</label>
-                          <textarea
-                            type="textarea"
-                            className="form-control"
-                            name="Description"
-                            id="Description"
-                            row={3}
-                            cols={3}
-                            aria-describedby="helpId"
-                            value={watch("description") || ""}
-                            {...register("description")}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="col-lg-6 col-md-6 col-12 mb-3">
-                        <div className="form_group">
-                          <label htmlFor="full-name">Sub Category Name</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name="fname"
-                            id="fname"
-                            aria-describedby="helpId"
-                            value={watch("subname") || ""}
-                            {...register("subname")}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="col-lg-12 col-md-12 col-12 mb-3">
-                        <div className="form_group">
-                          <label htmlFor="email">
-                            Sub Category Description
-                          </label>
-                          <textarea
-                            type="textarea"
-                            className="form-control"
-                            name="subDescription"
-                            id="subDescription"
-                            row={3}
-                            cols={3}
-                            aria-describedby="helpId"
-                            value={watch("subdescription") || ""}
-                            {...register("subdescription")}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="col-12 mt-3 d-flex gap-3">
-                        <button type="submit" className="button">
-                          Update
-                        </button>
+                  {/* Dynamic Subcategories */}
+                  <div className="col-12">
+                    <h5>Subcategories</h5>
+                    {fields.map((item, index) => (
+                      <div
+                        key={item.id}
+                        className="d-flex gap-2 mb-3 align-items-start"
+                      >
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Subcategory Name"
+                          {...register(`subCategories.${index}.name`)}
+                        />
+                        <textarea
+                          className="form-control"
+                          placeholder="Subcategory Description"
+                          rows={1}
+                          {...register(`subCategories.${index}.description`)}
+                        />
                         <button
                           type="button"
-                          className="button"
-                          style={{ backgroundColor: "#6c757d" }}
-                          onClick={() => router.push("/admin/category")}
+                          className="btn btn-danger"
+                          onClick={() => remove(index)}
                         >
-                          Cancel
+                          X
                         </button>
                       </div>
-                    </div>
-                  </form>
+                    ))}
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => append({ name: "", description: "" })}
+                    >
+                      + Add Subcategory
+                    </button>
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="col-12 mt-3 d-flex gap-3">
+                    <button type="submit" className="button">
+                      Update
+                    </button>
+                    <button
+                      type="button"
+                      className="button"
+                      style={{ backgroundColor: "#6c757d" }}
+                      onClick={() => router.push("/admin/category")}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
-        {/* {loader && <Loader />} */}
       </div>
-    </>
+      {loader && <Loader />}
+    </div>
   );
 }
