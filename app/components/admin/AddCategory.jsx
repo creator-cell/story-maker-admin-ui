@@ -9,14 +9,13 @@ import { useRouter } from "next/navigation";
 const AddCategoryPage = () => {
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([
-    { name: "", description: "" },
-  ]);
   const router = useRouter();
 
-  const { handleSubmit, register, reset, watch } = useForm({
+  const { handleSubmit, register, reset, watch, setValue } = useForm({
     defaultValues: {
       name: "",
+      slug: "",
+      parentId: "",
       description: "",
     },
   });
@@ -25,6 +24,7 @@ const AddCategoryPage = () => {
     fetchCategory();
   }, []);
 
+  // Fetch categories for parent dropdown
   const fetchCategory = async () => {
     try {
       const response = await axios({
@@ -34,43 +34,29 @@ const AddCategoryPage = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setCategories(response.data?.categories || []);
+      const parentCategories = response.data?.categories.filter(
+        (cat) => cat.parentCategory === null
+      );
+      console.log(parentCategories);
+      setCategories(parentCategories || []);
     } catch (error) {
       console.error("Error fetching categories:", error);
-      toast("Failed to fetch categories", {
-        theme: "dark",
-        position: "top-right",
-        type: "error",
-      });
+      toast.error("Failed to fetch categories", { theme: "dark" });
     }
   };
 
+  // Auto-generate slug when name changes
+  useEffect(() => {
+    const nameValue = watch("name") || "";
+    setValue("slug", nameValue.trim().toLowerCase().replace(/\s+/g, "-"));
+  }, [watch("name"), setValue]);
+
   const handleCategory = (data) => {
-    const missingFields = [];
-
-    if (!data.name) missingFields.push("Category name");
-    if (!data.description) missingFields.push("Category description");
-
-    // Validate subcategories: description only if name exists
-    const validSubCategories = subCategories.filter(
-      (sub) => sub.name && sub.description
-    );
-
-    const invalidSubs = subCategories.some(
-      (sub) => sub.description && !sub.name
-    );
-    if (invalidSubs) {
-      missingFields.push("Sub category name for provided description");
-    }
-
-    if (missingFields.length > 0) {
-      toast(`${missingFields.join(", ")} is required`, {
-        theme: "dark",
-        position: "top-right",
-        type: "error",
-      });
+    if (!data.name) {
+      toast.error("Category name is required", { theme: "dark" });
       return;
     }
+    console.log(data);
 
     setLoader(true);
 
@@ -83,46 +69,24 @@ const AddCategoryPage = () => {
       },
       data: {
         name: data.name,
+        slug: data.slug,
+        parentCategory: data.parentId || null,
         description: data.description,
-        subCategories: validSubCategories,
       },
     })
-      .then((res) => {
+      .then(() => {
         setLoader(false);
-        toast("Category added", {
-          theme: "dark",
-          position: "top-right",
-          type: "success",
-        });
+        toast.success("Category added", { theme: "dark" });
         reset();
-        setSubCategories([{ name: "", description: "" }]); // Reset subs
         router.push("/admin/category");
       })
       .catch((err) => {
         setLoader(false);
         console.log("error", err);
-        toast(err?.response?.data?.message || "Failed to add category", {
-          type: "error",
+        toast.error(err?.response?.data?.message || "Failed to add category", {
           theme: "dark",
-          position: "top-right",
         });
       });
-  };
-
-  const handleAddSubCategory = () => {
-    setSubCategories([...subCategories, { name: "", description: "" }]);
-  };
-
-  const handleRemoveSubCategory = (index) => {
-    const updated = [...subCategories];
-    updated.splice(index, 1);
-    setSubCategories(updated);
-  };
-
-  const handleSubCategoryChange = (index, field, value) => {
-    const updated = [...subCategories];
-    updated[index][field] = value;
-    setSubCategories(updated);
   };
 
   return (
@@ -132,108 +96,85 @@ const AddCategoryPage = () => {
           <div className="comman_admin_layout flex-column p-0">
             <div className="container-lg container-fluid p-0">
               <div className="row mb-4">
-                <div className="col-lg-12 col-md-12 col-sm-12">
+                <div className="col-lg-12">
                   <div className="title_head">
-                    <h3>Add New Category</h3>
+                    <h3>Add Category</h3>
                   </div>
                 </div>
               </div>
 
               <div className="admin_form_panel">
                 <form onSubmit={handleSubmit(handleCategory)}>
-                  <div className="row">
-                    {/* Category Name */}
-                    <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <div className="form_group">
-                        <label>Category Name</label>
-                        <input
-                          name="full-name"
-                          id="full-name"
-                          className="form-control"
-                          value={watch("name") || ""}
-                          {...register("name")}
-                        />
-                      </div>
-                    </div>
+                  {/* Name */}
+                  <div className="mb-3">
+                    <label className="form-label">Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      {...register("name")}
+                    />
+                    <small className="text-muted">
+                      The name is how it appears on your site.
+                    </small>
+                  </div>
 
-                    {/* Category Description */}
-                    <div className="col-lg-12 col-md-12 col-12 mb-3">
-                      <div className="form_group">
-                        <label>Description</label>
-                        <textarea
-                          className="form-control"
-                          {...register("description")}
-                          value={watch("description") || ""}
-                        />
-                      </div>
-                    </div>
+                  {/* Slug */}
+                  <div className="mb-3">
+                    <label className="form-label">Slug</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      {...register("slug")}
+                    />
+                    <small className="text-muted">
+                      The “slug” is the URL-friendly version of the name.
+                    </small>
+                  </div>
 
-                    <div className="col-12">
-                      <h5>Sub Categories</h5>
-                      {subCategories.map((sub, index) => (
-                        <div
-                          key={index}
-                          className="d-flex gap-2 align-items-start mb-2"
-                        >
-                          <input
-                            type="text"
-                            placeholder="Subcategory Name"
-                            className="form-control"
-                            value={sub.name}
-                            onChange={(e) =>
-                              handleSubCategoryChange(
-                                index,
-                                "name",
-                                e.target.value
-                              )
-                            }
-                          />
-                          <input
-                            type="text"
-                            placeholder="Subcategory Description"
-                            className="form-control"
-                            value={sub.description}
-                            onChange={(e) =>
-                              handleSubCategoryChange(
-                                index,
-                                "description",
-                                e.target.value
-                              )
-                            }
-                          />
-                          {subCategories.length > 1 && (
-                            <button
-                              type="button"
-                              className="btn btn-danger"
-                              onClick={() => handleRemoveSubCategory(index)}
-                            >
-                              X
-                            </button>
-                          )}
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        className="btn btn-primary mt-2"
-                        onClick={handleAddSubCategory}
-                      >
-                        + Add Subcategory
-                      </button>
-                    </div>
+                  {/* Parent Category */}
+                  <div className="mb-3">
+                    <label className="form-label">Parent Category</label>
+                    <select
+                      className="form-control"
+                      {...register("parentId")}
+                      defaultValue=""
+                    >
+                      <option value="">None</option>
+                      {categories &&
+                        categories.map((cat) => (
+                          <option key={cat._id} value={cat._id}>
+                            {cat.name}
+                          </option>
+                        ))}
+                    </select>
+                    <small className="text-muted">
+                      Categories can have a hierarchy. Totally optional.
+                    </small>
+                  </div>
 
-                    <div className="col-12 mt-3 d-flex gap-3">
-                      <button type="submit" className="button">
-                        Submit
-                      </button>
-                      <button
-                        type="button"
-                        className="button"
-                        style={{ backgroundColor: "#6c757d" }}
-                        onClick={() => router.push("/admin/category")}
-                      >
-                        Cancel
-                      </button>
-                    </div>
+                  {/* Description */}
+                  <div className="mb-3">
+                    <label className="form-label">Description</label>
+                    <textarea
+                      className="form-control"
+                      rows="4"
+                      {...register("description")}
+                    ></textarea>
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="d-flex gap-3">
+                    <button type="submit" className="button">
+                      Add Category
+                    </button>
+                    <button
+                      type="button"
+                      className="button"
+                      style={{ backgroundColor: "#6c757d" }}
+                      onClick={() => router.push("/admin/category")}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </form>
               </div>

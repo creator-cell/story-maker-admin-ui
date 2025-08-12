@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
@@ -10,26 +10,41 @@ export default function EditCategory({ userId }) {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const router = useRouter();
   const [loader, setLoader] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const {
-    control,
     handleSubmit,
     register,
     reset,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
       name: "",
+      slug: "",
+      parentId: "",
       description: "",
-      subCategories: [{ name: "", description: "" }],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "subCategories",
-  });
+  const fetchCategories = async () => {
+    try {
+      const response = await axios({
+        url: `${API_URL}category`,
+        method: "GET",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      const parentCategories = response.data?.categories.filter(
+        (cat) => cat.parentCategory === null
+      );
+
+      setCategories(parentCategories || []);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to load categories");
+    }
+  };
 
   const getCategoryDetails = async () => {
     try {
@@ -43,24 +58,31 @@ export default function EditCategory({ userId }) {
 
       reset({
         name: category.name || "",
+        slug: category.slug || "",
+        parentId: category.parentCategory || "",
         description: category.description || "",
-        subCategories: category.subCategories?.length
-          ? category.subCategories
-          : [{ name: "", description: "" }],
       });
     } catch (error) {
       console.error(error);
-      toast("Failed to load category", { type: "error" });
+      toast.error("Failed to load category");
     }
   };
 
   useEffect(() => {
+    fetchCategories();
     getCategoryDetails();
   }, []);
 
+  useEffect(() => {
+    const nameValue = watch("name") || "";
+    if (!watch("slug")) {
+      setValue("slug", nameValue.trim().toLowerCase().replace(/\s+/g, "-"));
+    }
+  }, [watch("name")]);
+
   const handleUpdate = async (data) => {
-    if (!data.name || !data.description) {
-      toast("Category name and description are required", { type: "error" });
+    if (!data.name) {
+      toast.error("Category name is required");
       return;
     }
 
@@ -73,13 +95,13 @@ export default function EditCategory({ userId }) {
         data,
       });
 
-      toast("Category updated successfully", { type: "success" });
+      toast.success("Category updated successfully");
       router.push("/admin/category");
     } catch (error) {
       console.error(error);
-      toast(error?.response?.data?.message || "Failed to update category", {
-        type: "error",
-      });
+      toast.error(
+        error?.response?.data?.message || "Failed to update category"
+      );
     } finally {
       setLoader(false);
     }
@@ -98,79 +120,75 @@ export default function EditCategory({ userId }) {
 
             <div className="admin_form_panel">
               <form onSubmit={handleSubmit(handleUpdate)}>
-                <div className="row">
-                  {/* Category Name */}
-                  <div className="col-lg-6 col-md-6 col-12 mb-3">
-                    <label>Category Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      {...register("name")}
-                    />
-                  </div>
+                {/* Name */}
+                <div className="mb-3">
+                  <label className="form-label">Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    {...register("name")}
+                  />
+                  <small className="text-muted">
+                    The name is how it appears on your site.
+                  </small>
+                </div>
 
-                  {/* Description */}
-                  <div className="col-lg-12 col-md-12 col-12 mb-3">
-                    <label>Description</label>
-                    <textarea
-                      className="form-control"
-                      rows={3}
-                      {...register("description")}
-                    />
-                  </div>
+                {/* Slug */}
+                <div className="mb-3">
+                  <label className="form-label">Slug</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    {...register("slug")}
+                  />
+                  <small className="text-muted">
+                    The “slug” is the URL-friendly version of the name.
+                  </small>
+                </div>
 
-                  {/* Dynamic Subcategories */}
-                  <div className="col-12">
-                    <h5>Subcategories</h5>
-                    {fields.map((item, index) => (
-                      <div
-                        key={item.id}
-                        className="d-flex gap-2 mb-3 align-items-start"
-                      >
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Subcategory Name"
-                          {...register(`subCategories.${index}.name`)}
-                        />
-                        <textarea
-                          className="form-control"
-                          placeholder="Subcategory Description"
-                          rows={1}
-                          {...register(`subCategories.${index}.description`)}
-                        />
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={() => remove(index)}
-                        >
-                          X
-                        </button>
-                      </div>
+                {/* Parent Category */}
+                <div className="mb-3">
+                  <label className="form-label">Parent Category</label>
+                  <select
+                    className="form-control"
+                    {...register("parentId")}
+                    defaultValue=""
+                  >
+                    <option value="">None</option>
+                    {categories.map((cat) => (
+                      <option key={cat._id} value={cat._id}>
+                        {cat.name}
+                      </option>
                     ))}
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      onClick={() => append({ name: "", description: "" })}
-                    >
-                      + Add Subcategory
-                    </button>
-                  </div>
+                  </select>
+                  <small className="text-muted">
+                    Categories can have a hierarchy. Totally optional.
+                  </small>
+                </div>
 
-                  {/* Buttons */}
-                  <div className="col-12 mt-3 d-flex gap-3">
-                    <button type="submit" className="button">
-                      Update
-                    </button>
-                    <button
-                      type="button"
-                      className="button"
-                      style={{ backgroundColor: "#6c757d" }}
-                      onClick={() => router.push("/admin/category")}
-                    >
-                      Cancel
-                    </button>
-                  </div>
+                {/* Description */}
+                <div className="mb-3">
+                  <label className="form-label">Description</label>
+                  <textarea
+                    className="form-control"
+                    rows="4"
+                    {...register("description")}
+                  ></textarea>
+                </div>
+
+                {/* Buttons */}
+                <div className="d-flex gap-3">
+                  <button type="submit" className="button">
+                    Update Category
+                  </button>
+                  <button
+                    type="button"
+                    className="button"
+                    style={{ backgroundColor: "#6c757d" }}
+                    onClick={() => router.push("/admin/category")}
+                  >
+                    Cancel
+                  </button>
                 </div>
               </form>
             </div>

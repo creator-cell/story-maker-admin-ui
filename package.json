@@ -30,6 +30,7 @@
     "react-toastify": "^11.0.5",
     "react-world-flags": "^1.6.0",
     "slick-carousel": "^1.8.1",
+    "suneditor-react": "^3.6.1",
     "swiper": "^11.2.8",
     "tom-select": "^2.4.3"
   }
