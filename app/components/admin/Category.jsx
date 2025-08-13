@@ -1,0 +1,210 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import ReactPaginate from "react-paginate";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import DeleteCategory from "@/app/(adminSide)/model/DeleteCategory";
+
+export default function Categories() {
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState();
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [search, setSearch] = useState("");
+  const [deleteUser, setDeleteUser] = useState(false);
+  const itemsPerPage = 20;
+
+  const router = useRouter();
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+
+  const getCategories = async (page = 1, searchTerm = "") => {
+    setLoading(true);
+    try {
+      let url = `${API_URL}category?`;
+      if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+
+      setCategories(res.data.categories || []);
+      setTotalPages(res.data.pagination?.totalPages || 1);
+      setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
+    } catch (err) {
+      toast.error("Failed to fetch categories");
+      setCategories([]);
+      setTotalPages(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getCategories(1);
+  }, []);
+
+  const handleEditCategory = (id) => {
+    router.push(`/admin/category/${id}`);
+  };
+
+  const handleAddCategory = () => {
+    router.push(`/admin/category/add-category`);
+  };
+
+  const handleDeleteCategory = (id) => {
+    setDeleteUser(true);
+    setCategoryId(id);
+  };
+
+  return (
+    <>
+      <div id="main_container">
+        <div className="inner_container">
+          <div className="container p-0">
+            <div id="user" className="comman_admin_layout">
+              <div className="container p-0">
+                <div className="row">
+                  <div className="col-lg-12">
+                    <div className="title_head">
+                      <h3>Category List</h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="admin_table">
+                  <div className="row table_filter justify-content-between align-items-center mb-3">
+                    <div className="col-lg-6"></div>
+                    <div className="col-lg-6">
+                      <div className="filter_field d-flex gap-2 justify-content-end">
+                        <input
+                          type="text"
+                          placeholder="Search by user or status..."
+                          className="form-control"
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
+                          onKeyPress={(e) =>
+                            e.key === "Enter" && getCategories(1, search)
+                          }
+                        />
+                        <button
+                          className="button"
+                          onClick={() => getCategories(1, search)}
+                          disabled={loading}
+                        >
+                          {loading ? "Searching..." : "Search"}
+                        </button>
+                        {search && (
+                          <button
+                            className="button ms-2"
+                            onClick={() => {
+                              setSearch("");
+                              getCategories(1, "");
+                            }}
+                            style={{ backgroundColor: "#6c757d" }}
+                            disabled={loading}
+                          >
+                            Clear
+                          </button>
+                        )}
+                        <button className="button" onClick={handleAddCategory}>
+                          Add New Category
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  {loading && (
+                    <div className="text-center py-4">
+                      <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  )}
+                  <div className="table-responsive">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Category name</th>
+                          <th>Category description</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="table_body">
+                        {!loading &&
+                          categories.map((category) => (
+                            <tr key={category._id}>
+                              <td>{category.name}</td>
+                              <td>{category.description}</td>
+
+                              <td>
+                                <button
+                                  className={`button mx-1`}
+                                  onClick={() =>
+                                    handleEditCategory(category._id)
+                                  }
+                                >
+                                  Edit
+                                </button>
+
+                                <button
+                                  className={`button`}
+                                  onClick={() =>
+                                    handleDeleteCategory(category._id)
+                                  }
+                                >
+                                  Delete
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        {!loading && categories.length === 0 && (
+                          <tr>
+                            <td colSpan="5" className="text-center py-4">
+                              {search
+                                ? `No category found matching "${search}"`
+                                : "No category found"}
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                  {totalPages > 1 && (
+                    <div className="pagination-container d-flex justify-content-between align-items-center">
+                      <div className="pagination-info">
+                        <small className="text-muted">
+                          Page {currentPage + 1} of {totalPages}
+                        </small>
+                      </div>
+                      <ReactPaginate
+                        pageCount={totalPages}
+                        pageRangeDisplayed={3}
+                        marginPagesDisplayed={1}
+                        onPageChange={(selected) =>
+                          getCategories(selected.selected + 1, search)
+                        }
+                        containerClassName="pagination"
+                        activeClassName="active"
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        breakLabel="..."
+                        forcePage={currentPage}
+                        disabledClassName="disabled"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <DeleteCategory
+        show={deleteUser}
+        data={categoryId}
+        onHide={() => (setDeleteUser(false), getCategories())}
+      />
+    </>
+  );
+}
