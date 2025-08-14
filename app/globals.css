@@ -160,7 +160,7 @@ html {
 :hover {
   outline: none !important;
   box-shadow: none !important;
-  border-color: transparent !important;
+  /* border-color: transparent !important; */
 }
 
 ::placeholder {
@@ -290,7 +290,8 @@ table thead {
   display: inline-block;
   font-size: 16px;
   font-weight: 600;
-  background: var(--btn-main);
+  /* background: var(--btn-main); */
+  background: linear-gradient(180deg, #007bff, #00c6ff);
   color: var(--white);
   line-height: 1;
   border: 1px solid transparent;
@@ -298,7 +299,7 @@ table thead {
   text-transform: capitalize;
   cursor: pointer;
   outline: none;
-  padding: 16px 20px;
+  padding: 14px 18px;
   transition: all 0.3s ease;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -309,7 +310,7 @@ table thead {
 
 .button:hover,
 .button:focus {
-  background: var(--btn-hover-main);
+  /* background: var(--btn-hover-main); */
   color: var(--white);
   outline: none;
   transition: all 0.3s ease;
@@ -783,7 +784,7 @@ h6 {
   position: absolute;
   right: 14px;
   top: 18px;
- 
+
   background-size: 100%;
   background-repeat: no-repeat;
   width: 23px;
@@ -1423,7 +1424,7 @@ h6 {
   font-size: 18px;
   font-weight: 500;
   color: var(--beta);
-  quotes: "“""”""‘""’";
+  quotes: "“" "”" "‘" "’";
   padding: 0px 0px 0px 30px;
   margin: 0;
 }
@@ -3004,26 +3005,28 @@ h6 {
 }
 
 .admin_action_delete {
+  border-radius: 5px;
   display: block;
   width: auto;
-  padding: 6px 9px;
+  padding: 6px 10px;
   text-decoration: none;
   outline: none;
   border: 0;
-  background-color: var( --badge_failed);
+  background-color: #1f4f8f;
   color: var(--white);
   line-height: 1.2;
   font-size: 14px;
 }
 
 .admin_action_edit {
+  border-radius: 5px;
   display: block;
   width: auto;
-  padding: 6px 9px;
+  padding: 6px 10px;
   text-decoration: none;
   outline: none;
   border: 0;
-  background-color: var(--omega);
+  background-color: #1f4f8f;
   color: var(--white);
   line-height: 1.2;
   font-size: 14px;
@@ -3134,7 +3137,7 @@ button.admin_menuToggler {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0px 0px;
+  padding: 0px 0px 0px 10px;
   width: 100%;
   margin-bottom: 10px;
 }
@@ -3158,7 +3161,7 @@ button.admin_menuToggler {
 
 #sidebar .navbar .side_bar_content .navbar-nav .nav-item:hover {
   border-radius: 10px;
-  background-color: var(--beta);
+  background-color: #1f4f8f;
 }
 
 #sidebar .navbar .side_bar_content .navbar-nav .nav-item .nav-link:active,
@@ -3171,7 +3174,7 @@ button.admin_menuToggler {
 
 #sidebar .navbar .side_bar_content .navbar-nav .nav-item:has(.nav-link.active) {
   border-radius: 10px;
-  background-color: var(--beta);
+  background-color: #1f4f8f;
 }
 
 #sidebar .navbar .side_bar_content .navbar-nav .nav-item .nav-link.active {
@@ -3305,6 +3308,11 @@ button.admin_menuToggler {
   font-size: 14px;
 }
 
+.comman_admin_layout .admin_table .form-control:focus,
+.comman_admin_layout .admin_table .form-control:hover {
+  border: 1.3px #86b7fe solid !important;
+}
+
 .comman_admin_layout .admin_table .form-check-input:checked {
   background-color: var(--alpha) !important;
   border-color: var(--alpha) !important;
@@ -3326,6 +3334,12 @@ button.admin_menuToggler {
   cursor: pointer;
   color: #81898f;
 }
+
+.comman_admin_layout .admin_table .table-responsive .table .table_body tr td .button {
+  padding: 10px 10px;
+       background-color: #1f4f8f !important;
+}
+
 
 /* Comman Admin Container End */
 
@@ -3480,7 +3494,7 @@ button.admin_menuToggler {
 .comman_admin_layout .admin_forms .form_group {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   width: 100%;
   flex-direction: column;
   position: relative;
@@ -3499,7 +3513,7 @@ button.admin_menuToggler {
 .comman_admin_layout .admin_forms .form_group .form-control,
 .comman_admin_layout .admin_forms .form_group .form-control:hover,
 .comman_admin_layout .admin_forms .form_group .form-control:active {
-  border: 1px solid var(--dark) !important;
+  /* border: 1px solid var(--dark) !important; */
   font-size: 14px;
   width: 100%;
 }
@@ -9048,7 +9062,9 @@ html {
 }
 
 .rounded {
-  border-radius: 0.375rem !important;
+  background-color: #1f4f8f !important;
+  border-radius:20px !important;
+  opacity: 0.9;
 }
 
 .d-flex {
@@ -9789,12 +9805,18 @@ html {
     height: auto;
   }
 }
+
 .permission-item {
   margin-bottom: 5px;
 }
 
 .permission-badges {
   margin-top: 2px;
+      justify-content: space-around;
+    display: flex
+;
+    padding-top: 10px;
+    margin-top: 2px;
 }
 
 .badge {
@@ -9818,63 +9840,68 @@ html {
 .bg-secondary {
   background-color: #6c757d !important;
 }
+
 .permission-item {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    padding: 8px;
-  }
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  padding: 8px;
+}
 
-  .menu-header {
-    font-weight: 600;
-    color: #0d6efd;
-    margin-bottom: 4px;
-  }
+.menu-header {
+  font-weight: 600;
+  color: #0d6efd;
+  margin-bottom: 4px;
+  text-align: center;
+}
 
-  .permission-badges .badge {
-    font-size: 10px;
-    padding: 3px 6px;
-    margin-right: 4px;
-  }
+.permission-badges .badge {
+  font-size: 10px;
+  padding: 3px 6px;
+  margin-right: 4px;
+  
+}
 
-  .menu-permissions-container {
-    max-width: 300px;
-  }
+.menu-permissions-container {
+  max-width: 300px;
+}
 
-  .menu-permission-row {
-    padding: 2px 0;
-  }
+.menu-permission-row {
+  padding: 2px 0;
+}
 
-  .menu-name {
-    min-width: 80px;
-    font-size: 12px;
-  }
+.menu-name {
+  min-width: 80px;
+  font-size: 12px;
+}
 
-  .badge {
-    font-size: 9px;
-    padding: 2px 4px;
-  }
+.badge {
+  font-size: 9px;
+  padding: 2px 4px;
+}
 
-  .bg-success {
-    background-color: #198754 !important;
-  }
+.bg-success {
+  background-color: #198754 !important;
+}
 
-  .bg-warning {
-    background-color: #ffc107 !important;
-    color: #000;
-  }
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000;
+}
 
-  .bg-info {
-    background-color: #0dcaf0 !important;
-    color: #000;
-  }
+.bg-info {
+  background-color: #0dcaf0 !important;
+  color: #000;
+}
 
-  .bg-secondary {
-    background-color: #6c757d !important;
-  }
-  .btn-resolve {
-  background-color: #28a745; /* Green */
+.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+.btn-resolve {
+  background-color: #28a745;
+  /* Green */
   color: white;
 }
 
@@ -9883,7 +9910,64 @@ html {
 }
 
 .btn-resolved {
-  background-color: #6c757d; /* Grey */
+  background-color: #6c757d;
+  /* Grey */
   color: white;
   cursor: not-allowed;
+}
+
+
+/* story  maker css start  */
+
+.chat-container {
+  width: calc(100% - 250px);
+  height: 100%;
+  min-height: 100vh;
+  color: var(--dark);
+  z-index: 2;
+  margin: 0 0 0 auto;
+  padding: 40px;
+  display: block;
+  position: relative;
+}
+
+.comman_admin_layout .admin_table .table_filter .filter_field .button:hover,
+.comman_admin_layout .admin_table .table_filter .filter_field .button:visited {
+  background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+
+.comman_admin_layout .admin_form_panel button:hover,
+.comman_admin_layout .admin_form_panel button:visited {
+  background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+.comman_admin_layout .admin_table .table_filter  button:hover,
+.comman_admin_layout .admin_table .table_filter  button:visited
+{
+    background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+.comman_admin_layout .admin_forms form .button:hover,
+.comman_admin_layout .admin_forms form .button:visited
+{
+    background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+.comman_admin_layout .admin_table .form_group button{
+  padding: 10px 10px;
+  margin-right: 15px;
+}
+.comman_admin_layout .admin_table .table-responsive .table .table_body tr td button{
+  background: rgb(31, 79, 143) !important;
+}
+.hii{ 
+   box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+  padding: 10px !important;
+  border-radius: 6px !important;
+  background-color: #fff !important;
 }

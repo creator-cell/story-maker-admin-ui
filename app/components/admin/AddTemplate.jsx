@@ -99,7 +99,7 @@ const AddTemplatePage = () => {
       <div className="inner_container">
         <div className="container-lg container-fluid p-0">
           <div className="comman_admin_layout flex-column p-0">
-            <div className="row mb-4">
+            <div className="row mb-4 w-100">
               <div className="col-lg-12 col-md-12 col-sm-12">
                 <div className="title_head">
                   <h3>Add New Template</h3>
@@ -113,7 +113,7 @@ const AddTemplatePage = () => {
                   {/* Template Name */}
                   <div className="col-lg-6 col-md-6 col-12 mb-3">
                     <div className="form_group">
-                      <label>Template Name</label>
+                      <label>Template Name *</label>
                       <input
                         type="text"
                         className="form-control"
@@ -125,7 +125,7 @@ const AddTemplatePage = () => {
                   </div>
                   <div className="col-lg-6 col-md-6 col-12 mb-3">
                     <div className="form_group">
-                      <label>Category</label>
+                      <label>Category *</label>
                       <select
                         className="form-control"
                         value={watch("category")}
@@ -141,9 +141,9 @@ const AddTemplatePage = () => {
                     </div>
                   </div>
                   {/* Subcategory Dropdown */}
-                  <div className="col-lg-6 col-md-6 col-12 mb-3">
+                  <div className="col-lg-12 col-md-12 col-12 mb-3">
                     <div className="form_group">
-                      <label>Subcategory</label>
+                      <label>Subcategory *</label>
                       <select
                         className="form-control"
                         value={watch("subCategory")}
@@ -165,7 +165,7 @@ const AddTemplatePage = () => {
                   {/* Template Content - SunEditor */}
                   <div className="col-lg-12 col-md-12 col-12 mb-3">
                     <div className="form_group">
-                      <label>Template Content</label>
+                      <label>Template Content *</label>
                       <SunEditor
                         height="300px"
                         setContents={watch("content")}
@@ -193,7 +193,7 @@ const AddTemplatePage = () => {
                       type="button"
                       className="button"
                       style={{ backgroundColor: "#6c757d" }}
-                      onClick={() => router.push("/admin/templates")}
+                      onClick={() => router.push("/admin/template")}
                     >
                       Cancel
                     </button>

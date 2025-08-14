@@ -75,19 +75,30 @@ export default function Categories() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-6"></div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-5"></div>
+                    <div className="col-lg-7">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        <input
-                          type="text"
-                          placeholder="Search by user or status..."
-                          className="form-control"
-                          value={search}
-                          onChange={(e) => setSearch(e.target.value)}
-                          onKeyPress={(e) =>
-                            e.key === "Enter" && getCategories(1, search)
-                          }
-                        />
+                        <div className="form_group position-relative">
+                          <input
+                            type="text"
+                            placeholder="Search by user or status..."
+                            className="form-control"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && getCategories(1, search)
+                            }
+                          />
+                          <i
+                            className="fa-solid fa-magnifying-glass position-absolute"
+                            style={{
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              color: "#6c757d",
+                            }}
+                          ></i>
+                        </div>
                         <button
                           className="button"
                           onClick={() => getCategories(1, search)}
@@ -138,23 +149,25 @@ export default function Categories() {
                               <td>{category.description}</td>
 
                               <td>
-                                <button
-                                  className={`button mx-1`}
-                                  onClick={() =>
-                                    handleEditCategory(category._id)
-                                  }
-                                >
-                                  Edit
-                                </button>
+                                <div className="d-flex justify-content-start align-items-center gap-2">
+                                  <button
+                                    className={`admin_action_edit`}
+                                    onClick={() =>
+                                      handleEditCategory(category._id)
+                                    }
+                                  >
+                                    <i className="fa fa-edit"></i>
+                                  </button>
 
-                                <button
-                                  className={`button`}
-                                  onClick={() =>
-                                    handleDeleteCategory(category._id)
-                                  }
-                                >
-                                  Delete
-                                </button>
+                                  <button
+                                    className={`admin_action_delete`}
+                                    onClick={() =>
+                                      handleDeleteCategory(category._id)
+                                    }
+                                  >
+                                    <i className="fa fa-trash"></i>
+                                  </button>
+                                </div>
                               </td>
                             </tr>
                           ))}

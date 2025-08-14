@@ -191,10 +191,8 @@ export default function Roles() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-end">
-
                     <div className="col-lg-12 col-md-12 col-12 p-0 flex-end">
                       <div className="form_group position-relative align-items-end">
-
                         {hasWritePermission() && (
                           <button className="button" onClick={handleNewUser}>
                             Add Role
@@ -225,7 +223,7 @@ export default function Roles() {
                                     {user.menu.map((menuItem, idx) => (
                                       <div key={idx} className="permission-item mb-2 p-2 border rounded">
                                         <div className="menu-header mb-1">
-                                          <strong className="text-primary">{menuItem.menuName}</strong>
+                                          <strong className="text-white">{menuItem.menuName}</strong>
                                         </div>
                                         <div className="permission-badges">
                                           {menuItem.read && <span className="badge bg-success me-1">Read</span>}

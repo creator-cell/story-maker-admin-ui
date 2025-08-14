@@ -117,9 +117,10 @@ export default function Tickets() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-6"></div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-5"></div>
+                    <div className="col-lg-7">
                       <div className="filter_field d-flex gap-2 justify-content-end">
+                      <div className="form_group position-relative">
                         <input
                           type="text"
                           placeholder="Search by user or status..."
@@ -129,7 +130,18 @@ export default function Tickets() {
                           onKeyPress={(e) =>
                             e.key === "Enter" && getTickets(1, search)
                           }
+                          
                         />
+                         <i
+                            className="fa-solid fa-magnifying-glass position-absolute"
+                            style={{
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              color: "#6c757d",
+                            }}
+                          ></i>
+                        </div>
                         <button
                           className="button"
                           onClick={() => getTickets(1, search)}
@@ -207,6 +219,7 @@ export default function Tickets() {
                               </td>
                               <td>
                                 <button
+                                style={{padding:"10px 25px"}}
                                   className={`button mx-1 ${
                                     ticket.status === "Resolved"
                                       ? "btn-resolved"

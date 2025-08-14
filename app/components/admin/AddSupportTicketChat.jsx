@@ -54,15 +54,17 @@ const AddChatHistory = () => {
       toast.success("Message sent");
       setChatMessage("");
 
-      router.push("/tickets");
+      router.push("/admin/tickets");
     } catch (err) {
       // toast.error("Failed to send message");
     }
   };
 
   return (
-    <div className="chat-container" style={{ maxWidth: 600, margin: "0 auto" }}>
+    <div className="chat-container">
+      <div className="title_head">
       <h3>Support Ticket Chat</h3>
+      </div>
       {loading && <div>Loading...</div>}
 
       <div className="d-flex gap-2">

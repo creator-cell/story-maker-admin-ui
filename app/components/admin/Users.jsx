@@ -248,11 +248,11 @@ export default function Users() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-6 col-md-6 col-12">
+                    <div className="col-lg-5 col-md-6 col-12">
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="col-lg-6 col-md-6 col-12">
+                    <div className="col-lg-7 col-md-6 col-12">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative">
                           <input

@@ -84,9 +84,10 @@ export default function Template() {
               <div className="admin_table">
                 {/* Filters */}
                 <div className="row table_filter justify-content-between align-items-center mb-3">
-                  <div className="col-lg-6"></div>
-                  <div className="col-lg-6">
+                  <div className="col-lg-5"></div>
+                  <div className="col-lg-7">
                     <div className="filter_field d-flex gap-2 justify-content-end">
+                      <div className="form_group position-relative">
                       <input
                         type="text"
                         placeholder="Search by name..."
@@ -97,6 +98,16 @@ export default function Template() {
                           e.key === "Enter" && getTemplates(1, search)
                         }
                       />
+                        <i
+                            className="fa-solid fa-magnifying-glass position-absolute"
+                            style={{
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              color: "#6c757d",
+                            }}
+                          ></i>
+                      </div>
                       <button
                         className="button"
                         onClick={() => getTemplates(1, search)}

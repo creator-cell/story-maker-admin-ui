@@ -143,7 +143,7 @@ const AddUserPage = () => {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Full Name</label>
+                        <label htmlFor="full-name">Full Name *</label>
                         <input
                           type="text"
                           className="form-control"
@@ -158,7 +158,7 @@ const AddUserPage = () => {
                    
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="role">Role</label>
+                        <label htmlFor="role">Role *</label>
                         <select
                           className="form-control"
                           name="role"
@@ -177,7 +177,7 @@ const AddUserPage = () => {
                     </div>
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">Email *</label>
                         <input
                           type="email"
                           className="form-control"
@@ -192,7 +192,7 @@ const AddUserPage = () => {
 
                        <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="email">Mobile Number</label>
+                        <label htmlFor="email">Mobile Number *</label>
                         <input
                           type="text"
                           className="form-control"

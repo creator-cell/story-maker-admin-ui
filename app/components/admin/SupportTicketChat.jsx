@@ -33,9 +33,15 @@ const ChatHistory = ({ ticketId }) => {
   const sendChatMessage = async () => {
     if (!chatMessage.trim()) return;
     const user = JSON.parse(localStorage.getItem("user"));
+    let role = "";
+    if (user?.role.name === "Moderator") {
+      role = "moderator";
+    } else {
+      role = "user";
+    }
     const newMessage = {
       sender: user._id,
-      role: user.role.name,
+      role: role,
       message: chatMessage.trim(),
       sentAt: new Date(),
     };
@@ -58,33 +64,72 @@ const ChatHistory = ({ ticketId }) => {
   };
 
   return (
-    <div className="chat-container" style={{ maxWidth: 600, margin: "0 auto" }}>
+    <div className="chat-container">
       <h3>Support Ticket Chat</h3>
       {loading && <div>Loading...</div>}
-      <div
+      <div className="hii"
         style={{
           maxHeight: 350,
           overflowY: "auto",
           border: "1px solid #eee",
           padding: 16,
           marginBottom: 16,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+    transition: "box-shadow 0.3s ease"
         }}
       >
         {ticket?.messages?.length ? (
-          ticket.messages.map((msg) => (
-            <div key={msg._id} style={{ marginBottom: 12 }}>
-              <b>{msg.role === "user" ? "User" : "Moderator"}:</b> {msg.message}
-              <br />
-              <small style={{ color: "#888" }}>
-                {msg.sentAt
-                  ? new Date(msg.sentAt).toLocaleString()
-                  : "Just now"}
-              </small>
-            </div>
-          ))
-        ) : (
-          <div>No messages yet.</div>
-        )}
+  ticket.messages.map((msg) => (
+    <div
+      key={msg._id}
+      style={{
+        marginBottom: 12,
+        display: "flex",
+        justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: msg.role === "user" ? "flex-end" : "flex-start",
+          maxWidth: "70%",
+        }}
+      >
+        {/* Icon + Time */}
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <i
+            className={
+              msg.role === "user"
+                ? "fa-solid fa-user"
+                : "fa-solid fa-user-astronaut"
+            }
+            style={{ fontSize: 18 , border : "2px solid black" , padding:"4px", borderRadius:"20px"}}
+          ></i>
+          <small style={{ color: "#888" }}>
+            {msg.sentAt
+              ? new Date(msg.sentAt).toLocaleString()
+              : "Just now"}
+          </small>
+        </div>
+        {/* Message */}
+        <p className="mt-3"
+          style={{
+            margin: "4px 0 0",
+            background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
+            padding: "8px 12px",
+            borderRadius: 8,
+          }}
+        >
+          {msg.message}
+        </p>
+      </div>
+    </div>
+  ))
+) : (
+  <div>No messages yet.</div>
+)}
+
       </div>
       <div className="d-flex gap-2">
         <input
@@ -107,3 +152,4 @@ const ChatHistory = ({ ticketId }) => {
 };
 
 export default ChatHistory;
+

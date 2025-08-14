@@ -13,6 +13,7 @@ export default function EditUser({ userId }) {
     const { handleSubmit, register, reset, watch, setValue, formState: { errors }, trigger } = useForm();
     const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
     const route = useRouter();
+     const router = useRouter();
     const [dob, setDob] = useState(null);
     const [roles, setRoles] = useState([]);
 
@@ -64,7 +65,7 @@ export default function EditUser({ userId }) {
     }, [])
 
     const handleUserUpdate = async (data) => {
-       console.log(data);
+        console.log(data);
         if (data) {
             try {
                 const response = await axios({
@@ -78,7 +79,7 @@ export default function EditUser({ userId }) {
                         role: data.role,
                     },
                 });
-             
+
                 if (response.status === 200) {
                     toast("User updated successfully.", {
                         theme: "dark",
@@ -98,7 +99,7 @@ export default function EditUser({ userId }) {
             }
         }
     }
-    
+
 
     return (
         <>
@@ -117,7 +118,7 @@ export default function EditUser({ userId }) {
                                 <div className="admin_forms mt-5">
                                     <form action={handleSubmit(handleUserUpdate)}>
                                         <div className="row">
-                                            <div className="col-lg-4 col-md-6 col-12">
+                                            <div className="col-lg-6 col-md-6 col-12">
                                                 <div className="form_group">
                                                     <label htmlFor="firstName">First Name *</label>
                                                     <input type="text" name="" id="firstName" className="form-control" {...register("firstName", { required: "First name is required" })} />
@@ -179,8 +180,18 @@ export default function EditUser({ userId }) {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="col-lg-12 col-md-12 col-12">
-                                                <input type="submit" value="Update" className="button" />
+                                            <div className="d-flex gap-3">
+                                                <button type="submit" className="button">
+                                                    Update Users
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="button"
+                                                    style={{ backgroundColor: "#6c757d" }}
+                                                    onClick={() => router.push("/admin/users")}
+                                                >
+                                                    Cancel
+                                                </button>
                                             </div>
                                         </div>
                                     </form>

@@ -214,10 +214,11 @@ export default function EditRole({ roleId }) {
                 <div className="admin_forms mt-5">
                   <form action={handleSubmit(handleRoleUpdate)}>
                     <div className="row">
-                      <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <div className="col-lg-12 col-md-12 col-12 mb-3">
                         <div className="form_group">
                           <label htmlFor="role-name">
-                            Role Name <span className="text-danger">*</span>
+                            Role Name *
+                            {/* <span className="text-danger">*</span> */}
                           </label>
                           <input
                             type="text"
@@ -240,8 +241,8 @@ export default function EditRole({ roleId }) {
                       <div className="col-lg-12 col-md-12 col-12 mb-3">
                         <div className="form_group">
                           <label>
-                            Menu Access & Permissions{" "}
-                            <span className="text-danger">*</span>
+                            Menu Access & Permissions{" "} *
+                            {/* <span className="text-danger">*</span> */}
                           </label>
                           <div className="menu-permissions-table mt-3">
                             <div className="table-responsive">

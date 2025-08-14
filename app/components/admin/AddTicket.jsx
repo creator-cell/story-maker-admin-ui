@@ -37,7 +37,7 @@ const AddTicket = () => {
   };
 
   return (
-    <div className="chat-container" style={{ maxWidth: 600, margin: "0 auto" }}>
+    <div className="chat-container">
       <h3>Support Ticket Chat</h3>
       {loading && <div>Loading...</div>}
       <div
