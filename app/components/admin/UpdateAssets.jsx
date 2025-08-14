@@ -8,7 +8,7 @@ import Loader from "../../components/Loader";
 import { WithContext as ReactTags, SEPARATORS } from "react-tag-input";
 import { useRouter, useParams } from "next/navigation";
 import { FileIcon, defaultStyles } from "react-file-icon";
-import { IconDownload } from "@tabler/icons-react";
+import { IconDownload, IconEye } from "@tabler/icons-react";
 import useDownload from "react-use-downloader";
 
 const UpdateAssets = () => {
@@ -160,14 +160,17 @@ const UpdateAssets = () => {
                                                     { oldDocument ?
                                                         <div className="d-flex align-items-center gap-2">
                                                             <div className="doc-file" style={{ width: 40, height: 40 }}>
-                                                                <FileIcon extension={oldDocument?.split('.')[1]} {...defaultStyles[oldDocument?.split('.')[1]]} />
+                                                                <FileIcon extension={oldDocument?.split('/assets/')[1]?.split('.')[1]} {...defaultStyles[oldDocument?.split('/assets/')[1]?.split('.')[1]]} />
                                                             </div>
-                                                            <button className='button align-self-end yellow p-1 rounded-pill' onClick={(e) => {
+                                                            {/* <button className='button align-self-end yellow p-1 rounded-pill' onClick={(e) => {
                                                                 e.preventDefault();
                                                                 download(oldDocument, oldDocument?.split('assets/')[1])
                                                             }}>
                                                                 <IconDownload size={20} stroke={2} />
-                                                            </button>
+                                                            </button> */}
+                                                            <a target="_blank" href={oldDocument} className='button align-self-end yellow p-1 rounded-pill'>
+                                                                <IconEye size={20} stroke={2} />
+                                                            </a>
                                                         </div>
                                                     : null }
                                                     <input
