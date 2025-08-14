@@ -18,7 +18,12 @@ const AddRole = () => {
     Roles: {
       read: false,
       write: false,
-      both: false,
+      both: false
+    },
+    Assets: {
+      read: false,
+      write: false,
+      both: false
     },
     Tickets: {
       read: false,
@@ -34,7 +39,7 @@ const AddRole = () => {
       read: false,
       write: false,
       both: false,
-    },
+    }
   });
   const router = useRouter();
 
@@ -42,6 +47,7 @@ const AddRole = () => {
   const availableMenus = [
     { key: "Users", label: "Users" },
     { key: "Roles", label: "Roles" },
+    { key: "Assets", label: "Assets" },
     { key: "Tickets", label: "Tickets" },
     { key: "Category", label: "Category" },
     { key: "Template", label: "Template" },
@@ -131,7 +137,7 @@ const AddRole = () => {
     };
 
     axios({
-      url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}role`,
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL_USER}role`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -150,6 +156,7 @@ const AddRole = () => {
         setMenuPermissions({
           Users: { read: false, write: false, both: false },
           Roles: { read: false, write: false, both: false },
+          Assets: { read: false, write: false, both: false },
           Tickets: { read: false, write: false, both: false },
           Category: { read: false, write: false, both: false },
           Template: { read: false, write: false, both: false },
