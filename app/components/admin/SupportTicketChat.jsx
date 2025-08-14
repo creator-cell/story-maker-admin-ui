@@ -33,9 +33,15 @@ const ChatHistory = ({ ticketId }) => {
   const sendChatMessage = async () => {
     if (!chatMessage.trim()) return;
     const user = JSON.parse(localStorage.getItem("user"));
+    let role = "";
+    if (user?.role.name === "Moderator") {
+      role = "moderator";
+    } else {
+      role = "user";
+    }
     const newMessage = {
       sender: user._id,
-      role: user.role.name,
+      role: role,
       message: chatMessage.trim(),
       sentAt: new Date(),
     };

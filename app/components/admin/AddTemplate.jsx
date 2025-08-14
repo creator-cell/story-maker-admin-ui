@@ -1,97 +1,168 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import axios from "axios";
-import Loader from "../../components/Loader";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
+import FabricToolbar from "./FabricToolBar";
+import { setupCustomControls } from "./canvas/CustomControls";
+import { initCanvas } from "./canvas/InitShapes";
+import { addShape } from "./canvas/AddShapes";
+import { addLine } from "./canvas/AddLines";
 
-// Dynamically import SunEditor to prevent SSR issues
-const SunEditor = dynamic(() => import("suneditor-react"), { ssr: false });
-import "suneditor/dist/css/suneditor.min.css";
+import { addStickyNote } from "./canvas/AddStickyNotes";
+import { addTable } from "./canvas/AddTable";
+import { enableErase, setDrawingMode } from "./canvas/DrawingTools";
+import { onUploadImage } from "./canvas/ImageTools";
+import FabricTextEditorToolbar from "./canvas/FabricTextEditorToolbar";
+import axios from "axios";
 
-const AddTemplatePage = () => {
+export default function AddTemplatePage() {
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedObject, setSelectedObject] = useState(null);
+
+  const fRef = useRef(null);
+  const canvasRef = useRef(null);
+  const wrapRef = useRef(null);
   const router = useRouter();
 
-  const { handleSubmit, register, reset, watch, setValue } = useForm({
-    defaultValues: {
-      name: "",
-      category: "",
-      subCategory: "",
-      content: "",
-    },
+  const selectOptions = [
+    { value: "option1", label: "Option 1" },
+    { value: "option2", label: "Option 2" },
+    { value: "option3", label: "Option 3" },
+  ];
+
+  const {
+    handleSubmit,
+    register,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: { name: "", category: "", subCategory: "", content: "" },
   });
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  // Fetch categories from backend
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(
+      const res = await axios.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL_V1}category`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      setCategories(response.data.categories || []);
-    } catch (error) {
+      setCategories(res.data.categories || []);
+    } catch {
       toast.error("Failed to fetch categories");
     }
   };
 
-  const parentCategories = categories.filter((cat) => !cat.parentCategory);
+  useEffect(() => {
+    setupCustomControls();
+    initCanvas(canvasRef, wrapRef, fRef, setSelectedObject);
+    fetchCategories(setCategories);
 
-  // When parent category changes, filter subcategories
-  const handleCategoryChange = (categoryId) => {
-    setValue("category", categoryId);
-    const subs = categories.filter((cat) => cat.parentCategory === categoryId);
-    setSubCategories(subs);
+    const handleKeyDown = (e) => {
+      if (e.key === "Delete" || e.key === "Backspace") {
+        const f = fRef.current;
+        if (f && f.getActiveObject()) {
+          f.remove(f.getActiveObject());
+          setSelectedObject(null);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleCategoryChange = (id) => {
+    setValue("category", id);
+    setSubCategories(categories.filter((c) => c.parentCategory === id));
     setValue("subCategory", "");
   };
-  // Submit new template
+
   const handleTemplateSubmit = (data) => {
-    if (!data.name || !data.category || !data.subCategory || !data.content) {
-      toast.error("All fields are required");
-      return;
-    }
+    const f = fRef.current;
+    if (!f) return;
+    const json = JSON.stringify(f.toJSON());
+    setValue("content", json);
 
     setLoader(true);
-
     axios
       .post(
         `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template`,
+        { ...data, content: json, status: "pending" },
         {
-          name: data.name,
-          category: data.category,
-          subCategory: data.subCategory,
-          content: data.content,
-          status: "pending",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       )
       .then(() => {
-        setLoader(false);
         toast.success("Template added successfully");
         reset();
         router.push("/admin/template");
       })
       .catch((err) => {
-        setLoader(false);
         toast.error(err?.response?.data?.message || "Failed to add template");
-      });
+      })
+      .finally(() => setLoader(false));
+  };
+
+  const parentCategories = categories.filter((cat) => !cat.parentCategory);
+
+  const handleSelectMenuChange = (value) => {
+    setSelectedOption(value);
+    toast.info(`Selected: ${value}`);
+  };
+
+  // const addText = () => {
+  //   const f = fRef.current;
+  //   if (!f) return;
+  //   const text = new fabric.IText("Edit me", {
+  //     left: 120,
+  //     top: 120,
+  //     fontSize: 28,
+  //     fill: "#111",
+  //   });
+  //   f.add(text).setActiveObject(text);
+  // };
+  const addText = () => {
+    const f = fRef.current;
+    if (!f) return;
+
+    const text = new fabric.IText("Edit me", {
+      left: 120,
+      top: 120,
+      fontSize: 28,
+      fill: "#111",
+    });
+
+    text.on("changed", () => {
+      if (text.text.trim() === "") {
+        text.text = " ";
+        text.setSelectionStart(0);
+        text.setSelectionEnd(0);
+      }
+      f.renderAll();
+    });
+
+    text.on("editing:entered", () => {
+      if (text.text.trim() === "") {
+        text.text = "";
+      }
+    });
+
+    text.on("editing:exited", () => {
+      if (text.text.trim() === "") {
+        text.text = "Edit me";
+      }
+      f.renderAll();
+    });
+
+    f.add(text).setActiveObject(text);
   };
 
   return (
@@ -102,27 +173,28 @@ const AddTemplatePage = () => {
             <div className="row mb-4">
               <div className="col-lg-12 col-md-12 col-sm-12">
                 <div className="title_head">
-                  <h3>Add New Template</h3>
+                  <h3>Add Template</h3>
                 </div>
               </div>
             </div>
-
             <div className="admin_form_panel">
+              {loader && <Loader />}
               <form onSubmit={handleSubmit(handleTemplateSubmit)}>
                 <div className="row">
-                  {/* Template Name */}
                   <div className="col-lg-6 col-md-6 col-12 mb-3">
                     <div className="form_group">
                       <label>Template Name</label>
                       <input
                         type="text"
                         className="form-control"
-                        {...register("name")}
-                        value={watch("name")}
-                        onChange={(e) => setValue("name", e.target.value)}
+                        {...register("name", {
+                          required: "Template name is required",
+                        })}
                       />
+                      {errors.name && <small>{errors.name.message}</small>}
                     </div>
                   </div>
+
                   <div className="col-lg-6 col-md-6 col-12 mb-3">
                     <div className="form_group">
                       <label>Category</label>
@@ -138,19 +210,20 @@ const AddTemplatePage = () => {
                           </option>
                         ))}
                       </select>
+                      {errors.category && (
+                        <small>{errors.category.message}</small>
+                      )}
                     </div>
                   </div>
-                  {/* Subcategory Dropdown */}
+
                   <div className="col-lg-6 col-md-6 col-12 mb-3">
                     <div className="form_group">
                       <label>Subcategory</label>
                       <select
                         className="form-control"
-                        value={watch("subCategory")}
-                        onChange={(e) =>
-                          setValue("subCategory", e.target.value)
-                        }
-                        disabled={!subCategories.length}
+                        {...register("subCategory", {
+                          required: "Subcategory is required",
+                        })}
                       >
                         <option value="">Select Subcategory</option>
                         {subCategories.map((sub) => (
@@ -159,43 +232,41 @@ const AddTemplatePage = () => {
                           </option>
                         ))}
                       </select>
+                      {errors.subCategory && (
+                        <small>{errors.subCategory.message}</small>
+                      )}
                     </div>
                   </div>
 
-                  {/* Template Content - SunEditor */}
                   <div className="col-lg-12 col-md-12 col-12 mb-3">
-                    <div className="form_group">
-                      <label>Template Content</label>
-                      <SunEditor
-                        height="300px"
-                        setContents={watch("content")}
-                        onChange={(content) => setValue("content", content)}
-                        setOptions={{
-                          buttonList: [
-                            ["undo", "redo"],
-                            ["bold", "italic", "underline", "strike"],
-                            ["font", "fontSize"],
-                            ["fontColor", "hiliteColor"],
-                            ["align", "list", "table"],
-                            ["link", "image", "video"],
-                            ["fullScreen", "showBlocks", "codeView"],
-                          ],
-                        }}
-                      />
+                    <FabricTextEditorToolbar fRef={fRef} />
+
+                    <FabricToolbar
+                      onAddShape={(type) => addShape(fRef, type)}
+                      onAddText={addText}
+                      onAddLine={(type) => addLine(fRef, type)}
+                      onAddStickyNote={(type) => addStickyNote(fRef, type)}
+                      onAddTable={() => addTable(fRef)}
+                      onErase={() => enableErase(fRef)}
+                      onUpload={(file) => onUploadImage(fRef, file)}
+                      onDraw={(tool, color) =>
+                        setDrawingMode(fRef, tool, color)
+                      }
+                      onSelectMenuChange={handleSelectMenuChange}
+                      selectOptions={selectOptions}
+                      selectValue={selectedOption}
+                    />
+                  </div>
+
+                  <div className="col-lg-12 col-md-12 col-12 mb-3">
+                    <div ref={wrapRef} style={{ border: "1px solid #ccc" }}>
+                      <canvas ref={canvasRef} />
                     </div>
                   </div>
-                  {/* Action Buttons */}
-                  <div className="col-12 mt-3 d-flex gap-3">
+
+                  <div className="col-12 mt-3">
                     <button type="submit" className="button">
                       Submit
-                    </button>
-                    <button
-                      type="button"
-                      className="button"
-                      style={{ backgroundColor: "#6c757d" }}
-                      onClick={() => router.push("/admin/templates")}
-                    >
-                      Cancel
                     </button>
                   </div>
                 </div>
@@ -204,9 +275,6 @@ const AddTemplatePage = () => {
           </div>
         </div>
       </div>
-      {loader && <Loader />}
     </div>
   );
-};
-
-export default AddTemplatePage;
+}
