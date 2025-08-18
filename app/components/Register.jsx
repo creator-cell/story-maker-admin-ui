@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Loader from './Loader';
 
 export default function Register() {
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showLoader, setShowLoader] = useState(false);

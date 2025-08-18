@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export default function EditRole({ show, onHide, data, onUpdate }) {
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
     const [menuPermissions, setMenuPermissions] = useState({
         Users: {
             read: false,

@@ -3,7 +3,7 @@ import {Modal,Container,Row} from "react-bootstrap";
 import { toast } from "react-toastify";
 
 export default function DeleteUser({ show, onHide, data, props }) {
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
     
     const handleUserDelete = async () => {
      

@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import CustomLink from "../CustomLink";
 
 export default function Roles() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
@@ -250,11 +250,12 @@ export default function Roles() {
                                       onClick={() => handleUserUpdate(user._id)}>
                                       <i className="fa fa-edit"></i>
                                     </button>
-
+                                    { !user?.isSuperAdmin ?
                                     <button className="admin_action_delete"
                                       onClick={() => handleUserDelete(user._id)}>
                                       <i className="fa fa-trash"></i>
                                     </button>
+                                    : null }
                                   </div>
                                 </td>
                               )}

@@ -8,7 +8,7 @@ export default function VerifyEmail() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const verifyToken = searchParams.get('token');
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
 
     useEffect(()=>{
         const verifyEmail = async () => {

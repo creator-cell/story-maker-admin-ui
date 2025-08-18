@@ -19,6 +19,11 @@ export default function EditRole({ roleId }) {
       write: false,
       both: false,
     },
+    Assets: {
+      read: false,
+      write: false,
+      both: false
+    },
     Tickets: {
       read: false,
       write: false,
@@ -40,6 +45,7 @@ export default function EditRole({ roleId }) {
   const availableMenus = [
     { key: "Users", label: "Users" },
     { key: "Roles", label: "Roles" },
+    { key: "Assets", label: "Assets" },
     { key: "Tickets", label: "Tickets" },
     { key: "Category", label: "Category" },
     { key: "Template", label: "Template" },
@@ -75,6 +81,7 @@ export default function EditRole({ roleId }) {
         Roles: { read: false, write: false, both: false },
         Tickets: { read: false, write: false, both: false },
         Category: { read: false, write: false, both: false },
+        Assets: { read: false, write: false, both: false },
         Template: { read: false, write: false, both: false },
       };
       if (role.menuPermissions) {

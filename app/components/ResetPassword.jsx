@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useRouter,useSearchParams } from 'next/navigation';
 
 export default function ResetPassword(){
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
     const searchParams = useSearchParams();
     const router = useRouter();
     const resetToken = searchParams.get('token');
