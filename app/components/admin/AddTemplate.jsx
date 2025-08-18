@@ -61,22 +61,22 @@ export default function AddTemplatePage() {
   };
 
   useEffect(() => {
-    setupCustomControls();
+    // setupCustomControls();
     initCanvas(canvasRef, wrapRef, fRef, setSelectedObject);
     fetchCategories(setCategories);
 
-    const handleKeyDown = (e) => {
-      if (e.key === "Delete" || e.key === "Backspace") {
-        const f = fRef.current;
-        if (f && f.getActiveObject()) {
-          f.remove(f.getActiveObject());
-          setSelectedObject(null);
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
+    // const handleKeyDown = (e) => {
+    //   if (e.key === "Delete" || e.key === "Backspace") {
+    //     const f = fRef.current;
+    //     if (f && f.getActiveObject()) {
+    //       f.remove(f.getActiveObject());
+    //       setSelectedObject(null);
+    //     }
+    //   }
+    // };
+    // window.addEventListener("keydown", handleKeyDown);
 
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    // return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const handleCategoryChange = (id) => {
@@ -138,31 +138,10 @@ export default function AddTemplatePage() {
       top: 120,
       fontSize: 28,
       fill: "#111",
+      id: `text-${Date.now()}`,
     });
 
-    text.on("changed", () => {
-      if (text.text.trim() === "") {
-        text.text = " ";
-        text.setSelectionStart(0);
-        text.setSelectionEnd(0);
-      }
-      f.renderAll();
-    });
-
-    text.on("editing:entered", () => {
-      if (text.text.trim() === "") {
-        text.text = "";
-      }
-    });
-
-    text.on("editing:exited", () => {
-      if (text.text.trim() === "") {
-        text.text = "Edit me";
-      }
-      f.renderAll();
-    });
-
-    f.add(text).setActiveObject(text);
+    f.add(text).setActiveObject(text).renderAll();
   };
 
   return (

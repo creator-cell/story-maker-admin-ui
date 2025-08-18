@@ -96,6 +96,46 @@ export default function FabricToolbar({
             <li>
               <button
                 className="dropdown-item"
+                onClick={() => onAddShape("arrow")}
+              >
+                Arrow
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => onAddShape("doubleArrow")}
+              >
+                DoubleArrow
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => onAddShape("elbow")}
+              >
+                Elbow
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => onAddShape("heart")}
+              >
+                Heart
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => onAddShape("Cross")}
+              >
+                Cross
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
                 onClick={() => onAddShape("star")}
               >
                 Star
@@ -117,11 +157,9 @@ export default function FabricToolbar({
                 Pentagon
               </button>
             </li>
-
             <li>
               <hr className="dropdown-divider" />
             </li>
-
             {/* Lines */}
             <li>
               <span className="dropdown-item-text fw-bold">Lines</span>
@@ -182,11 +220,9 @@ export default function FabricToolbar({
                 Arrow Line
               </button>
             </li>
-
             <li>
               <hr className="dropdown-divider" />
             </li>
-
             {/* Sticky Notes */}
             <li>
               <span className="dropdown-item-text fw-bold">Sticky Notes</span>
@@ -265,7 +301,7 @@ export default function FabricToolbar({
         </label>
 
         {/* Draw */}
-        <div className="dropdown">
+        {/* <div className="dropdown">
           <button
             className="button dropdown-toggle"
             type="button"
@@ -315,7 +351,7 @@ export default function FabricToolbar({
               />
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );
