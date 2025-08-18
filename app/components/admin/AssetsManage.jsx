@@ -6,7 +6,7 @@ import DeleteAsset from '../../(adminSide)/model/DeleteAssets';
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { FileIcon, defaultStyles } from "react-file-icon";
-import { IconDownload } from "@tabler/icons-react";
+import { IconDownload, IconEye, IconView360 } from "@tabler/icons-react";
 import useDownloader from "react-use-downloader";
 import { FormSelect } from "react-bootstrap";
 import Loader from "../Loader";
@@ -143,8 +143,8 @@ const AssetsManage = () => {
       url: `${API_URL}assets/clone`,
       method: "POST",
       headers: {
-        "Content-Type" : "application/json",
-        "Authorization" : `Bearer ${localStorage.getItem("token")}`
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       },
       data: {
         assetId: cloneAssetId
@@ -381,11 +381,14 @@ const AssetsManage = () => {
                                 {asset?.url ? <>
                                   <small className='d-flex align-items-center gap-2'>
                                     <div className="doc-file" style={{ width: 50, height: 50 }}>
-                                      <FileIcon extension={asset?.url?.split('.')[1]} {...defaultStyles[asset?.url?.split('.')[1]]} />
+                                      <FileIcon extension={asset?.url?.split('/assets/')[1]?.split('.')[1]} {...defaultStyles[asset?.url?.split('/assets/')[1]?.split('.')[1]]} />
                                     </div>
-                                    <button disabled={isInProgress} className='button align-self-end yellow p-1 rounded-pill' onClick={() => download(asset?.url, asset?.url?.split('assets/')[1])}>
+                                    {/* <button disabled={isInProgress} className='button align-self-end yellow p-1 rounded-pill' onClick={() => download(asset?.url, asset?.url?.split('/assets/')[1])}>
                                       <IconDownload size={20} stroke={2} />
-                                    </button>
+                                    </button> */}
+                                    <a target="_blank" href={asset?.url} disabled={isInProgress} className='button align-self-end yellow p-1 rounded-pill'>
+                                      <IconEye size={20} stroke={2} />
+                                    </a>
                                   </small>
                                 </> : null}
                                 { }
@@ -402,7 +405,7 @@ const AssetsManage = () => {
                               </td>
                               <td data-label="Status">
                                 {hasWritePermission() ? (
-                                  <FormSelect style={{width:"80%", fontSize:10, margin:1}} onChange={(t) => {
+                                  <FormSelect style={{ width: "80%", fontSize: 10, margin: 1 }} onChange={(t) => {
                                     const currentValue = t.target.value;
                                     if (currentValue == "Pending") {
                                       return;
@@ -436,7 +439,7 @@ const AssetsManage = () => {
                                     </button>
                                     <button
                                       className="admin_action_delete"
-                                        onClick={() => handleAssetDelete(asset._id)}
+                                      onClick={() => handleAssetDelete(asset._id)}
                                       title="Delete User"
                                     >
                                       <i className="fa fa-trash"></i>
