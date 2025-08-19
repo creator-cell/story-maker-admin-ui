@@ -8,6 +8,7 @@ import EditRole from '../../(adminSide)/model/EditRole'
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import CustomLink from "../CustomLink";
+import Loader from "../Loader";
 
 export default function Roles() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
@@ -17,6 +18,8 @@ export default function Roles() {
   const [userId, setUserId] = useState();
   const [updateUser, setUpdateUser] = useState(false);
   const [updateUserId, setUpdateUserId] = useState();
+    const [loader, setLoader] = useState(false);
+  
   const [userPermissions, setUserPermissions] = useState({
     read: false,
     write: false,
@@ -67,6 +70,7 @@ export default function Roles() {
   };
 
   const getUserDetail = async () => {
+    setLoader(true);  
     try {
       const response = await axios({
         url: `${API_URL}me`,
@@ -76,8 +80,9 @@ export default function Roles() {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         },
       });
-
+setLoader(false);  
       return response.data;
+      
     } catch (err) {
       console.log("Error fetching user data:", err);
 
@@ -168,10 +173,12 @@ export default function Roles() {
   }
 
   const handleUserUpdate = (id) => {
+        setLoader(true);  
       router.push(`/admin/role/${id}`)
   }
 
   const handleNewUser = () => {
+    setLoader(true);  
     router.push('/admin/role/add-role');
   }
 
@@ -278,6 +285,8 @@ export default function Roles() {
             </div>
           </div>
         </div>
+                          {loader && <Loader />}
+        
       </div>
       <DeleteUser
         show={deleteUser}

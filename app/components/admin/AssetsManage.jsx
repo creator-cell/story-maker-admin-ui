@@ -48,7 +48,7 @@ const AssetsManage = () => {
 
   const getAssets = async (page = 1, sort = sortByValue, search = "", order = sortOrder) => {
     try {
-      setLoading(true);
+      setLoader(true);  
       let url = `${API_URL}assets?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
@@ -71,7 +71,7 @@ const AssetsManage = () => {
         toast.error("Failed to fetch users");
       }
     } finally {
-      setLoading(false);
+     setLoader(false);  
     }
   };
 
@@ -260,8 +260,6 @@ const AssetsManage = () => {
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
                       <h3>Assets List</h3>
-
-
                     </div>
                   </div>
                 </div>
@@ -399,13 +397,13 @@ const AssetsManage = () => {
                               <td data-label="Tags">
                                 <div class="flex flex-wrap gap-3">
                                   {asset?.tags?.map(p => (
-                                    <span class="badge bg-info text-dark m-1">{p}</span>
+                                    <span class="badge m-1">{p}</span>
                                   ))}
                                 </div>
                               </td>
                               <td data-label="Status">
                                 {hasWritePermission() ? (
-                                  <FormSelect style={{ width: "80%", fontSize: 10, margin: 1 }} onChange={(t) => {
+                                  <FormSelect className="badge" style={{ width: "80%", fontSize: 10, margin: 1 }} onChange={(t) => {
                                     const currentValue = t.target.value;
                                     if (currentValue == "Pending") {
                                       return;

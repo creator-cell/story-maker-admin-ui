@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import DeleteTemplate from "@/app/(adminSide)/model/DeleteTemplate";
+import Loader from "../Loader";
 export default function Template() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [templates, setTemplates] = useState([]);
@@ -15,12 +16,13 @@ export default function Template() {
   const [deleteId, setDeleteId] = useState("");
   const [showDeletedId, setShowDeletedId] = useState(false);
   const itemsPerPage = 20;
+  const [loader, setLoader] = useState(false);
 
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const getTemplates = async (page = 1, searchTerm = "") => {
-    setLoading(true);
+    setLoader(true);  
     try {
       let url = `${API_URL}template?page=${page}&pageSize=${itemsPerPage}`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
@@ -36,7 +38,7 @@ export default function Template() {
       setTemplates([]);
       setTotalPages(0);
     } finally {
-      setLoading(false);
+      setLoader(false);  
     }
   };
 
@@ -45,10 +47,12 @@ export default function Template() {
   }, []);
 
   const handleEdit = (id) => {
+    setLoader(true);  
     router.push(`/admin/template/${id}`);
   };
 
   const handleClone = (id) => {
+    setLoader(true);  
     router.push(`/admin/template/clone/${id}`);
   };
 
@@ -58,10 +62,12 @@ export default function Template() {
   };
 
   const handleNewTemplate = () => {
+    setLoader(true);  
     router.push(`/admin/template/add-template`);
   };
 
   return (
+    <>
     <div id="main_container">
       <div className="inner_container">
         <div className="container p-0">
@@ -77,8 +83,8 @@ export default function Template() {
               <div className="admin_table">
                 {/* Filters */}
                 <div className="row table_filter justify-content-between align-items-center mb-3">
-                  <div className="col-lg-5"></div>
-                  <div className="col-lg-7">
+                  <div className="col-lg-4"></div>
+                  <div className="col-lg-8">
                     <div className="filter_field d-flex gap-2 justify-content-end">
                       <div className="form_group position-relative">
                       <input
@@ -234,6 +240,8 @@ export default function Template() {
             </div>
           </div>
         </div>
+                {loader && <Loader />}
+        
       </div>
       <DeleteTemplate
         show={showDeletedId}

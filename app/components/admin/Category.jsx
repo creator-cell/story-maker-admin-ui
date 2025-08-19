@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import DeleteCategory from "@/app/(adminSide)/model/DeleteCategory";
+import Loader from "../Loader";
 
 export default function Categories() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
@@ -16,12 +17,12 @@ export default function Categories() {
   const [search, setSearch] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
   const itemsPerPage = 20;
-
+  const [loader, setLoader] = useState(false);
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const getCategories = async (page = 1, searchTerm = "") => {
-    setLoading(true);
+    setLoader(true);
     try {
       let url = `${API_URL}category?`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
@@ -38,7 +39,7 @@ export default function Categories() {
       setCategories([]);
       setTotalPages(0);
     } finally {
-      setLoading(false);
+      setLoader(false);
     }
   };
 
@@ -47,10 +48,12 @@ export default function Categories() {
   }, []);
 
   const handleEditCategory = (id) => {
+    setLoader(true);  
     router.push(`/admin/category/${id}`);
   };
 
   const handleAddCategory = () => {
+        setLoader(true);  
     router.push(`/admin/category/add-category`);
   };
 
@@ -75,8 +78,8 @@ export default function Categories() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-5"></div>
-                    <div className="col-lg-7">
+                    <div className="col-lg-4"></div>
+                    <div className="col-lg-8">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative">
                           <input
@@ -212,6 +215,8 @@ export default function Categories() {
             </div>
           </div>
         </div>
+        {loader && <Loader />}
+
       </div>
       <DeleteCategory
         show={deleteUser}

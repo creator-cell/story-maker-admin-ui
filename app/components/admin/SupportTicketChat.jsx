@@ -65,17 +65,17 @@ const ChatHistory = ({ ticketId }) => {
 
   return (
     <div className="chat-container">
+      <div className="chat">
       <h3>Support Ticket Chat</h3>
       {loading && <div>Loading...</div>}
-      <div className="hii"
+      <div className="box"
         style={{
+          height:350,
           maxHeight: 350,
           overflowY: "auto",
-          border: "1px solid #eee",
           padding: 16,
           marginBottom: 16,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-    transition: "box-shadow 0.3s ease"
+
         }}
       >
         {ticket?.messages?.length ? (
@@ -131,7 +131,7 @@ const ChatHistory = ({ ticketId }) => {
 )}
 
       </div>
-      <div className="d-flex gap-2">
+      <div className="type-message d-flex gap-2">
         <input
           type="text"
           className="form-control"
@@ -146,6 +146,7 @@ const ChatHistory = ({ ticketId }) => {
         >
           Send
         </button>
+      </div>
       </div>
     </div>
   );

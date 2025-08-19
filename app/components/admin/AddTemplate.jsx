@@ -113,7 +113,7 @@ const AddTemplatePage = () => {
                   {/* Template Name */}
                   <div className="col-lg-6 col-md-6 col-12 mb-3">
                     <div className="form_group">
-                      <label>Template Name *</label>
+                      <label>Template Name  <span className="text-danger"> *</span></label>
                       <input
                         type="text"
                         className="form-control"
@@ -125,7 +125,7 @@ const AddTemplatePage = () => {
                   </div>
                   <div className="col-lg-6 col-md-6 col-12 mb-3">
                     <div className="form_group">
-                      <label>Category *</label>
+                      <label>Category  <span className="text-danger"> *</span></label>
                       <select
                         className="form-control"
                         value={watch("category")}
@@ -143,7 +143,7 @@ const AddTemplatePage = () => {
                   {/* Subcategory Dropdown */}
                   <div className="col-lg-12 col-md-12 col-12 mb-3">
                     <div className="form_group">
-                      <label>Subcategory *</label>
+                      <label>Subcategory  <span className="text-danger"> *</span></label>
                       <select
                         className="form-control"
                         value={watch("subCategory")}
@@ -165,7 +165,7 @@ const AddTemplatePage = () => {
                   {/* Template Content - SunEditor */}
                   <div className="col-lg-12 col-md-12 col-12 mb-3">
                     <div className="form_group">
-                      <label>Template Content *</label>
+                      <label>Template Content  <span className="text-danger"> *</span></label>
                       <SunEditor
                         height="300px"
                         setContents={watch("content")}
@@ -193,7 +193,7 @@ const AddTemplatePage = () => {
                       type="button"
                       className="button"
                       style={{ backgroundColor: "#6c757d" }}
-                      onClick={() => router.push("/admin/template")}
+                      onClick={() => { setLoader(true);   router.push("/admin/template")}}
                     >
                       Cancel
                     </button>

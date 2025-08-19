@@ -194,7 +194,7 @@ const AddRole = () => {
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="role-name">
-                          Role Name *
+                          Role Name <span className="text-denger"> *</span>
                           {/* <span className="text-danger">*</span> */}
                         </label>
                         <input
@@ -219,7 +219,7 @@ const AddRole = () => {
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
                         <label>
-                          Menu Access & Permissions{" "} *
+                          Menu Access & Permissions{" "} <span className="text-denger"> *</span>
                           {/* <span className="text-danger">*</span> */}
                         </label>
                         <div className="menu-permissions-table mt-3">
@@ -332,7 +332,7 @@ const AddRole = () => {
                       <button
                         type="button"
                         className="button"
-                        onClick={() => router.push("/admin/role")}
+                        onClick={() =>{ setLoader(true);   router.push("/admin/role")}}
                         disabled={loader}
                         style={{ backgroundColor: "#6c757d" }}
                       >

@@ -151,7 +151,7 @@ export default function EditTemplatePage({ id }) {
                     {/* Template Name */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label>Template Name</label>
+                        <label>Template Name  <span className="text-danger"> *</span></label>
                         <input
                           type="text"
                           className="form-control"
@@ -164,7 +164,7 @@ export default function EditTemplatePage({ id }) {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label>Category</label>
+                        <label>Category  <span className="text-danger"> *</span></label>
                         <select
                           className="form-control"
                           value={watch("category")}
@@ -182,7 +182,7 @@ export default function EditTemplatePage({ id }) {
                     {/* Subcategory Dropdown */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label>Subcategory</label>
+                        <label>Subcategory  <span className="text-danger"> *</span></label>
                         <select
                           className="form-control"
                           value={watch("subCategory")}
@@ -203,7 +203,7 @@ export default function EditTemplatePage({ id }) {
                     {/* Template Content - SunEditor */}
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
-                        <label>Template Content</label>
+                        <label>Template Content  <span className="text-danger"> *</span></label>
                         <SunEditor
                           height="300px"
                           setContents={watch("content")}

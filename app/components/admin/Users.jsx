@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import DeleteUser from "../../(adminSide)/model/DeleteUser";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Loader from "../Loader";
 
 export default function Users() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
@@ -18,6 +19,7 @@ export default function Users() {
   const [sortByValue, setSortByValue] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
   const [loading, setLoading] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [userPermissions, setUserPermissions] = useState({
     read: false,
     write: false,
@@ -27,7 +29,7 @@ export default function Users() {
   const router = useRouter();
   const [role, setRole] = useState("");
   const [userRolePermissions, setUserRolePermissions] = useState(null);
- 
+
   const updateUserStatus = async (updateUserId) => {
     try {
       const response = await axios({
@@ -44,14 +46,14 @@ export default function Users() {
           if (p?._id == updateUserId) {
             return {
               ...p,
-              isActive : !p?.isActive
-            } 
+              isActive: !p?.isActive
+            }
           } else {
             return p;
           }
         }));
       }
-      
+
     } catch (error) {
       console.log("Error update user status :", error);
     }
@@ -97,7 +99,7 @@ export default function Users() {
     order = sortOrder
   ) => {
     try {
-      setLoading(true);
+      setLoader(true);
       let url = `${API_URL}users?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
@@ -133,7 +135,7 @@ export default function Users() {
       setTotalPages(0);
       setTotalItems(0);
     } finally {
-      setLoading(false);
+      setLoader(false);
     }
   };
 
@@ -247,11 +249,14 @@ export default function Users() {
   };
 
   const handleNewUser = () => {
+    setLoader(true);
     router.push("/admin/users/add-user");
   };
 
   const handleEditUser = (userId) => {
+     setLoader(true);
     router.push(`/admin/users/${userId}`);
+
   };
 
   const handleDeleteSuccess = () => {
@@ -261,7 +266,7 @@ export default function Users() {
     //toast.success("User deleted successfully");
   };
 
-  return (
+  return (  
     <>
       <div id="main_container">
         <div className="inner_container">
@@ -277,11 +282,11 @@ export default function Users() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-5 col-md-6 col-12">
+                    <div className="col-lg-4 col-md-6 col-12">
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="col-lg-7 col-md-6 col-12">
+                    <div className="col-lg-8 col-md-6 col-12">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative">
                           <input
@@ -367,7 +372,7 @@ export default function Users() {
                             Status
                             <i className={`fa ${getSortIcon('isActive')} ms-1`}></i>
                           </th>
-                       
+
                           {hasWritePermission() && <th>Action</th>}
                         </tr>
                       </thead>
@@ -379,9 +384,9 @@ export default function Users() {
                               <td data-label="Email Address">{user.email}</td>
                               <td data-label="Phone Number">{user.phone || user.phone || ""}</td>
                               <td>
-                                {hasWritePermission() ? 
+                                {hasWritePermission() ?
                                   <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={user?.isActive} onChange={() => { updateUserStatus(user._id) }}/>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={user?.isActive} onChange={() => { updateUserStatus(user._id) }} />
                                     <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
                                   </div>
                                   : <>
@@ -389,7 +394,30 @@ export default function Users() {
                                   </>
                                 }
                               </td>
-                            
+
+                              {hasWritePermission() && (
+                                <td data-label="Action">
+                                  <div className="d-flex justify-content-start align-items-center gap-2">
+                                    <button
+                                      className="admin_action_edit"
+                                      onClick={() => {
+                                        setLoader(true);
+                                        handleEditUser(user._id)
+                                      }}
+                                      title="Edit User"
+                                    >
+                                      <i className="fa fa-edit"></i>
+                                    </button>
+                                    <button
+                                      className="admin_action_delete"
+                                      onClick={() => handleUserDelete(user._id)}
+                                      title="Delete User"
+                                    >
+                                      <i className="fa fa-trash"></i>
+                                    </button>
+                                  </div>
+                                </td>)}
+
                               {hasWritePermission() && (
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
@@ -400,42 +428,22 @@ export default function Users() {
                                     >
                                       <i className="fa fa-edit"></i>
                                     </button>
-                                    <button 
+
+                                    <button
                                       className="admin_action_delete"
-                                      onClick={() => handleUserDelete(user._id)}
+                                      onClick={() =>
+                                        handleUserDelete(user._id)
+                                      }
                                       title="Delete User"
                                     >
                                       <i className="fa fa-trash"></i>
                                     </button>
                                   </div>
-                                </td>)}
-
-                                {hasWritePermission() && (
-                                  <td data-label="Action">
-                                    <div className="d-flex justify-content-start align-items-center gap-2">
-                                      <button
-                                        className="admin_action_edit"
-                                        onClick={() => handleEditUser(user._id)}
-                                        title="Edit User"
-                                      >
-                                        <i className="fa fa-edit"></i>
-                                      </button>
-
-                                      <button
-                                        className="admin_action_delete"
-                                        onClick={() =>
-                                          handleUserDelete(user._id)
-                                        }
-                                        title="Delete User"
-                                      >
-                                        <i className="fa fa-trash"></i>
-                                      </button>
-                                    </div>
-                                  </td>
-                                )}
-                              </tr>
-                            );
-                          })}
+                                </td>
+                              )}
+                            </tr>
+                          );
+                        })}
 
                         {!loading && users.length === 0 && (
                           <tr>
@@ -481,6 +489,7 @@ export default function Users() {
             </div>
           </div>
         </div>
+        {loader && <Loader />}
       </div>
 
       {hasWritePermission() && (

@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Loader from "../Loader";
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
 
 const AddChatHistory = () => {
   const currentUser = localStorage.getItem("user");
+  const [loader, setLoader] = useState(false);
 
   const [ticket, setTicket] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
@@ -31,6 +33,7 @@ const AddChatHistory = () => {
   //   }, []);
 
   const sendChatMessage = async () => {
+        setLoader(true);  
     if (!chatMessage.trim()) return;
     const user = JSON.parse(localStorage.getItem("user"));
     const newMessage = {
@@ -67,7 +70,7 @@ const AddChatHistory = () => {
       </div>
       {loading && <div>Loading...</div>}
 
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 mt-4">
         <input
           type="text"
           className="form-control"
@@ -83,6 +86,8 @@ const AddChatHistory = () => {
           Send
         </button>
       </div>
+                {loader && <Loader />}
+      
     </div>
   );
 };

@@ -125,7 +125,9 @@ export default function EditCategory({ userId }) {
                 {/* Name */}
                 <div className="row">
                   <div className="col-lg-6 col-md-6 col-12 mb-3">
-                    <label className="form-label">Name *</label>
+                    <label className="form-label">Name 
+                      <span className="text-danger"> *</span>
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -188,7 +190,7 @@ export default function EditCategory({ userId }) {
                       type="button"
                       className="button"
                       style={{ backgroundColor: "#6c757d" }}
-                      onClick={() => router.push("/admin/category")}
+                      onClick={() => {setLoader(true);   router.push("/admin/category")}}
                     >
                       Cancel
                     </button>

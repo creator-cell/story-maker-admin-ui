@@ -3259,7 +3259,13 @@ button.admin_menuToggler {
   padding: 0 0 10px;
   border-bottom: 2px solid var(--beta) !important;
 }
-
+.chat-container .title_head {
+  display: block;
+  width: 100%;
+  margin: 0 0 0px;
+  padding: 0 0 10px;
+  border-bottom: 2px solid var(--beta) !important;
+}
 .comman_admin_layout .title_head h3 {
   display: block;
   width: 100%;
@@ -9858,7 +9864,7 @@ html {
 
 .permission-badges .badge {
   font-size: 10px;
-  padding: 3px 6px;
+  padding: 6px 6px;
   margin-right: 4px;
   
 }
@@ -9878,7 +9884,7 @@ html {
 
 .badge {
   font-size: 9px;
-  padding: 2px 4px;
+  padding: 10px !important; 
 }
 
 .bg-success {
@@ -9965,9 +9971,34 @@ html {
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td button{
   background: rgb(31, 79, 143) !important;
 }
-.hii{ 
-   box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+/* .comman_admin_layout .admin_table .table-responsive .table .table_body tr td button.clicked{
+  background: red !important;
+} */
+.box{ 
   padding: 10px !important;
-  border-radius: 6px !important;
+  /* border-radius: 6px !important; */
   background-color: #fff !important;
+}
+.chat-container .chat{
+    border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px !important;
+}
+.chat-container .chat h3{
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+background: linear-gradient(#007bff, #00c6ff);
+  padding: 15px;
+  color: white;
+}
+.type-message{
+  padding: 10px;
+}
+.badge{
+  color: white !important;
+  background-color: #1f4f8f !important;
+}
+.status .badge{
+  color: white !important;
+  background-color: #1f4f8f !important; 
 }

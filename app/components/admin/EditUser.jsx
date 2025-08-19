@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import Loader from "../Loader";
 
 export default function EditUser({ userId }) {
     const { handleSubmit, register, reset, watch, setValue, formState: { errors }, trigger } = useForm();
@@ -16,7 +17,7 @@ export default function EditUser({ userId }) {
      const router = useRouter();
     const [dob, setDob] = useState(null);
     const [roles, setRoles] = useState([]);
-
+  const [loader, setLoader] = useState(false);
     const getUserDetails = async () => {
         try {
             const response = await axios({
@@ -120,7 +121,7 @@ export default function EditUser({ userId }) {
                                         <div className="row">
                                             <div className="col-lg-6 col-md-6 col-12">
                                                 <div className="form_group">
-                                                    <label htmlFor="firstName">First Name *</label>
+                                                    <label htmlFor="firstName">First Name  <span className="text-danger"> *</span></label>
                                                     <input type="text" name="" id="firstName" className="form-control" {...register("firstName", { required: "First name is required" })} />
                                                     {errors.firstName &&
                                                         (<span className="errMsg">
@@ -136,7 +137,7 @@ export default function EditUser({ userId }) {
 
                                             <div className="col-lg-6 col-md-6 col-12">
                                                 <div className="form_group">
-                                                    <label htmlFor="role">Role *</label>
+                                                    <label htmlFor="role">Role  <span className="text-danger"> *</span></label>
                                                     <select
                                                         className="form-control"
                                                         name="role"
@@ -159,7 +160,7 @@ export default function EditUser({ userId }) {
                                             </div>
                                             <div className="col-lg-6 col-md-6 col-12">
                                                 <div className="form_group">
-                                                    <label htmlFor="email">Email *</label>
+                                                    <label htmlFor="email">Email  <span className="text-danger"> *</span></label>
                                                     <input type="email" name="" id="email" className="form-control"
                                                         {...register("email")}
                                                         readOnly disabled />
@@ -188,7 +189,7 @@ export default function EditUser({ userId }) {
                                                     type="button"
                                                     className="button"
                                                     style={{ backgroundColor: "#6c757d" }}
-                                                    onClick={() => router.push("/admin/users")}
+                                                    onClick={() => {    setLoader(true);    router.push("/admin/users")}}
                                                 >
                                                     Cancel
                                                 </button>
@@ -200,6 +201,7 @@ export default function EditUser({ userId }) {
                         </div>
                     </div>
                 </div>
+                      {loader && <Loader />}
             </div>
         </>
     )

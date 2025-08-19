@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Loader from "../Loader";
 
 export default function EditRole({ roleId }) {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const router = useRouter();
+    const [loader, setLoader] = useState(false);
+  
   const [menuPermissions, setMenuPermissions] = useState({
     Users: {
       read: false,
@@ -138,6 +141,7 @@ export default function EditRole({ roleId }) {
   };
 
   const handleRoleUpdate = async (data) => {
+    setLoader(true);  
     if (data) {
       const missingFields = [];
 
@@ -224,7 +228,7 @@ export default function EditRole({ roleId }) {
                       <div className="col-lg-12 col-md-12 col-12 mb-3">
                         <div className="form_group">
                           <label htmlFor="role-name">
-                            Role Name *
+                            Role Name <span className="text-denger"> *</span>
                             {/* <span className="text-danger">*</span> */}
                           </label>
                           <input
@@ -248,7 +252,7 @@ export default function EditRole({ roleId }) {
                       <div className="col-lg-12 col-md-12 col-12 mb-3">
                         <div className="form_group">
                           <label>
-                            Menu Access & Permissions{" "} *
+                            Menu Access & Permissions{" "} <span className="text-denger"> *</span>
                             {/* <span className="text-danger">*</span> */}
                           </label>
                           <div className="menu-permissions-table mt-3">
@@ -367,6 +371,8 @@ export default function EditRole({ roleId }) {
             </div>
           </div>
         </div>
+              {loader && <Loader />}
+        
       </div>
     </>
   );
