@@ -9960,7 +9960,7 @@ html {
 .comman_admin_layout .admin_forms form .button:hover,
 .comman_admin_layout .admin_forms form .button:visited
 {
-    background: #0056b3 !important;
+  background: #0056b3 !important;
   opacity: 0.8;
   transition: background-color 1s ease, box-shadow 1s ease;
 }
@@ -10002,3 +10002,19 @@ background: linear-gradient(#007bff, #00c6ff);
   color: white !important;
   background-color: #1f4f8f !important; 
 }
+.chat-container .send-chat button:hover,
+.chat-container .send-chat button:visited{
+    background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+.chat-container .chat .type-message button:hover,
+.chat-container .chat .type-message button:visited{
+    background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+.form-control:hover{
+  border-color: #86b7fe;
+}
+

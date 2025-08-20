@@ -171,7 +171,6 @@ const AddCategoryPage = () => {
                       <button
                         type="button"
                         className="button"
-                        style={{ backgroundColor: "#6c757d" }}
                         onClick={() => {    setLoader(true);   router.push("/admin/category")}}
                       >
                         Cancel
