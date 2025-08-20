@@ -399,7 +399,7 @@ export default function Users() {
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
                                     <button
-                                      className="admin_action_edit"
+                                      className="admin_action_edit bg-success"
                                       onClick={() => {
                                         setLoader(true);
                                         handleEditUser(user._id)
@@ -409,7 +409,7 @@ export default function Users() {
                                       <i className="fa fa-edit"></i>
                                     </button>
                                     <button
-                                      className="admin_action_delete"
+                                      className="admin_action_delete bg-danger"
                                       onClick={() => handleUserDelete(user._id)}
                                       title="Delete User"
                                     >
@@ -418,7 +418,7 @@ export default function Users() {
                                   </div>
                                 </td>)}
 
-                              {hasWritePermission() && (
+                              {/* {hasWritePermission() && (
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
                                     <button
@@ -440,7 +440,7 @@ export default function Users() {
                                     </button>
                                   </div>
                                 </td>
-                              )}
+                              )} */}
                             </tr>
                           );
                         })}

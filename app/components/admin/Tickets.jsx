@@ -225,10 +225,10 @@ export default function Tickets() {
                                       .message
                                   : ""}
                               </td>
-                              <td>
+                              <td className="">
                                 <button
                                 style={{padding:"10px 25px"}}
-                                  className={`button mx-1 ${
+                                  className={`resolvebtn button mx-1 ${
                                     ticket.status === "Resolved"
                                       ? "btn-resolved"
                                       : "btn-resolve"
@@ -240,7 +240,7 @@ export default function Tickets() {
                                 </button>
 
                                 <button
-                                  className={`button mx-4 ${
+                                  className={`click-to-resolve button mx-4 ${
                                     ticket.status === "Resolved"
                                       ? "btn-resolved"
                                       : "btn-resolve"

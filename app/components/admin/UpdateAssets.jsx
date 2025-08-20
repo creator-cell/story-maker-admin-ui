@@ -249,7 +249,9 @@ const UpdateAssets = () => {
                                                                 } else {
                                                                     onChange([...value, tag]);
                                                                 }
-                                                            }} />
+                                                            }} classNames={{
+                                                                tagInputField: "form-control",
+                                                            }}/>
                                                     )} />
                                             </div>
                                         </div>
@@ -261,7 +263,6 @@ const UpdateAssets = () => {
                                             <button
                                                 type="button"
                                                 className="button"
-                                                style={{ backgroundColor: '#6c757d' }}
                                                 onClick={() => router.push("/admin/assets")}
                                             >
                                                 Cancel

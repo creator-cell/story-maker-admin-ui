@@ -422,21 +422,21 @@ const AssetsManage = () => {
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
                                     <button
-                                      className="admin_action_edit"
+                                      className="admin_action_edit bg-success"
                                       onClick={() => handleEditAssets(asset._id)}
                                       title="Edit Asset"
                                     >
                                       <i className="fa fa-edit"></i>
                                     </button>
                                     <button
-                                      className="admin_action_edit"
+                                      className="admin_action_edit bg-warning"
                                       onClick={() => handleCloneAssets(asset._id)}
                                       title="Clone Asset"
                                     >
                                       <i className="fa fa-clone"></i>
                                     </button>
                                     <button
-                                      className="admin_action_delete"
+                                      className="admin_action_delete bg-danger"
                                       onClick={() => handleAssetDelete(asset._id)}
                                       title="Delete User"
                                     >

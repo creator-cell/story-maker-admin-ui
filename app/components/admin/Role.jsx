@@ -229,13 +229,14 @@ setLoader(false);
                                   <div>
                                     {user.menu.map((menuItem, idx) => (
                                       <div key={idx} className="permission-item mb-2 p-2 border rounded">
-                                        <div className="menu-header mb-1">
-                                          <strong className="text-white">{menuItem.menuName}</strong>
-                                        </div>
+                                       
                                         <div className="permission-badges">
-                                          {menuItem.read && <span className="badge bg-success me-1">Read</span>}
-                                          {menuItem.write && <span className="badge bg-warning me-1">Write</span>}
-                                          {menuItem.both && <span className="badge bg-info me-1">Both</span>}
+                                           <div className="menu-header me-5">
+                                          <strong className="">{menuItem.menuName}</strong>
+                                        </div>
+                                          {menuItem.read && <span className="badge  me-1">Read</span>}
+                                          {menuItem.write && <span className="badge  me-1">Write</span>}
+                                          {menuItem.both && <span className="badge me-1">Both</span>}
                                           {!menuItem.read && !menuItem.write && !menuItem.both &&
                                             <span className="badge bg-secondary">No Access</span>
                                           }
@@ -251,12 +252,12 @@ setLoader(false);
                               {hasWritePermission() && (
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
-                                    <button className="admin_action_edit"
+                                    <button className="admin_action_edit bg-success"
                                       onClick={() => handleUserUpdate(user._id)}>
                                       <i className="fa fa-edit"></i>
                                     </button>
                                     { !user?.isSuperAdmin ?
-                                    <button className="admin_action_delete"
+                                    <button className="admin_action_delete bg-danger"
                                       onClick={() => handleUserDelete(user._id)}>
                                       <i className="fa fa-trash"></i>
                                     </button>
