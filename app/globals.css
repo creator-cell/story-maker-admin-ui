@@ -3259,6 +3259,7 @@ button.admin_menuToggler {
   padding: 0 0 10px;
   border-bottom: 2px solid var(--beta) !important;
 }
+
 .chat-container .title_head {
   display: block;
   width: 100%;
@@ -3266,6 +3267,7 @@ button.admin_menuToggler {
   padding: 0 0 10px;
   border-bottom: 2px solid var(--beta) !important;
 }
+
 .comman_admin_layout .title_head h3 {
   display: block;
   width: 100%;
@@ -3343,12 +3345,12 @@ button.admin_menuToggler {
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
   padding: 10px 10px;
-       background: #1f4f8f !important;
+  background: #1f4f8f !important;
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .click-to-resolve {
   padding: 10px 10px;
-       background: #1f4f8f !important;
+  background: #1f4f8f !important;
 }
 
 
@@ -9075,7 +9077,7 @@ html {
 
 .rounded {
   /* background-color: #1f4f8f !important; */
-  border-radius:20px !important;
+  border-radius: 20px !important;
   /* opacity: 0.9; */
 }
 
@@ -9825,12 +9827,12 @@ html {
 .permission-badges {
   margin-top: 2px;
   padding: 10px 10px 10px 20px;
-      /* justify-content: space-around; */
-    display: flex;
-    align-items: center;
-    padding-top: 10px;
-    margin-top: 2px;
-    max-width: 150px;
+  /* justify-content: space-around; */
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  margin-top: 2px;
+  max-width: 150px;
 }
 
 .badge {
@@ -9893,7 +9895,7 @@ html {
 
 .badge {
   font-size: 9px;
-  padding: 10px !important; 
+  padding: 10px !important;
 }
 
 .bg-success {
@@ -9935,6 +9937,7 @@ html {
 /* story  maker css start  */
 
 .chat-container {
+  background: #F5F5F7;
   width: calc(100% - 250px);
   height: 100%;
   min-height: 100vh;
@@ -9959,71 +9962,86 @@ html {
   opacity: 0.8;
   transition: background-color 1s ease, box-shadow 1s ease;
 }
-.comman_admin_layout .admin_table .table_filter  button:hover,
-.comman_admin_layout .admin_table .table_filter  button:visited
-{
-    background: #0056b3 !important;
-  opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
-}
-.comman_admin_layout .admin_forms form .button:hover,
-.comman_admin_layout .admin_forms form .button:visited
-{
+
+.comman_admin_layout .admin_table .table_filter button:hover,
+.comman_admin_layout .admin_table .table_filter button:visited {
   background: #0056b3 !important;
   opacity: 0.8;
   transition: background-color 1s ease, box-shadow 1s ease;
 }
-.comman_admin_layout .admin_table .form_group button{
+
+.comman_admin_layout .admin_forms form .button:hover,
+.comman_admin_layout .admin_forms form .button:visited {
+  background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+
+.comman_admin_layout .admin_table .form_group button {
   padding: 10px 10px;
   margin-right: 15px;
 }
+
 /* .comman_admin_layout .admin_table .table-responsive .table .table_body tr td button{
   background: rgb(31, 79, 143) !important;
 } */
 /* .comman_admin_layout .admin_table .table-responsive .table .table_body tr td button.clicked{
   background: red !important;
 } */
-.box{ 
-  padding: 10px !important;
+.box {
+  /* padding: 10px !important; */
   /* border-radius: 6px !important; */
   background-color: #fff !important;
 }
-.chat-container .chat{
-    border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+
+.chat-container .chat {
+  /* border-top-left-radius: 20px;
+  border-top-right-radius: 20px; */
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px !important;
 }
-.chat-container .chat h3{
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-background: linear-gradient(#007bff, #00c6ff);
+
+.chat-container .chat h3 {
+  border-bottom: 1px solid #d1d5db;
+  /* border-top-left-radius: 20px;
+  border-top-right-radius: 20px; */
+  /* background: linear-gradient(#007bff, #00c6ff); */
   padding: 15px;
-  color: white;
+  color: black;
+  margin-bottom: 0;
+  background: white;
+  font-weight: 100 !important;
+  font-size: 25px;
 }
-.type-message{
+
+.type-message {
+  background: white;
   padding: 10px;
 }
-.badge{
+
+.badge {
   color: white !important;
   background-color: #2383AA !important;
 }
-.status .badge{
+
+.status .badge {
   color: white !important;
-  background-color: #1f4f8f !important; 
-}
-.chat-container .send-chat button:hover,
-.chat-container .send-chat button:visited{
-    background: #0056b3 !important;
-  opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
-}
-.chat-container .chat .type-message button:hover,
-.chat-container .chat .type-message button:visited{
-    background: #0056b3 !important;
-  opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
-}
-.form-control:hover{
-  border-color: #86b7fe;
+  background-color: #1f4f8f !important;
 }
 
+.chat-container .send-chat button:hover,
+.chat-container .send-chat button:visited {
+  background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+
+.chat-container .chat .type-message button:hover,
+.chat-container .chat .type-message button:visited {
+  background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+
+.form-control:hover {
+  border-color: #86b7fe;
+}

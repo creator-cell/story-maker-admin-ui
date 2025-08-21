@@ -300,7 +300,7 @@ const AssetsManage = () => {
                         )} */}
 
                         {hasWritePermission() && (
-                          <button className="button" onClick={() => { router.push('/admin/assets/addassets') }}>
+                          <button className="button" onClick={() => {setLoader(true);  router.push('/admin/assets/addassets') }}>
                             Add Assets
                           </button>
                         )}

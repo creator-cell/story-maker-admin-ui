@@ -190,7 +190,7 @@ export default function Tickets() {
                           <th>User</th>
                           <th>Status</th>
                           <th>Moderator</th>
-                          <th>Last Message</th>
+                          <th className="w-25">Last Message</th>
                           <th>Action</th>
                         </tr>
                       </thead>
