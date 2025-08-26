@@ -246,6 +246,21 @@ const AdminSidebar = () => {
                           </li>
                         )}
 
+                        {hasMenuAccess("Plans") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${activeLink === "/admin/plans" ? "active" : ""}`}
+                              href={`/admin/plans`}
+                            >
+                              <i className="fa-solid fa-newspaper"></i>
+                              Plans
+                              {!hasWriteAccess("Plans") && (
+                                <small className="text-muted ms-1">(Read Only)</small>
+                              )}
+                            </CustomLink>
+                          </li>
+                        )}
+
                        
                    
                         <li className="nav-item">
