@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function Users() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_v1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
