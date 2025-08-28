@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Loader from "../Loader";
 
 export default function Users() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
@@ -36,28 +36,29 @@ export default function Users() {
         url: `${API_URL}users/status/${updateUserId}`,
         method: "PUT",
         headers: {
-          'Content-Type': "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       if (response.data?.status == "success") {
-        setUsers((prevState) => prevState.map(p => {
-          if (p?._id == updateUserId) {
-            return {
-              ...p,
-              isActive: !p?.isActive
+        setUsers((prevState) =>
+          prevState.map((p) => {
+            if (p?._id == updateUserId) {
+              return {
+                ...p,
+                isActive: !p?.isActive,
+              };
+            } else {
+              return p;
             }
-          } else {
-            return p;
-          }
-        }));
+          })
+        );
       }
-
     } catch (error) {
       console.log("Error update user status :", error);
     }
-  }
+  };
 
   const getUserDetail = async () => {
     try {
@@ -254,9 +255,8 @@ export default function Users() {
   };
 
   const handleEditUser = (userId) => {
-     setLoader(true);
+    setLoader(true);
     router.push(`/admin/users/${userId}`);
-
   };
 
   const handleDeleteSuccess = () => {
@@ -266,7 +266,7 @@ export default function Users() {
     //toast.success("User deleted successfully");
   };
 
-  return (  
+  return (
     <>
       <div id="main_container">
         <div className="inner_container">
@@ -366,59 +366,88 @@ export default function Users() {
                           </th>
                           <th>Phone Number</th>
                           <th
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => handleSort('isActive')}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleSort("isActive")}
                           >
                             Status
-                            <i className={`fa ${getSortIcon('isActive')} ms-1`}></i>
+                            <i
+                              className={`fa ${getSortIcon("isActive")} ms-1`}
+                            ></i>
                           </th>
 
                           {hasWritePermission() && <th>Action</th>}
                         </tr>
                       </thead>
                       <tbody className="table_body">
-                        {!loading && users && users.map((user, index) => {
-                          return (
-                            <tr key={user._id}>
-                              <td data-label="First Name">{user.name}</td>
-                              <td data-label="Email Address">{user.email}</td>
-                              <td data-label="Phone Number">{user.phone || user.phone || ""}</td>
-                              <td>
-                                {hasWritePermission() ?
-                                  <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={user?.isActive} onChange={() => { updateUserStatus(user._id) }} />
-                                    <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
-                                  </div>
-                                  : <>
-                                    {user?.isActive ? <span class="badge bg-primary">Active</span> : <span class="badge bg-secondary">Deactivate</span>}
-                                  </>
-                                }
-                              </td>
+                        {!loading &&
+                          users &&
+                          users.map((user, index) => {
+                            return (
+                              <tr key={user._id}>
+                                <td data-label="First Name">{user.name}</td>
+                                <td data-label="Email Address">{user.email}</td>
+                                <td data-label="Phone Number">
+                                  {user.phone || user.phone || ""}
+                                </td>
+                                <td>
+                                  {hasWritePermission() ? (
+                                    <div class="form-check form-switch">
+                                      <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="flexSwitchCheckChecked"
+                                        checked={user?.isActive}
+                                        onChange={() => {
+                                          updateUserStatus(user._id);
+                                        }}
+                                      />
+                                      <label
+                                        class="form-check-label"
+                                        for="flexSwitchCheckChecked"
+                                      >
+                                        Active
+                                      </label>
+                                    </div>
+                                  ) : (
+                                    <>
+                                      {user?.isActive ? (
+                                        <span class="badge bg-primary">
+                                          Active
+                                        </span>
+                                      ) : (
+                                        <span class="badge bg-secondary">
+                                          Deactivate
+                                        </span>
+                                      )}
+                                    </>
+                                  )}
+                                </td>
+
+                                {hasWritePermission() && (
+                                  <td data-label="Action">
+                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                      <button
+                                        className="admin_action_edit"
+                                        onClick={() => handleEditUser(user._id)}
+                                        title="Edit User"
+                                      >
+                                        <i className="fa fa-edit"></i>
+                                      </button>
+                                      <button
+                                        className="admin_action_delete"
+                                        onClick={() =>
+                                          handleUserDelete(user._id)
+                                        }
+                                        title="Delete User"
+                                      >
+                                        <i className="fa fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </td>
+                                )}
 
                               {hasWritePermission() && (
-                                <td data-label="Action">
-                                  <div className="d-flex justify-content-start align-items-center gap-2">
-                                    <button
-                                      className="admin_action_edit bg-success"
-                                      onClick={() => {
-                                        setLoader(true);
-                                        handleEditUser(user._id)
-                                      }}
-                                      title="Edit User"
-                                    >
-                                      <i className="fa fa-edit"></i>
-                                    </button>
-                                    <button
-                                      className="admin_action_delete bg-danger"
-                                      onClick={() => handleUserDelete(user._id)}
-                                      title="Delete User"
-                                    >
-                                      <i className="fa fa-trash"></i>
-                                    </button>
-                                  </div>
-                                </td>)}
-
-                              {/* {hasWritePermission() && (
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
                                     <button
@@ -440,7 +469,7 @@ export default function Users() {
                                     </button>
                                   </div>
                                 </td>
-                              )} */}
+                              )}
                             </tr>
                           );
                         })}

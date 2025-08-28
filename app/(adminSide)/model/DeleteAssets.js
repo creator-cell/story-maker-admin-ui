@@ -1,57 +1,77 @@
-'use client';
+"use client";
 import axios from "axios";
-import {Modal,Container,Row} from "react-bootstrap";
+import { Modal, Container, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 export default function DeleteAsset({ show, onHide, data, setLoader, props }) {
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSETS;
-    
-    const handleAssetsDelete = async () => {
-        setLoader(true);
-        axios({
-            url: `${API_URL}assets/${data}`,
-            method: "DELETE",
-            headers: {
-                "Authorization" : `Bearer ${localStorage.getItem("token")}`
-            }
-        }).then(res => {
-            toast(res.data?.message || "Assets delete successfully.", {
-                theme:"light",
-                position: "top-right",
-                type: "success"
-            });
-            onHide();
-        }).catch(err => {
-            toast(err?.response?.data?.errors?.[0]?.message ?? err?.response?.data?.message ?? "Failed to delete assets", {
-                theme:"light",
-                position: "top-right",
-                type: "error"
-            });
-        }).finally(() => {
-            setLoader(false);
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+
+  const handleAssetsDelete = async () => {
+    setLoader(true);
+    axios({
+      url: `${API_URL}assets/${data}`,
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        toast(res.data?.message || "Assets delete successfully.", {
+          theme: "light",
+          position: "top-right",
+          type: "success",
         });
-    };
-    
-    return(
-        <>
-            <Modal show={show} onHide={onHide} className="user_delete">
-                <Modal.Header closeButton>
-                  <Modal.Title>Delete Assets</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <div className="col-lg-12 col-md-12 col-12">
-                                <p>Are you sure? You want to delete this assets?</p>
-                                <div className="btns">
-                                    <button onClick={handleAssetsDelete} className="button" style={{backgroundColor:'red'}}>Delete</button>
-                                    <button onClick={onHide} className="button" style={{backgroundColor:'gray'}}>Cancel</button>
-                                </div>
-                            </div>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-            </Modal>
-        </>
-    )
+        onHide();
+      })
+      .catch((err) => {
+        toast(
+          err?.response?.data?.errors?.[0]?.message ??
+            err?.response?.data?.message ??
+            "Failed to delete assets",
+          {
+            theme: "light",
+            position: "top-right",
+            type: "error",
+          }
+        );
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  };
+
+  return (
+    <>
+      <Modal show={show} onHide={onHide} className="user_delete">
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Assets</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <div className="col-lg-12 col-md-12 col-12">
+                <p>Are you sure? You want to delete this assets?</p>
+                <div className="btns">
+                  <button
+                    onClick={handleAssetsDelete}
+                    className="button"
+                    style={{ backgroundColor: "red" }}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={onHide}
+                    className="button"
+                    style={{ backgroundColor: "gray" }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </Row>
+          </Container>
+        </Modal.Body>
+      </Modal>
+    </>
+  );
 }

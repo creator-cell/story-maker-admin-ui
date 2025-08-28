@@ -12,10 +12,15 @@ const AddTicket = () => {
 
   const sendChatMessage = async () => {
     if (!chatMessage.trim()) return;
-
+    let role = "";
+    if (currentUser?.role === "Moderator") {
+      role = "moderator";
+    } else {
+      role = "user";
+    }
     const newMessage = {
       sender: currentUser?._id,
-      role: currentUser?.role || "user",
+      role: role,
       message: chatMessage.trim(),
       sentAt: new Date(),
     };
