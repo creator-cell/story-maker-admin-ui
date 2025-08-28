@@ -403,7 +403,7 @@ const AssetsManage = () => {
                               </td>
                               <td data-label="Status">
                                 {hasWritePermission() ? (
-                                  <FormSelect className="badge" style={{ width: "80%", fontSize: 10, margin: 1 }} onChange={(t) => {
+                                  <FormSelect className="badge" style={{margin: 1 }} onChange={(t) => {
                                     const currentValue = t.target.value;
                                     if (currentValue == "Pending") {
                                       return;

@@ -14,10 +14,10 @@ export default function EditUser({ userId }) {
     const { handleSubmit, register, reset, watch, setValue, formState: { errors }, trigger } = useForm();
     const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
     const route = useRouter();
-     const router = useRouter();
+    const router = useRouter();
     const [dob, setDob] = useState(null);
     const [roles, setRoles] = useState([]);
-  const [loader, setLoader] = useState(false);
+    const [loader, setLoader] = useState(false);
     const getUserDetails = async () => {
         try {
             const response = await axios({
@@ -130,11 +130,6 @@ export default function EditUser({ userId }) {
                                                     }
                                                 </div>
                                             </div>
-
-
-
-
-
                                             <div className="col-lg-6 col-md-6 col-12">
                                                 <div className="form_group">
                                                     <label htmlFor="role">Role  <span className="text-danger"> *</span></label>
@@ -161,7 +156,7 @@ export default function EditUser({ userId }) {
                                             <div className="col-lg-6 col-md-6 col-12">
                                                 <div className="form_group">
                                                     <label htmlFor="email">Email  <span className="text-danger"> *</span></label>
-                                                    <input type="email" name="" id="email" className="form-control" style={{border:"none"}}
+                                                    <input type="email" name="" id="email" className="form-control" style={{ border: "none" }}
                                                         {...register("email")}
                                                         readOnly disabled />
                                                 </div>
@@ -188,7 +183,7 @@ export default function EditUser({ userId }) {
                                                 <button
                                                     type="button"
                                                     className="button"
-                                                    onClick={() => {    setLoader(true);    router.push("/admin/users")}}
+                                                    onClick={() => { setLoader(true); router.push("/admin/users") }}
                                                 >
                                                     Cancel
                                                 </button>
@@ -200,7 +195,7 @@ export default function EditUser({ userId }) {
                         </div>
                     </div>
                 </div>
-                      {loader && <Loader />}
+                {loader && <Loader />}
             </div>
         </>
     )

@@ -123,15 +123,15 @@ const ChatHistory = ({ ticketId }) => {
                         borderRadius: "20px",
                       }}
                     ></i>
-                    <div style={{ display: "flex", flexDirection: "column", paddingLeft:"20px" }}>
-                    <small style={{ color: "black", fontWeight: "600"  }}>
-                      {msg.role === "user" ? "User" : "Moderator"}
-                    </small>
-                    <small style={{ color: "black", fontWeight: "600" }}>
-                      {msg.sentAt
-                        ? new Date(msg.sentAt).toLocaleString()
-                        : "Just now"}
-                    </small>
+                    <div style={{ display: "flex", flexDirection: "column", paddingLeft: "20px" }}>
+                      <small style={{ color: "black", fontWeight: "600" }}>
+                        {msg.role === "user" ? "User" : "Moderator"}
+                      </small>
+                      <small style={{ color: "black", fontWeight: "600" }}>
+                        {msg.sentAt
+                          ? new Date(msg.sentAt).toLocaleString()
+                          : "Just now"}
+                      </small>
                     </div>
                   </div>
                   {/* Message */}
