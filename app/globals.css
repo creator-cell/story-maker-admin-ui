@@ -8978,6 +8978,7 @@ html {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem;
+  background-color: #1f4f8f;
 }
 
 .bg-primary {
@@ -9835,6 +9836,12 @@ html {
   max-width: 150px;
 }
 
+.permission-badges strong {
+  min-width: 100px;
+  font-size: 18px;
+  /* padding: 0px 20px 0px 15px; */
+}
+
 .badge {
   font-size: 10px;
   padding: 2px 6px;
@@ -10045,7 +10052,29 @@ html {
 .form-control:hover {
   border-color: #86b7fe;
 }
+
 .admin_table td[data-label="Status"] {
-  min-width: 120px;  
+  min-width: 120px;
   text-align: center;
+}
+
+.editor-toolbar button {
+  background-color: white;
+}
+
+.editor-toolbar button:hover {
+  color: white;
+}
+
+.editor-toolbar label {
+  height: 30px;
+}
+
+.editor-toolbar select {
+  height: 30px;
+}
+
+.ellipse-icon {
+  display: inline-block;
+  transform: scaleX(1.5);
 }

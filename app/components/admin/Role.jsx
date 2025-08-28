@@ -227,24 +227,25 @@ export default function Roles() {
                                           key={idx}
                                           className="permission-item mb-2 p-2 border rounded"
                                         >
-                                          <div className="menu-header mb-1">
-                                            <strong className="text-primary">
+                                        
+                                          <div className="permission-badges">
+                                              {/* <div className="menu-header mb-1"> */}
+                                            <strong className="text-dark">
                                               {menuItem.menuName}
                                             </strong>
-                                          </div>
-                                          <div className="permission-badges">
+                                          {/* </div> */}
                                             {menuItem.read && (
-                                              <span className="badge bg-success me-1">
+                                              <span className="badge b me-1">
                                                 Read
                                               </span>
                                             )}
                                             {menuItem.write && (
-                                              <span className="badge bg-warning me-1">
+                                              <span className="badge  me-1">
                                                 Write
                                               </span>
                                             )}
                                             {menuItem.both && (
-                                              <span className="badge bg-info me-1">
+                                              <span className="badge  me-1">
                                                 Both
                                               </span>
                                             )}
@@ -269,12 +270,12 @@ export default function Roles() {
                               {hasWritePermission() && (
                                 <td data-label="Action">
                                   <div className="d-flex justify-content-start align-items-center gap-2">
-                                    <button className="admin_action_edit"
+                                    <button className="admin_action_edit bg-success"
                                       onClick={() => handleUserUpdate(user._id)}>
                                       <i className="fa fa-edit"></i>
                                     </button>
                                     { !user?.isSuperAdmin ?
-                                    <button className="admin_action_delete"
+                                    <button className="admin_action_delete bg-danger"
                                       onClick={() => handleUserDelete(user._id)}>
                                       <i className="fa fa-trash"></i>
                                     </button>

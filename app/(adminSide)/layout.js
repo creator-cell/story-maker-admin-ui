@@ -32,17 +32,18 @@ export default function RootLayout({ children }) {
           integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" 
           crossOrigin="anonymous" 
         />
-        <link 
+        {/* <link 
           rel="stylesheet" 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" 
           integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" 
           crossOrigin="anonymous" 
           referrerPolicy="no-referrer" 
-        />
+        /> */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Geist+Sans&display=swap"
         />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <LoaderProvider>
