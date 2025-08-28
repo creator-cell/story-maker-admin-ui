@@ -21,7 +21,7 @@ const AdminSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
   const [shouldRender, setShouldRender] = useState(true);
   const [userRolePermissions, setUserRolePermissions] = useState(null);
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
 
   useEffect(() => {
     // Check if we should render the sidebar
@@ -149,8 +149,9 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/users" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/users" ? "active" : ""
+                              }`}
                               href={`/admin/users`}
                             >
                               <i className="fa-solid fa-users"></i>
@@ -162,8 +163,9 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/tickets" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/tickets" ? "active" : ""
+                              }`}
                               href={`/admin/tickets`}
                             >
                               <i className="fa-solid fa-ticket"></i>
@@ -175,8 +177,9 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Roles") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/role" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/role" ? "active" : ""
+                              }`}
                               href={`/admin/role`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
@@ -193,8 +196,9 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Category") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/category" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/category" ? "active" : ""
+                              }`}
                               href={`/admin/category`}
                             >
                               <i className="fa-solid fa-camera"></i>
@@ -211,8 +215,9 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Template") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/template" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/template" ? "active" : ""
+                              }`}
                               href={`/admin/template`}
                             >
                               <i className="fas fa-file"></i>
@@ -229,19 +234,21 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Assets") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/assets" ? "active" : ""}`}
+                              className={`nav-link ${
+                                activeLink === "/admin/assets" ? "active" : ""
+                              }`}
                               href={`/admin/assets`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
                               Assets
                               {!hasWriteAccess("Assets") && (
-                                <small className="text-white ms-1">(Read Only)</small>
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
                               )}
                             </CustomLink>
                           </li>
                         )}
-
-
 
                         <li className="nav-item">
                           <button
