@@ -334,7 +334,7 @@ const AddRole = () => {
                         className="button"
                         onClick={() =>{ setLoader(true);   router.push("/admin/role")}}
                         disabled={loader}
-                        style={{ backgroundColor: "#6c757d" }}
+                    
                       >
                         Cancel
                       </button>

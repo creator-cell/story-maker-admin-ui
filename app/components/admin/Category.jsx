@@ -154,7 +154,7 @@ export default function Categories() {
                               <td>
                                 <div className="d-flex justify-content-start align-items-center gap-2">
                                   <button
-                                    className={`admin_action_edit`}
+                                    className={`admin_action_edit bg-success`}
                                     onClick={() =>
                                       handleEditCategory(category._id)
                                     }
@@ -163,7 +163,7 @@ export default function Categories() {
                                   </button>
 
                                   <button
-                                    className={`admin_action_delete`}
+                                    className={`admin_action_delete bg-danger`}
                                     onClick={() =>
                                       handleDeleteCategory(category._id)
                                     }

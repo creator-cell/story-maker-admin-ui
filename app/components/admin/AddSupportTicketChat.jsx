@@ -70,7 +70,7 @@ const AddChatHistory = () => {
       </div>
       {loading && <div>Loading...</div>}
 
-      <div className="d-flex gap-2 mt-4">
+      <div className="send-chat d-flex gap-2 mt-4">
         <input
           type="text"
           className="form-control"

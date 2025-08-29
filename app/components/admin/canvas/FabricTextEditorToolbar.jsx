@@ -206,17 +206,34 @@ export default function FabricTextEditorToolbar({ fRef }) {
   };
 
   return (
-    <div
+    <div className="editor-toolbar"
       style={{
         display: "flex",
-        gap: "8px",
+        gap: "23px",
         alignItems: "center",
         flexWrap: "wrap",
       }}
     >
       <button onClick={addText}>Add Text</button>
+      <button
+        onClick={activatePencil}
+        style={{ border: activeTool === "pencil" ? "2px solid black" : "" }}
+      >
+        <FaPencilAlt /> Pencil
+      </button>
+      {/* drawing tools */}
 
-      {/* text styles */}
+      <button
+        onClick={activateHighlighter}
+        style={{ border: activeTool === "highlighter" ? "2px solid black" : "" }}
+      >
+        <FaHighlighter /> Highlighter
+      </button>
+      <button onClick={exitDrawingMode}>
+        <FaTimes /> Exit Draw
+      </button>
+
+  {/* text styles */}
       <button onClick={() => toggleStyle("bold")}>
         <FaBold />
       </button>
@@ -226,6 +243,30 @@ export default function FabricTextEditorToolbar({ fRef }) {
       <button onClick={() => toggleStyle("underline")}>
         <FaUnderline />
       </button>
+
+      {/* alignments */}
+      <button onClick={() => changeAlign("left")}>
+        <FaAlignLeft />
+      </button>
+      <button onClick={() => changeAlign("center")}>
+        <FaAlignCenter />
+      </button>
+      <button onClick={() => changeAlign("right")}>
+        <FaAlignRight />
+      </button>
+      <button onClick={() => changeAlign("justify")}>
+        <FaAlignJustify />
+      </button>
+
+      {/* delete & duplicate */}
+      <button onClick={deleteObj}>
+        <FaTrash />
+      </button>
+      <button onClick={duplicateObj}>
+        <FaCopy />
+      </button>
+
+    
 
       {/* Font Family */}
       <select
@@ -241,7 +282,33 @@ export default function FabricTextEditorToolbar({ fRef }) {
         )}
       </select>
 
-      {/* Text Style (Headings/Paragraphs) */}
+  
+
+
+      <label>
+        Stroke Width:
+        <input
+          type="number"
+          min="1"
+          value={strokeWidth}
+          onChange={(e) => {
+            const val = parseInt(e.target.value, 10) || 1;
+            setStrokeWidth(val);
+            disableDrawing();
+            applyProps({ strokeWidth: val });
+          }}
+        />
+      </label>
+
+      {/* font size */}
+      <select onChange={(e) => changeFontSize(e.target.value)}>
+        {[12, 14, 16, 20, 24, 28, 32, 40, 48].map((size) => (
+          <option key={size} value={size}>
+            {size}
+          </option>
+        ))}
+      </select>
+          {/* Text Style (Headings/Paragraphs) */}
       <select onChange={(e) => applyTextStyle(e.target.value)}>
         <option value="">Text Style</option>
         <option value="h1">Heading 1</option>
@@ -252,8 +319,44 @@ export default function FabricTextEditorToolbar({ fRef }) {
         <option value="h6">Heading 6</option>
         <option value="p">Paragraph</option>
       </select>
+        
+      
+      <label>
+        Brush Size:
+        <input
+          type="number"
+          min="1"
+          max="50"
+          value={brushWidth}
+          onChange={(e) => {
+            const val = parseInt(e.target.value, 10) || 1;
+            setBrushWidth(val);
+            const canvas = fRef.current;
+            if (canvas && canvas.freeDrawingBrush) {
+              canvas.freeDrawingBrush.width = val;
+              canvas.renderAll();
+            }
+          }}
+        />
+      </label>
 
-      {/* Fill & Stroke */}
+      {/* brush settings */}
+      <label>
+        Brush Color:
+        <input
+          type="color"
+          value={brushColor}
+          onChange={(e) => {
+            setBrushColor(e.target.value);
+            const canvas = fRef.current;
+            if (canvas && canvas.freeDrawingBrush) {
+              canvas.freeDrawingBrush.color = e.target.value;
+              canvas.renderAll();
+            }
+          }}
+        />
+      </label>
+            {/* Fill & Stroke */}
       <label>
         Fill:
         <input
@@ -280,104 +383,8 @@ export default function FabricTextEditorToolbar({ fRef }) {
         />
       </label>
 
-      <label>
-        Stroke Width:
-        <input
-          type="number"
-          min="1"
-          value={strokeWidth}
-          onChange={(e) => {
-            const val = parseInt(e.target.value, 10) || 1;
-            setStrokeWidth(val);
-            disableDrawing();
-            applyProps({ strokeWidth: val });
-          }}
-        />
-      </label>
 
-      {/* font size */}
-      <select onChange={(e) => changeFontSize(e.target.value)}>
-        {[12, 14, 16, 20, 24, 28, 32, 40, 48].map((size) => (
-          <option key={size} value={size}>
-            {size}
-          </option>
-        ))}
-      </select>
-
-      {/* alignments */}
-      <button onClick={() => changeAlign("left")}>
-        <FaAlignLeft />
-      </button>
-      <button onClick={() => changeAlign("center")}>
-        <FaAlignCenter />
-      </button>
-      <button onClick={() => changeAlign("right")}>
-        <FaAlignRight />
-      </button>
-      <button onClick={() => changeAlign("justify")}>
-        <FaAlignJustify />
-      </button>
-
-      {/* delete & duplicate */}
-      <button onClick={deleteObj}>
-        <FaTrash />
-      </button>
-      <button onClick={duplicateObj}>
-        <FaCopy />
-      </button>
-
-      {/* drawing tools */}
-      <button
-        onClick={activatePencil}
-        style={{ border: activeTool === "pencil" ? "2px solid blue" : "" }}
-      >
-        <FaPencilAlt /> Pencil
-      </button>
-      <button
-        onClick={activateHighlighter}
-        style={{ border: activeTool === "highlighter" ? "2px solid blue" : "" }}
-      >
-        <FaHighlighter /> Highlighter
-      </button>
-      <button onClick={exitDrawingMode}>
-        <FaTimes /> Exit Draw
-      </button>
-
-      {/* brush settings */}
-      <label>
-        Brush Color:
-        <input
-          type="color"
-          value={brushColor}
-          onChange={(e) => {
-            setBrushColor(e.target.value);
-            const canvas = fRef.current;
-            if (canvas && canvas.freeDrawingBrush) {
-              canvas.freeDrawingBrush.color = e.target.value;
-              canvas.renderAll();
-            }
-          }}
-        />
-      </label>
-
-      <label>
-        Brush Size:
-        <input
-          type="number"
-          min="1"
-          max="50"
-          value={brushWidth}
-          onChange={(e) => {
-            const val = parseInt(e.target.value, 10) || 1;
-            setBrushWidth(val);
-            const canvas = fRef.current;
-            if (canvas && canvas.freeDrawingBrush) {
-              canvas.freeDrawingBrush.width = val;
-              canvas.renderAll();
-            }
-          }}
-        />
-      </label>
+      
     </div>
   );
 }

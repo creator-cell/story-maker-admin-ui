@@ -249,7 +249,7 @@ export default function AddTemplatePage() {
                     </div>
                   </div>
 
-                  <div className="col-12 mt-3">
+                  <div className="col-12 mt-3 d-flex" style={{gap:"20px"}}>
                     <button type="submit" className="button">
                       Submit
                     </button>

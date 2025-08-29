@@ -428,14 +428,14 @@ export default function Users() {
                                   <td data-label="Action">
                                     <div className="d-flex justify-content-start align-items-center gap-2">
                                       <button
-                                        className="admin_action_edit"
+                                        className="admin_action_edit bg-success"
                                         onClick={() => handleEditUser(user._id)}
                                         title="Edit User"
                                       >
                                         <i className="fa fa-edit"></i>
                                       </button>
                                       <button
-                                        className="admin_action_delete"
+                                        className="admin_action_delete bg-danger"
                                         onClick={() =>
                                           handleUserDelete(user._id)
                                         }
@@ -446,33 +446,9 @@ export default function Users() {
                                     </div>
                                   </td>
                                 )}
-
-                                {hasWritePermission() && (
-                                  <td data-label="Action">
-                                    <div className="d-flex justify-content-start align-items-center gap-2">
-                                      <button
-                                        className="admin_action_edit"
-                                        onClick={() => handleEditUser(user._id)}
-                                        title="Edit User"
-                                      >
-                                        <i className="fa fa-edit"></i>
-                                      </button>
-
-                                      <button
-                                        className="admin_action_delete"
-                                        onClick={() =>
-                                          handleUserDelete(user._id)
-                                        }
-                                        title="Delete User"
-                                      >
-                                        <i className="fa fa-trash"></i>
-                                      </button>
-                                    </div>
-                                  </td>
-                                )}
-                              </tr>
-                            );
-                          })}
+                            </tr>
+                          );
+                        })}
 
                         {!loading && users.length === 0 && (
                           <tr>

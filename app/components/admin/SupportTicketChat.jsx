@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -11,6 +11,9 @@ const ChatHistory = ({ ticketId }) => {
   const [ticket, setTicket] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Ref for auto scroll
+  const messagesEndRef = useRef(null);
 
   const getTicket = async () => {
     setLoading(true);
@@ -63,94 +66,141 @@ const ChatHistory = ({ ticketId }) => {
     }
   };
 
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    if (ticket?.messages?.length) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [ticket?.messages]);
+
   return (
     <div className="chat-container">
       <div className="chat">
-      <h3>Support Ticket Chat</h3>
-      {loading && <div>Loading...</div>}
-      <div className="box"
-        style={{
-          height:350,
-          maxHeight: 350,
-          overflowY: "auto",
-          padding: 16,
-          marginBottom: 16,
-
-        }}
-      >
-        {ticket?.messages?.length ? (
-  ticket.messages.map((msg) => (
-    <div
-      key={msg._id}
-      style={{
-        marginBottom: 12,
-        display: "flex",
-        justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: msg.role === "user" ? "flex-end" : "flex-start",
-          maxWidth: "70%",
-        }}
-      >
-        {/* Icon + Time */}
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <i
-            className={
-              msg.role === "user"
-                ? "fa-solid fa-user"
-                : "fa-solid fa-user-astronaut"
-            }
-            style={{ fontSize: 18 , border : "2px solid black" , padding:"4px", borderRadius:"20px"}}
-          ></i>
-          <small style={{ color: "#888" }}>
-            {msg.sentAt
-              ? new Date(msg.sentAt).toLocaleString()
-              : "Just now"}
-          </small>
-        </div>
-        {/* Message */}
-        <p className="mt-3"
+        <h3>Support Ticket Chat</h3>
+        {/* {loading && <div>Loading...</div>} */}
+        <div
+          className="box"
           style={{
-            margin: "4px 0 0",
-            background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
-            padding: "8px 12px",
-            borderRadius: 8,
+            height: 350,
+            maxHeight: 350,
+            overflowY: "auto",
+            // padding: 16,
+            // marginBottom: 16,
           }}
         >
-          {msg.message}
-        </p>
-      </div>
-    </div>
-  ))
-) : (
-  <div>No messages yet.</div>
-)}
+          {ticket?.messages?.length ? (
+            ticket.messages.map((msg) => (
+              <div
+                key={msg._id}
+                style={{
+                  borderBottom: "1px solid #d1d5db",
+                  paddingLeft: "10px",
+                  marginBottom: 12,
+                  display: "flex",
+                  justifyContent: msg.role === "user" ? "flex-start" : "flex-start",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: msg.role === "user" ? "flex-start" : "flex-start",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {/* Icon + Time */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <i
+                      className={
+                        msg.role === "user"
+                          ? "fa-solid fa-user"
+                          : "fa-solid fa-user-astronaut"
+                      }
+                      style={{
+                        fontSize: 18,
+                        border: "2px solid black",
+                        padding: "4px",
+                        borderRadius: "20px",
+                      }}
+                    ></i>
+                    <div style={{ display: "flex", flexDirection: "column", paddingLeft: "20px" }}>
+                      <small style={{ color: "black", fontWeight: "600" }}>
+                        {msg.role === "user" ? "User" : "Moderator"}
+                      </small>
+                      <small style={{ color: "black", fontWeight: "600" }}>
+                        {msg.sentAt
+                          ? new Date(msg.sentAt).toLocaleString()
+                          : "Just now"}
+                      </small>
+                    </div>
+                  </div>
+                  {/* Message */}
+                  <p
+                    className="mt-3"
+                    style={{
+                      color: "#626773",
+                      margin: "4px 0 0",
+                      // background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
+                      padding: "8px 12px",
+                      borderRadius: 8,
+                      paddingLeft: 55
+                    }}
+                  >
+                    {msg.message}
+                  </p>
+                </div>
+              </div>
 
-      </div>
-      <div className="type-message d-flex gap-2">
-        <input
-          type="text"
-          className="form-control"
-          value={chatMessage}
-          onChange={(e) => setChatMessage(e.target.value)}
-          placeholder="Type a message..."
-        />
-        <button
-          className="button"
-          onClick={sendChatMessage}
-          disabled={loading || !chatMessage.trim()}
-        >
-          Send
-        </button>
-      </div>
+            ))
+          ) : (
+            <div>No messages yet.</div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+        <div className="type-message d-flex gap-2">
+          <input
+            type="text"
+            className="form-control"
+            value={chatMessage}
+            onChange={(e) => setChatMessage(e.target.value)}
+            placeholder="Type a message..."
+          />
+          {/* <button
+            className="button"
+            onClick={sendChatMessage}
+            disabled={loading || !chatMessage.trim()}
+          >
+            Send
+          </button> */}
+          <img
+            src="/images/send.jpg"
+            alt="Send message"
+            height={50}
+            width={50}
+            onClick={sendChatMessage}
+            style={{ cursor: loading || !chatMessage.trim() ? 'default' : 'pointer', opacity: loading || !chatMessage.trim() ? 0.5 : 1 }}
+            role="button"
+            aria-label="Send message"
+            aria-disabled={loading || !chatMessage.trim()}
+            tabIndex={0}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
 export default ChatHistory;
+
+
+
+
+
+
+
+
+
+
+
 

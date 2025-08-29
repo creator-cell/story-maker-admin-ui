@@ -210,7 +210,6 @@ const AddUserPage = () => {
                       <button 
                         type="button" 
                         className="button"
-                        style={{ backgroundColor: '#6c757d' }}
                         onClick={() =>  {setLoader(true); 
                            router.push("/admin/users")}}
                       >

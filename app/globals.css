@@ -291,7 +291,7 @@ table thead {
   font-size: 16px;
   font-weight: 600;
   /* background: var(--btn-main); */
-  background: linear-gradient(180deg, #007bff, #00c6ff);
+  background: linear-gradient(180deg, #007bff, #00c6ff) !important;
   color: var(--white);
   line-height: 1;
   border: 1px solid transparent;
@@ -3012,7 +3012,7 @@ h6 {
   text-decoration: none;
   outline: none;
   border: 0;
-  background-color: #1f4f8f;
+  /* background-color: darkred; */
   color: var(--white);
   line-height: 1.2;
   font-size: 14px;
@@ -3026,7 +3026,7 @@ h6 {
   text-decoration: none;
   outline: none;
   border: 0;
-  background-color: #1f4f8f;
+  /* background-color: green; */
   color: var(--white);
   line-height: 1.2;
   font-size: 14px;
@@ -3069,7 +3069,7 @@ button.admin_menuToggler {
   top: 0;
   bottom: 0;
   overflow: auto;
-  background-color: var(--alpha);
+  background-color: #2383AA;
   border-right: 2px solid var(--dark);
   transition: all 1s ease;
   -webkit-transition: all 1s ease;
@@ -3259,6 +3259,7 @@ button.admin_menuToggler {
   padding: 0 0 10px;
   border-bottom: 2px solid var(--beta) !important;
 }
+
 .chat-container .title_head {
   display: block;
   width: 100%;
@@ -3266,6 +3267,7 @@ button.admin_menuToggler {
   padding: 0 0 10px;
   border-bottom: 2px solid var(--beta) !important;
 }
+
 .comman_admin_layout .title_head h3 {
   display: block;
   width: 100%;
@@ -3341,10 +3343,16 @@ button.admin_menuToggler {
   color: #81898f;
 }
 
-.comman_admin_layout .admin_table .table-responsive .table .table_body tr td .button {
+.comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
   padding: 10px 10px;
-       background-color: #1f4f8f !important;
+  background: #1f4f8f !important;
 }
+
+.comman_admin_layout .admin_table .table-responsive .table .table_body tr td .click-to-resolve {
+  padding: 10px 10px;
+  background: #1f4f8f !important;
+}
+
 
 
 /* Comman Admin Container End */
@@ -8970,6 +8978,7 @@ html {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem;
+  background-color: #1f4f8f;
 }
 
 .bg-primary {
@@ -9068,9 +9077,9 @@ html {
 }
 
 .rounded {
-  background-color: #1f4f8f !important;
-  border-radius:20px !important;
-  opacity: 0.9;
+  /* background-color: #1f4f8f !important; */
+  border-radius: 20px !important;
+  /* opacity: 0.9; */
 }
 
 .d-flex {
@@ -9818,11 +9827,19 @@ html {
 
 .permission-badges {
   margin-top: 2px;
-      justify-content: space-around;
-    display: flex
-;
-    padding-top: 10px;
-    margin-top: 2px;
+  padding: 10px 10px 10px 20px;
+  /* justify-content: space-around; */
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  margin-top: 2px;
+  max-width: 150px;
+}
+
+.permission-badges strong {
+  min-width: 100px;
+  font-size: 18px;
+  /* padding: 0px 20px 0px 15px; */
 }
 
 .badge {
@@ -9848,7 +9865,8 @@ html {
 }
 
 .permission-item {
-  background-color: #f8f9fa;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
+  /* background-color: #f8f9fa; */
   border: 1px solid #dee2e6;
   border-radius: 4px;
   margin-bottom: 8px;
@@ -9856,17 +9874,17 @@ html {
 }
 
 .menu-header {
+  width: 30px;
   font-weight: 600;
-  color: #0d6efd;
+  color: black;
   margin-bottom: 4px;
   text-align: center;
 }
 
 .permission-badges .badge {
-  font-size: 10px;
+  font-size: 14px;
   padding: 6px 6px;
   margin-right: 4px;
-  
 }
 
 .menu-permissions-container {
@@ -9884,7 +9902,7 @@ html {
 
 .badge {
   font-size: 9px;
-  padding: 10px !important; 
+  padding: 10px !important;
 }
 
 .bg-success {
@@ -9926,6 +9944,7 @@ html {
 /* story  maker css start  */
 
 .chat-container {
+  background: #F5F5F7;
   width: calc(100% - 250px);
   height: 100%;
   min-height: 100vh;
@@ -9950,55 +9969,112 @@ html {
   opacity: 0.8;
   transition: background-color 1s ease, box-shadow 1s ease;
 }
-.comman_admin_layout .admin_table .table_filter  button:hover,
-.comman_admin_layout .admin_table .table_filter  button:visited
-{
-    background: #0056b3 !important;
+
+.comman_admin_layout .admin_table .table_filter button:hover,
+.comman_admin_layout .admin_table .table_filter button:visited {
+  background: #0056b3 !important;
   opacity: 0.8;
   transition: background-color 1s ease, box-shadow 1s ease;
 }
+
 .comman_admin_layout .admin_forms form .button:hover,
-.comman_admin_layout .admin_forms form .button:visited
-{
-    background: #0056b3 !important;
+.comman_admin_layout .admin_forms form .button:visited {
+  background: #0056b3 !important;
   opacity: 0.8;
   transition: background-color 1s ease, box-shadow 1s ease;
 }
-.comman_admin_layout .admin_table .form_group button{
+
+.comman_admin_layout .admin_table .form_group button {
   padding: 10px 10px;
   margin-right: 15px;
 }
-.comman_admin_layout .admin_table .table-responsive .table .table_body tr td button{
+
+/* .comman_admin_layout .admin_table .table-responsive .table .table_body tr td button{
   background: rgb(31, 79, 143) !important;
-}
+} */
 /* .comman_admin_layout .admin_table .table-responsive .table .table_body tr td button.clicked{
   background: red !important;
 } */
-.box{ 
-  padding: 10px !important;
+.box {
+  /* padding: 10px !important; */
   /* border-radius: 6px !important; */
   background-color: #fff !important;
 }
-.chat-container .chat{
-    border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+
+.chat-container .chat {
+  /* border-top-left-radius: 20px;
+  border-top-right-radius: 20px; */
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px !important;
 }
-.chat-container .chat h3{
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-background: linear-gradient(#007bff, #00c6ff);
+
+.chat-container .chat h3 {
+  border-bottom: 1px solid #d1d5db;
+  /* border-top-left-radius: 20px;
+  border-top-right-radius: 20px; */
+  /* background: linear-gradient(#007bff, #00c6ff); */
   padding: 15px;
-  color: white;
+  color: black;
+  margin-bottom: 0;
+  background: white;
+  font-weight: 100 !important;
+  font-size: 25px;
 }
-.type-message{
+
+.type-message {
+  background: white;
   padding: 10px;
 }
-.badge{
+
+.badge {
+  color: white !important;
+  background-color: #2383AA !important;
+}
+
+.status .badge {
   color: white !important;
   background-color: #1f4f8f !important;
 }
-.status .badge{
-  color: white !important;
-  background-color: #1f4f8f !important; 
+
+.chat-container .send-chat button:hover,
+.chat-container .send-chat button:visited {
+  background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+
+.chat-container .chat .type-message button:hover,
+.chat-container .chat .type-message button:visited {
+  background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+
+.form-control:hover {
+  border-color: #86b7fe;
+}
+
+.admin_table td[data-label="Status"] {
+  min-width: 120px;
+  text-align: center;
+}
+
+.editor-toolbar button {
+  background-color: white;
+}
+
+.editor-toolbar button:hover {
+  color: white;
+}
+
+.editor-toolbar label {
+  height: 30px;
+}
+
+.editor-toolbar select {
+  height: 30px;
+}
+
+.ellipse-icon {
+  display: inline-block;
+  transform: scaleX(1.5);
 }
