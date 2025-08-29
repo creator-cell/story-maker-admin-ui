@@ -206,7 +206,8 @@ export default function FabricTextEditorToolbar({ fRef }) {
   };
 
   return (
-    <div className="editor-toolbar"
+    <div
+      className="editor-toolbar"
       style={{
         display: "flex",
         gap: "23px",
@@ -214,8 +215,11 @@ export default function FabricTextEditorToolbar({ fRef }) {
         flexWrap: "wrap",
       }}
     >
-      <button onClick={addText}>Add Text</button>
+      <button type="button" onClick={addText}>
+        Add Text
+      </button>
       <button
+        type="button"
         onClick={activatePencil}
         style={{ border: activeTool === "pencil" ? "2px solid black" : "" }}
       >
@@ -224,49 +228,50 @@ export default function FabricTextEditorToolbar({ fRef }) {
       {/* drawing tools */}
 
       <button
+        type="button"
         onClick={activateHighlighter}
-        style={{ border: activeTool === "highlighter" ? "2px solid black" : "" }}
+        style={{
+          border: activeTool === "highlighter" ? "2px solid black" : "",
+        }}
       >
         <FaHighlighter /> Highlighter
       </button>
-      <button onClick={exitDrawingMode}>
+      <button type="button" onClick={exitDrawingMode}>
         <FaTimes /> Exit Draw
       </button>
 
-  {/* text styles */}
-      <button onClick={() => toggleStyle("bold")}>
+      {/* text styles */}
+      <button type="button" onClick={() => toggleStyle("bold")}>
         <FaBold />
       </button>
-      <button onClick={() => toggleStyle("italic")}>
+      <button type="button" onClick={() => toggleStyle("italic")}>
         <FaItalic />
       </button>
-      <button onClick={() => toggleStyle("underline")}>
+      <button type="button" onClick={() => toggleStyle("underline")}>
         <FaUnderline />
       </button>
 
       {/* alignments */}
-      <button onClick={() => changeAlign("left")}>
+      <button type="button" onClick={() => changeAlign("left")}>
         <FaAlignLeft />
       </button>
-      <button onClick={() => changeAlign("center")}>
+      <button type="button" onClick={() => changeAlign("center")}>
         <FaAlignCenter />
       </button>
-      <button onClick={() => changeAlign("right")}>
+      <button type="button" onClick={() => changeAlign("right")}>
         <FaAlignRight />
       </button>
-      <button onClick={() => changeAlign("justify")}>
+      <button type="button" onClick={() => changeAlign("justify")}>
         <FaAlignJustify />
       </button>
 
       {/* delete & duplicate */}
-      <button onClick={deleteObj}>
+      <button type="button" onClick={deleteObj}>
         <FaTrash />
       </button>
-      <button onClick={duplicateObj}>
+      <button type="button" onClick={duplicateObj}>
         <FaCopy />
       </button>
-
-    
 
       {/* Font Family */}
       <select
@@ -281,9 +286,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
           )
         )}
       </select>
-
-  
-
 
       <label>
         Stroke Width:
@@ -308,7 +310,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
           </option>
         ))}
       </select>
-          {/* Text Style (Headings/Paragraphs) */}
+      {/* Text Style (Headings/Paragraphs) */}
       <select onChange={(e) => applyTextStyle(e.target.value)}>
         <option value="">Text Style</option>
         <option value="h1">Heading 1</option>
@@ -319,8 +321,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
         <option value="h6">Heading 6</option>
         <option value="p">Paragraph</option>
       </select>
-        
-      
+
       <label>
         Brush Size:
         <input
@@ -356,7 +357,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
           }}
         />
       </label>
-            {/* Fill & Stroke */}
+      {/* Fill & Stroke */}
       <label>
         Fill:
         <input
@@ -382,9 +383,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
           }}
         />
       </label>
-
-
-      
     </div>
   );
 }

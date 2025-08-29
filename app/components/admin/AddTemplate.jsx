@@ -59,25 +59,36 @@ export default function AddTemplatePage() {
       toast.error("Failed to fetch categories");
     }
   };
+  const initCanvas = () => {
+    if (fRef.current) {
+      fRef.current.dispose();
+    }
+
+    const canvas = new fabric.Canvas("fabricCanvas", {
+      width: 800,
+      height: 500,
+      backgroundColor: "#fff",
+      selection: true,
+      preserveObjectStacking: true,
+    });
+
+    canvas.on("object:added", (e) => {
+      if (e.target) {
+        e.target.set({
+          selectable: true,
+          hasControls: true,
+          hasBorders: true,
+        });
+      }
+    });
+
+    fRef.current = canvas;
+  };
 
   useEffect(() => {
-    // setupCustomControls();
-    initCanvas(canvasRef, wrapRef, fRef, setSelectedObject);
+    initCanvas();
     fetchCategories(setCategories);
-
-    // const handleKeyDown = (e) => {
-    //   if (e.key === "Delete" || e.key === "Backspace") {
-    //     const f = fRef.current;
-    //     if (f && f.getActiveObject()) {
-    //       f.remove(f.getActiveObject());
-    //       setSelectedObject(null);
-    //     }
-    //   }
-    // };
-    // window.addEventListener("keydown", handleKeyDown);
-
-    // return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [fRef]);
 
   const handleCategoryChange = (id) => {
     setValue("category", id);
@@ -118,17 +129,6 @@ export default function AddTemplatePage() {
     toast.info(`Selected: ${value}`);
   };
 
-  // const addText = () => {
-  //   const f = fRef.current;
-  //   if (!f) return;
-  //   const text = new fabric.IText("Edit me", {
-  //     left: 120,
-  //     top: 120,
-  //     fontSize: 28,
-  //     fill: "#111",
-  //   });
-  //   f.add(text).setActiveObject(text);
-  // };
   const addText = () => {
     const f = fRef.current;
     if (!f) return;
@@ -249,7 +249,7 @@ export default function AddTemplatePage() {
                     </div>
                   </div>
 
-                  <div className="col-12 mt-3 d-flex" style={{gap:"20px"}}>
+                  <div className="col-12 mt-3 d-flex" style={{ gap: "20px" }}>
                     <button type="submit" className="button">
                       Submit
                     </button>
