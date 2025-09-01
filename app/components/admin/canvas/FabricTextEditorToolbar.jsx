@@ -216,7 +216,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
           flexWrap: "wrap",
         }}
       >
-        <button title="Add Text" onClick={addText}>
+        <button type="button" title="Add Text" onClick={addText}>
           Add Text
         </button>
 
@@ -264,35 +264,59 @@ export default function FabricTextEditorToolbar({ fRef }) {
         </select>
 
         {/* text styles */}
-        <button title="Bold" onClick={() => toggleStyle("bold")}>
+        <button type="button" title="Bold" onClick={() => toggleStyle("bold")}>
           <FaBold />
         </button>
-        <button title="Italic" onClick={() => toggleStyle("italic")}>
+        <button
+          type="button"
+          title="Italic"
+          onClick={() => toggleStyle("italic")}
+        >
           <FaItalic />
         </button>
-        <button title="Underline" onClick={() => toggleStyle("underline")}>
+        <button
+          type="button"
+          title="Underline"
+          onClick={() => toggleStyle("underline")}
+        >
           <FaUnderline />
         </button>
 
         {/* alignments */}
-        <button title="Align Left" onClick={() => changeAlign("left")}>
+        <button
+          type="button"
+          title="Align Left"
+          onClick={() => changeAlign("left")}
+        >
           <FaAlignLeft />
         </button>
-        <button title="Align Center" onClick={() => changeAlign("center")}>
+        <button
+          type="button"
+          title="Align Center"
+          onClick={() => changeAlign("center")}
+        >
           <FaAlignCenter />
         </button>
-        <button title="Align Right" onClick={() => changeAlign("right")}>
+        <button
+          type="button"
+          title="Align Right"
+          onClick={() => changeAlign("right")}
+        >
           <FaAlignRight />
         </button>
-        <button title="Justify" onClick={() => changeAlign("justify")}>
+        <button
+          title="Justify"
+          type="button"
+          onClick={() => changeAlign("justify")}
+        >
           <FaAlignJustify />
         </button>
 
         {/* delete & duplicate */}
-        <button title="Delete" onClick={deleteObj}>
+        <button title="Delete" type="button" onClick={deleteObj}>
           <FaTrash />
         </button>
-        <button title="Copy" onClick={duplicateObj}>
+        <button title="Copy" type="button" onClick={duplicateObj}>
           <FaCopy />
         </button>
         {/* pencil  */}
@@ -310,7 +334,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
       >
         <FaHighlighter /> Highlighter
       </button> */}
-        <button title="Exit Draw" onClick={exitDrawingMode}>
+        <button title="Exit Draw" type="button" onClick={exitDrawingMode}>
           <FaTimes /> Exit Draw
         </button>
 
@@ -407,12 +431,20 @@ export default function FabricTextEditorToolbar({ fRef }) {
         </button>
         <ul className="dropdown-menu p-2" style={{ minWidth: "200px" }}>
           <li>
-            <button className="dropdown-item" onClick={activatePencil}>
+            <button
+              type="button"
+              className="dropdown-item"
+              onClick={activatePencil}
+            >
               <FaPencilAlt /> Pencil
             </button>
           </li>
           <li>
-            <button className="dropdown-item" onClick={activateHighlighter}>
+            <button
+              type="button"
+              className="dropdown-item"
+              onClick={activateHighlighter}
+            >
               <FaHighlighter /> Highlighter
             </button>
           </li>

@@ -60,30 +60,55 @@ export default function AddTemplatePage() {
       toast.error("Failed to fetch categories");
     }
   };
-  const initCanvas = () => {
-    const canvas = new fabric.Canvas("fabricCanvas", {
-      width: 800,
-      height: 500,
-      backgroundColor: "#fff",
-      selection: true,
-      preserveObjectStacking: true,
-    });
 
-    canvas.on("object:added", (e) => {
-      if (e.target) {
-        e.target.set({
-          selectable: true,
-          hasControls: true,
-          hasBorders: true,
-        });
-      }
-    });
+  // const initCanvas = () => {
+  //   if (!canvasRef.current) return;
+  //   const canvas = new fabric.Canvas(canvasRef.current, {
+  //     width: 800,
+  //     height: 500,
+  //     backgroundColor: "#fff",
+  //     selection: true,
+  //     preserveObjectStacking: true,
+  //   });
+  //   fRef.current = canvas;
+  //   // const starter = new fabric.IText("Double-click to edit", {
+  //   //   left: 80,
+  //   //   top: 80,
+  //   //   fontSize: 28,
+  //   // });
+  //   // canvas.add(starter).setActiveObject(starter);
 
-    fRef.current = canvas;
-  };
+  //   canvas.on("selection:created", (e) => {
+  //     const obj = e.target || (e.selected && e.selected[0]);
+  //     setSelectedObject(obj);
+  //   });
+  //   canvas.on("selection:updated", (e) => {
+  //     const obj = e.target || (e.selected && e.selected[0]);
+  //     setSelectedObject(obj);
+  //   });
+  //   canvas.on("selection:cleared", () => {
+  //     setSelectedObject(null);
+  //   });
+
+  //   const resize = () => {
+  //     if (!wrapRef.current) return;
+  //     const w = wrapRef.current.clientWidth;
+  //     const h = Math.max(420, Math.round((w * 9) / 16));
+  //     canvas.setWidth(w);
+  //     canvas.setHeight(h);
+  //     canvas.renderAll();
+  //   };
+  //   resize();
+  //   window.addEventListener("resize", resize);
+
+  //   return () => {
+  //     window.removeEventListener("resize", resize);
+  //     canvas.dispose();
+  //   };
+  // };
 
   useEffect(() => {
-    initCanvas();
+    initCanvas(canvasRef, wrapRef, fRef, setSelectedObject);
     console.log("Canvas initialized:", fRef.current);
 
     fetchCategories(setCategories);
@@ -244,7 +269,7 @@ export default function AddTemplatePage() {
 
                   <div className="col-lg-12 col-md-12 col-12 mb-3">
                     <div ref={wrapRef} style={{ border: "1px solid #ccc" }}>
-                      <canvas ref={canvasRef}/>
+                      <canvas ref={canvasRef} />
                     </div>
                   </div>
 
