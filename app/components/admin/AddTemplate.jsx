@@ -155,7 +155,7 @@ export default function AddTemplatePage() {
                 </div>
               </div>
             </div>
-            <div className="admin_form_panel">
+            <div className="admin_form_panel pe-4">
               {loader && <Loader />}
               <form onSubmit={handleSubmit(handleTemplateSubmit)}>
                 <div className="row">
@@ -222,7 +222,7 @@ export default function AddTemplatePage() {
                     </div>
                   </div>
 
-                  <div className="col-lg-12 col-md-12 col-12 mb-3">
+                  <div className="col-lg-12 col-md-12 col-12 mb-3 main-toolbar">
                     <FabricTextEditorToolbar fRef={fRef} />
 
                     <FabricToolbar
@@ -244,7 +244,7 @@ export default function AddTemplatePage() {
 
                   <div className="col-lg-12 col-md-12 col-12 mb-3">
                     <div ref={wrapRef} style={{ border: "1px solid #ccc" }}>
-                      <canvas ref={canvasRef} />
+                      <canvas ref={canvasRef}/>
                     </div>
                   </div>
 

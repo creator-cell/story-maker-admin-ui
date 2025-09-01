@@ -39,9 +39,10 @@ export default function FabricToolbar({
   }, []);
   return (
     <div>
-      <div className="toolbar d-flex gap-4 align-items-center mt-3 mb-3">
+      <div className="toolbar d-flex gap-4 align-items-center">
         <div className="dropdown">
           <button
+            title="Tools"
             className="button dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
@@ -354,16 +355,27 @@ export default function FabricToolbar({
           </ul>
         </div>
 
-        <button className="button" type="button" onClick={onAddText}>
+        <button
+          title="Add Text"
+          className="button"
+          type="button"
+          onClick={onAddText}
+        >
           {/* Add Text */}
           <i class="fa-solid fa-font"></i>
         </button>
-        <button className="button" type="button" onClick={onAddTable}>
+        <button
+          title="Add Table"
+          className="button"
+          type="button"
+          onClick={onAddTable}
+        >
           {/* Add Table */}
           <i class="fa-solid fa-table"></i>
         </button>
 
         <label
+          title="upload image"
           htmlFor="upload-image"
           className="button mb-0"
           style={{ cursor: "pointer" }}

@@ -10042,6 +10042,15 @@ html {
   transition: background-color 1s ease, box-shadow 1s ease;
 }
 
+.chat-container .send-chat .form-control {
+  background-color: transparent;
+  border: 1px solid var(--alpha);
+}
+
+.chat-container .send-chat .form-control:hover {
+  border: 1.3px solid #86b7fe !important;
+}
+
 .chat-container .chat .type-message button:hover,
 .chat-container .chat .type-message button:visited {
   background: #0056b3 !important;
@@ -10060,6 +10069,7 @@ html {
 
 .editor-toolbar button {
   background-color: white;
+  border-radius: 6px 8px;
 }
 
 .editor-toolbar button:hover {
@@ -10068,13 +10078,70 @@ html {
 
 .editor-toolbar label {
   height: 30px;
+  display: flex;
+  /* align-items: center; */
+  gap: 6px;
+}
+
+.editor-toolbar label input {
+  border: 1px solid #ddd !important;
+  border-radius: 6px 8px;
+  width: 40px;
+}
+
+.editor-toolbar .dropdown button {
+  /* border: 1px solid #ddd !important;
+    border-radius: 6px 8px; */
+  padding: 14px 18px;
+}
+
+.editor-toolbar button {
+  border: 1px solid #ddd !important;
+  border-radius: 6px 8px;
+  padding: 0px 10px 5px 10px;
 }
 
 .editor-toolbar select {
   height: 30px;
+  border: 1px solid #ddd !important;
+  border-radius: 6px 8px;
 }
 
 .ellipse-icon {
   display: inline-block;
   transform: scaleX(1.5);
+}
+
+.toolbar .button:hover,
+.toolbar .button:visited {
+  background: #0056b3 !important;
+  opacity: 0.8;
+  transition: background-color 1s ease, box-shadow 1s ease;
+}
+
+.canvas-container {
+  width: 100% !important;
+}
+
+.lower-canvas {
+  width: 100% !important;
+}
+
+.main-toolbar {
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+  width: 97% !important;
+  background: #f9f9f9;
+  margin-left: 13px;
+}
+
+.toolbar .dropdown ul li .dropdown-item:hover,
+.toolbar .dropdown ul li .dropdown-item:visited {
+  color: white;
+  background: #0056b3 !important;
+}
+.toolbar{
+   margin-top: -45px ;
+  padding-left: 110px;
 }
