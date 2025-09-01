@@ -115,7 +115,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
   const addText = () => {
     const canvas = fRef.current;
     if (!canvas) return;
-
+    console.log("Adding text...");
     disableDrawing();
 
     const defaultProps = {

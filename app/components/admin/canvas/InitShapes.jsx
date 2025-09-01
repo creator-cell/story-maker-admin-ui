@@ -1,6 +1,7 @@
 import { fabric } from "fabric";
 
 export const initCanvas = (canvasRef, wrapRef, fRef, setSelectedObject) => {
+  console.log("Initializing canvas...");
   if (!canvasRef.current) return;
   const f = new fabric.Canvas(canvasRef.current, {
     backgroundColor: "#f8fafc",

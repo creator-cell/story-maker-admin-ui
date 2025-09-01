@@ -16,6 +16,7 @@ import { enableErase, setDrawingMode } from "./canvas/DrawingTools";
 import { onUploadImage } from "./canvas/ImageTools";
 import FabricTextEditorToolbar from "./canvas/FabricTextEditorToolbar";
 import axios from "axios";
+import Categories from "./Category";
 
 export default function AddTemplatePage() {
   const [loader, setLoader] = useState(false);
@@ -60,10 +61,6 @@ export default function AddTemplatePage() {
     }
   };
   const initCanvas = () => {
-    if (fRef.current) {
-      fRef.current.dispose();
-    }
-
     const canvas = new fabric.Canvas("fabricCanvas", {
       width: 800,
       height: 500,
@@ -87,6 +84,8 @@ export default function AddTemplatePage() {
 
   useEffect(() => {
     initCanvas();
+    console.log("Canvas initialized:", fRef.current);
+
     fetchCategories(setCategories);
   }, [fRef]);
 

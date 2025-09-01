@@ -18,6 +18,9 @@ export default function EditTemplatePage({ id }) {
   const [subCategories, setSubCategories] = useState([]);
   const [showRejectModal, setShowRejectModal] = useState(false);
   const router = useRouter();
+  const userStr = localStorage.getItem("user");
+
+  const userObj = userStr ? JSON.parse(userStr) : null;
 
   const canvasRef = useRef(null);
   const fabricRef = useRef(null);
@@ -144,8 +147,9 @@ export default function EditTemplatePage({ id }) {
   };
 
   const handleTemplateSave = async (data) => {
-    console.log("Form Data called:", data);
-    if (!data.name || !data.category || !data.subCategory) {
+    const userId = userObj?._id;
+
+    if (!data.name || !data.category || !data.subCategory || !userId) {
       toast.error("All fields are required");
       return;
     }
@@ -160,6 +164,7 @@ export default function EditTemplatePage({ id }) {
           category: data.category,
           subCategory: data.subCategory,
           content: jsonContent,
+          user: userId,
         },
         {
           headers: {
@@ -270,22 +275,26 @@ export default function EditTemplatePage({ id }) {
                       <button type="submit" className="button">
                         Save
                       </button>
-                      <button
-                        type="button"
-                        className="button"
-                        style={{ backgroundColor: "#198754" }}
-                        onClick={() => setApproveModel(true)}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        type="button"
-                        className="button"
-                        style={{ backgroundColor: "#dc3545" }}
-                        onClick={() => setShowRejectModal(true)}
-                      >
-                        Reject
-                      </button>
+                      {userObj?.role.name === "Super Admin" && (
+                        <button
+                          type="button"
+                          className="button"
+                          style={{ backgroundColor: "#198754" }}
+                          onClick={() => setApproveModel(true)}
+                        >
+                          Approve
+                        </button>
+                      )}
+                      {userObj?.role.name === "Super Admin" && (
+                        <button
+                          type="button"
+                          className="button"
+                          style={{ backgroundColor: "#dc3545" }}
+                          onClick={() => setShowRejectModal(true)}
+                        >
+                          Reject
+                        </button>
+                      )}
                       <button
                         type="button"
                         className="button"
