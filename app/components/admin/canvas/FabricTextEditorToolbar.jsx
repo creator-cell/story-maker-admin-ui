@@ -206,62 +206,30 @@ export default function FabricTextEditorToolbar({ fRef }) {
   };
 
   return (
+    <>
     <div className="editor-toolbar"
       style={{
         display: "flex",
-        gap: "24px",
+        gap: "29px",
         alignItems: "center",
         flexWrap: "wrap",
       }}
     >
       <button title="Add Text" onClick={addText}>Add Text</button>
-      {/* pencil  */}
-      {/* <button
-        onClick={activatePencil}
-        style={{ border: activeTool === "pencil" ? "2px solid black" : "" }}
-      >
-        <FaPencilAlt /> Pencil
-      </button> */}
-      {/* drawing tools */}
-      {/* highlighter  */}
-      {/* <button
-        onClick={activateHighlighter}
-        style={{ border: activeTool === "highlighter" ? "2px solid black" : "" }}
-      >
-        <FaHighlighter /> Highlighter
-      </button> */}
-      <button title="Exit Draw" onClick={exitDrawingMode}>
-        <FaTimes /> Exit Draw
-      </button>
 
-      {/* Text Style (Headings/Paragraphs) */}
+         {/* Text Style (Headings/Paragraphs) */}
       <select title="Text Style" onChange={(e) => applyTextStyle(e.target.value)}>
         <option value="">Text Style</option>
+        <option value="p">Paragraph</option>
         <option value="h1">Heading 1</option>
         <option value="h2">Heading 2</option>
         <option value="h3">Heading 3</option>
         <option value="h4">Heading 4</option>
         <option value="h5">Heading 5</option>
         <option value="h6">Heading 6</option>
-        <option value="p">Paragraph</option>
       </select>
 
-      <label title="Stroke Width">
-        Stroke Width:
-        <input 
-          type="number"
-          min="1"
-          value={strokeWidth}
-          onChange={(e) => {
-            const val = parseInt(e.target.value, 10) || 1;
-            setStrokeWidth(val);
-            disableDrawing();
-            applyProps({ strokeWidth: val });
-          }}
-        />
-      </label>
-
-      {/* font size */}
+            {/* font size */}
       <select title="Size" onChange={(e) => changeFontSize(e.target.value)}>
         {[12, 14, 16, 20, 24, 28, 32, 40, 48].map((size) => (
           <option key={size} value={size}>
@@ -269,7 +237,8 @@ export default function FabricTextEditorToolbar({ fRef }) {
           </option>
         ))}
       </select>
-      {/* Font Family */}
+
+         {/* Font Family */}
       <select title="Fonts"
         value={fontFamily}
         onChange={(e) => changeFontFamily(e.target.value)}
@@ -283,8 +252,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
         )}
       </select>
 
-
-      {/* text styles */}
+         {/* text styles */}
       <button title="Bold" onClick={() => toggleStyle("bold")}>
         <FaBold />
       </button>
@@ -309,6 +277,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
         <FaAlignJustify />
       </button>
 
+      
       {/* delete & duplicate */}
       <button title="Delete" onClick={deleteObj}>
         <FaTrash />
@@ -316,6 +285,48 @@ export default function FabricTextEditorToolbar({ fRef }) {
       <button title="Copy" onClick={duplicateObj}>
         <FaCopy />
       </button>
+      {/* pencil  */}
+      {/* <button
+        onClick={activatePencil}
+        style={{ border: activeTool === "pencil" ? "2px solid black" : "" }}
+      >
+        <FaPencilAlt /> Pencil
+      </button> */}
+      {/* drawing tools */}
+      {/* highlighter  */}
+      {/* <button
+        onClick={activateHighlighter}
+        style={{ border: activeTool === "highlighter" ? "2px solid black" : "" }}
+      >
+        <FaHighlighter /> Highlighter
+      </button> */}
+      <button title="Exit Draw" onClick={exitDrawingMode}>
+        <FaTimes /> Exit Draw
+      </button>
+
+   
+
+      <label title="Stroke Width">
+        Stroke Width:
+        <input
+          type="number"
+          min="1"
+          value={strokeWidth}
+          onChange={(e) => {
+            const val = parseInt(e.target.value, 10) || 1;
+            setStrokeWidth(val);
+            disableDrawing();
+            applyProps({ strokeWidth: val });
+          }}
+        />
+      </label>
+
+
+   
+
+
+   
+
 
 
 
@@ -349,7 +360,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
       </label> */}
 
       {/* brush settings */}
-      <label title="Brush Color"> 
+      <label title="Brush Color">
         Brush Color:
         <input
           type="color"
@@ -392,8 +403,10 @@ export default function FabricTextEditorToolbar({ fRef }) {
       </label>
 
       {/* Draw Dropdown */}
-      <div className="dropdown">
-        
+     
+    </div>
+     <div className="dropdown mt-4 w-25">
+
         <button title="Draw"
           className="button dropdown-toggle"
           type="button"
@@ -401,7 +414,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
           aria-expanded="false"
         >
           {/* <i className="fa-solid fa-pencil"></i>  */}
-          Draw
+          Draw  
         </button>
         <ul className="dropdown-menu p-2" style={{ minWidth: "200px" }}>
           <li>
@@ -444,6 +457,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
           </li>
         </ul>
       </div>
-    </div>
+      </>
   );
 }
