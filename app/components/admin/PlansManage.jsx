@@ -255,12 +255,12 @@ const PlansManage = () => {
                           <th
                             style={{ cursor: 'pointer', width: "7%" }}
                           >
-                            Type
+                            Price
                           </th>
                           <th
                             style={{ cursor: 'pointer', width: "20%" }}
                           >
-                            Plans
+                            Duration
                           </th>
                           <th
                             style={{ cursor: 'pointer', width: "15%" }}
@@ -284,14 +284,8 @@ const PlansManage = () => {
                               <td data-label="Name">{plan?.name}</td>
                               <td data-label="Title"><small className='d-flex align-items-center gap-2'>{ plan?.title }</small></td>
                               <td data-label="Description">{plan?.description}</td>
-                              <td data-label="Type">{plan?.type}</td>
-                              <td data-label="Plans">
-                                <div class="flex flex-wrap gap-3">
-                                  {plan?.plans?.map(p => (
-                                    <span class="badge bg-info text-dark m-1">{p?.value} {p?.duration} = {p?.price > 0 ? parseFloat(p?.price).toFixed(2) : '0.00'}</span>
-                                  ))}
-                                </div>    
-                              </td>
+                              <td data-label="Price">{plan?.price ? parseFloat(plan?.price).toFixed(2) : ""}</td>
+                              <td data-label="Duration">{plan?.duration ? <span class="badge bg-success text-light m-1">{plan?.duration}</span> : ""}</td>
                               <td data-label="Features">
                                 <div class="flex flex-wrap gap-3">
                                   {plan?.features?.map(p => (

@@ -26,8 +26,8 @@ const UpdatePlans = () => {
       name: "",
       title: "",
       description: "",
-      type: null,
-      plans: [{ price: 0, duration: null, value: 1 }],
+      price: null,
+      duration: null,
       features: [],
     },
   });
@@ -60,7 +60,8 @@ const UpdatePlans = () => {
           title: res.data?.data?.title,
           type: res.data?.data?.type,
           features: features,
-          plans: res.data?.data?.plans
+          price: res.data?.data?.price,
+          duration: res.data?.data?.duration
         });
       })
       .catch((err) => {
@@ -211,20 +212,36 @@ const UpdatePlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
+                        <label htmlFor="full-name">Price</label>
+                        <input
+                          type="number"
+                          name=""
+                          id=""
+                          {...register("price", { required:{ value:true, message:"Price is required" }, min: { value:0, message: "Price is invalid" } })}/>
+                      </div>
+                      {errors?.price ? (
+                        <p className="text-danger">
+                          {errors?.price?.message}
+                        </p>
+                      ) : null}
+                    </div>
+
+                    <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <div className="form_group">
                         <label htmlFor="full-name">
-                          Type <span className="text-danger">*</span>
+                          Duration <span className="text-danger">*</span>
                         </label>
                         <Controller
                           control={control}
-                          name="type"
+                          name="duration"
                           render={({ field: { onChange, value } }) => {
                             return (
                               <select value={value} onChange={onChange}>
                                 <option value="" selected>
                                   Please select
                                 </option>
-                                <option value="team">Team</option>
-                                <option value="individual">Individual</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="yearly">Yearly</option>
                               </select>
                             );
                           }}
@@ -274,142 +291,6 @@ const UpdatePlans = () => {
                         </p>
                       ) : null}
                     </div>
-
-                    {fields.map((p, index) => {
-                      return (
-                        <>
-                          <div className="row align-items-end">
-                            <div className="col-md-3">
-                              <Controller
-                                control={control}
-                                name={`plans.[${index}].price`}
-                                render={({ field: { onChange, value } }) => {
-                                  return (
-                                    <div className="form_group">
-                                      <label htmlFor="full-name">Price</label>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        name="full-name"
-                                        id="full-name"
-                                        aria-describedby="helpId"
-                                        value={value}
-                                        onChange={onChange}
-                                      />
-                                    </div>
-                                  );
-                                }}
-                                rules={{
-                                  required: {
-                                    value: true,
-                                    message: "Price is require",
-                                  },
-                                }}
-                              />
-                              {errors.plans?.[index]?.price ? (
-                                <p className="errMsg">
-                                  {errors.plans?.[index].price.message}
-                                </p>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-
-                            <div className="col-md-3">
-                              <Controller
-                                control={control}
-                                name={`plans.[${index}].duration`}
-                                render={({ field }) => (
-                                  <div className="form_group">
-                                    <label htmlFor="full-name">Duration</label>
-                                    <select {...field}>
-                                      <option value="">Please select</option>
-                                      <option value="day">day</option>
-                                      <option value="week">week</option>
-                                      <option value="month">month</option>
-                                    </select>
-                                  </div>
-                                )}
-                                rules={{
-                                  required: {
-                                    value: true,
-                                    message: "Duration is required",
-                                  },
-                                }}
-                              />
-                              {errors.plans?.[index]?.duration ? (
-                                <p className="errMsg">
-                                  {errors.plans?.[index].duration.message}
-                                </p>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-
-                            <div className="col-md-3">
-                              <Controller
-                                control={control}
-                                name={`plans.[${index}].value`}
-                                render={({ field: { value, onChange } }) => (
-                                  <div className="form_group">
-                                    <label htmlFor="full-name">
-                                      Duration value
-                                    </label>
-                                    <input
-                                      type="number"
-                                      className="form-control"
-                                      name="full-name"
-                                      id="full-name"
-                                      aria-describedby="helpId"
-                                      value={value}
-                                      onChange={onChange}
-                                    />
-                                  </div>
-                                )}
-                                rules={{
-                                  min: {
-                                    value: 1,
-                                    message:
-                                      "Duration value must be grater then 0",
-                                  },
-                                }}
-                              />
-                              {errors.plans?.[index]?.value ? (
-                                <p className="errMsg">
-                                  {errors.plans?.[index].value.message}
-                                </p>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-
-                            <div className="col-md-3">
-                              <button
-                                onClick={() => remove(index)}
-                                type="button"
-                                className="btn btn-danger mb-3"
-                              >
-                                Remove
-                              </button>
-                            </div>
-                          </div>
-                        </>
-                      );
-                    })}
-
-                    <button
-                      onClick={() =>
-                        append({
-                          price: 0,
-                          duration: null,
-                          value: 0,
-                        })
-                      }
-                      type="button"
-                      className=" button yellow btn btn-primary"
-                    >
-                      Add more
-                    </button>
 
                     <div className="col-12 mt-3 d-flex gap-3">
                       <button type="submit" className="button">
