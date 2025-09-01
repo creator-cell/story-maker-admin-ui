@@ -206,129 +206,131 @@ export default function FabricTextEditorToolbar({ fRef }) {
   };
 
   return (
-    <div
-      className="editor-toolbar"
-      style={{
-        display: "flex",
-        gap: "24px",
-        alignItems: "center",
-        flexWrap: "wrap",
-      }}
-    >
-      <button type="button" title="Add Text" onClick={addText}>
-        Add Text
-      </button>
-      {/* pencil  */}
-      {/* <button
-        type="button"
+    <>
+      <div
+        className="editor-toolbar"
+        style={{
+          display: "flex",
+          gap: "29px",
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        <button title="Add Text" onClick={addText}>
+          Add Text
+        </button>
+
+        {/* Text Style (Headings/Paragraphs) */}
+        <select
+          title="Text Style"
+          onChange={(e) => applyTextStyle(e.target.value)}
+        >
+          <option value="">Text Style</option>
+          <option value="p">Paragraph</option>
+          <option value="h1">Heading 1</option>
+          <option value="h2">Heading 2</option>
+          <option value="h3">Heading 3</option>
+          <option value="h4">Heading 4</option>
+          <option value="h5">Heading 5</option>
+          <option value="h6">Heading 6</option>
+        </select>
+
+        {/* font size */}
+        <select title="Size" onChange={(e) => changeFontSize(e.target.value)}>
+          {[12, 14, 16, 20, 24, 28, 32, 40, 48].map((size) => (
+            <option key={size} value={size}>
+              {size}
+            </option>
+          ))}
+        </select>
+
+        {/* Font Family */}
+        <select
+          title="Fonts"
+          value={fontFamily}
+          onChange={(e) => changeFontFamily(e.target.value)}
+        >
+          {[
+            "Arial",
+            "Times New Roman",
+            "Georgia",
+            "Courier New",
+            "Verdana",
+          ].map((family) => (
+            <option key={family} value={family}>
+              {family}
+            </option>
+          ))}
+        </select>
+
+        {/* text styles */}
+        <button title="Bold" onClick={() => toggleStyle("bold")}>
+          <FaBold />
+        </button>
+        <button title="Italic" onClick={() => toggleStyle("italic")}>
+          <FaItalic />
+        </button>
+        <button title="Underline" onClick={() => toggleStyle("underline")}>
+          <FaUnderline />
+        </button>
+
+        {/* alignments */}
+        <button title="Align Left" onClick={() => changeAlign("left")}>
+          <FaAlignLeft />
+        </button>
+        <button title="Align Center" onClick={() => changeAlign("center")}>
+          <FaAlignCenter />
+        </button>
+        <button title="Align Right" onClick={() => changeAlign("right")}>
+          <FaAlignRight />
+        </button>
+        <button title="Justify" onClick={() => changeAlign("justify")}>
+          <FaAlignJustify />
+        </button>
+
+        {/* delete & duplicate */}
+        <button title="Delete" onClick={deleteObj}>
+          <FaTrash />
+        </button>
+        <button title="Copy" onClick={duplicateObj}>
+          <FaCopy />
+        </button>
+        {/* pencil  */}
+        {/* <button
         onClick={activatePencil}
         style={{ border: activeTool === "pencil" ? "2px solid black" : "" }}
       >
         <FaPencilAlt /> Pencil
       </button> */}
-      {/* drawing tools */}
-      {/* highlighter  */}
-      {/* <button
-        type="button"
+        {/* drawing tools */}
+        {/* highlighter  */}
+        {/* <button
         onClick={activateHighlighter}
-        style={{
-          border: activeTool === "highlighter" ? "2px solid black" : "",
-        }}
+        style={{ border: activeTool === "highlighter" ? "2px solid black" : "" }}
       >
         <FaHighlighter /> Highlighter
       </button> */}
-      <button type="button" title="Exit Draw" onClick={exitDrawingMode}>
-        <FaTimes /> Exit Draw
-      </button>
+        <button title="Exit Draw" onClick={exitDrawingMode}>
+          <FaTimes /> Exit Draw
+        </button>
 
-      {/* Text Style (Headings/Paragraphs) */}
-      <select
-        title="Text Style"
-        onChange={(e) => applyTextStyle(e.target.value)}
-      >
-        <option value="">Text Style</option>
-        <option value="h1">Heading 1</option>
-        <option value="h2">Heading 2</option>
-        <option value="h3">Heading 3</option>
-        <option value="h4">Heading 4</option>
-        <option value="h5">Heading 5</option>
-        <option value="h6">Heading 6</option>
-        <option value="p">Paragraph</option>
-      </select>
+        <label title="Stroke Width">
+          Stroke Width:
+          <input
+            type="number"
+            min="1"
+            value={strokeWidth}
+            onChange={(e) => {
+              const val = parseInt(e.target.value, 10) || 1;
+              setStrokeWidth(val);
+              disableDrawing();
+              applyProps({ strokeWidth: val });
+            }}
+          />
+        </label>
 
-      <label title="Stroke Width">
-        Stroke Width:
-        <input
-          type="number"
-          min="1"
-          value={strokeWidth}
-          onChange={(e) => {
-            const val = parseInt(e.target.value, 10) || 1;
-            setStrokeWidth(val);
-            disableDrawing();
-            applyProps({ strokeWidth: val });
-          }}
-        />
-      </label>
-
-      {/* font size */}
-      <select title="Size" onChange={(e) => changeFontSize(e.target.value)}>
-        {[12, 14, 16, 20, 24, 28, 32, 40, 48].map((size) => (
-          <option key={size} value={size}>
-            {size}
-          </option>
-        ))}
-      </select>
-      {/* Font Family */}
-      <select
-        title="Fonts"
-        value={fontFamily}
-        onChange={(e) => changeFontFamily(e.target.value)}
-      >
-        {["Arial", "Times New Roman", "Georgia", "Courier New", "Verdana"].map(
-          (family) => (
-            <option key={family} value={family}>
-              {family}
-            </option>
-          )
-        )}
-      </select>
-
-      {/* text styles */}
-      <button title="Bold" onClick={() => toggleStyle("bold")}>
-        <FaBold />
-      </button>
-      <button title="Italic" onClick={() => toggleStyle("italic")}>
-        <FaItalic />
-      </button>
-      <button title="Underline" onClick={() => toggleStyle("underline")}>
-        <FaUnderline />
-      </button>
-
-      {/* alignments */}
-      <button title="Align Left" onClick={() => changeAlign("left")}>
-        <FaAlignLeft />
-      </button>
-      <button title="Align Center" onClick={() => changeAlign("center")}>
-        <FaAlignCenter />
-      </button>
-      <button title="Align Right" onClick={() => changeAlign("right")}>
-        <FaAlignRight />
-      </button>
-      <button title="Justify" onClick={() => changeAlign("justify")}>
-        <FaAlignJustify />
-      </button>
-
-      {/* delete & duplicate */}
-      <button title="Delete" onClick={deleteObj}>
-        <FaTrash />
-      </button>
-      <button title="Copy" onClick={duplicateObj}>
-        <FaCopy />
-      </button>
-
-      {/* brush size  */}
-      {/* <label>
+        {/* brush size  */}
+        {/* <label>
         Brush Size:
         <input
           type="number"
@@ -347,51 +349,52 @@ export default function FabricTextEditorToolbar({ fRef }) {
         />
       </label> */}
 
-      {/* brush settings */}
-      <label title="Brush Color">
-        Brush Color:
-        <input
-          type="color"
-          value={brushColor}
-          onChange={(e) => {
-            setBrushColor(e.target.value);
-            const canvas = fRef.current;
-            if (canvas && canvas.freeDrawingBrush) {
-              canvas.freeDrawingBrush.color = e.target.value;
-              canvas.renderAll();
-            }
-          }}
-        />
-      </label>
-      {/* Fill & Stroke */}
-      <label title="Fill Color">
-        Fill:
-        <input
-          type="color"
-          value={fill}
-          onChange={(e) => {
-            setFill(e.target.value);
-            disableDrawing();
-            applyProps({ fill: e.target.value });
-          }}
-        />
-      </label>
+        {/* brush settings */}
+        <label title="Brush Color">
+          Brush Color:
+          <input
+            type="color"
+            value={brushColor}
+            onChange={(e) => {
+              setBrushColor(e.target.value);
+              const canvas = fRef.current;
+              if (canvas && canvas.freeDrawingBrush) {
+                canvas.freeDrawingBrush.color = e.target.value;
+                canvas.renderAll();
+              }
+            }}
+          />
+        </label>
+        {/* Fill & Stroke */}
+        <label title="Fill Color">
+          Fill:
+          <input
+            type="color"
+            value={fill}
+            onChange={(e) => {
+              setFill(e.target.value);
+              disableDrawing();
+              applyProps({ fill: e.target.value });
+            }}
+          />
+        </label>
 
-      <label title="Stroke Color">
-        Stroke:
-        <input
-          type="color"
-          value={stroke}
-          onChange={(e) => {
-            setStroke(e.target.value);
-            disableDrawing();
-            applyProps({ stroke: e.target.value });
-          }}
-        />
-      </label>
+        <label title="Stroke Color">
+          Stroke:
+          <input
+            type="color"
+            value={stroke}
+            onChange={(e) => {
+              setStroke(e.target.value);
+              disableDrawing();
+              applyProps({ stroke: e.target.value });
+            }}
+          />
+        </label>
 
-      {/* Draw Dropdown */}
-      <div className="dropdown">
+        {/* Draw Dropdown */}
+      </div>
+      <div className="dropdown mt-4 w-25">
         <button
           title="Draw"
           className="button dropdown-toggle"
@@ -437,6 +440,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
           </li>
         </ul>
       </div>
-    </div>
+    </>
   );
 }

@@ -158,7 +158,7 @@ const AddCategoryPage = () => {
                       <label className="form-label">Description</label>
                       <textarea
                         className="form-control"
-                        rows="4"
+                        rows="1"
                         {...register("description")}
                       ></textarea>
                     </div>

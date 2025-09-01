@@ -3350,7 +3350,7 @@ button.admin_menuToggler {
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .click-to-resolve {
   padding: 10px 10px;
-  background: #1f4f8f !important;
+  background: #6c757d !important;
 }
 
 
@@ -10004,6 +10004,8 @@ html {
 .chat-container .chat {
   /* border-top-left-radius: 20px;
   border-top-right-radius: 20px; */
+  width: 90%;
+  margin: 0 auto;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px !important;
 }
 
@@ -10087,6 +10089,7 @@ html {
   border: 1px solid #ddd !important;
   border-radius: 6px 8px;
   width: 40px;
+  text-align: center;
 }
 
 .editor-toolbar .dropdown button {
@@ -10131,9 +10134,9 @@ html {
   padding: 12px 16px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
-  width: 97% !important;
+  width: 98% !important;
   background: #f9f9f9;
-  margin-left: 13px;
+  margin-left: 12px;
 }
 
 .toolbar .dropdown ul li .dropdown-item:hover,
@@ -10145,3 +10148,6 @@ html {
    margin-top: -45px ;
   padding-left: 110px;
 }
+
+
+

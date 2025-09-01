@@ -93,23 +93,40 @@ const ChatHistory = ({ ticketId }) => {
               <div
                 key={msg._id}
                 style={{
-                  borderBottom: "1px solid #d1d5db",
+                  // borderBottom: "1px solid #d1d5db",
                   paddingLeft: "10px",
                   marginBottom: 12,
                   display: "flex",
-                  justifyContent: msg.role === "user" ? "flex-start" : "flex-start",
+                  justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
+
                 }}
               >
                 <div
                   style={{
+                       width:"90%",
+                    marginRight:"10px",
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: msg.role === "user" ? "flex-start" : "flex-start",
+                    alignItems: msg.role === "user" ? "flex-end" : "flex-start",
                     maxWidth: "100%",
                   }}
                 >
                   {/* Icon + Time */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                 
+                  {/* Message */}
+                  <p
+                    className="mt-3"
+                    style={{
+                   
+                      color: "#626773",
+                      margin: "4px 0 0",
+                      background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
+                      padding: "8px 12px",
+                      borderRadius: 8,
+                      paddingLeft: 55
+                    }}
+                  >
+                     <div style={{ display: "flex", alignItems: "center", gap: 6 , marginLeft:"-40px" }}>
                     <i
                       className={
                         msg.role === "user"
@@ -117,36 +134,26 @@ const ChatHistory = ({ ticketId }) => {
                           : "fa-solid fa-user-astronaut"
                       }
                       style={{
+                        width: "auto",
                         fontSize: 18,
                         border: "2px solid black",
-                        padding: "4px",
-                        borderRadius: "20px",
+                        padding: "6px",
+                        borderRadius: "50%",
                       }}
                     ></i>
-                    <div style={{ display: "flex", flexDirection: "column", paddingLeft: "20px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", paddingLeft: "10px" }}>
                       <small style={{ color: "black", fontWeight: "600" }}>
                         {msg.role === "user" ? "User" : "Moderator"}
                       </small>
-                      <small style={{ color: "black", fontWeight: "600" }}>
-                        {msg.sentAt
-                          ? new Date(msg.sentAt).toLocaleString()
-                          : "Just now"}
-                      </small>
+
                     </div>
                   </div>
-                  {/* Message */}
-                  <p
-                    className="mt-3"
-                    style={{
-                      color: "#626773",
-                      margin: "4px 0 0",
-                      // background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
-                      padding: "8px 12px",
-                      borderRadius: 8,
-                      paddingLeft: 55
-                    }}
-                  >
                     {msg.message}
+                    <small style={{ color: "black", fontWeight: "600", display: "flex", justifyContent: "flex-end" }}>
+                      {msg.sentAt
+                        ? new Date(msg.sentAt).toLocaleString()
+                        : "Just now"}
+                    </small>
                   </p>
                 </div>
               </div>
