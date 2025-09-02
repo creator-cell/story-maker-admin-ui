@@ -3008,10 +3008,11 @@ h6 {
   border-radius: 5px;
   display: block;
   width: auto;
-  padding: 6px 10px;
+  /* padding: 6px 10px; */
   text-decoration: none;
   outline: none;
   border: 0;
+    background: none;
   /* background-color: darkred; */
   color: var(--white);
   line-height: 1.2;
@@ -3019,6 +3020,7 @@ h6 {
 }
 
 .admin_action_edit {
+  background: none;
   border-radius: 5px;
   display: block;
   width: auto;
@@ -3031,6 +3033,22 @@ h6 {
   line-height: 1.2;
   font-size: 14px;
 }
+.admin_action_edit i{
+  color: #FFD43B;
+  font-size: 19px;
+}
+.admin_action_delete i{
+   color:  #dc3545;
+  font-size: 19px;
+}
+/* .admin_action_edit i:hover{
+  color: #fbc500;
+  font-size: 19px;
+}
+.admin_action_delete i:hover{
+   color:  #fe0a22;
+  font-size: 19px;
+} */
 
 .admin_action_btn:hover,
 .admin_action_btn:focus,
@@ -3232,13 +3250,14 @@ button.admin_menuToggler {
   color: var(--dark);
   position: relative;
   z-index: 2;
+   background: #f5f5f7;
 }
 
 #main_container .inner_container {
   border: 0;
   border-radius: 0px;
   min-height: 90vh;
-  background-color: var(--white);
+  /* background-color: var(--white); */
 }
 
 /* main_container */
@@ -3345,7 +3364,7 @@ button.admin_menuToggler {
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
   padding: 10px 10px;
-  background: #1f4f8f !important;
+  background: #0872ff  !important;
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .click-to-resolve {
@@ -3699,12 +3718,6 @@ button.admin_menuToggler {
     background-color: #FFFAFA;
   }
 
-  /* .comman_admin_layout .admin_table .form-control,
-  .comman_admin_layout .admin_table .form-control:focus,
-  .comman_admin_layout .admin_table .form-control:active,
-  .comman_admin_layout .admin_table .form-control:hover {
-    width: 50%;
-  } */
 
   .admin_table .table-responsive table tbody td {
     display: flex;
@@ -9821,10 +9834,6 @@ html {
   }
 }
 
-.permission-item {
-  margin-bottom: 5px;
-}
-
 .permission-badges {
   margin-top: 2px;
   padding: 10px 10px 10px 20px;
@@ -9839,7 +9848,6 @@ html {
 .permission-badges strong {
   min-width: 100px;
   font-size: 18px;
-  /* padding: 0px 20px 0px 15px; */
 }
 
 .badge {
@@ -9962,7 +9970,15 @@ html {
   opacity: 0.8;
   transition: background-color 1s ease, box-shadow 1s ease;
 }
-
+.comman_admin_layout .admin_form_panel,
+.comman_admin_layout .admin_forms{
+    background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+  padding: 24px;
+  /* margin: 20px auto; */
+  /* max-width: 800px; */
+}
 .comman_admin_layout .admin_form_panel button:hover,
 .comman_admin_layout .admin_form_panel button:visited {
   background: #0056b3 !important;
@@ -9989,21 +10005,13 @@ html {
   margin-right: 15px;
 }
 
-/* .comman_admin_layout .admin_table .table-responsive .table .table_body tr td button{
-  background: rgb(31, 79, 143) !important;
-} */
-/* .comman_admin_layout .admin_table .table-responsive .table .table_body tr td button.clicked{
-  background: red !important;
-} */
+
 .box {
-  /* padding: 10px !important; */
-  /* border-radius: 6px !important; */
   background-color: #fff !important;
 }
 
 .chat-container .chat {
-  /* border-top-left-radius: 20px;
-  border-top-right-radius: 20px; */
+  border-radius: 20px;
   width: 90%;
   margin: 0 auto;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px !important;
@@ -10011,18 +10019,21 @@ html {
 
 .chat-container .chat h3 {
   border-bottom: 1px solid #d1d5db;
-  /* border-top-left-radius: 20px;
-  border-top-right-radius: 20px; */
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: #2383AA;
   /* background: linear-gradient(#007bff, #00c6ff); */
   padding: 15px;
-  color: black;
+  color: white;
   margin-bottom: 0;
-  background: white;
+  /* background: white; */
   font-weight: 100 !important;
   font-size: 25px;
 }
 
 .type-message {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   background: white;
   padding: 10px;
 }
@@ -10148,6 +10159,10 @@ html {
    margin-top: -45px ;
   padding-left: 110px;
 }
+
+
+
+
 
 
 

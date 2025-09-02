@@ -426,20 +426,20 @@ export default function Users() {
 
                                 {hasWritePermission() && (
                                   <td data-label="Action">
-                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                    <div className="d-flex justify-content-start align-items-center">
                                       <button
-                                        className="admin_action_edit bg-success"
+                                        className="admin_action_edit"
                                         onClick={() => handleEditUser(user._id)}
-                                        title="Edit User"
+                                        // title="Edit User"
                                       >
-                                        <i className="fa fa-edit"></i>
+                                       <i class="fa-solid fa-pencil"></i>
                                       </button>
                                       <button
-                                        className="admin_action_delete bg-danger"
+                                        className="admin_action_delete"
                                         onClick={() =>
                                           handleUserDelete(user._id)
                                         }
-                                        title="Delete User"
+                                        // title="Delete User"
                                       >
                                         <i className="fa fa-trash"></i>
                                       </button>

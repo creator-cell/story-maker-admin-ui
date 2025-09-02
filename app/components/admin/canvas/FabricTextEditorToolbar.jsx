@@ -211,7 +211,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
         className="editor-toolbar"
         style={{
           display: "flex",
-          gap: "29px",
+          gap: "28px",
           alignItems: "center",
           flexWrap: "wrap",
         }}
@@ -373,22 +373,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
         />
       </label> */}
 
-        {/* brush settings */}
-        <label title="Brush Color">
-          Brush Color:
-          <input
-            type="color"
-            value={brushColor}
-            onChange={(e) => {
-              setBrushColor(e.target.value);
-              const canvas = fRef.current;
-              if (canvas && canvas.freeDrawingBrush) {
-                canvas.freeDrawingBrush.color = e.target.value;
-                canvas.renderAll();
-              }
-            }}
-          />
-        </label>
+
         {/* Fill & Stroke */}
         <label title="Fill Color">
           Fill:
@@ -451,8 +436,27 @@ export default function FabricTextEditorToolbar({ fRef }) {
           <li>
             <hr className="dropdown-divider" />
           </li>
-          <li className="px-2">
-            <label className="form-label">Brush Size</label>
+           <li className="px-3 mt-2">
+            {/* brush settings */}
+            <label>
+              Brush Color:
+              <input
+                type="color"
+                value={brushColor}
+                onChange={(e) => {
+                  setBrushColor(e.target.value);
+                  const canvas = fRef.current;
+                  if (canvas && canvas.freeDrawingBrush) {
+                    canvas.freeDrawingBrush.color = e.target.value;
+                    canvas.renderAll();
+                  }
+                }}
+              />
+            </label>
+          </li>
+        
+          <li className="px-3 mt-2">
+            <label className="form-label">Brush Size :</label>
             <input
               type="number"
               min="1"
@@ -470,6 +474,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
               }}
             />
           </li>
+           
         </ul>
       </div>
     </>

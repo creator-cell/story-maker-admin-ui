@@ -98,13 +98,12 @@ const ChatHistory = ({ ticketId }) => {
                   marginBottom: 12,
                   display: "flex",
                   justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
-
                 }}
               >
                 <div
                   style={{
-                       width:"90%",
-                    marginRight:"10px",
+                    width: "90%",
+                    marginRight: "10px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: msg.role === "user" ? "flex-end" : "flex-start",
@@ -112,12 +111,12 @@ const ChatHistory = ({ ticketId }) => {
                   }}
                 >
                   {/* Icon + Time */}
-                 
+
                   {/* Message */}
                   <p
                     className="mt-3"
                     style={{
-                   
+
                       color: "#626773",
                       margin: "4px 0 0",
                       background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
@@ -126,28 +125,28 @@ const ChatHistory = ({ ticketId }) => {
                       paddingLeft: 55
                     }}
                   >
-                     <div style={{ display: "flex", alignItems: "center", gap: 6 , marginLeft:"-40px" }}>
-                    <i
-                      className={
-                        msg.role === "user"
-                          ? "fa-solid fa-user"
-                          : "fa-solid fa-user-astronaut"
-                      }
-                      style={{
-                        width: "auto",
-                        fontSize: 18,
-                        border: "2px solid black",
-                        padding: "6px",
-                        borderRadius: "50%",
-                      }}
-                    ></i>
-                    <div style={{ display: "flex", flexDirection: "column", paddingLeft: "10px" }}>
-                      <small style={{ color: "black", fontWeight: "600" }}>
-                        {msg.role === "user" ? "User" : "Moderator"}
-                      </small>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: "-40px" }}>
+                      <i
+                        className={
+                          msg.role === "user"
+                            ? "fa-solid fa-user"
+                            : "fa-solid fa-user-astronaut"
+                        }
+                        style={{
+                          width: "auto",
+                          fontSize: 18,
+                          border: "2px solid black",
+                          padding: "6px",
+                          borderRadius: "50%",
+                        }}
+                      ></i>
+                      <div style={{ display: "flex", flexDirection: "column", paddingLeft: "10px" }}>
+                        <small style={{ color: "black", fontWeight: "600" }}>
+                          {msg.role === "user" ? "User" : "Moderator"}
+                        </small>
 
+                      </div>
                     </div>
-                  </div>
                     {msg.message}
                     <small style={{ color: "black", fontWeight: "600", display: "flex", justifyContent: "flex-end" }}>
                       {msg.sentAt

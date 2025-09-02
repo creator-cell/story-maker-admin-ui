@@ -48,12 +48,12 @@ export default function Categories() {
   }, []);
 
   const handleEditCategory = (id) => {
-    setLoader(true);  
+    setLoader(true);
     router.push(`/admin/category/${id}`);
   };
 
   const handleAddCategory = () => {
-        setLoader(true);  
+    setLoader(true);
     router.push(`/admin/category/add-category`);
   };
 
@@ -152,18 +152,18 @@ export default function Categories() {
                               <td>{category.description}</td>
 
                               <td>
-                                <div className="d-flex justify-content-start align-items-center gap-2">
+                                <div className="d-flex justify-content-start align-items-center">
                                   <button
-                                    className={`admin_action_edit bg-success`}
+                                    className={`admin_action_edit`}
                                     onClick={() =>
                                       handleEditCategory(category._id)
                                     }
                                   >
-                                    <i className="fa fa-edit"></i>
+                                    <i className="fa-solid fa-pencil"></i>
                                   </button>
 
                                   <button
-                                    className={`admin_action_delete bg-danger`}
+                                    className={`admin_action_delete`}
                                     onClick={() =>
                                       handleDeleteCategory(category._id)
                                     }
