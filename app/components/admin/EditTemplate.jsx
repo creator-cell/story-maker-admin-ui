@@ -102,6 +102,7 @@ export default function EditTemplatePage({ id }) {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
+      console.log("Template data:", res.data);
       const t = res.data.template;
       setValue("name", t.name || "");
       setValue("category", t.category._id || "");

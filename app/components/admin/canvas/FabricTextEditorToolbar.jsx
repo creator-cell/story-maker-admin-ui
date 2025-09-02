@@ -51,16 +51,50 @@ export default function FabricTextEditorToolbar({ fRef }) {
   const toggleStyle = (style) => {
     const text = getActiveText();
     if (!text) return;
-    if (style === "bold") {
-      text.set("fontWeight", text.fontWeight === "bold" ? "normal" : "bold");
+
+    const selectionStart = text.selectionStart;
+    const selectionEnd = text.selectionEnd;
+
+    if (selectionStart !== selectionEnd) {
+      // Apply to selected range only
+      let styleProp = {};
+      if (style === "bold") {
+        styleProp = {
+          fontWeight:
+            text.getSelectionStyles()[0]?.fontWeight === "bold"
+              ? "normal"
+              : "bold",
+        };
+      }
+      if (style === "italic") {
+        styleProp = {
+          fontStyle:
+            text.getSelectionStyles()[0]?.fontStyle === "italic"
+              ? "normal"
+              : "italic",
+        };
+      }
+      if (style === "underline") {
+        styleProp = { underline: !text.getSelectionStyles()[0]?.underline };
+      }
+      text.setSelectionStyles(styleProp, selectionStart, selectionEnd);
+    } else {
+      // Apply to whole object if no selection
+      if (style === "bold") {
+        text.set("fontWeight", text.fontWeight === "bold" ? "normal" : "bold");
+      }
+      if (style === "italic") {
+        text.set(
+          "fontStyle",
+          text.fontStyle === "italic" ? "normal" : "italic"
+        );
+      }
+      if (style === "underline") {
+        text.set("underline", !text.underline);
+      }
     }
-    if (style === "italic") {
-      text.set("fontStyle", text.fontStyle === "italic" ? "normal" : "italic");
-    }
-    if (style === "underline") {
-      text.set("underline", !text.underline);
-    }
-    fRef.current.renderAll();
+
+    fRef.current.requestRenderAll();
   };
 
   const changeAlign = (align) => {
@@ -319,21 +353,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
         <button title="Copy" type="button" onClick={duplicateObj}>
           <FaCopy />
         </button>
-        {/* pencil  */}
-        {/* <button
-        onClick={activatePencil}
-        style={{ border: activeTool === "pencil" ? "2px solid black" : "" }}
-      >
-        <FaPencilAlt /> Pencil
-      </button> */}
-        {/* drawing tools */}
-        {/* highlighter  */}
-        {/* <button
-        onClick={activateHighlighter}
-        style={{ border: activeTool === "highlighter" ? "2px solid black" : "" }}
-      >
-        <FaHighlighter /> Highlighter
-      </button> */}
+
         <button title="Exit Draw" type="button" onClick={exitDrawingMode}>
           <FaTimes /> Exit Draw
         </button>
@@ -352,26 +372,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
             }}
           />
         </label>
-
-        {/* brush size  */}
-        {/* <label>
-        Brush Size:
-        <input
-          type="number"
-          min="1"
-          max="50"
-          value={brushWidth}
-          onChange={(e) => {
-            const val = parseInt(e.target.value, 10) || 1;
-            setBrushWidth(val);
-            const canvas = fRef.current;
-            if (canvas && canvas.freeDrawingBrush) {
-              canvas.freeDrawingBrush.width = val;
-              canvas.renderAll();
-            }
-          }}
-        />
-      </label> */}
 
         {/* brush settings */}
         <label title="Brush Color">

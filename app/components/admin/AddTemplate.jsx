@@ -63,7 +63,6 @@ export default function AddTemplatePage() {
 
   useEffect(() => {
     initCanvas(canvasRef, wrapRef, fRef, setSelectedObject);
-    console.log("Canvas initialized:", fRef.current);
 
     fetchCategories(setCategories);
   }, [fRef]);
