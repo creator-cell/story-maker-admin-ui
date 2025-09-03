@@ -18,7 +18,6 @@ export default function Template() {
   const itemsPerPage = 20;
   const [loader, setLoader] = useState(false);
   const userStr = localStorage.getItem("user");
-
   const userObj = userStr ? JSON.parse(userStr) : null;
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));

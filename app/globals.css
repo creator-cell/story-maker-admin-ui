@@ -3008,11 +3008,11 @@ h6 {
   border-radius: 5px;
   display: block;
   width: auto;
-  /* padding: 6px 10px; */
+  padding: 6px 10px;
   text-decoration: none;
   outline: none;
   border: 0;
-    background: none;
+  background: none;
   /* background-color: darkred; */
   color: var(--white);
   line-height: 1.2;
@@ -3024,7 +3024,7 @@ h6 {
   border-radius: 5px;
   display: block;
   width: auto;
-  padding: 6px 10px;
+  padding: 6px 0px;
   text-decoration: none;
   outline: none;
   border: 0;
@@ -3033,14 +3033,17 @@ h6 {
   line-height: 1.2;
   font-size: 14px;
 }
-.admin_action_edit i{
+
+.admin_action_edit i {
   color: #FFD43B;
   font-size: 19px;
 }
-.admin_action_delete i{
-   color:  #dc3545;
+
+.admin_action_delete i {
+  color: #dc3545;
   font-size: 19px;
 }
+
 /* .admin_action_edit i:hover{
   color: #fbc500;
   font-size: 19px;
@@ -3250,7 +3253,7 @@ button.admin_menuToggler {
   color: var(--dark);
   position: relative;
   z-index: 2;
-   background: #f5f5f7;
+  background: #f5f5f7;
 }
 
 #main_container .inner_container {
@@ -3364,7 +3367,7 @@ button.admin_menuToggler {
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
   padding: 10px 10px;
-  background: #0872ff  !important;
+  background: #0872ff !important;
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .click-to-resolve {
@@ -9038,6 +9041,10 @@ html {
   text-align: center !important;
 }
 
+.text-center input {
+  border: 1px solid black;
+}
+
 .text-muted {
   color: #6c757d !important;
 }
@@ -9967,37 +9974,39 @@ html {
 .comman_admin_layout .admin_table .table_filter .filter_field .button:hover,
 .comman_admin_layout .admin_table .table_filter .filter_field .button:visited {
   background: #0056b3 !important;
-  opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
+  /* opacity: 0.8; */
+  transition: background-color, box-shadow 1s ease;
 }
+
 .comman_admin_layout .admin_form_panel,
-.comman_admin_layout .admin_forms{
-    background: #fff;
+.comman_admin_layout .admin_forms {
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
   padding: 24px;
   /* margin: 20px auto; */
   /* max-width: 800px; */
 }
+
 .comman_admin_layout .admin_form_panel button:hover,
 .comman_admin_layout .admin_form_panel button:visited {
   background: #0056b3 !important;
   opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
+  transition: background-color, box-shadow 1s ease;
 }
 
 .comman_admin_layout .admin_table .table_filter button:hover,
 .comman_admin_layout .admin_table .table_filter button:visited {
   background: #0056b3 !important;
   opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
+  transition: background-color, box-shadow 1s ease;
 }
 
 .comman_admin_layout .admin_forms form .button:hover,
 .comman_admin_layout .admin_forms form .button:visited {
   background: #0056b3 !important;
   opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
+  transition: background-color, box-shadow 1s ease;
 }
 
 .comman_admin_layout .admin_table .form_group button {
@@ -10005,16 +10014,69 @@ html {
   margin-right: 15px;
 }
 
-
 .box {
   background-color: #fff !important;
 }
 
 .chat-container .chat {
   border-radius: 20px;
-  width: 90%;
   margin: 0 auto;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px !important;
+}
+
+.chat-container .chat .box {
+  height: 350px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.chat-container .chat .box .user-chat {
+  width: 90%;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.chat-container .chat .box .user-chat p {
+  color: #626773;
+  padding: 8px 12px;
+  border-radius: 8px;
+  padding-left: 55px;
+  margin: 4px 0px 0px;
+}
+
+.chat-container .chat .box .user-chat p .icon-name {
+  display: flex;
+  align-items: baseline;
+  margin-left: -40px;
+  gap: 6px;
+}
+
+.chat-container .chat .box .user-chat p .icon-name .name {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.chat-container .chat .box .user-chat p .icon-name .name small {
+  color: black;
+  font-weight: 600;
+}
+
+.chat-container .chat .box .user-chat p small {
+  display: flex;
+  justify-content: flex-end;
+  color: black;
+  font-weight: 600;
+}
+
+.chat-container .chat .box .user-chat p .icon-name i {
+  width: auto;
+  font-size: 18px;
+  border: 2px solid black;
+  padding: 6px;
+  border-radius: 50%;
 }
 
 .chat-container .chat h3 {
@@ -10052,7 +10114,7 @@ html {
 .chat-container .send-chat button:visited {
   background: #0056b3 !important;
   opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
+  transition: background-color, box-shadow 1s ease;
 }
 
 .chat-container .send-chat .form-control {
@@ -10068,7 +10130,7 @@ html {
 .chat-container .chat .type-message button:visited {
   background: #0056b3 !important;
   opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
+  transition: background-color, box-shadow 1s ease;
 }
 
 .form-control:hover {
@@ -10109,6 +10171,12 @@ html {
   padding: 14px 18px;
 }
 
+.main-toolbar .dropdown ul li label {
+  gap: 6px;
+  height: 30px;
+  display: flex;
+}
+
 .editor-toolbar button {
   border: 1px solid #ddd !important;
   border-radius: 6px 8px;
@@ -10130,7 +10198,7 @@ html {
 .toolbar .button:visited {
   background: #0056b3 !important;
   opacity: 0.8;
-  transition: background-color 1s ease, box-shadow 1s ease;
+  transition: background-color, box-shadow 1s ease;
 }
 
 .canvas-container {
@@ -10155,14 +10223,12 @@ html {
   color: white;
   background: #0056b3 !important;
 }
-.toolbar{
-   margin-top: -45px ;
+
+.toolbar {
+  margin-top: -45px;
   padding-left: 110px;
 }
 
-
-
-
-
-
-
+.toolbar .dropdown ul li button i {
+  width: 40px;
+}

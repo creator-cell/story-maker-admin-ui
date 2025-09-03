@@ -72,8 +72,7 @@ export default function FabricToolbar({
                 onClick={() => onAddShape("circle")}
               >
                 <i
-                  className="fa-
-                regular fa-circle"
+                  className="fa-regular fa-circle"
                 ></i>
                 <span>Circle</span>
               </button>
@@ -115,7 +114,7 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("arrow")}
               >
-                <i className="fa-solid fa-arrow-right"></i>
+                <i className="fa-solid fa-arrow-right"></i>&nbsp;
                 <span>Arrow</span>
               </button>
             </li>
@@ -167,7 +166,7 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("star")}
               >
-                <i className="fa-solid fa-star"></i>
+                &nbsp;<i className="fa-solid fa-star w-25"></i> &nbsp;
                 <span>Star</span>
               </button>
             </li>
@@ -215,7 +214,7 @@ export default function FabricToolbar({
                   style={{
                     transform: "rotate(135deg)",
                     display: "inline-block",
-                    marginRight: "8px",
+                    // marginRight: "8px",
                   }}
                 ></i>
 
@@ -228,7 +227,6 @@ export default function FabricToolbar({
                 onClick={() => onAddLine("curved")}
               >
                 <i className="fa-solid fa-infinity"></i>
-
                 <span> Curved Line</span>
               </button>
             </li>
@@ -251,9 +249,11 @@ export default function FabricToolbar({
                 <span
                   style={{
                     display: "inline-block",
-                    width: "20px",
+                    width: "17px",
                     borderTop: "2px dashed #000",
-                    marginRight: "8px",
+                    marginRight: "18px",
+                    marginBottom: "5px",
+                    marginLeft: "10px"
                   }}
                 ></span>
                 <span>Dashed Line</span>

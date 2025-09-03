@@ -272,7 +272,7 @@ export default function Roles() {
                                     <div className="d-flex justify-content-start align-items-center">
                                       <button className="admin_action_edit"
                                         onClick={() => handleUserUpdate(user._id)}>
-                                        <i class="fa-solid fa-pencil"></i>
+                                        <i className="fa-solid fa-pencil"></i>
                                       </button>
                                       {!user?.isSuperAdmin ?
                                         <button className="admin_action_delete"

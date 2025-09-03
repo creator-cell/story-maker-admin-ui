@@ -78,90 +78,47 @@ const ChatHistory = ({ ticketId }) => {
       <div className="chat">
         <h3>Support Ticket Chat</h3>
         {/* {loading && <div>Loading...</div>} */}
-        <div
-          className="box"
-          style={{
-            height: 350,
-            maxHeight: 350,
-            overflowY: "auto",
-            // padding: 16,
-            // marginBottom: 16,
-          }}
-        >
+        <div className="box">
           {ticket?.messages?.length ? (
             ticket.messages.map((msg) => (
               <div
                 key={msg._id}
-                style={{
-                  // borderBottom: "1px solid #d1d5db",
-                  paddingLeft: "10px",
-                  marginBottom: 12,
-                  display: "flex",
-                  justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
-                }}
-              >
-                <div
-                  style={{
-                    width: "90%",
-                    marginRight: "10px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: msg.role === "user" ? "flex-end" : "flex-start",
-                    maxWidth: "100%",
-                  }}
-                >
-                  {/* Icon + Time */}
-
+                style={{ paddingLeft: "10px", marginBottom: 12, display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start", }}>
+                <div className="user-chat"
+                  style={{ alignItems: msg.role === "user" ? "flex-end" : "flex-start", }}>
                   {/* Message */}
-                  <p
-                    className="mt-3"
-                    style={{
-
-                      color: "#626773",
-                      margin: "4px 0 0",
-                      background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
-                      padding: "8px 12px",
-                      borderRadius: 8,
-                      paddingLeft: 55
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: "-40px" }}>
-                      <i
-                        className={
-                          msg.role === "user"
-                            ? "fa-solid fa-user"
-                            : "fa-solid fa-user-astronaut"
-                        }
-                        style={{
-                          width: "auto",
-                          fontSize: 18,
-                          border: "2px solid black",
-                          padding: "6px",
-                          borderRadius: "50%",
-                        }}
-                      ></i>
-                      <div style={{ display: "flex", flexDirection: "column", paddingLeft: "10px" }}>
-                        <small style={{ color: "black", fontWeight: "600" }}>
+                  <p className="mt-3" style={{ background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8", }} >
+                    <div className="icon-name">
+                      <i className={
+                        msg.role === "user"
+                          ? "fa-solid fa-user"
+                          : "fa-solid fa-user-astronaut"
+                      }></i>
+                      <div className="name">
+                        <small>
                           {msg.role === "user" ? "User" : "Moderator"}
                         </small>
-
                       </div>
                     </div>
                     {msg.message}
-                    <small style={{ color: "black", fontWeight: "600", display: "flex", justifyContent: "flex-end" }}>
+                    <small>
                       {msg.sentAt
-                        ? new Date(msg.sentAt).toLocaleString()
+                        ? new Date(msg.sentAt).toLocaleString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
                         : "Just now"}
                     </small>
                   </p>
                 </div>
               </div>
-
             ))
           ) : (
             <div>No messages yet.</div>
           )}
-
           <div ref={messagesEndRef} />
         </div>
         <div className="type-message d-flex gap-2">

@@ -421,7 +421,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
               className="dropdown-item"
               onClick={activatePencil}
             >
-              <FaPencilAlt /> Pencil
+              <FaPencilAlt /> &nbsp; Pencil
             </button>
           </li>
           <li>
@@ -430,7 +430,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
               className="dropdown-item"
               onClick={activateHighlighter}
             >
-              <FaHighlighter /> Highlighter
+              <FaHighlighter /> &nbsp; Highlighter
             </button>
           </li>
           <li>
