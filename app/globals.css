@@ -291,7 +291,7 @@ table thead {
   font-size: 16px;
   font-weight: 600;
   /* background: var(--btn-main); */
-  background: linear-gradient(180deg, #007bff, #00c6ff) !important;
+  background: linear-gradient(180deg, #007bff, #00c6ff);
   color: var(--white);
   line-height: 1;
   border: 1px solid transparent;
@@ -301,10 +301,6 @@ table thead {
   outline: none;
   padding: 14px 18px;
   transition: all 0.3s ease;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
   font-family: var(--Avenir-Bold-font-family);
 }
 
@@ -314,10 +310,6 @@ table thead {
   color: var(--white);
   outline: none;
   transition: all 0.3s ease;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
   font-family: var(--Avenir-Bold-font-family);
 }
 
@@ -9974,7 +9966,7 @@ html {
 .comman_admin_layout .admin_table .table_filter .filter_field .button:hover,
 .comman_admin_layout .admin_table .table_filter .filter_field .button:visited {
   background: #0056b3 !important;
-  /* opacity: 0.8; */
+  opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
 }
 
@@ -9984,8 +9976,6 @@ html {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
   padding: 24px;
-  /* margin: 20px auto; */
-  /* max-width: 800px; */
 }
 
 .comman_admin_layout .admin_form_panel button:hover,
@@ -9993,6 +9983,7 @@ html {
   background: #0056b3 !important;
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
+  color: white;
 }
 
 .comman_admin_layout .admin_table .table_filter button:hover,
@@ -10014,7 +10005,7 @@ html {
   margin-right: 15px;
 }
 
-.box {
+.chat-container .chat .box {
   background-color: #fff !important;
 }
 
@@ -10093,14 +10084,14 @@ html {
   font-size: 25px;
 }
 
-.type-message {
+.chat-container .chat .type-message {
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   background: white;
   padding: 10px;
 }
 
-.badge {
+.admin_table .table-responsive table .table_body .permission-item .permission-badges .badge {
   color: white !important;
   background-color: #2383AA !important;
 }
@@ -10142,32 +10133,30 @@ html {
   text-align: center;
 }
 
-.editor-toolbar button {
+.main-toolbar .editor-toolbar button {
   background-color: white;
   border-radius: 6px 8px;
 }
 
-.editor-toolbar button:hover {
+.main-toolbar .editor-toolbar button:hover {
   color: white;
 }
 
-.editor-toolbar label {
+.main-toolbar .editor-toolbar label {
   height: 30px;
   display: flex;
   /* align-items: center; */
   gap: 6px;
 }
 
-.editor-toolbar label input {
+.main-toolbar .editor-toolbar label input {
   border: 1px solid #ddd !important;
   border-radius: 6px 8px;
   width: 40px;
   text-align: center;
 }
 
-.editor-toolbar .dropdown button {
-  /* border: 1px solid #ddd !important;
-    border-radius: 6px 8px; */
+.main-toolbar .editor-toolbar .dropdown button {
   padding: 14px 18px;
 }
 
@@ -10177,19 +10166,19 @@ html {
   display: flex;
 }
 
-.editor-toolbar button {
+.main-toolbar .editor-toolbar button {
   border: 1px solid #ddd !important;
   border-radius: 6px 8px;
   padding: 0px 10px 5px 10px;
 }
 
-.editor-toolbar select {
+.main-toolbar .editor-toolbar select {
   height: 30px;
   border: 1px solid #ddd !important;
   border-radius: 6px 8px;
 }
 
-.ellipse-icon {
+.toolbar .dropdown ul li button .ellipse-icon {
   display: inline-block;
   transform: scaleX(1.5);
 }
@@ -10201,14 +10190,6 @@ html {
   transition: background-color, box-shadow 1s ease;
 }
 
-.canvas-container {
-  width: 100% !important;
-}
-
-.lower-canvas {
-  width: 100% !important;
-}
-
 .main-toolbar {
   padding: 12px 16px;
   border-radius: 10px;
@@ -10218,17 +10199,18 @@ html {
   margin-left: 12px;
 }
 
-.toolbar .dropdown ul li .dropdown-item:hover,
-.toolbar .dropdown ul li .dropdown-item:visited {
-  color: white;
+.main-toolbar .toolbar .dropdown ul li .dropdown-item:hover,
+.main-toolbar .toolbar .dropdown ul li .dropdown-item:visited {
+  color: var(--white);
   background: #0056b3 !important;
 }
 
-.toolbar {
+.main-toolbar .toolbar {
   margin-top: -45px;
   padding-left: 110px;
 }
 
-.toolbar .dropdown ul li button i {
+.main-toolbar .toolbar .dropdown ul li button i {
   width: 40px;
 }
+
