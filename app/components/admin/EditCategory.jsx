@@ -116,7 +116,7 @@ export default function EditCategory({ userId }) {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Edit Category</h3>
+                    <h1>Edit Category</h1>
                   </div>
                 </div>
               </div>

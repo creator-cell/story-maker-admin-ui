@@ -112,7 +112,7 @@ export default function EditUser({ userId }) {
                                 <div className="row">
                                     <div className="col-lg-12 col-md-12 col-sm-12">
                                         <div className="title_head">
-                                            <h3>Edit User</h3>
+                                            <h1>Edit User</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -178,7 +178,7 @@ export default function EditUser({ userId }) {
                                             </div>
                                             <div className="d-flex gap-3">
                                                 <button type="submit" className="button">
-                                                    Update Users
+                                                    Update User
                                                 </button>
                                                 <button
                                                     type="button"

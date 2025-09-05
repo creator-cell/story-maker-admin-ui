@@ -208,14 +208,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
   return (
     <>
       <div
-        className="editor-toolbar"
-        style={{
-          display: "flex",
-          gap: "28px",
-          alignItems: "center",
-          flexWrap: "wrap",
-        }}
-      >
+        className="editor-toolbar">
         <button type="button" title="Add Text" onClick={addText}>
           Add Text
         </button>
@@ -436,7 +429,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
           <li>
             <hr className="dropdown-divider" />
           </li>
-           <li className="px-3 mt-2">
+          <li className="px-3 mt-2">
             {/* brush settings */}
             <label>
               Brush Color:
@@ -454,7 +447,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
               />
             </label>
           </li>
-        
+
           <li className="px-3 mt-2">
             <label className="form-label">Brush Size :</label>
             <input
@@ -474,7 +467,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
               }}
             />
           </li>
-           
         </ul>
       </div>
     </>

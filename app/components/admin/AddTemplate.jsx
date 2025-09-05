@@ -131,7 +131,7 @@ export default function AddTemplatePage() {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Add Template</h3>
+                    <h1>Add Template</h1>
                   </div>
                 </div>
               </div>
@@ -223,19 +223,19 @@ export default function AddTemplatePage() {
                     </div>
 
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
-                      <div ref={wrapRef} style={{ border: "1px solid #ccc" }}>
+                      <div ref={wrapRef}>
                         <canvas ref={canvasRef} />
                       </div>
                     </div>
 
-                    <div className="col-12 mt-3 d-flex" style={{ gap: "20px" }}>
+                    <div className="col-12 mt-3 d-flex gap-3">
                       <button type="submit" className="button">
                         Submit
                       </button>
                       <button
                         type="button"
                         className="button"
-                        style={{ backgroundColor: "#6c757d" }}
+                        // style={{ backgroundColor: "#6c757d" }}
                         onClick={() => {
                           setLoader(true);
                           router.push("/admin/template");

@@ -72,7 +72,7 @@ export default function Categories() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h3>Category List</h3>
+                      <h1>Category List</h1>
                     </div>
                   </div>
                 </div>
@@ -93,13 +93,13 @@ export default function Categories() {
                             }
                           />
                           <i
-                            className="fa-solid fa-magnifying-glass position-absolute"
-                            style={{
-                              right: "10px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              color: "#6c757d",
-                            }}
+                            className="fa-solid fa-magnifying-glass"
+                            // style={{
+                            //   right: "10px",
+                            //   top: "50%",
+                            //   transform: "translateY(-50%)",
+                            //   color: "#6c757d",
+                            // }}
                           ></i>
                         </div>
                         <button
@@ -116,7 +116,7 @@ export default function Categories() {
                               setSearch("");
                               getCategories(1, "");
                             }}
-                            style={{ backgroundColor: "#6c757d" }}
+                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear

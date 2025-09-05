@@ -187,7 +187,7 @@ export default function Roles() {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h3>Role list</h3>
+                      <h1>Role list</h1>
                     </div>
                   </div>
                 </div>
@@ -218,7 +218,6 @@ export default function Roles() {
                             return (
                               <tr key={user._id}>
                                 <td data-label="Name">{user.name}</td>
-
                                 <td data-label="Menus & Permissions">
                                   {user.menu && user.menu.length > 0 ? (
                                     <div>

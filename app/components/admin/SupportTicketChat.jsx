@@ -76,7 +76,7 @@ const ChatHistory = ({ ticketId }) => {
   return (
     <div className="chat-container">
       <div className="chat">
-        <h3>Support Ticket Chat</h3>
+        <h1>Support Ticket Chat</h1>
         {/* {loading && <div>Loading...</div>} */}
         <div className="box">
           {ticket?.messages?.length ? (

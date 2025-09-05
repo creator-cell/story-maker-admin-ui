@@ -134,8 +134,22 @@ html {
 }
 
 :root {
+  --gold: #FFD700;
+  --orange: #FFA500;
+  --pink: #FFC0CB;
+  --slat-gray: #6c757d;
+  --vibrant-blue: #0872ff;
+  --light-gray: #f9f9f9;
+  --black: #000;
+  --soft-blue: #86b7fe;
+  --deep-blue: #1f4f8f;
+  --teal-blue: #2383AA;
+  --grayish-blue: #626773;
+  --Blue: #0056b3;
+  --Whitesmoke: #F5F5F7;
   --alpha: #071e37;
   --beta: #000;
+  --red: #FC0909;
   --omega: #EFAF2F;
   --white: #FFFFFF;
   --gray: #707070;
@@ -220,7 +234,7 @@ label {
 }
 
 label span {
-  color: #FC0909;
+  color: var(--red);
 }
 
 input,
@@ -306,11 +320,9 @@ table thead {
 
 .button:hover,
 .button:focus {
-  /* background: var(--btn-hover-main); */
-  color: var(--white);
-  outline: none;
-  transition: all 0.3s ease;
-  font-family: var(--Avenir-Bold-font-family);
+  background: var(--Blue) !important;
+  opacity: 0.8;
+  transition: background-color, box-shadow 1s ease;
 }
 
 .auth_button,
@@ -2780,7 +2792,7 @@ h6 {
   color: var(--white);
 }
 
-.auth_form .boxwrap input[type="submit"] {
+/* .auth_form .boxwrap input[type="submit"] {
   background: var(--beta);
   padding: 15px 20px;
   margin-bottom: 10px;
@@ -2788,7 +2800,7 @@ h6 {
 
 .auth_form .boxwrap input[type="submit"]:hover {
   background: var(--btn-hover-main);
-}
+} */
 
 .auth_form .boxwrap a {
   display: block;
@@ -2831,7 +2843,7 @@ h6 {
   font-size: 16px;
   font-weight: 500;
   line-height: 1.2;
-  color: #FC0909;
+  color: var(--red);
   margin-bottom: 10px;
 }
 
@@ -3027,23 +3039,22 @@ h6 {
 }
 
 .admin_action_edit i {
-  color: #FFD43B;
+  color: var(--badge_pending);
   font-size: 19px;
 }
 
 .admin_action_delete i {
-  color: #dc3545;
+  color: var(--badge_failed);
   font-size: 19px;
 }
 
-/* .admin_action_edit i:hover{
-  color: #fbc500;
-  font-size: 19px;
+.admin_action_edit i:hover {
+  opacity: 0.6;
 }
-.admin_action_delete i:hover{
-   color:  #fe0a22;
-  font-size: 19px;
-} */
+
+.admin_action_delete i:hover {
+  opacity: 0.6;
+}
 
 .admin_action_btn:hover,
 .admin_action_btn:focus,
@@ -3082,7 +3093,7 @@ button.admin_menuToggler {
   top: 0;
   bottom: 0;
   overflow: auto;
-  background-color: #2383AA;
+  background-color: var(--teal-blue);
   border-right: 2px solid var(--dark);
   transition: all 1s ease;
   -webkit-transition: all 1s ease;
@@ -3164,7 +3175,7 @@ button.admin_menuToggler {
   font-size: 18px;
   font-weight: 600;
   line-height: 1;
-  color: #FFFAFA;
+  color: var(--white);
   text-align: left;
   padding: 10px 6px;
   outline: none;
@@ -3174,7 +3185,7 @@ button.admin_menuToggler {
 
 #sidebar .navbar .side_bar_content .navbar-nav .nav-item:hover {
   border-radius: 10px;
-  background-color: #1f4f8f;
+  background-color: var(--deep-blue);
 }
 
 #sidebar .navbar .side_bar_content .navbar-nav .nav-item .nav-link:active,
@@ -3187,7 +3198,7 @@ button.admin_menuToggler {
 
 #sidebar .navbar .side_bar_content .navbar-nav .nav-item:has(.nav-link.active) {
   border-radius: 10px;
-  background-color: #1f4f8f;
+  background-color: var(--deep-blue);
 }
 
 #sidebar .navbar .side_bar_content .navbar-nav .nav-item .nav-link.active {
@@ -3245,14 +3256,13 @@ button.admin_menuToggler {
   color: var(--dark);
   position: relative;
   z-index: 2;
-  background: #f5f5f7;
+  background: var(--Whitesmoke);
 }
 
 #main_container .inner_container {
   border: 0;
   border-radius: 0px;
   min-height: 90vh;
-  /* background-color: var(--white); */
 }
 
 /* main_container */
@@ -3282,7 +3292,15 @@ button.admin_menuToggler {
   border-bottom: 2px solid var(--beta) !important;
 }
 
-.comman_admin_layout .title_head h3 {
+.chat-container .title_head h1 {
+  width: 100%;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  display: block;
+}
+
+.comman_admin_layout .title_head h1 {
   display: block;
   width: 100%;
   margin: 0;
@@ -3332,7 +3350,7 @@ button.admin_menuToggler {
 
 .comman_admin_layout .admin_table .form-control:focus,
 .comman_admin_layout .admin_table .form-control:hover {
-  border: 1.3px #86b7fe solid !important;
+  border: 1.3px var(--soft-blue) solid !important;
 }
 
 .comman_admin_layout .admin_table .form-check-input:checked {
@@ -3358,13 +3376,13 @@ button.admin_menuToggler {
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
-  padding: 10px 10px;
-  background: #0872ff !important;
+  padding: 10px 25px;
+  background: var(--vibrant-blue) !important;
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .click-to-resolve {
   padding: 10px 10px;
-  background: #6c757d !important;
+  background: var(--slat-gray) !important;
 }
 
 
@@ -3559,7 +3577,7 @@ button.admin_menuToggler {
 }
 
 .comman_admin_layout .admin_forms .errMsg {
-  color: #FC0909;
+  color: var(--red);
 }
 
 /* Admin Side Form End */
@@ -4293,7 +4311,7 @@ button.admin_menuToggler {
 }
 
 .btn-view-details:hover {
-  background: #0056b3;
+  background: var(--Blue);
 }
 
 .btn-qr-code {
@@ -4542,7 +4560,7 @@ button.admin_menuToggler {
 
 .btn-view-details:focus,
 .btn-qr-code:focus {
-  outline: 2px solid #0056b3;
+  outline: 2px solid var(--Blue);
   outline-offset: 2px;
 }
 
@@ -8921,7 +8939,7 @@ html {
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: var(--Blue);
   border-color: #004085;
   color: #fff;
 }
@@ -8986,7 +9004,7 @@ html {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem;
-  background-color: #1f4f8f;
+  background-color: var(--deep-blue);
 }
 
 .bg-primary {
@@ -9089,9 +9107,7 @@ html {
 }
 
 .rounded {
-  /* background-color: #1f4f8f !important; */
   border-radius: 20px !important;
-  /* opacity: 0.9; */
 }
 
 .d-flex {
@@ -9951,7 +9967,7 @@ html {
 /* story  maker css start  */
 
 .chat-container {
-  background: #F5F5F7;
+  background: var(--Whitesmoke);
   width: calc(100% - 250px);
   height: 100%;
   min-height: 100vh;
@@ -9965,14 +9981,14 @@ html {
 
 .comman_admin_layout .admin_table .table_filter .filter_field .button:hover,
 .comman_admin_layout .admin_table .table_filter .filter_field .button:visited {
-  background: #0056b3 !important;
+  background: var(--Blue) !important;
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
 }
 
 .comman_admin_layout .admin_form_panel,
 .comman_admin_layout .admin_forms {
-  background: #fff;
+  background: var(--white);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
   padding: 24px;
@@ -9980,22 +9996,22 @@ html {
 
 .comman_admin_layout .admin_form_panel button:hover,
 .comman_admin_layout .admin_form_panel button:visited {
-  background: #0056b3 !important;
+  background: var(--Blue) !important;
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
-  color: white;
+  color: var(--white);
 }
 
 .comman_admin_layout .admin_table .table_filter button:hover,
 .comman_admin_layout .admin_table .table_filter button:visited {
-  background: #0056b3 !important;
+  background: var(--Blue) !important;
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
 }
 
 .comman_admin_layout .admin_forms form .button:hover,
 .comman_admin_layout .admin_forms form .button:visited {
-  background: #0056b3 !important;
+  background: var(--Blue) !important;
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
 }
@@ -10005,10 +10021,6 @@ html {
   margin-right: 15px;
 }
 
-.chat-container .chat .box {
-  background-color: #fff !important;
-}
-
 .chat-container .chat {
   border-radius: 20px;
   margin: 0 auto;
@@ -10016,6 +10028,7 @@ html {
 }
 
 .chat-container .chat .box {
+  background-color: var(--white) !important;
   height: 350px;
   max-height: 350px;
   overflow-y: auto;
@@ -10030,7 +10043,7 @@ html {
 }
 
 .chat-container .chat .box .user-chat p {
-  color: #626773;
+  color: var(--grayish-blue);
   padding: 8px 12px;
   border-radius: 8px;
   padding-left: 55px;
@@ -10041,7 +10054,6 @@ html {
   display: flex;
   align-items: baseline;
   margin-left: -40px;
-  gap: 6px;
 }
 
 .chat-container .chat .box .user-chat p .icon-name .name {
@@ -10051,35 +10063,33 @@ html {
 }
 
 .chat-container .chat .box .user-chat p .icon-name .name small {
-  color: black;
+  color: var(--black);
   font-weight: 600;
 }
 
 .chat-container .chat .box .user-chat p small {
   display: flex;
   justify-content: flex-end;
-  color: black;
+  color: var(--black);
   font-weight: 600;
 }
 
 .chat-container .chat .box .user-chat p .icon-name i {
   width: auto;
   font-size: 18px;
-  border: 2px solid black;
+  border: 2px solid var(--black);
   padding: 6px;
   border-radius: 50%;
 }
 
-.chat-container .chat h3 {
+.chat-container .chat h1 {
   border-bottom: 1px solid #d1d5db;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background-color: #2383AA;
-  /* background: linear-gradient(#007bff, #00c6ff); */
+  background-color: var(--teal-blue);
   padding: 15px;
-  color: white;
+  color: var(--white);
   margin-bottom: 0;
-  /* background: white; */
   font-weight: 100 !important;
   font-size: 25px;
 }
@@ -10087,23 +10097,27 @@ html {
 .chat-container .chat .type-message {
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  background: white;
+  background: var(--white);
   padding: 10px;
 }
 
 .admin_table .table-responsive table .table_body .permission-item .permission-badges .badge {
-  color: white !important;
-  background-color: #2383AA !important;
+  color: var(--white) !important;
+  background-color: var(--teal-blue) !important;
+}
+
+.admin_table .table-responsive table .table_body .permission-item .permission-badges .badge:hover {
+  opacity: 0.8;
 }
 
 .status .badge {
-  color: white !important;
-  background-color: #1f4f8f !important;
+  color: var(--white) !important;
+  background-color: var(--deep-blue) !important;
 }
 
 .chat-container .send-chat button:hover,
 .chat-container .send-chat button:visited {
-  background: #0056b3 !important;
+  background: var(--Blue) !important;
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
 }
@@ -10114,18 +10128,18 @@ html {
 }
 
 .chat-container .send-chat .form-control:hover {
-  border: 1.3px solid #86b7fe !important;
+  border: 1.3px solid var(--soft-blue) !important;
 }
 
 .chat-container .chat .type-message button:hover,
 .chat-container .chat .type-message button:visited {
-  background: #0056b3 !important;
+  background: var(--Blue) !important;
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
 }
 
 .form-control:hover {
-  border-color: #86b7fe;
+  border-color: var(--soft-blue);
 }
 
 .admin_table td[data-label="Status"] {
@@ -10133,19 +10147,25 @@ html {
   text-align: center;
 }
 
+.main-toolbar .editor-toolbar {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .main-toolbar .editor-toolbar button {
-  background-color: white;
+  background-color: var(--white);
   border-radius: 6px 8px;
 }
 
 .main-toolbar .editor-toolbar button:hover {
-  color: white;
+  color: var(--white);
 }
 
 .main-toolbar .editor-toolbar label {
   height: 30px;
   display: flex;
-  /* align-items: center; */
   gap: 6px;
 }
 
@@ -10185,7 +10205,7 @@ html {
 
 .toolbar .button:hover,
 .toolbar .button:visited {
-  background: #0056b3 !important;
+  background: var(--Blue) !important;
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
 }
@@ -10195,14 +10215,14 @@ html {
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
   width: 98% !important;
-  background: #f9f9f9;
+  background: var(--light-gray);
   margin-left: 12px;
 }
 
 .main-toolbar .toolbar .dropdown ul li .dropdown-item:hover,
 .main-toolbar .toolbar .dropdown ul li .dropdown-item:visited {
   color: var(--white);
-  background: #0056b3 !important;
+  background: var(--Blue) !important;
 }
 
 .main-toolbar .toolbar {
@@ -10214,3 +10234,50 @@ html {
   width: 40px;
 }
 
+.main-toolbar .toolbar .dropdown ul li .dropdown-item .dashed-line {
+  border-top: 2px dashed;
+  width: 17px !important;
+  margin-bottom: 4px;
+  margin-left: 10px;
+}
+
+.main-toolbar .toolbar .dropdown ul li .dropdown-item i {
+  font-size: 15px;
+}
+
+.main-toolbar .toolbar .dropdown ul li .dropdown-item .Diagonal {
+  transform: rotate(135deg);
+  display: inline-block;
+}
+.canvas-container .lower-canvas{
+    border: 1px solid rgb(204, 204, 204) !important;
+}
+.canvas-container .upper-canvas {
+  border: 1px solid rgb(204, 204, 204);
+  /* width: 1063px !important; */
+  background-color: #F8FAFC;
+}
+
+.main-toolbar .toolbar .dropdown ul li .dropdown-item .gold {
+  color: var(--gold);
+}
+
+.main-toolbar .toolbar .dropdown ul li .dropdown-item .orange {
+  color: var(--orange);
+}
+
+.main-toolbar .toolbar .dropdown ul li .dropdown-item .green {
+  color: var(--btn-main);
+}
+
+.main-toolbar .toolbar .dropdown ul li .dropdown-item .blue {
+  color: var(--vibrant-blue);
+}
+
+.main-toolbar .toolbar .dropdown ul li .dropdown-item .pink {
+  color: var(--pink);
+}
+
+.admin_table .table-responsive table tr .cursor {
+  cursor: pointer;
+}

@@ -218,7 +218,7 @@ export default function EditRole({ roleId }) {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h3>Edit Role</h3>
+                      <h1>Edit Role</h1>
                     </div>
                   </div>
                 </div>
@@ -260,21 +260,21 @@ export default function EditRole({ roleId }) {
                               <table className="table table-bordered">
                                 <thead className="table-light">
                                   <tr>
-                                    <th style={{ width: "200px" }}>Menu</th>
+                                    <th>Menu</th>
                                     <th
-                                      style={{ width: "150px" }}
+                                      // style={{ width: "150px" }}
                                       className="text-center"
                                     >
                                       Read
                                     </th>
                                     <th
-                                      style={{ width: "150px" }}
+                                      // style={{ width: "150px" }}
                                       className="text-center"
                                     >
                                       Write
                                     </th>
                                     <th
-                                      style={{ width: "150px" }}
+                                      // style={{ width: "150px" }}
                                       className="text-center"
                                     >
                                       Both
