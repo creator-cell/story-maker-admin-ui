@@ -263,7 +263,7 @@ export default function EditTemplatePage({ id }) {
                       {/* Fabric Editor */}
                       <div className="col-lg-12 col-md-12 col-12 mb-3 main-toolbar">
                         {/* <div className="form_group"> */}
-                        <label>Template Editor</label>
+                        <label className="pb-4">Template Editor</label>
                         <FabricTextEditorToolbar fRef={fabricRef} />
                         {/* </div> */}
                         <FabricToolbar fRef={fabricRef} />

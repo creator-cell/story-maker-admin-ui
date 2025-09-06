@@ -10255,7 +10255,7 @@ html {
 .canvas-container .upper-canvas {
   border: 1px solid rgb(204, 204, 204);
   /* width: 1063px !important; */
-  background-color: #F8FAFC;
+  /* background-color: #F8FAFC; */
 }
 
 .main-toolbar .toolbar .dropdown ul li .dropdown-item .gold {
