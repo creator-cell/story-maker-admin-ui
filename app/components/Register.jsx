@@ -6,9 +6,10 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
+import PhoneNumber from "react-phone-number-input";
 
 export default function Register() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -42,7 +43,7 @@ export default function Register() {
           name: data.firstName,
           email: data.email,
           password: data.password,
-          phone: data.phone,
+          phone: data.phone?.replaceAll(" ", ""),
         }),
       });
 
@@ -133,8 +134,7 @@ export default function Register() {
                     </div>
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <input
-                          type="text"
+                        <PhoneNumber
                           className="form-control"
                           placeholder="Mobile Number *"
                           name="text"
@@ -143,6 +143,16 @@ export default function Register() {
                           value={watch("phone") || ""}
                           {...register("phone")}
                         />
+                        {/* <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Mobile Number *"
+                          name="text"
+                          id="text"
+                          aria-describedby="helpId"
+                          value={watch("phone") || ""}
+                          {...register("phone")}
+                        /> */}
                       </div>
                     </div>
                     <div className="col-lg-12 col-md-12 col-12">
