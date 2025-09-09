@@ -241,15 +241,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
 
   return (
     <>
-      <div
-        className="editor-toolbar"
-        style={{
-          display: "flex",
-          gap: "29px",
-          alignItems: "center",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="editor-toolbar">
         <button type="button" title="Add Text" onClick={addText}>
           Add Text
         </button>
@@ -373,22 +365,26 @@ export default function FabricTextEditorToolbar({ fRef }) {
           />
         </label>
 
-        {/* brush settings */}
-        <label title="Brush Color">
-          Brush Color:
-          <input
-            type="color"
-            value={brushColor}
-            onChange={(e) => {
-              setBrushColor(e.target.value);
-              const canvas = fRef.current;
-              if (canvas && canvas.freeDrawingBrush) {
-                canvas.freeDrawingBrush.color = e.target.value;
-                canvas.renderAll();
-              }
-            }}
-          />
-        </label>
+        {/* brush size  */}
+        {/* <label>
+        Brush Size:
+        <input
+          type="number"
+          min="1"
+          max="50"
+          value={brushWidth}
+          onChange={(e) => {
+            const val = parseInt(e.target.value, 10) || 1;
+            setBrushWidth(val);
+            const canvas = fRef.current;
+            if (canvas && canvas.freeDrawingBrush) {
+              canvas.freeDrawingBrush.width = val;
+              canvas.renderAll();
+            }
+          }}
+        />
+      </label> */}
+
         {/* Fill & Stroke */}
         <label title="Fill Color">
           Fill:
@@ -436,7 +432,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
               className="dropdown-item"
               onClick={activatePencil}
             >
-              <FaPencilAlt /> Pencil
+              <FaPencilAlt /> &nbsp; Pencil
             </button>
           </li>
           <li>
@@ -445,14 +441,33 @@ export default function FabricTextEditorToolbar({ fRef }) {
               className="dropdown-item"
               onClick={activateHighlighter}
             >
-              <FaHighlighter /> Highlighter
+              <FaHighlighter /> &nbsp; Highlighter
             </button>
           </li>
           <li>
             <hr className="dropdown-divider" />
           </li>
-          <li className="px-2">
-            <label className="form-label">Brush Size</label>
+          <li className="px-3 mt-2">
+            {/* brush settings */}
+            <label>
+              Brush Color:
+              <input
+                type="color"
+                value={brushColor}
+                onChange={(e) => {
+                  setBrushColor(e.target.value);
+                  const canvas = fRef.current;
+                  if (canvas && canvas.freeDrawingBrush) {
+                    canvas.freeDrawingBrush.color = e.target.value;
+                    canvas.renderAll();
+                  }
+                }}
+              />
+            </label>
+          </li>
+
+          <li className="px-3 mt-2">
+            <label className="form-label">Brush Size :</label>
             <input
               type="number"
               min="1"

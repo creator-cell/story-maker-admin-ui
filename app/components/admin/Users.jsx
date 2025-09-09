@@ -276,7 +276,7 @@ export default function Users() {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h3>User List</h3>
+                      <h1>User List</h1>
                     </div>
                   </div>
                 </div>
@@ -298,13 +298,13 @@ export default function Users() {
                             onKeyPress={handleSearchKeyPress}
                           />
                           <i
-                            className="fa-solid fa-magnifying-glass position-absolute"
-                            style={{
-                              right: "10px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              color: "#6c757d",
-                            }}
+                            className="fa-solid fa-magnifying-glass"
+                            // style={{
+                            //   right: "10px",
+                            //   top: "50%",
+                            //   transform: "translateY(-50%)",
+                            //   color: "#6c757d",
+                            // }}
                           ></i>
                         </div>
 
@@ -320,7 +320,7 @@ export default function Users() {
                           <button
                             className="button ms-2"
                             onClick={handleClearSearch}
-                            style={{ backgroundColor: "#6c757d" }}
+                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -348,15 +348,15 @@ export default function Users() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
+                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("name")}
                           >
                             First Name
                             <i className={`fa ${getSortIcon("name")} ms-1`}></i>
                           </th>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
+                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("email")}
                           >
                             Email Address
@@ -365,8 +365,8 @@ export default function Users() {
                             ></i>
                           </th>
                           <th>Phone Number</th>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
+                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("isActive")}
                           >
                             Status
@@ -426,20 +426,20 @@ export default function Users() {
 
                                 {hasWritePermission() && (
                                   <td data-label="Action">
-                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                    <div className="d-flex justify-content-start align-items-center">
                                       <button
-                                        className="admin_action_edit bg-success"
+                                        className="admin_action_edit"
                                         onClick={() => handleEditUser(user._id)}
-                                        title="Edit User"
+                                        // title="Edit User"
                                       >
-                                        <i className="fa fa-edit"></i>
+                                       <i class="fa-solid fa-pencil"></i>
                                       </button>
                                       <button
-                                        className="admin_action_delete bg-danger"
+                                        className="admin_action_delete"
                                         onClick={() =>
                                           handleUserDelete(user._id)
                                         }
-                                        title="Delete User"
+                                        // title="Delete User"
                                       >
                                         <i className="fa fa-trash"></i>
                                       </button>

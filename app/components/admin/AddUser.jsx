@@ -131,7 +131,7 @@ const AddUserPage = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Add New User</h3>
+                    <h1>Add New User</h1>
                   </div>
                 </div>
               </div>

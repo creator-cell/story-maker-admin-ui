@@ -33,7 +33,7 @@ const AddChatHistory = () => {
   //   }, []);
 
   const sendChatMessage = async () => {
-        setLoader(true);  
+    setLoader(true);
     if (!chatMessage.trim()) return;
     const user = JSON.parse(localStorage.getItem("user"));
     const newMessage = {
@@ -66,7 +66,7 @@ const AddChatHistory = () => {
   return (
     <div className="chat-container">
       <div className="title_head">
-      <h3>Support Ticket Chat</h3>
+        <h1>Support Ticket Chat</h1>
       </div>
       {loading && <div>Loading...</div>}
 
@@ -86,8 +86,6 @@ const AddChatHistory = () => {
           Send
         </button>
       </div>
-                {loader && <Loader />}
-      
     </div>
   );
 };

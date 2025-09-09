@@ -39,6 +39,11 @@ const AddRole = () => {
       read: false,
       write: false,
       both: false,
+    },
+    Notification: {
+      read: false,
+      write: false,
+      both: false
     }
   });
   const router = useRouter();
@@ -51,6 +56,7 @@ const AddRole = () => {
     { key: "Tickets", label: "Tickets" },
     { key: "Category", label: "Category" },
     { key: "Template", label: "Template" },
+    { key: "Notification", label: "Notification" }
   ];
 
   const {
@@ -160,6 +166,7 @@ const AddRole = () => {
           Tickets: { read: false, write: false, both: false },
           Category: { read: false, write: false, both: false },
           Template: { read: false, write: false, both: false },
+          Notification: { read: false, write: false, both: false }
         });
         router.push("/admin/category");
       })
@@ -183,7 +190,7 @@ const AddRole = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Add New Role</h3>
+                    <h1>Add New Role</h1>
                   </div>
                 </div>
               </div>
@@ -229,19 +236,19 @@ const AddRole = () => {
                                 <tr>
                                   <th style={{ width: "200px" }}>Menu</th>
                                   <th
-                                    style={{ width: "150px" }}
+                                    // style={{ width: "150px" }}
                                     className="text-center"
                                   >
                                     Read
                                   </th>
                                   <th
-                                    style={{ width: "150px" }}
+                                    // style={{ width: "150px" }}
                                     className="text-center"
                                   >
                                     Write
                                   </th>
                                   <th
-                                    style={{ width: "150px" }}
+                                    // style={{ width: "150px" }}
                                     className="text-center"
                                   >
                                     Both

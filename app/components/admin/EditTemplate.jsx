@@ -189,124 +189,128 @@ export default function EditTemplatePage({ id }) {
         <div className="inner_container">
           <div className="container-lg container-fluid p-0">
             <div className="comman_admin_layout flex-column p-0">
-              <div className="row mb-4">
-                <div className="col-lg-12 col-md-12 col-sm-12">
-                  <div className="title_head">
-                    <h3>Edit Template</h3>
+              <div className="container-lg container-fluid p-0">
+                <div className="row mb-4">
+                  <div className="col-lg-12 col-md-12 col-sm-12">
+                    <div className="title_head">
+                      <h1>Edit Template</h1>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="admin_form_panel">
-                <form onSubmit={handleSubmit(handleTemplateSave)}>
-                  <div className="row">
-                    {/* Template Name */}
-                    <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <div className="form_group">
-                        <label>
-                          Template Name <span className="text-danger"> *</span>
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          {...register("name")}
-                          value={watch("name")}
-                          onChange={(e) => setValue("name", e.target.value)}
-                        />
+                <div className="admin_form_panel">
+                  <form onSubmit={handleSubmit(handleTemplateSave)}>
+                    <div className="row">
+                      {/* Template Name */}
+                      <div className="col-lg-6 col-md-6 col-12 mb-3">
+                        <div className="form_group">
+                          <label>
+                            Template Name <span className="text-danger"> *</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            {...register("name")}
+                            value={watch("name")}
+                            onChange={(e) => setValue("name", e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Category */}
-                    <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <div className="form_group">
-                        <label>
-                          Category <span className="text-danger"> *</span>
-                        </label>
-                        <select
-                          className="form-control"
-                          value={watch("category")}
-                          onChange={(e) => handleCategoryChange(e.target.value)}
-                        >
-                          <option value="">Select Category</option>
-                          {parentCategories.map((cat) => (
-                            <option key={cat._id} value={cat._id}>
-                              {cat.name}
-                            </option>
-                          ))}
-                        </select>
+                      {/* Category */}
+                      <div className="col-lg-6 col-md-6 col-12 mb-3">
+                        <div className="form_group">
+                          <label>
+                            Category <span className="text-danger"> *</span>
+                          </label>
+                          <select
+                            className="form-control"
+                            value={watch("category")}
+                            onChange={(e) => handleCategoryChange(e.target.value)}
+                          >
+                            <option value="">Select Category</option>
+                            {parentCategories.map((cat) => (
+                              <option key={cat._id} value={cat._id}>
+                                {cat.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Subcategory */}
-                    <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <div className="form_group">
-                        <label>
-                          Subcategory <span className="text-danger"> *</span>
-                        </label>
-                        <select
-                          className="form-control"
-                          value={watch("subCategory")}
-                          onChange={(e) =>
-                            setValue("subCategory", e.target.value)
-                          }
-                          disabled={!subCategories.length}
-                        >
-                          <option value="">Select Subcategory</option>
-                          {subCategories.map((sub) => (
-                            <option key={sub._id} value={sub._id}>
-                              {sub.name}
-                            </option>
-                          ))}
-                        </select>
+                      {/* Subcategory */}
+                      <div className="col-lg-12 col-md-12 col-12 mb-3">
+                        <div className="form_group">
+                          <label>
+                            Subcategory <span className="text-danger"> *</span>
+                          </label>
+                          <select
+                            className="form-control"
+                            value={watch("subCategory")}
+                            onChange={(e) =>
+                              setValue("subCategory", e.target.value)
+                            }
+                            disabled={!subCategories.length}
+                          >
+                            <option value="">Select Subcategory</option>
+                            {subCategories.map((sub) => (
+                              <option key={sub._id} value={sub._id}>
+                                {sub.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Fabric Editor */}
-                    <div className="col-lg-12 col-md-12 col-12 mb-3">
-                      <div className="form_group">
-                        <label>Template Editor</label>
+                      {/* Fabric Editor */}
+                      <div className="col-lg-12 col-md-12 col-12 mb-3 main-toolbar">
+                        {/* <div className="form_group"> */}
+                        <label className="pb-4">Template Editor</label>
                         <FabricTextEditorToolbar fRef={fabricRef} />
-
+                        {/* </div> */}
                         <FabricToolbar fRef={fabricRef} />
-                        <canvas id="fabricCanvas" ref={canvasRef} />
                       </div>
-                    </div>
+                      <div className="col-lg-12 col-md-12 col-12 mb-3">
+                        
+                        <canvas id="fabricCanvas" ref={canvasRef} />
+                        </div>
+                        {/* Action Buttons */}
 
-                    {/* Action Buttons */}
-                    <div className="col-12 mt-3 d-flex gap-3">
-                      <button type="submit" className="button">
-                        Save
-                      </button>
-                      {userObj?.role.name === "Super Admin" && (
-                        <button
-                          type="button"
-                          className="button"
-                          style={{ backgroundColor: "#198754" }}
-                          onClick={() => setApproveModel(true)}
-                        >
-                          Approve
-                        </button>
-                      )}
-                      {userObj?.role.name === "Super Admin" && (
-                        <button
-                          type="button"
-                          className="button"
-                          style={{ backgroundColor: "#dc3545" }}
-                          onClick={() => setShowRejectModal(true)}
-                        >
-                          Reject
-                        </button>
-                      )}
-                      <button
-                        type="button"
-                        className="button"
-                        style={{ backgroundColor: "#6c757d" }}
-                        onClick={() => router.push("/admin/template")}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </form>
+                        <div className="col-12 mt-3 d-flex gap-3">
+                          <button type="submit" className="button">
+                            Save
+                          </button>
+                          {userObj?.role.name === "Super Admin" && (
+                            <button
+                              type="button"
+                              className="button"
+                              style={{ backgroundColor: "#198754" }}
+                              onClick={() => setApproveModel(true)}
+                            >
+                              Approve
+                            </button>
+                          )}
+                          {userObj?.role.name === "Super Admin" && (
+                            <button
+                              type="button"
+                              className="button"
+                              style={{ backgroundColor: "#dc3545" }}
+                              onClick={() => setShowRejectModal(true)}
+                            >
+                              Reject
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            className="button"
+                            style={{ backgroundColor: "#6c757d" }}
+                            onClick={() => router.push("/admin/template")}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>

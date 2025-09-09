@@ -38,7 +38,7 @@ export default function FabricToolbar({
     c.add(textbox);
   }, []);
   return (
-    <div>
+    <>
       <div className="toolbar d-flex gap-4 align-items-center">
         <div className="dropdown">
           <button
@@ -49,7 +49,7 @@ export default function FabricToolbar({
             aria-expanded="false"
           >
             {/* Tools */}
-            <i class="fa-solid fa-wrench"></i>
+            <i className="fa-solid fa-wrench"></i>
           </button>
           <ul className="dropdown-menu">
             <li>
@@ -61,8 +61,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("rect")}
               >
-                <i class="fa-regular fa-square"></i>
-                <span>Rectangle</span>
+                <i className="fa-regular fa-square"></i>
+                <span className="ms-1">Rectangle</span>
               </button>
             </li>
             <li>
@@ -72,10 +72,9 @@ export default function FabricToolbar({
                 onClick={() => onAddShape("circle")}
               >
                 <i
-                  class="fa-
-                regular fa-circle"
+                  className="fa-regular fa-circle"
                 ></i>
-                <span>Circle</span>
+                <span className="ms-1">Circle</span>
               </button>
             </li>
             <li>
@@ -84,8 +83,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("triangle")}
               >
-                <i class="fa-solid fa-play"></i>
-                <span>Triangle</span>
+                <i className="fa-solid fa-play"></i>
+                <span className="ms-1">Triangle</span>
               </button>
             </li>
             <li>
@@ -94,8 +93,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("ellipse")}
               >
-                <i class="fa-regular fa-circle ellipse-icon"></i>
-                <span> Ellipse</span>
+                <i className="fa-regular fa-circle ellipse-icon"></i>
+                <span className="ms-1">Ellipse</span>
               </button>
             </li>
             <li>
@@ -104,9 +103,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("polygon")}
               >
-                <i class="fa-solid fa-draw-polygon"></i>
-
-                <span> Polygon</span>
+                <i className="fa-solid fa-draw-polygon"></i>
+                <span className="ms-1">Polygon</span>
               </button>
             </li>
             <li>
@@ -115,8 +113,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("arrow")}
               >
-                <i class="fa-solid fa-arrow-right"></i>
-                <span>Arrow</span>
+                <i className="fa-solid fa-arrow-right"></i>
+                <span className="ms-1">Arrow</span>
               </button>
             </li>
             <li>
@@ -125,8 +123,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("doubleArrow")}
               >
-                <i class="fa-solid fa-arrows-left-right"></i>
-                <span> DoubleArrow</span>
+                <i className="fa-solid fa-arrows-left-right"></i>
+                <span className="ms-1">DoubleArrow</span>
               </button>
             </li>
             <li>
@@ -135,8 +133,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("elbow")}
               >
-                <i class="fa-solid fa-arrow-turn-down"></i>
-                <span> Elbow</span>
+                <i className="fa-solid fa-arrow-turn-down"></i>
+                <span className="ms-1">Elbow</span>
               </button>
             </li>
             <li>
@@ -145,9 +143,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("heart")}
               >
-                <i class="fa-solid fa-heart"></i>
-
-                <span> Heart </span>
+                <i className="fa-solid fa-heart"></i>
+                <span className="ms-1">Heart</span>
               </button>
             </li>
             <li>
@@ -156,9 +153,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("Cross")}
               >
-                <i class="fa-solid fa-xmark"></i>
-
-                <span> Cross</span>
+                <i className="fa-solid fa-xmark"></i>
+                <span className="ms-1">Cross</span>
               </button>
             </li>
             <li>
@@ -167,8 +163,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("star")}
               >
-                <i class="fa-solid fa-star"></i>
-                <span>Star</span>
+                <i className="fa-solid fa-star"></i>
+                <span className="ms-1">Star</span>
               </button>
             </li>
             <li>
@@ -176,8 +172,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("hexagon")}
               >
-                <i class="fa-solid fa-hexagon"></i>
-                <span> Hexagon</span>
+                <i className="fa-solid fa-hexagon"></i>
+                <span className="ms-1">Hexagon</span>
               </button>
             </li>
             <li>
@@ -185,8 +181,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddShape("pentagon")}
               >
-                <i class="fa-solid fa-pentagon"></i>
-                <span> Pentagon </span>
+                <i className="fa-solid fa-pentagon"></i>
+                <span className="ms-1">Pentagon</span>
               </button>
             </li>
             <li>
@@ -201,8 +197,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddLine("straight")}
               >
-                <i class="fa-solid fa-minus"></i>
-                <span>Straight Line</span>
+                <i className="fa-solid fa-minus"></i>
+                <span className="ms-1">Straight Line</span>
               </button>
             </li>
             <li>
@@ -210,16 +206,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddLine("diagonal")}
               >
-                <i
-                  class="fa-solid fa-minus"
-                  style={{
-                    transform: "rotate(135deg)",
-                    display: "inline-block",
-                    marginRight: "8px",
-                  }}
-                ></i>
-
-                <span>Diagonal Line</span>
+                <i className="fa-solid fa-minus Diagonal"></i>
+                <span className="ms-1">Diagonal Line</span>
               </button>
             </li>
             <li>
@@ -227,9 +215,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddLine("curved")}
               >
-                <i class="fa-solid fa-infinity"></i>
-
-                <span> Curved Line</span>
+                <i className="fa-solid fa-infinity"></i>
+                <span className="ms-1">Curved Line</span>
               </button>
             </li>
             <li>
@@ -237,9 +224,9 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddLine("zigzag")}
               >
-                <i class="fa-solid fa-bolt"></i>
+                <i className="fa-solid fa-bolt"></i>
 
-                <span> Zigzag Line</span>
+                <span className="ms-1">Zigzag Line</span>
               </button>
             </li>
             <li>
@@ -248,15 +235,8 @@ export default function FabricToolbar({
                 onClick={() => onAddLine("dashed")}
               >
                 {" "}
-                <span
-                  style={{
-                    display: "inline-block",
-                    width: "20px",
-                    borderTop: "2px dashed #000",
-                    marginRight: "8px",
-                  }}
-                ></span>
-                <span>Dashed Line</span>
+                <i class="fa-solid dashed-line"></i>
+                <span className="ms-3">Dashed Line</span>
               </button>
             </li>
             <li>
@@ -264,9 +244,9 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddLine("dotted")}
               >
-                <i class="fa-solid fa-ellipsis-h"></i>
+                <i className="fa-solid fa-ellipsis-h"></i>
 
-                <span> Dotted Line</span>
+                <span className="ms-1">Dotted Line</span>
               </button>
             </li>
             <li>
@@ -274,9 +254,8 @@ export default function FabricToolbar({
                 className="dropdown-item"
                 onClick={() => onAddLine("arrow")}
               >
-                <i class="fa-solid fa-arrow-right"></i>
-
-                <span> Arrow Line</span>
+                <i className="fa-solid fa-arrow-right"></i>
+                <span className="ms-1">Arrow Line</span>
               </button>
             </li>
             <li>
@@ -292,12 +271,8 @@ export default function FabricToolbar({
                 type="button"
                 onClick={() => onAddStickyNote("stickyNote1")}
               >
-                <i
-                  class="fa-regular fa-note-sticky"
-                  style={{ color: "gold" }}
-                ></i>
-
-                <span> Yellow Note</span>
+                <span className="gold"><i className="fa-regular fa-note-sticky"></i></span>
+                <span className="ms-1">Yellow Note</span>
               </button>
             </li>
             <li>
@@ -306,11 +281,8 @@ export default function FabricToolbar({
                 type="button"
                 onClick={() => onAddStickyNote("stickyNote2")}
               >
-                <i
-                  class="fa-regular fa-note-sticky"
-                  style={{ color: "orange" }}
-                ></i>
-                <span> Orange Note</span>
+                <span className="orange"><i className="fa-regular fa-note-sticky"></i></span>
+                <span className="ms-1">Orange Note</span>
               </button>
             </li>
             <li>
@@ -319,11 +291,8 @@ export default function FabricToolbar({
                 type="button"
                 onClick={() => onAddStickyNote("stickyNote3")}
               >
-                <i
-                  class="fa-regular fa-note-sticky"
-                  style={{ color: "green" }}
-                ></i>
-                <span> Green Note</span>
+               <span className="green"> <i className="fa-regular fa-note-sticky" ></i></span>
+                <span className="ms-1">Green Note</span>
               </button>
             </li>
             <li>
@@ -332,11 +301,8 @@ export default function FabricToolbar({
                 type="button"
                 onClick={() => onAddStickyNote("stickyNote4")}
               >
-                <i
-                  class="fa-regular fa-note-sticky"
-                  style={{ color: "blue" }}
-                ></i>
-                <span> Blue Note</span>
+               <span className="blue"> <i className="fa-regular fa-note-sticky" ></i></span>
+                <span className="ms-1">Blue Note</span>
               </button>
             </li>
             <li>
@@ -345,11 +311,8 @@ export default function FabricToolbar({
                 type="button"
                 onClick={() => onAddStickyNote("stickyNote5")}
               >
-                <i
-                  class="fa-regular fa-note-sticky"
-                  style={{ color: "pink" }}
-                ></i>
-                <span> Pink Note</span>
+               <span className="pink"> <i className="fa-regular fa-note-sticky"></i></span>
+                <span className="ms-1">Pink Note</span>
               </button>
             </li>
           </ul>
@@ -362,7 +325,7 @@ export default function FabricToolbar({
           onClick={onAddText}
         >
           {/* Add Text */}
-          <i class="fa-solid fa-font"></i>
+          <i className="fa-solid fa-font"></i>
         </button>
         <button
           title="Add Table"
@@ -371,7 +334,7 @@ export default function FabricToolbar({
           onClick={onAddTable}
         >
           {/* Add Table */}
-          <i class="fa-solid fa-table"></i>
+          <i className="fa-solid fa-table"></i>
         </button>
 
         <label
@@ -381,7 +344,7 @@ export default function FabricToolbar({
           style={{ cursor: "pointer" }}
         >
           {/* Upload Image */}
-          <i class="fa-solid fa-image"></i>
+          <i className="fa-solid fa-image"></i>
           <input
             type="file"
             accept="image/*"
@@ -447,6 +410,6 @@ export default function FabricToolbar({
           </ul>
         </div> */}
       </div>
-    </div>
+    </>
   );
 }

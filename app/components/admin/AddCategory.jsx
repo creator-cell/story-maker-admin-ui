@@ -98,7 +98,7 @@ const AddCategoryPage = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Add Category</h3>
+                    <h1>Add Category</h1>
                   </div>
                 </div>
               </div>
@@ -171,7 +171,7 @@ const AddCategoryPage = () => {
                       <button
                         type="button"
                         className="button"
-                        onClick={() => {    setLoader(true);   router.push("/admin/category")}}
+                        onClick={() => {setLoader(true);   router.push("/admin/category")}}
                       >
                         Cancel
                       </button>

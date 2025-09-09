@@ -48,12 +48,12 @@ export default function Categories() {
   }, []);
 
   const handleEditCategory = (id) => {
-    setLoader(true);  
+    setLoader(true);
     router.push(`/admin/category/${id}`);
   };
 
   const handleAddCategory = () => {
-        setLoader(true);  
+    setLoader(true);
     router.push(`/admin/category/add-category`);
   };
 
@@ -72,7 +72,7 @@ export default function Categories() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h3>Category List</h3>
+                      <h1>Category List</h1>
                     </div>
                   </div>
                 </div>
@@ -93,13 +93,13 @@ export default function Categories() {
                             }
                           />
                           <i
-                            className="fa-solid fa-magnifying-glass position-absolute"
-                            style={{
-                              right: "10px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              color: "#6c757d",
-                            }}
+                            className="fa-solid fa-magnifying-glass"
+                            // style={{
+                            //   right: "10px",
+                            //   top: "50%",
+                            //   transform: "translateY(-50%)",
+                            //   color: "#6c757d",
+                            // }}
                           ></i>
                         </div>
                         <button
@@ -116,7 +116,7 @@ export default function Categories() {
                               setSearch("");
                               getCategories(1, "");
                             }}
-                            style={{ backgroundColor: "#6c757d" }}
+                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -152,18 +152,18 @@ export default function Categories() {
                               <td>{category.description}</td>
 
                               <td>
-                                <div className="d-flex justify-content-start align-items-center gap-2">
+                                <div className="d-flex justify-content-start align-items-center">
                                   <button
-                                    className={`admin_action_edit bg-success`}
+                                    className={`admin_action_edit`}
                                     onClick={() =>
                                       handleEditCategory(category._id)
                                     }
                                   >
-                                    <i className="fa fa-edit"></i>
+                                    <i className="fa-solid fa-pencil"></i>
                                   </button>
 
                                   <button
-                                    className={`admin_action_delete bg-danger`}
+                                    className={`admin_action_delete`}
                                     onClick={() =>
                                       handleDeleteCategory(category._id)
                                     }

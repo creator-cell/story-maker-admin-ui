@@ -187,7 +187,7 @@ export default function Roles() {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h3>Role list</h3>
+                      <h1>Role list</h1>
                     </div>
                   </div>
                 </div>
@@ -218,7 +218,6 @@ export default function Roles() {
                             return (
                               <tr key={user._id}>
                                 <td data-label="Name">{user.name}</td>
-
                                 <td data-label="Menus & Permissions">
                                   {user.menu && user.menu.length > 0 ? (
                                     <div>
@@ -227,13 +226,13 @@ export default function Roles() {
                                           key={idx}
                                           className="permission-item mb-2 p-2 border rounded"
                                         >
-                                        
+
                                           <div className="permission-badges">
-                                              {/* <div className="menu-header mb-1"> */}
+                                            {/* <div className="menu-header mb-1"> */}
                                             <strong className="text-dark">
-                                              {menuItem.menuName}
+                                              {menuItem.menuName}  :
                                             </strong>
-                                          {/* </div> */}
+                                            {/* </div> */}
                                             {menuItem.read && (
                                               <span className="badge b me-1">
                                                 Read
@@ -267,25 +266,25 @@ export default function Roles() {
                                   )}
                                 </td>
 
-                              {hasWritePermission() && (
-                                <td data-label="Action">
-                                  <div className="d-flex justify-content-start align-items-center gap-2">
-                                    <button className="admin_action_edit bg-success"
-                                      onClick={() => handleUserUpdate(user._id)}>
-                                      <i className="fa fa-edit"></i>
-                                    </button>
-                                    { !user?.isSuperAdmin ?
-                                    <button className="admin_action_delete bg-danger"
-                                      onClick={() => handleUserDelete(user._id)}>
-                                      <i className="fa fa-trash"></i>
-                                    </button>
-                                    : null }
-                                  </div>
-                                </td>
-                              )}
-                            </tr>
-                          );
-                        })}
+                                {hasWritePermission() && (
+                                  <td data-label="Action">
+                                    <div className="d-flex justify-content-start align-items-center">
+                                      <button className="admin_action_edit"
+                                        onClick={() => handleUserUpdate(user._id)}>
+                                        <i className="fa-solid fa-pencil"></i>
+                                      </button>
+                                      {!user?.isSuperAdmin ?
+                                        <button className="admin_action_delete"
+                                          onClick={() => handleUserDelete(user._id)}>
+                                          <i className="fa fa-trash"></i>
+                                        </button>
+                                        : null}
+                                    </div>
+                                  </td>
+                                )}
+                              </tr>
+                            );
+                          })}
                         {users.length === 0 && (
                           <tr>
                             <td colSpan="3" className="text-center">
