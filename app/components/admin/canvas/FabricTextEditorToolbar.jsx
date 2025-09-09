@@ -146,38 +146,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
     fRef.current.renderAll();
   };
 
-  // const addText = () => {
-  //   const canvas = fRef.current;
-  //   if (!canvas) return;
 
-  //   disableDrawing();
-
-  //   const defaultProps = {
-  //     left: 100,
-  //     top: 100,
-  //     fontSize: 24,
-  //     fontFamily: fontFamily,
-  //     fill: "#000000",
-  //     padding: 0,
-  //     textAlign: "left",
-  //     id: `text-${Date.now()}`,
-  //   };
-
-  //   const textObj = new fabric.IText("Edit me", { ...defaultProps });
-
-  //   textObj.on("editing:exited", () => {
-  //     if (!textObj.text || textObj.text.trim() === "") {
-  //       textObj.set("text", "Edit me");
-  //     }
-  //     canvas.renderAll();
-  //   });
-
-  //   canvas.add(textObj);
-  //   canvas.setActiveObject(textObj);
-  //   canvas.renderAll();
-  // };
-
-  // ---------- Drawing Tools ----------
 
   const addText = () => {
     const canvas = fRef.current;
