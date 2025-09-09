@@ -4,31 +4,22 @@ import { Modal, Container, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 export default function DeleteAssets({ show, onHide, data, setLoader, props }) {
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSETS;
-    
-    const handleAssetsDelete = async () => {
-        setLoader(true);
-        axios({
-            url: `${API_URL}assets/${data}`,
-            method: "DELETE",
-            headers: {
-                "Authorization" : `Bearer ${localStorage.getItem("token")}`
-            }
-        }).then(res => {
-            toast(res.data?.message || "Assets delete successfully.", {
-                theme:"light",
-                position: "top-right",
-                type: "success"
-            });
-            onHide();
-        }).catch(err => {
-            toast(err?.response?.data?.errors?.[0]?.message ?? err?.response?.data?.message ?? "Failed to delete assets", {
-                theme:"light",
-                position: "top-right",
-                type: "error"
-            });
-        }).finally(() => {
-            setLoader(false);
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSETS;
+
+  const handleAssetsDelete = async () => {
+    setLoader(true);
+    axios({
+      url: `${API_URL}assets/${data}`,
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        toast(res.data?.message || "Assets deleted successfully.", {
+          theme: "light",
+          position: "top-right",
+          type: "success",
         });
         onHide();
       })
