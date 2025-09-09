@@ -42,6 +42,11 @@ export default function EditRole({ roleId }) {
       write: false,
       both: false,
     },
+    Plans: {
+      read: false,
+      write: false,
+      both: false
+    }
   });
 
   // Hardcoded menu options
@@ -52,6 +57,7 @@ export default function EditRole({ roleId }) {
     { key: "Tickets", label: "Tickets" },
     { key: "Category", label: "Category" },
     { key: "Template", label: "Template" },
+    { key: "Plans", label: "Plans" }
   ];
 
   const {
@@ -86,6 +92,7 @@ export default function EditRole({ roleId }) {
         Category: { read: false, write: false, both: false },
         Assets: { read: false, write: false, both: false },
         Template: { read: false, write: false, both: false },
+        Plans: { read: false, write: false, both: false }
       };
       if (role.menuPermissions) {
         setMenuPermissions({

@@ -250,7 +250,13 @@ const AdminSidebar = () => {
                           </li>
                         )}
 
-                        <li className="nav-item">
+                        {hasMenuAccess("Plans") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${activeLink === "/admin/plans" ? "active" : ""}`}
+                              href={`/admin/plans`}
+                            >
+                    
                           <button
                             className="nav-link"
                             onClick={() => {
