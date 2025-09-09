@@ -91,8 +91,8 @@ const UpdatePlans = () => {
         features:
           data?.features?.length > 0
             ? data?.features?.map((p) => {
-                return p.id;
-              })
+              return p.id;
+            })
             : [],
       }),
     })
@@ -107,8 +107,8 @@ const UpdatePlans = () => {
       .catch((err) => {
         toast(
           err?.response?.data?.errors?.[0]?.message ??
-            err?.response?.data?.message ??
-            "Failed to update plans",
+          err?.response?.data?.message ??
+          "Failed to update plans",
           {
             type: "error",
             theme: "light",
@@ -134,12 +134,12 @@ const UpdatePlans = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Update Plan</h3>
+                    <h1>Update Plan</h1>
                   </div>
                 </div>
               </div>
 
-              <div className="admin_form_panel">
+              <div className="admin_form_panel mt-5">
                 <form onSubmit={handleSubmit(handleUpdatePlan)}>
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
@@ -195,6 +195,7 @@ const UpdatePlans = () => {
                         <label htmlFor="full-name">Description</label>
                         <textarea
                           className="form-control"
+                          rows="1"
                           {...register("description", {
                             required: {
                               value: true,
@@ -214,10 +215,11 @@ const UpdatePlans = () => {
                       <div className="form_group">
                         <label htmlFor="full-name">Price</label>
                         <input
+                          className="form-control"
                           type="number"
                           name=""
                           id=""
-                          {...register("price", { required:{ value:true, message:"Price is required" }, min: { value:0, message: "Price is invalid" } })}/>
+                          {...register("price", { required: { value: true, message: "Price is required" }, min: { value: 0, message: "Price is invalid" } })} />
                       </div>
                       {errors?.price ? (
                         <p className="text-danger">
@@ -236,7 +238,7 @@ const UpdatePlans = () => {
                           name="duration"
                           render={({ field: { onChange, value } }) => {
                             return (
-                              <select value={value} onChange={onChange}>
+                              <select value={value} onChange={onChange} className="form-control">
                                 <option value="" selected>
                                   Please select
                                 </option>
@@ -281,6 +283,9 @@ const UpdatePlans = () => {
                                   onChange([...value, tag]);
                                 }
                               }}
+                                 classNames={{
+                                tagInputField: "form-control"
+                              }}
                             />
                           )}
                         />
@@ -300,7 +305,7 @@ const UpdatePlans = () => {
                         type="button"
                         className="button"
                         style={{ backgroundColor: "#6c757d" }}
-                        onClick={() => router.push("/admin/assets")}
+                        onClick={() => router.push("/admin/plans")}
                       >
                         Cancel
                       </button>

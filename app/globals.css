@@ -9924,7 +9924,8 @@ html {
 }
 
 .badge {
-  font-size: 9px;
+  width: 80px;
+  font-size: 10px !important;
   padding: 10px !important;
 }
 
@@ -10287,4 +10288,17 @@ html {
 
 .admin_table .table-responsive table tr .cursor {
   cursor: pointer;
+}
+
+.admin_table .table-responsive table .table_body tr td span:hover {
+  opacity: 0.8;
+}
+
+.ReactTags__selected {
+  display: flex;
+  flex-direction: column;
+  gap: 3;
+}
+.ReactTags__selected span {
+  order: 10;
 }

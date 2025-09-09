@@ -253,10 +253,19 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Plans") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/plans" ? "active" : ""}`}
+                              className={`nav-link ${
+                                activeLink === "/admin/plans" ? "active" : ""
+                              }`}
                               href={`/admin/plans`}
                             >
-                    
+                              <i className="fa-solid fa-layer-group"></i>
+                              Plans
+                            </CustomLink>
+                          </li>
+                        )}
+
+                        {/* Logout Button */}
+                        <li className="nav-item">
                           <button
                             className="nav-link"
                             onClick={() => {
