@@ -113,15 +113,16 @@ export default function Users() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      // Handle the new response structure
-      if (response.data.items) {
-        setUsers(response.data.items);
+    
+      if (response.data) {
+        setUsers(response.data.data);
+        console.log(response.data);
         setTotalPages(response.data.pagination.totalPages);
         setTotalItems(response.data.pagination.totalItems);
         setCurrentPage(response.data.pagination.currentPage - 1);
       } else {
-        // Fallback for old structure
-        setUsers(response.data.user || response.data || []);
+       
+        setUsers(response.data.data || response.data.data || []);
         setTotalPages(response.data.totalPages || 1);
         setTotalItems(response.data.totalItems || 0);
         setCurrentPage(page - 1);
@@ -190,13 +191,13 @@ export default function Users() {
           userData.rolePermissions &&
           userData.rolePermissions.menu
         ) {
-          // Find the Users menu permissions
+      
           const usersMenu = userData.rolePermissions.menu.find(
             (menu) => menu.menuName === "Users"
           );
 
           if (usersMenu) {
-            // Set permissions based on the Users menu
+         
             setUserPermissions({
               read: usersMenu.read || false,
               write: usersMenu.write || false,
@@ -204,7 +205,6 @@ export default function Users() {
               hasUsersMenu: true,
             });
 
-            // If user has read permission or both, fetch users
             if (usersMenu.read || usersMenu.both) {
               getUsers(1);
             } else {

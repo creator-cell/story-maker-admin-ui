@@ -100,7 +100,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
   const changeAlign = (align) => {
     const text = getActiveText();
     if (!text) return;
-    text.set("textAlign", align);
+    text.set({ textAlign: align });
     fRef.current.renderAll();
   };
 
@@ -146,10 +146,43 @@ export default function FabricTextEditorToolbar({ fRef }) {
     fRef.current.renderAll();
   };
 
+  // const addText = () => {
+  //   const canvas = fRef.current;
+  //   if (!canvas) return;
+
+  //   disableDrawing();
+
+  //   const defaultProps = {
+  //     left: 100,
+  //     top: 100,
+  //     fontSize: 24,
+  //     fontFamily: fontFamily,
+  //     fill: "#000000",
+  //     padding: 0,
+  //     textAlign: "left",
+  //     id: `text-${Date.now()}`,
+  //   };
+
+  //   const textObj = new fabric.IText("Edit me", { ...defaultProps });
+
+  //   textObj.on("editing:exited", () => {
+  //     if (!textObj.text || textObj.text.trim() === "") {
+  //       textObj.set("text", "Edit me");
+  //     }
+  //     canvas.renderAll();
+  //   });
+
+  //   canvas.add(textObj);
+  //   canvas.setActiveObject(textObj);
+  //   canvas.renderAll();
+  // };
+
+  // ---------- Drawing Tools ----------
+
   const addText = () => {
     const canvas = fRef.current;
     if (!canvas) return;
-    console.log("Adding text...");
+
     disableDrawing();
 
     const defaultProps = {
@@ -158,12 +191,13 @@ export default function FabricTextEditorToolbar({ fRef }) {
       fontSize: 24,
       fontFamily: fontFamily,
       fill: "#000000",
-      padding: 0,
       textAlign: "left",
+      width: 300,
+      editable: true,
       id: `text-${Date.now()}`,
     };
 
-    const textObj = new fabric.IText("Edit me", { ...defaultProps });
+    const textObj = new fabric.Textbox("Edit me", { ...defaultProps });
 
     textObj.on("editing:exited", () => {
       if (!textObj.text || textObj.text.trim() === "") {
@@ -177,7 +211,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
     canvas.renderAll();
   };
 
-  // ---------- Drawing Tools ----------
   const activatePencil = () => {
     const canvas = fRef.current;
     if (!canvas) return;

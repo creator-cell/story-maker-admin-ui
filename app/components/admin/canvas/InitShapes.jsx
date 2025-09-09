@@ -1,7 +1,6 @@
 import { fabric } from "fabric";
 
 export const initCanvas = (canvasRef, wrapRef, fRef, setSelectedObject) => {
-  console.log("Initializing canvas...");
   if (!canvasRef.current) return;
   const f = new fabric.Canvas(canvasRef.current, {
     backgroundColor: "#f8fafc",
@@ -9,12 +8,12 @@ export const initCanvas = (canvasRef, wrapRef, fRef, setSelectedObject) => {
   });
   fRef.current = f;
 
-  // const starter = new fabric.IText("Double-click to edit", {
-  //   left: 80,
-  //   top: 80,
-  //   fontSize: 28,
-  // });
-  //  f.add(starter).setActiveObject(starter);
+  const starter = new fabric.IText("Double-click to edit", {
+    left: 80,
+    top: 80,
+    fontSize: 28,
+  });
+  f.add(starter).setActiveObject(starter);
 
   f.on("selection:created", (e) => {
     const obj = e.target || (e.selected && e.selected[0]);
