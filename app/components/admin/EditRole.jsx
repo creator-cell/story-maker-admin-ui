@@ -42,7 +42,7 @@ export default function EditRole({ roleId }) {
       write: false,
       both: false,
     },
-    Plans: {
+    Notification: {
       read: false,
       write: false,
       both: false
@@ -57,7 +57,7 @@ export default function EditRole({ roleId }) {
     { key: "Tickets", label: "Tickets" },
     { key: "Category", label: "Category" },
     { key: "Template", label: "Template" },
-    { key: "Plans", label: "Plans" }
+    { key: "Notification", label: "Notification" }
   ];
 
   const {
@@ -92,7 +92,7 @@ export default function EditRole({ roleId }) {
         Category: { read: false, write: false, both: false },
         Assets: { read: false, write: false, both: false },
         Template: { read: false, write: false, both: false },
-        Plans: { read: false, write: false, both: false }
+        Notification: { read: false, write: false, both: false }
       };
       if (role.menuPermissions) {
         setMenuPermissions({
@@ -225,7 +225,7 @@ export default function EditRole({ roleId }) {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h1>Edit Role</h1>
+                      <h3>Edit Role</h3>
                     </div>
                   </div>
                 </div>
@@ -267,21 +267,21 @@ export default function EditRole({ roleId }) {
                               <table className="table table-bordered">
                                 <thead className="table-light">
                                   <tr>
-                                    <th>Menu</th>
+                                    <th style={{ width: "200px" }}>Menu</th>
                                     <th
-                                      // style={{ width: "150px" }}
+                                      style={{ width: "150px" }}
                                       className="text-center"
                                     >
                                       Read
                                     </th>
                                     <th
-                                      // style={{ width: "150px" }}
+                                      style={{ width: "150px" }}
                                       className="text-center"
                                     >
                                       Write
                                     </th>
                                     <th
-                                      // style={{ width: "150px" }}
+                                      style={{ width: "150px" }}
                                       className="text-center"
                                     >
                                       Both

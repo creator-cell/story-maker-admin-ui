@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import 'react-phone-number-input/style.css';
 import { UserProvider } from "../helper/UserProvider";
 
 import { ToastContainer } from "react-toastify";
