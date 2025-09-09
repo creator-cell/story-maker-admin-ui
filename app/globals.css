@@ -10249,12 +10249,19 @@ html {
   transform: rotate(135deg);
   display: inline-block;
 }
-.canvas-container .lower-canvas{
-    border: 1px solid rgb(204, 204, 204) !important;
+
+.canvas-container {
+  width: 100% !important;
 }
+
+.canvas-container .lower-canvas {
+  width: 100% !important;
+  border: 1px solid rgb(204, 204, 204) !important;
+}
+
 .canvas-container .upper-canvas {
+  width: 100% !important;
   border: 1px solid rgb(204, 204, 204);
-  /* width: 1063px !important; */
   /* background-color: #F8FAFC; */
 }
 
