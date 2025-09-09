@@ -1,31 +1,32 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ReactPaginate from 'react-paginate';
-import DeleteUser from '../../(adminSide)/model/DeleteRole';
-import EditRole from '../../(adminSide)/model/EditRole'
+import ReactPaginate from "react-paginate";
+import DeleteUser from "../../(adminSide)/model/DeleteRole";
+import EditRole from "../../(adminSide)/model/EditRole";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import CustomLink from "../CustomLink";
+import Loader from "../Loader";
 
 export default function Roles() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
   const [userId, setUserId] = useState();
   const [updateUser, setUpdateUser] = useState(false);
   const [updateUserId, setUpdateUserId] = useState();
+  const [loader, setLoader] = useState(false);
+
   const [userPermissions, setUserPermissions] = useState({
     read: false,
     write: false,
     both: false,
-    hasRolesMenu: false
+    hasRolesMenu: false,
   });
 
   const router = useRouter();
-
 
   const getRole = async () => {
     try {
@@ -39,7 +40,6 @@ export default function Roles() {
 
       const userData = response.data;
       setUsers(userData.roles);
-
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -55,7 +55,7 @@ export default function Roles() {
             read: user.role.read || false,
             write: user.role.write || false,
             both: user.role.both || false,
-            hasUsersMenu: user.role.menu && user.role.menu.includes("Users")
+            hasUsersMenu: user.role.menu && user.role.menu.includes("Users"),
           };
         }
       }
@@ -67,20 +67,20 @@ export default function Roles() {
   };
 
   const getUserDetail = async () => {
+    setLoader(true);
     try {
       const response = await axios({
         url: `${API_URL}me`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
+      setLoader(false);
       return response.data;
     } catch (err) {
       console.log("Error fetching user data:", err);
-
     }
   };
 
@@ -97,16 +97,19 @@ export default function Roles() {
     return userPermissions.hasRolesMenu;
   };
 
-
   useEffect(() => {
     const initializeUserPermissions = async () => {
       try {
         const userData = await getUserDetail();
 
-        if (userData && userData.rolePermissions && userData.rolePermissions.menu) {
+        if (
+          userData &&
+          userData.rolePermissions &&
+          userData.rolePermissions.menu
+        ) {
           // Find the Users menu permissions
           const usersMenu = userData.rolePermissions.menu.find(
-            menu => menu.menuName === "Roles"
+            (menu) => menu.menuName === "Roles"
           );
 
           if (usersMenu) {
@@ -115,7 +118,7 @@ export default function Roles() {
               read: usersMenu.read || false,
               write: usersMenu.write || false,
               both: usersMenu.both || false,
-              hasUsersMenu: true
+              hasUsersMenu: true,
             });
 
             // If user has read permission or both, fetch users
@@ -130,7 +133,7 @@ export default function Roles() {
               read: false,
               write: false,
               both: false,
-              hasUsersMenu: false
+              hasUsersMenu: false,
             });
             toast.error("You don't have permission to access this page");
           }
@@ -140,7 +143,7 @@ export default function Roles() {
             read: false,
             write: false,
             both: false,
-            hasUsersMenu: false
+            hasUsersMenu: false,
           });
           toast.error("You don't have permission to access this page");
         }
@@ -150,30 +153,29 @@ export default function Roles() {
           read: false,
           write: false,
           both: false,
-          hasUsersMenu: false
+          hasUsersMenu: false,
         });
         toast.error("Error loading user permissions");
       }
     };
 
     initializeUserPermissions();
-  }, []); 
-
-  
-
+  }, []);
 
   const handleUserDelete = (id) => {
     setUserId(id);
-    setDeleteUser(true)
-  }
+    setDeleteUser(true);
+  };
 
   const handleUserUpdate = (id) => {
-      router.push(`/admin/role/${id}`)
-  }
+    setLoader(true);
+    router.push(`/admin/role/${id}`);
+  };
 
   const handleNewUser = () => {
-    router.push('/admin/role/add-role');
-  }
+    setLoader(true);
+    router.push("/admin/role/add-role");
+  };
 
   return (
     <>
@@ -185,16 +187,14 @@ export default function Roles() {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h3>Role list</h3>
+                      <h1>Role list</h1>
                     </div>
                   </div>
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-end">
-
                     <div className="col-lg-12 col-md-12 col-12 p-0 flex-end">
                       <div className="form_group position-relative align-items-end">
-
                         {hasWritePermission() && (
                           <button className="button" onClick={handleNewUser}>
                             Add Role
@@ -205,7 +205,6 @@ export default function Roles() {
                   </div>
                   <div className="table-responsive">
                     <table className="table">
-                    
                       <thead>
                         <tr>
                           <th>Name</th>
@@ -214,54 +213,78 @@ export default function Roles() {
                         </tr>
                       </thead>
                       <tbody className="table_body">
-                        {users && users.map((user, index) => {
-                          return (
-                            <tr key={user._id}>
-                              <td data-label="Name">{user.name}</td>
+                        {users &&
+                          users.map((user, index) => {
+                            return (
+                              <tr key={user._id}>
+                                <td data-label="Name">{user.name}</td>
+                                <td data-label="Menus & Permissions">
+                                  {user.menu && user.menu.length > 0 ? (
+                                    <div>
+                                      {user.menu.map((menuItem, idx) => (
+                                        <div
+                                          key={idx}
+                                          className="permission-item mb-2 p-2 border rounded"
+                                        >
 
-                              <td data-label="Menus & Permissions">
-                                {user.menu && user.menu.length > 0 ? (
-                                  <div>
-                                    {user.menu.map((menuItem, idx) => (
-                                      <div key={idx} className="permission-item mb-2 p-2 border rounded">
-                                        <div className="menu-header mb-1">
-                                          <strong className="text-primary">{menuItem.menuName}</strong>
+                                          <div className="permission-badges">
+                                            {/* <div className="menu-header mb-1"> */}
+                                            <strong className="text-dark">
+                                              {menuItem.menuName}  :
+                                            </strong>
+                                            {/* </div> */}
+                                            {menuItem.read && (
+                                              <span className="badge b me-1">
+                                                Read
+                                              </span>
+                                            )}
+                                            {menuItem.write && (
+                                              <span className="badge  me-1">
+                                                Write
+                                              </span>
+                                            )}
+                                            {menuItem.both && (
+                                              <span className="badge  me-1">
+                                                Both
+                                              </span>
+                                            )}
+                                            {!menuItem.read &&
+                                              !menuItem.write &&
+                                              !menuItem.both && (
+                                                <span className="badge bg-secondary">
+                                                  No Access
+                                                </span>
+                                              )}
+                                          </div>
                                         </div>
-                                        <div className="permission-badges">
-                                          {menuItem.read && <span className="badge bg-success me-1">Read</span>}
-                                          {menuItem.write && <span className="badge bg-warning me-1">Write</span>}
-                                          {menuItem.both && <span className="badge bg-info me-1">Both</span>}
-                                          {!menuItem.read && !menuItem.write && !menuItem.both &&
-                                            <span className="badge bg-secondary">No Access</span>
-                                          }
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                ) : (
-                                  <span className="text-muted">No permissions assigned</span>
-                                )}
-                              </td>
-
-                              {hasWritePermission() && (
-                                <td data-label="Action">
-                                  <div className="d-flex justify-content-start align-items-center gap-2">
-                                    <button className="admin_action_edit"
-                                      onClick={() => handleUserUpdate(user._id)}>
-                                      <i className="fa fa-edit"></i>
-                                    </button>
-                                    { !user?.isSuperAdmin ?
-                                    <button className="admin_action_delete"
-                                      onClick={() => handleUserDelete(user._id)}>
-                                      <i className="fa fa-trash"></i>
-                                    </button>
-                                    : null }
-                                  </div>
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    <span className="text-muted">
+                                      No permissions assigned
+                                    </span>
+                                  )}
                                 </td>
-                              )}
-                            </tr>
-                          );
-                        })}
+
+                                {hasWritePermission() && (
+                                  <td data-label="Action">
+                                    <div className="d-flex justify-content-start align-items-center">
+                                      <button className="admin_action_edit"
+                                        onClick={() => handleUserUpdate(user._id)}>
+                                        <i className="fa-solid fa-pencil"></i>
+                                      </button>
+                                      {!user?.isSuperAdmin ?
+                                        <button className="admin_action_delete"
+                                          onClick={() => handleUserDelete(user._id)}>
+                                          <i className="fa fa-trash"></i>
+                                        </button>
+                                        : null}
+                                    </div>
+                                  </td>
+                                )}
+                              </tr>
+                            );
+                          })}
                         {users.length === 0 && (
                           <tr>
                             <td colSpan="3" className="text-center">
@@ -270,16 +293,14 @@ export default function Roles() {
                           </tr>
                         )}
                       </tbody>
-
-
                     </table>
                   </div>
-
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {loader && <Loader />}
       </div>
       <DeleteUser
         show={deleteUser}
@@ -293,6 +314,4 @@ export default function Roles() {
       />
     </>
   );
-
-  
 }

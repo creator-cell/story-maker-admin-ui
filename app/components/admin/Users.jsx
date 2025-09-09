@@ -5,9 +5,10 @@ import ReactPaginate from "react-paginate";
 import DeleteUser from "../../(adminSide)/model/DeleteUser";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Loader from "../Loader";
 
 export default function Users() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
@@ -18,6 +19,7 @@ export default function Users() {
   const [sortByValue, setSortByValue] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
   const [loading, setLoading] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [userPermissions, setUserPermissions] = useState({
     read: false,
     write: false,
@@ -27,35 +29,36 @@ export default function Users() {
   const router = useRouter();
   const [role, setRole] = useState("");
   const [userRolePermissions, setUserRolePermissions] = useState(null);
- 
+
   const updateUserStatus = async (updateUserId) => {
     try {
       const response = await axios({
         url: `${API_URL}users/status/${updateUserId}`,
         method: "PUT",
         headers: {
-          'Content-Type': "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       if (response.data?.status == "success") {
-        setUsers((prevState) => prevState.map(p => {
-          if (p?._id == updateUserId) {
-            return {
-              ...p,
-              isActive : !p?.isActive
-            } 
-          } else {
-            return p;
-          }
-        }));
+        setUsers((prevState) =>
+          prevState.map((p) => {
+            if (p?._id == updateUserId) {
+              return {
+                ...p,
+                isActive: !p?.isActive,
+              };
+            } else {
+              return p;
+            }
+          })
+        );
       }
-      
     } catch (error) {
       console.log("Error update user status :", error);
     }
-  }
+  };
 
   const getUserDetail = async () => {
     try {
@@ -97,7 +100,7 @@ export default function Users() {
     order = sortOrder
   ) => {
     try {
-      setLoading(true);
+      setLoader(true);
       let url = `${API_URL}users?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
@@ -133,7 +136,7 @@ export default function Users() {
       setTotalPages(0);
       setTotalItems(0);
     } finally {
-      setLoading(false);
+      setLoader(false);
     }
   };
 
@@ -247,10 +250,12 @@ export default function Users() {
   };
 
   const handleNewUser = () => {
+    setLoader(true);
     router.push("/admin/users/add-user");
   };
 
   const handleEditUser = (userId) => {
+    setLoader(true);
     router.push(`/admin/users/${userId}`);
   };
 
@@ -271,17 +276,17 @@ export default function Users() {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h3>User List</h3>
+                      <h1>User List</h1>
                     </div>
                   </div>
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-6 col-md-6 col-12">
+                    <div className="col-lg-4 col-md-6 col-12">
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="col-lg-6 col-md-6 col-12">
+                    <div className="col-lg-8 col-md-6 col-12">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative">
                           <input
@@ -293,13 +298,13 @@ export default function Users() {
                             onKeyPress={handleSearchKeyPress}
                           />
                           <i
-                            className="fa-solid fa-magnifying-glass position-absolute"
-                            style={{
-                              right: "10px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              color: "#6c757d",
-                            }}
+                            className="fa-solid fa-magnifying-glass"
+                            // style={{
+                            //   right: "10px",
+                            //   top: "50%",
+                            //   transform: "translateY(-50%)",
+                            //   color: "#6c757d",
+                            // }}
                           ></i>
                         </div>
 
@@ -315,7 +320,7 @@ export default function Users() {
                           <button
                             className="button ms-2"
                             onClick={handleClearSearch}
-                            style={{ backgroundColor: "#6c757d" }}
+                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -343,15 +348,15 @@ export default function Users() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
+                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("name")}
                           >
                             First Name
                             <i className={`fa ${getSortIcon("name")} ms-1`}></i>
                           </th>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
+                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("email")}
                           >
                             Email Address
@@ -360,82 +365,90 @@ export default function Users() {
                             ></i>
                           </th>
                           <th>Phone Number</th>
-                          <th
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => handleSort('isActive')}
+                          <th className="cursor"
+                            // style={{ cursor: "pointer" }}
+                            onClick={() => handleSort("isActive")}
                           >
                             Status
-                            <i className={`fa ${getSortIcon('isActive')} ms-1`}></i>
+                            <i
+                              className={`fa ${getSortIcon("isActive")} ms-1`}
+                            ></i>
                           </th>
-                       
+
                           {hasWritePermission() && <th>Action</th>}
                         </tr>
                       </thead>
                       <tbody className="table_body">
-                        {!loading && users && users.map((user, index) => {
-                          return (
-                            <tr key={user._id}>
-                              <td data-label="First Name">{user.name}</td>
-                              <td data-label="Email Address">{user.email}</td>
-                              <td data-label="Phone Number">{user.phone || user.phone || ""}</td>
-                              <td>
-                                {hasWritePermission() ? 
-                                  <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked={user?.isActive} onChange={() => { updateUserStatus(user._id) }}/>
-                                    <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
-                                  </div>
-                                  : <>
-                                    {user?.isActive ? <span class="badge bg-primary">Active</span> : <span class="badge bg-secondary">Deactivate</span>}
-                                  </>
-                                }
-                              </td>
-                            
-                              {hasWritePermission() && (
-                                <td data-label="Action">
-                                  <div className="d-flex justify-content-start align-items-center gap-2">
-                                    <button
-                                      className="admin_action_edit"
-                                      onClick={() => handleEditUser(user._id)}
-                                      title="Edit User"
-                                    >
-                                      <i className="fa fa-edit"></i>
-                                    </button>
-                                    <button 
-                                      className="admin_action_delete"
-                                      onClick={() => handleUserDelete(user._id)}
-                                      title="Delete User"
-                                    >
-                                      <i className="fa fa-trash"></i>
-                                    </button>
-                                  </div>
-                                </td>)}
+                        {!loading &&
+                          users &&
+                          users.map((user, index) => {
+                            return (
+                              <tr key={user._id}>
+                                <td data-label="First Name">{user.name}</td>
+                                <td data-label="Email Address">{user.email}</td>
+                                <td data-label="Phone Number">
+                                  {user.phone || user.phone || ""}
+                                </td>
+                                <td>
+                                  {hasWritePermission() ? (
+                                    <div class="form-check form-switch">
+                                      <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="flexSwitchCheckChecked"
+                                        checked={user?.isActive}
+                                        onChange={() => {
+                                          updateUserStatus(user._id);
+                                        }}
+                                      />
+                                      <label
+                                        class="form-check-label"
+                                        for="flexSwitchCheckChecked"
+                                      >
+                                        Active
+                                      </label>
+                                    </div>
+                                  ) : (
+                                    <>
+                                      {user?.isActive ? (
+                                        <span class="badge bg-primary">
+                                          Active
+                                        </span>
+                                      ) : (
+                                        <span class="badge bg-secondary">
+                                          Deactivate
+                                        </span>
+                                      )}
+                                    </>
+                                  )}
+                                </td>
 
                                 {hasWritePermission() && (
                                   <td data-label="Action">
-                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                    <div className="d-flex justify-content-start align-items-center">
                                       <button
                                         className="admin_action_edit"
                                         onClick={() => handleEditUser(user._id)}
-                                        title="Edit User"
+                                        // title="Edit User"
                                       >
-                                        <i className="fa fa-edit"></i>
+                                       <i class="fa-solid fa-pencil"></i>
                                       </button>
-
                                       <button
                                         className="admin_action_delete"
                                         onClick={() =>
                                           handleUserDelete(user._id)
                                         }
-                                        title="Delete User"
+                                        // title="Delete User"
                                       >
                                         <i className="fa fa-trash"></i>
                                       </button>
                                     </div>
                                   </td>
                                 )}
-                              </tr>
-                            );
-                          })}
+                            </tr>
+                          );
+                        })}
 
                         {!loading && users.length === 0 && (
                           <tr>
@@ -481,6 +494,7 @@ export default function Users() {
             </div>
           </div>
         </div>
+        {loader && <Loader />}
       </div>
 
       {hasWritePermission() && (

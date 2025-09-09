@@ -112,85 +112,92 @@ export default function EditCategory({ userId }) {
       <div className="inner_container">
         <div className="container-lg container-fluid p-0">
           <div className="comman_admin_layout flex-column p-0">
-            <div className="row mb-4">
-              <div className="col-12">
-                <h3>Edit Category</h3>
+            <div className="container-lg container-fluid p-0">
+              <div className="row mb-4">
+                <div className="col-lg-12 col-md-12 col-sm-12">
+                  <div className="title_head">
+                    <h1>Edit Category</h1>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <div className="admin_form_panel">
-              <form onSubmit={handleSubmit(handleUpdate)}>
-                {/* Name */}
-                <div className="mb-3">
-                  <label className="form-label">Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    {...register("name")}
-                  />
-                  <small className="text-muted">
-                    The name is how it appears on your site.
-                  </small>
-                </div>
+              <div className="admin_form_panel">
+                <form onSubmit={handleSubmit(handleUpdate)}>
+                  {/* Name */}
+                  <div className="row">
+                    <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <label className="form-label">Name
+                        <span className="text-danger"> *</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        {...register("name")}
+                      />
+                      <small className="text-muted">
+                        The name is how it appears on your site.
+                      </small>
+                    </div>
 
-                {/* Slug */}
-                <div className="mb-3">
-                  <label className="form-label">Slug</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    {...register("slug")}
-                  />
-                  <small className="text-muted">
-                    The “slug” is the URL-friendly version of the name.
-                  </small>
-                </div>
+                    {/* Slug */}
+                    <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <label className="form-label">Slug</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        {...register("slug")}
+                      />
+                      <small className="text-muted">
+                        The “slug” is the URL-friendly version of the name.
+                      </small>
+                    </div>
 
-                {/* Parent Category */}
-                <div className="mb-3">
-                  <label className="form-label">Parent Category</label>
-                  <select
-                    className="form-control"
-                    {...register("parentId")}
-                    defaultValue=""
-                  >
-                    <option value="">None</option>
-                    {categories.map((cat) => (
-                      <option key={cat._id} value={cat._id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                  <small className="text-muted">
-                    Categories can have a hierarchy. Totally optional.
-                  </small>
-                </div>
+                    {/* Parent Category */}
+                    <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <label className="form-label">Parent Category</label>
+                      <select
+                        className="form-control"
+                        {...register("parentId")}
+                        defaultValue=""
+                      >
+                        <option value="">None</option>
+                        {categories.map((cat) => (
+                          <option key={cat._id} value={cat._id}>
+                            {cat.name}
+                          </option>
+                        ))}
+                      </select>
+                      <small className="text-muted">
+                        Categories can have a hierarchy. Totally optional.
+                      </small>
+                    </div>
 
-                {/* Description */}
-                <div className="mb-3">
-                  <label className="form-label">Description</label>
-                  <textarea
-                    className="form-control"
-                    rows="4"
-                    {...register("description")}
-                  ></textarea>
-                </div>
+                    {/* Description */}
+                    <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <label className="form-label">Description</label>
+                      <textarea
+                        className="form-control"
+                        rows="1"
+                        {...register("description")}
+                      ></textarea>
+                    </div>
 
-                {/* Buttons */}
-                <div className="d-flex gap-3">
-                  <button type="submit" className="button">
-                    Update Category
-                  </button>
-                  <button
-                    type="button"
-                    className="button"
-                    style={{ backgroundColor: "#6c757d" }}
-                    onClick={() => router.push("/admin/category")}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
+                    {/* Buttons */}
+                    <div className="d-flex gap-3">
+                      <button type="submit" className="button">
+                        Update Category
+                      </button>
+                      <button
+                        type="button"
+                        className="button"
+                        onClick={() => { setLoader(true); router.push("/admin/category") }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

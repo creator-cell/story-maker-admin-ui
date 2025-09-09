@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import DeleteTemplate from "@/app/(adminSide)/model/DeleteTemplate";
+import Loader from "../Loader";
 export default function Template() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [templates, setTemplates] = useState([]);
@@ -15,12 +16,14 @@ export default function Template() {
   const [deleteId, setDeleteId] = useState("");
   const [showDeletedId, setShowDeletedId] = useState(false);
   const itemsPerPage = 20;
-
+  const [loader, setLoader] = useState(false);
+  const userStr = localStorage.getItem("user");
+  const userObj = userStr ? JSON.parse(userStr) : null;
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const getTemplates = async (page = 1, searchTerm = "") => {
-    setLoading(true);
+    setLoader(true);
     try {
       let url = `${API_URL}template?page=${page}&pageSize=${itemsPerPage}`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
@@ -36,7 +39,7 @@ export default function Template() {
       setTemplates([]);
       setTotalPages(0);
     } finally {
-      setLoading(false);
+      setLoader(false);
     }
   };
 
@@ -45,10 +48,12 @@ export default function Template() {
   }, []);
 
   const handleEdit = (id) => {
+    setLoader(true);
     router.push(`/admin/template/${id}`);
   };
 
   const handleClone = (id) => {
+    setLoader(true);
     router.push(`/admin/template/clone/${id}`);
   };
 
@@ -58,6 +63,7 @@ export default function Template() {
   };
 
   const handleNewTemplate = () => {
+    setLoader(true);
     router.push(`/admin/template/add-template`);
   };
 
@@ -71,26 +77,37 @@ export default function Template() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h3>Template List</h3>
+                      <h1>Template List</h1>
                     </div>
                   </div>
                 </div>
                 <div className="admin_table">
                   {/* Filters */}
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-6"></div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-4"></div>
+                    <div className="col-lg-8">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        <input
-                          type="text"
-                          placeholder="Search by name..."
-                          className="form-control"
-                          value={search}
-                          onChange={(e) => setSearch(e.target.value)}
-                          onKeyPress={(e) =>
-                            e.key === "Enter" && getTemplates(1, search)
-                          }
-                        />
+                        <div className="form_group position-relative">
+                          <input
+                            type="text"
+                            placeholder="Search by name..."
+                            className="form-control"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && getTemplates(1, search)
+                            }
+                          />
+                          <i
+                            className="fa-solid fa-magnifying-glass"
+                            // style={{
+                            //   right: "10px",
+                            //   top: "50%",
+                            //   transform: "translateY(-50%)",
+                            //   color: "#6c757d",
+                            // }}
+                          ></i>
+                        </div>
                         <button
                           className="button"
                           onClick={() => getTemplates(1, search)}
@@ -148,11 +165,10 @@ export default function Template() {
                               <td>{tpl.subCategory?.name || "-"}</td>
                               <td>
                                 <span
-                                  className={`badge ${
-                                    tpl.status === "approved"
+                                  className={`badge ${tpl.status === "approved"
                                       ? "bg-success"
                                       : "bg-warning"
-                                  }`}
+                                    }`}
                                 >
                                   {tpl.status}
                                 </span>
@@ -224,6 +240,7 @@ export default function Template() {
             </div>
           </div>
         </div>
+        {loader && <Loader />}
       </div>
       <DeleteTemplate
         show={showDeletedId}

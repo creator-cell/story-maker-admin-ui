@@ -183,7 +183,7 @@ const AddRole = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Add New Role</h3>
+                    <h1>Add New Role</h1>
                   </div>
                 </div>
               </div>
@@ -191,10 +191,11 @@ const AddRole = () => {
               <div className="admin_form_panel">
                 <form onSubmit={handleSubmit(handleRegister)}>
                   <div className="row">
-                    <div className="col-lg-6 col-md-6 col-12 mb-3">
+                    <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="role-name">
-                          Role Name <span className="text-danger">*</span>
+                          Role Name <span className="text-denger"> *</span>
+                          {/* <span className="text-danger">*</span> */}
                         </label>
                         <input
                           type="text"
@@ -218,8 +219,8 @@ const AddRole = () => {
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
                         <label>
-                          Menu Access & Permissions{" "}
-                          <span className="text-danger">*</span>
+                          Menu Access & Permissions{" "} <span className="text-denger"> *</span>
+                          {/* <span className="text-danger">*</span> */}
                         </label>
                         <div className="menu-permissions-table mt-3">
                           <div className="table-responsive">
@@ -228,19 +229,19 @@ const AddRole = () => {
                                 <tr>
                                   <th style={{ width: "200px" }}>Menu</th>
                                   <th
-                                    style={{ width: "150px" }}
+                                    // style={{ width: "150px" }}
                                     className="text-center"
                                   >
                                     Read
                                   </th>
                                   <th
-                                    style={{ width: "150px" }}
+                                    // style={{ width: "150px" }}
                                     className="text-center"
                                   >
                                     Write
                                   </th>
                                   <th
-                                    style={{ width: "150px" }}
+                                    // style={{ width: "150px" }}
                                     className="text-center"
                                   >
                                     Both
@@ -331,9 +332,9 @@ const AddRole = () => {
                       <button
                         type="button"
                         className="button"
-                        onClick={() => router.push("/admin/role")}
+                        onClick={() =>{ setLoader(true);   router.push("/admin/role")}}
                         disabled={loader}
-                        style={{ backgroundColor: "#6c757d" }}
+                    
                       >
                         Cancel
                       </button>

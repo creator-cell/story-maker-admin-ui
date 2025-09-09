@@ -21,7 +21,7 @@ const AdminSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
   const [shouldRender, setShouldRender] = useState(true);
   const [userRolePermissions, setUserRolePermissions] = useState(null);
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
 
   useEffect(() => {
     // Check if we should render the sidebar
@@ -234,13 +234,17 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Assets") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/assets" ? "active" : ""}`}
+                              className={`nav-link ${
+                                activeLink === "/admin/assets" ? "active" : ""
+                              }`}
                               href={`/admin/assets`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
                               Assets
                               {!hasWriteAccess("Assets") && (
-                                <small className="text-muted ms-1">(Read Only)</small>
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
                               )}
                             </CustomLink>
                           </li>
@@ -252,18 +256,7 @@ const AdminSidebar = () => {
                               className={`nav-link ${activeLink === "/admin/plans" ? "active" : ""}`}
                               href={`/admin/plans`}
                             >
-                              <i className="fa-solid fa-newspaper"></i>
-                              Plans
-                              {!hasWriteAccess("Plans") && (
-                                <small className="text-muted ms-1">(Read Only)</small>
-                              )}
-                            </CustomLink>
-                          </li>
-                        )}
-
-                       
-                   
-                        <li className="nav-item">
+                    
                           <button
                             className="nav-link"
                             onClick={() => {

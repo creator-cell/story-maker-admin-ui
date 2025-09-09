@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import DeleteCategory from "@/app/(adminSide)/model/DeleteCategory";
+import Loader from "../Loader";
 
 export default function Categories() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
@@ -16,12 +17,12 @@ export default function Categories() {
   const [search, setSearch] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
   const itemsPerPage = 20;
-
+  const [loader, setLoader] = useState(false);
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const getCategories = async (page = 1, searchTerm = "") => {
-    setLoading(true);
+    setLoader(true);
     try {
       let url = `${API_URL}category?`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
@@ -38,7 +39,7 @@ export default function Categories() {
       setCategories([]);
       setTotalPages(0);
     } finally {
-      setLoading(false);
+      setLoader(false);
     }
   };
 
@@ -47,10 +48,12 @@ export default function Categories() {
   }, []);
 
   const handleEditCategory = (id) => {
+    setLoader(true);
     router.push(`/admin/category/${id}`);
   };
 
   const handleAddCategory = () => {
+    setLoader(true);
     router.push(`/admin/category/add-category`);
   };
 
@@ -69,25 +72,36 @@ export default function Categories() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h3>Category List</h3>
+                      <h1>Category List</h1>
                     </div>
                   </div>
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-6"></div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-4"></div>
+                    <div className="col-lg-8">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        <input
-                          type="text"
-                          placeholder="Search by user or status..."
-                          className="form-control"
-                          value={search}
-                          onChange={(e) => setSearch(e.target.value)}
-                          onKeyPress={(e) =>
-                            e.key === "Enter" && getCategories(1, search)
-                          }
-                        />
+                        <div className="form_group position-relative">
+                          <input
+                            type="text"
+                            placeholder="Search by user or status..."
+                            className="form-control"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyPress={(e) =>
+                              e.key === "Enter" && getCategories(1, search)
+                            }
+                          />
+                          <i
+                            className="fa-solid fa-magnifying-glass"
+                            // style={{
+                            //   right: "10px",
+                            //   top: "50%",
+                            //   transform: "translateY(-50%)",
+                            //   color: "#6c757d",
+                            // }}
+                          ></i>
+                        </div>
                         <button
                           className="button"
                           onClick={() => getCategories(1, search)}
@@ -102,7 +116,7 @@ export default function Categories() {
                               setSearch("");
                               getCategories(1, "");
                             }}
-                            style={{ backgroundColor: "#6c757d" }}
+                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -138,23 +152,25 @@ export default function Categories() {
                               <td>{category.description}</td>
 
                               <td>
-                                <button
-                                  className={`button mx-1`}
-                                  onClick={() =>
-                                    handleEditCategory(category._id)
-                                  }
-                                >
-                                  Edit
-                                </button>
+                                <div className="d-flex justify-content-start align-items-center">
+                                  <button
+                                    className={`admin_action_edit`}
+                                    onClick={() =>
+                                      handleEditCategory(category._id)
+                                    }
+                                  >
+                                    <i className="fa-solid fa-pencil"></i>
+                                  </button>
 
-                                <button
-                                  className={`button`}
-                                  onClick={() =>
-                                    handleDeleteCategory(category._id)
-                                  }
-                                >
-                                  Delete
-                                </button>
+                                  <button
+                                    className={`admin_action_delete`}
+                                    onClick={() =>
+                                      handleDeleteCategory(category._id)
+                                    }
+                                  >
+                                    <i className="fa fa-trash"></i>
+                                  </button>
+                                </div>
                               </td>
                             </tr>
                           ))}
@@ -199,6 +215,8 @@ export default function Categories() {
             </div>
           </div>
         </div>
+        {loader && <Loader />}
+
       </div>
       <DeleteCategory
         show={deleteUser}

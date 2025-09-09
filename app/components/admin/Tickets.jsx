@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 // import Modal from "react-modal"; // For chat modal
 import { useRouter } from "next/navigation";
+import Loader from "../Loader";
 export default function Tickets() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [tickets, setTickets] = useState([]);
@@ -12,6 +13,7 @@ export default function Tickets() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [search, setSearch] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const [moderator, setAllModerator] = useState();
   const itemsPerPage = 20;
@@ -19,8 +21,8 @@ export default function Tickets() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const getTickets = async (page = 1, searchTerm = "") => {
-    setLoading(true);
-
+    // setLoading(true);
+    setLoader(true);  
     try {
       let url = `${API_URL}tickets?page=${page}&pageSize=${itemsPerPage}&user=${currentUser._id}&role=${currentUser.role.name}`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
@@ -36,7 +38,8 @@ export default function Tickets() {
       setTickets([]);
       setTotalPages(0);
     } finally {
-      setLoading(false);
+          setLoader(false);
+      // setLoading(false);
     }
   };
 
@@ -48,10 +51,12 @@ export default function Tickets() {
   }, []);
 
   const handleUserUpdate = (id) => {
+        setLoader(true);  
     router.push(`/admin/tickets/${id}`);
   };
 
   const handleResolve = async (ticketId) => {
+        setLoader(true);  
     try {
       await axios.put(
         `${API_URL}tickets/${ticketId}`,
@@ -62,6 +67,7 @@ export default function Tickets() {
       );
       toast.success("Ticket Resolved");
       getTickets(currentPage + 1, search);
+              setLoader(false);  
     } catch (err) {
       toast.error("Failed to assign moderator");
     }
@@ -98,6 +104,7 @@ export default function Tickets() {
   };
 
   const handleNewChat = () => {
+        setLoader(true);  
     router.push(`/admin/tickets/add`);
   };
 
@@ -111,15 +118,16 @@ export default function Tickets() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h3>Ticket List</h3>
+                      <h1>Ticket List</h1>
                     </div>
                   </div>
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-6"></div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-4"></div>
+                    <div className="col-lg-8">
                       <div className="filter_field d-flex gap-2 justify-content-end">
+                      <div className="form_group position-relative">
                         <input
                           type="text"
                           placeholder="Search by user or status..."
@@ -129,7 +137,18 @@ export default function Tickets() {
                           onKeyPress={(e) =>
                             e.key === "Enter" && getTickets(1, search)
                           }
+                          
                         />
+                         <i
+                            className="fa-solid fa-magnifying-glass"
+                            // style={{
+                            //   right: "10px",
+                            //   top: "50%",
+                            //   transform: "translateY(-50%)",
+                            //   color: "#6c757d",
+                            // }}
+                          ></i>
+                        </div>
                         <button
                           className="button"
                           onClick={() => getTickets(1, search)}
@@ -141,10 +160,11 @@ export default function Tickets() {
                           <button
                             className="button ms-2"
                             onClick={() => {
+                                  setLoader(true);  
                               setSearch("");
                               getTickets(1, "");
                             }}
-                            style={{ backgroundColor: "#6c757d" }}
+                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -170,7 +190,7 @@ export default function Tickets() {
                           <th>User</th>
                           <th>Status</th>
                           <th>Moderator</th>
-                          <th>Last Message</th>
+                          <th className="w-25">Last Message</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -207,7 +227,8 @@ export default function Tickets() {
                               </td>
                               <td>
                                 <button
-                                  className={`button mx-1 ${
+                                // style={{padding:"10px 25px"}}
+                                  className={`resolvebtn button mx-1 ${
                                     ticket.status === "Resolved"
                                       ? "btn-resolved"
                                       : "btn-resolve"
@@ -219,7 +240,7 @@ export default function Tickets() {
                                 </button>
 
                                 <button
-                                  className={`button mx-4 ${
+                                  className={`click-to-resolve button mx-4 ${
                                     ticket.status === "Resolved"
                                       ? "btn-resolved"
                                       : "btn-resolve"
@@ -230,6 +251,7 @@ export default function Tickets() {
                                   {ticket.status === "Resolved"
                                     ? "Resolved"
                                     : "Click to Resolve"}
+                                    
                                 </button>
                               </td>
                             </tr>
@@ -275,6 +297,8 @@ export default function Tickets() {
             </div>
           </div>
         </div>
+                  {loader && <Loader />}
+        
       </div>
     </>
   );

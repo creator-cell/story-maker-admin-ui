@@ -131,7 +131,7 @@ const AddUserPage = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Add New User</h3>
+                    <h1>Add New User</h1>
                   </div>
                 </div>
               </div>
@@ -141,7 +141,7 @@ const AddUserPage = () => {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Full Name</label>
+                        <label htmlFor="full-name">Full Name  <span className="text-danger"> *</span></label>
                         <input
                           type="text"
                           className="form-control"
@@ -156,7 +156,7 @@ const AddUserPage = () => {
                    
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="role">Role</label>
+                        <label htmlFor="role">Role  <span className="text-danger"> *</span></label>
                         <select
                           className="form-control"
                           name="role"
@@ -175,7 +175,7 @@ const AddUserPage = () => {
                     </div>
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">Email  <span className="text-danger"> *</span></label>
                         <input
                           type="email"
                           className="form-control"
@@ -190,7 +190,7 @@ const AddUserPage = () => {
 
                        <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="email">Mobile Number</label>
+                        <label htmlFor="email">Mobile Number  <span className="text-danger"> *</span></label>
                         <input
                           type="text"
                           className="form-control"
@@ -210,8 +210,8 @@ const AddUserPage = () => {
                       <button 
                         type="button" 
                         className="button"
-                        style={{ backgroundColor: '#6c757d' }}
-                        onClick={() => router.push("/admin/users")}
+                        onClick={() =>  {setLoader(true); 
+                           router.push("/admin/users")}}
                       >
                         Cancel
                       </button>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -11,6 +11,9 @@ const ChatHistory = ({ ticketId }) => {
   const [ticket, setTicket] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Ref for auto scroll
+  const messagesEndRef = useRef(null);
 
   const getTicket = async () => {
     setLoading(true);
@@ -33,9 +36,15 @@ const ChatHistory = ({ ticketId }) => {
   const sendChatMessage = async () => {
     if (!chatMessage.trim()) return;
     const user = JSON.parse(localStorage.getItem("user"));
+    let role = "";
+    if (user?.role.name === "Moderator") {
+      role = "moderator";
+    } else {
+      role = "user";
+    }
     const newMessage = {
       sender: user._id,
-      role: user.role.name,
+      role: role,
       message: chatMessage.trim(),
       sentAt: new Date(),
     };
@@ -57,53 +66,104 @@ const ChatHistory = ({ ticketId }) => {
     }
   };
 
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    if (ticket?.messages?.length) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [ticket?.messages]);
+
   return (
-    <div className="chat-container" style={{ maxWidth: 600, margin: "0 auto" }}>
-      <h3>Support Ticket Chat</h3>
-      {loading && <div>Loading...</div>}
-      <div
-        style={{
-          maxHeight: 350,
-          overflowY: "auto",
-          border: "1px solid #eee",
-          padding: 16,
-          marginBottom: 16,
-        }}
-      >
-        {ticket?.messages?.length ? (
-          ticket.messages.map((msg) => (
-            <div key={msg._id} style={{ marginBottom: 12 }}>
-              <b>{msg.role === "user" ? "User" : "Moderator"}:</b> {msg.message}
-              <br />
-              <small style={{ color: "#888" }}>
-                {msg.sentAt
-                  ? new Date(msg.sentAt).toLocaleString()
-                  : "Just now"}
-              </small>
-            </div>
-          ))
-        ) : (
-          <div>No messages yet.</div>
-        )}
-      </div>
-      <div className="d-flex gap-2">
-        <input
-          type="text"
-          className="form-control"
-          value={chatMessage}
-          onChange={(e) => setChatMessage(e.target.value)}
-          placeholder="Type a message..."
-        />
-        <button
-          className="button"
-          onClick={sendChatMessage}
-          disabled={loading || !chatMessage.trim()}
-        >
-          Send
-        </button>
+    <div className="chat-container">
+      <div className="chat">
+        <h1>Support Ticket Chat</h1>
+        {/* {loading && <div>Loading...</div>} */}
+        <div className="box">
+          {ticket?.messages?.length ? (
+            ticket.messages.map((msg) => (
+              <div
+                key={msg._id}
+                style={{ paddingLeft: "10px", marginBottom: 12, display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start", }}>
+                <div className="user-chat"
+                  style={{ alignItems: msg.role === "user" ? "flex-end" : "flex-start", }}>
+                  {/* Message */}
+                  <p className="mt-3" style={{ background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8", }} >
+                    <div className="icon-name">
+                      <i className={
+                        msg.role === "user"
+                          ? "fa-solid fa-user"
+                          : "fa-solid fa-user-astronaut"
+                      }></i>
+                      <div className="name">
+                        <small>
+                          {msg.role === "user" ? "User" : "Moderator"}
+                        </small>
+                      </div>
+                    </div>
+                    {msg.message}
+                    <small>
+                      {msg.sentAt
+                        ? new Date(msg.sentAt).toLocaleString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
+                        : "Just now"}
+                    </small>
+                  </p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div>No messages yet.</div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+        <div className="type-message d-flex gap-2">
+          <input
+            type="text"
+            className="form-control"
+            value={chatMessage}
+            onChange={(e) => setChatMessage(e.target.value)}
+            placeholder="Type a message..."
+          />
+          {/* <button
+            className="button"
+            onClick={sendChatMessage}
+            disabled={loading || !chatMessage.trim()}
+          >
+            Send
+          </button> */}
+          <img
+            src="/images/send.jpg"
+            alt="Send message"
+            height={50}
+            width={50}
+            onClick={sendChatMessage}
+            style={{ cursor: loading || !chatMessage.trim() ? 'default' : 'pointer', opacity: loading || !chatMessage.trim() ? 0.5 : 1 }}
+            role="button"
+            aria-label="Send message"
+            aria-disabled={loading || !chatMessage.trim()}
+            tabIndex={0}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
 export default ChatHistory;
+
+
+
+
+
+
+
+
+
+
+
+

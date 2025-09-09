@@ -12,10 +12,15 @@ const AddTicket = () => {
 
   const sendChatMessage = async () => {
     if (!chatMessage.trim()) return;
-
+    let role = "";
+    if (currentUser?.role === "Moderator") {
+      role = "moderator";
+    } else {
+      role = "user";
+    }
     const newMessage = {
       sender: currentUser?._id,
-      role: currentUser?.role || "user",
+      role: role,
       message: chatMessage.trim(),
       sentAt: new Date(),
     };
@@ -37,7 +42,7 @@ const AddTicket = () => {
   };
 
   return (
-    <div className="chat-container" style={{ maxWidth: 600, margin: "0 auto" }}>
+    <div className="chat-container">
       <h3>Support Ticket Chat</h3>
       {loading && <div>Loading...</div>}
       <div
