@@ -16,6 +16,7 @@ import { enableErase, setDrawingMode } from "./canvas/DrawingTools";
 import { onUploadImage } from "./canvas/ImageTools";
 import FabricTextEditorToolbar from "./canvas/FabricTextEditorToolbar";
 import axios from "axios";
+import Categories from "./Category";
 
 export default function AddTemplatePage() {
   const [loader, setLoader] = useState(false);
@@ -61,23 +62,11 @@ export default function AddTemplatePage() {
   };
 
   useEffect(() => {
-    // setupCustomControls();
     initCanvas(canvasRef, wrapRef, fRef, setSelectedObject);
+    console.log("Canvas initialized:", fRef.current);
+
     fetchCategories(setCategories);
-
-    // const handleKeyDown = (e) => {
-    //   if (e.key === "Delete" || e.key === "Backspace") {
-    //     const f = fRef.current;
-    //     if (f && f.getActiveObject()) {
-    //       f.remove(f.getActiveObject());
-    //       setSelectedObject(null);
-    //     }
-    //   }
-    // };
-    // window.addEventListener("keydown", handleKeyDown);
-
-    // return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [fRef]);
 
   const handleCategoryChange = (id) => {
     setValue("category", id);
@@ -118,17 +107,6 @@ export default function AddTemplatePage() {
     toast.info(`Selected: ${value}`);
   };
 
-  // const addText = () => {
-  //   const f = fRef.current;
-  //   if (!f) return;
-  //   const text = new fabric.IText("Edit me", {
-  //     left: 120,
-  //     top: 120,
-  //     fontSize: 28,
-  //     fill: "#111",
-  //   });
-  //   f.add(text).setActiveObject(text);
-  // };
   const addText = () => {
     const f = fRef.current;
     if (!f) return;
@@ -149,124 +127,126 @@ export default function AddTemplatePage() {
       <div className="inner_container">
         <div className="container-lg container-fluid p-0">
           <div className="comman_admin_layout flex-column p-0">
-            <div className="row mb-4 w-100">
-              <div className="col-lg-12 col-md-12 col-sm-12">
-                <div className="title_head">
-                  <h3>Add Template</h3>
+            <div className="container-lg container-fluid p-0">
+              <div className="row mb-4">
+                <div className="col-lg-12 col-md-12 col-sm-12">
+                  <div className="title_head">
+                    <h1>Add Template</h1>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="admin_form_panel pe-4">
-              {loader && <Loader />}
-              <form onSubmit={handleSubmit(handleTemplateSubmit)}>
-                <div className="row">
-                  <div className="col-lg-6 col-md-6 col-12 mb-3">
-                    <div className="form_group">
-                      <label>
-                        Template Name <span className="text-danger"> *</span>
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        {...register("name", {
-                          required: "Template name is required",
-                        })}
+              <div className="admin_form_panel pe-4">
+                {loader && <Loader />}
+                <form onSubmit={handleSubmit(handleTemplateSubmit)}>
+                  <div className="row">
+                    <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <div className="form_group">
+                        <label>
+                          Template Name <span className="text-danger"> *</span>
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          {...register("name", {
+                            required: "Template name is required",
+                          })}
+                        />
+                        {errors.name && <small>{errors.name.message}</small>}
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <div className="form_group">
+                        <label>
+                          Category <span className="text-danger"> *</span>
+                        </label>
+                        <select
+                          className="form-control"
+                          value={watch("category")}
+                          onChange={(e) => handleCategoryChange(e.target.value)}
+                        >
+                          <option value="">Select Category</option>
+                          {parentCategories.map((cat) => (
+                            <option key={cat._id} value={cat._id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </select>
+                        {errors.category && (
+                          <small>{errors.category.message}</small>
+                        )}
+                      </div>
+                    </div>
+                    {/* Subcategory Dropdown */}
+                    <div className="col-lg-12 col-md-12 col-12 mb-3">
+                      <div className="form_group">
+                        <label>
+                          Subcategory <span className="text-danger"> *</span>
+                        </label>
+                        <select
+                          className="form-control"
+                          {...register("subCategory", {
+                            required: "Subcategory is required",
+                          })}
+                        >
+                          <option value="">Select Subcategory</option>
+                          {subCategories.map((sub) => (
+                            <option key={sub._id} value={sub._id}>
+                              {sub.name}
+                            </option>
+                          ))}
+                        </select>
+                        {errors.subCategory && (
+                          <small>{errors.subCategory.message}</small>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="col-lg-12 col-md-12 col-12 mb-3 main-toolbar">
+                      <FabricTextEditorToolbar fRef={fRef} />
+
+                      <FabricToolbar
+                        onAddShape={(type) => addShape(fRef, type)}
+                        onAddText={addText}
+                        onAddLine={(type) => addLine(fRef, type)}
+                        onAddStickyNote={(type) => addStickyNote(fRef, type)}
+                        onAddTable={() => addTable(fRef)}
+                        onErase={() => enableErase(fRef)}
+                        onUpload={(file) => onUploadImage(fRef, file)}
+                        onDraw={(tool, color) =>
+                          setDrawingMode(fRef, tool, color)
+                        }
+                        onSelectMenuChange={handleSelectMenuChange}
+                        selectOptions={selectOptions}
+                        selectValue={selectedOption}
                       />
-                      {errors.name && <small>{errors.name.message}</small>}
                     </div>
-                  </div>
 
-                  <div className="col-lg-6 col-md-6 col-12 mb-3">
-                    <div className="form_group">
-                      <label>
-                        Category <span className="text-danger"> *</span>
-                      </label>
-                      <select
-                        className="form-control"
-                        value={watch("category")}
-                        onChange={(e) => handleCategoryChange(e.target.value)}
+                    <div className="col-lg-12 col-md-12 col-12 mb-3">
+                      <div ref={wrapRef}>
+                        <canvas ref={canvasRef} />
+                      </div>
+                    </div>
+
+                    <div className="col-12 mt-3 d-flex gap-3">
+                      <button type="submit" className="button">
+                        Submit
+                      </button>
+                      <button
+                        type="button"
+                        className="button"
+                        // style={{ backgroundColor: "#6c757d" }}
+                        onClick={() => {
+                          setLoader(true);
+                          router.push("/admin/template");
+                        }}
                       >
-                        <option value="">Select Category</option>
-                        {parentCategories.map((cat) => (
-                          <option key={cat._id} value={cat._id}>
-                            {cat.name}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.category && (
-                        <small>{errors.category.message}</small>
-                      )}
+                        Cancel
+                      </button>
                     </div>
                   </div>
-                  {/* Subcategory Dropdown */}
-                  <div className="col-lg-12 col-md-12 col-12 mb-3">
-                    <div className="form_group">
-                      <label>
-                        Subcategory <span className="text-danger"> *</span>
-                      </label>
-                      <select
-                        className="form-control"
-                        {...register("subCategory", {
-                          required: "Subcategory is required",
-                        })}
-                      >
-                        <option value="">Select Subcategory</option>
-                        {subCategories.map((sub) => (
-                          <option key={sub._id} value={sub._id}>
-                            {sub.name}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.subCategory && (
-                        <small>{errors.subCategory.message}</small>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="col-lg-12 col-md-12 col-12 mb-3 main-toolbar">
-                    <FabricTextEditorToolbar fRef={fRef} />
-
-                    <FabricToolbar
-                      onAddShape={(type) => addShape(fRef, type)}
-                      onAddText={addText}
-                      onAddLine={(type) => addLine(fRef, type)}
-                      onAddStickyNote={(type) => addStickyNote(fRef, type)}
-                      onAddTable={() => addTable(fRef)}
-                      onErase={() => enableErase(fRef)}
-                      onUpload={(file) => onUploadImage(fRef, file)}
-                      onDraw={(tool, color) =>
-                        setDrawingMode(fRef, tool, color)
-                      }
-                      onSelectMenuChange={handleSelectMenuChange}
-                      selectOptions={selectOptions}
-                      selectValue={selectedOption}
-                    />
-                  </div>
-
-                  <div className="col-lg-12 col-md-12 col-12 mb-3">
-                    <div ref={wrapRef} style={{ border: "1px solid #ccc" }}>
-                      <canvas ref={canvasRef}/>
-                    </div>
-                  </div>
-
-                  <div className="col-12 mt-3 d-flex" style={{gap:"20px"}}>
-                    <button type="submit" className="button">
-                      Submit
-                    </button>
-                    <button
-                      type="button"
-                      className="button"
-                      style={{ backgroundColor: "#6c757d" }}
-                      onClick={() => {
-                        setLoader(true);
-                        router.push("/admin/template");
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>

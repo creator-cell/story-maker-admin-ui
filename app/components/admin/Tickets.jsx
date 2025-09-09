@@ -118,7 +118,7 @@ export default function Tickets() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h3>Ticket List</h3>
+                      <h1>Ticket List</h1>
                     </div>
                   </div>
                 </div>
@@ -140,13 +140,13 @@ export default function Tickets() {
                           
                         />
                          <i
-                            className="fa-solid fa-magnifying-glass position-absolute"
-                            style={{
-                              right: "10px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              color: "#6c757d",
-                            }}
+                            className="fa-solid fa-magnifying-glass"
+                            // style={{
+                            //   right: "10px",
+                            //   top: "50%",
+                            //   transform: "translateY(-50%)",
+                            //   color: "#6c757d",
+                            // }}
                           ></i>
                         </div>
                         <button
@@ -164,7 +164,7 @@ export default function Tickets() {
                               setSearch("");
                               getTickets(1, "");
                             }}
-                            style={{ backgroundColor: "#6c757d" }}
+                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -225,9 +225,9 @@ export default function Tickets() {
                                       .message
                                   : ""}
                               </td>
-                              <td className="">
+                              <td>
                                 <button
-                                style={{padding:"10px 25px"}}
+                                // style={{padding:"10px 25px"}}
                                   className={`resolvebtn button mx-1 ${
                                     ticket.status === "Resolved"
                                       ? "btn-resolved"
