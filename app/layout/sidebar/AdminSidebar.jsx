@@ -21,7 +21,7 @@ const AdminSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
   const [shouldRender, setShouldRender] = useState(true);
   const [userRolePermissions, setUserRolePermissions] = useState(null);
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
 
   useEffect(() => {
     // Check if we should render the sidebar
