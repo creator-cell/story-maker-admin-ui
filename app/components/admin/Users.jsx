@@ -63,7 +63,7 @@ export default function Users() {
   const getUserDetail = async () => {
     try {
       const response = await axios({
-        url: `${API_URL}me`,
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL_USER}me`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export default function Users() {
         },
       });
 
-      if (response.data && response.data.rolePermissions) {
+      if (response.data.items && response.data.rolePermissions) {
         setUserRolePermissions(response.data.rolePermissions);
         setRole(response.data.role || "");
       }
@@ -114,7 +114,7 @@ export default function Users() {
       });
 
       if (response.data) {
-        setUsers(response.data.data);
+        setUsers(response.data.items);
         console.log(response.data);
         setTotalPages(response.data.pagination.totalPages);
         setTotalItems(response.data.pagination.totalItems);
@@ -449,7 +449,7 @@ export default function Users() {
                             );
                           })}
 
-                        {!loading && users.length === 0 && (
+                        {!loading && users?.length === 0 && (
                           <tr>
                             <td
                               colSpan={hasWritePermission() ? "4" : "3"}
