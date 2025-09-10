@@ -146,8 +146,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
     fRef.current.renderAll();
   };
 
-
-
   const addText = () => {
     const canvas = fRef.current;
     if (!canvas) return;
@@ -311,7 +309,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
         </button>
 
         {/* alignments */}
-        <button
+        {/* <button
           type="button"
           title="Align Left"
           onClick={() => changeAlign("left")}
@@ -338,7 +336,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
           onClick={() => changeAlign("justify")}
         >
           <FaAlignJustify />
-        </button>
+        </button> */}
 
         {/* delete & duplicate */}
         <button title="Delete" type="button" onClick={deleteObj}>
