@@ -13,7 +13,7 @@ import Loader from "../Loader";
 
 const AssetsManage = () => {
   const { download, isInProgress } = useDownloader();
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSET;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSETS;
   const USER_API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const [loader, setLoader] = useState(false);
   const [assets, setAssets] = useState([]);
