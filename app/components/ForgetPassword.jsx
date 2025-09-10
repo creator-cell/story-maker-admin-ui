@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Loader from "./Loader";
 
 export default function ForgetPassword() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
   const {
     formState: { errors },
     handleSubmit,
