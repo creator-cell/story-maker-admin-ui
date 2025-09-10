@@ -235,7 +235,7 @@ export default function Tickets() {
                                   onClick={() => handleUserUpdate(ticket._id)}
                                   disabled={ticket.status === "Resolved"}
                                 >
-                                  Chat
+                                View
                                 </button>
 
                                 <button

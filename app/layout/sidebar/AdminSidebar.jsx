@@ -149,9 +149,8 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/users" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/users" ? "active" : ""
+                                }`}
                               href={`/admin/users`}
                             >
                               <i className="fa-solid fa-users"></i>
@@ -163,9 +162,8 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/tickets" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/tickets" ? "active" : ""
+                                }`}
                               href={`/admin/tickets`}
                             >
                               <i className="fa-solid fa-ticket"></i>
@@ -177,9 +175,8 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Roles") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/role" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/role" ? "active" : ""
+                                }`}
                               href={`/admin/role`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
@@ -196,9 +193,8 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Category") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/category" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/category" ? "active" : ""
+                                }`}
                               href={`/admin/category`}
                             >
                               <i className="fa-solid fa-camera"></i>
@@ -215,9 +211,8 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Template") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/template" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/template" ? "active" : ""
+                                }`}
                               href={`/admin/template`}
                             >
                               <i className="fas fa-file"></i>
@@ -234,9 +229,8 @@ const AdminSidebar = () => {
                         {hasMenuAccess("Assets") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/assets" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/assets" ? "active" : ""
+                                }`}
                               href={`/admin/assets`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
@@ -249,15 +243,30 @@ const AdminSidebar = () => {
                             </CustomLink>
                           </li>
                         )}
-
+                        {hasMenuAccess("Plans") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${activeLink === "/admin/plans" ? "active" : ""
+                                }`}
+                              href={`/admin/plans`}
+                            >
+                              <i className="fa-solid fa-newspaper"></i>
+                              Plans
+                              {!hasWriteAccess("Plans") && (
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
+                              )}
+                            </CustomLink>
+                          </li>
+                        )}
                         {hasMenuAccess("Notification") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/notification"
+                              className={`nav-link ${activeLink === "/admin/notification"
                                   ? "active"
                                   : ""
-                              }`}
+                                }`}
                               href={`/admin/notification`}
                             >
                               <i className="fa-solid fa-newspaper"></i>

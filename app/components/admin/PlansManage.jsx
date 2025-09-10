@@ -39,7 +39,7 @@ const PlansManage = () => {
 
   const getPlans = async (page = 1, sort = sortByValue, search = "", order = sortOrder) => {
     try {
-      setLoading(true);
+      setLoader(true);
       let url = `${API_URL}plan?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
@@ -62,7 +62,7 @@ const PlansManage = () => {
         toast.error("Failed to fetch users");
       }
     } finally {
-      setLoading(false);
+      setLoader(false);
     }
   };
 
@@ -85,6 +85,7 @@ const PlansManage = () => {
   };
 
   const handleEditPlans = (updateAssetId) => {
+    setLoader(true);
     router.push(`/admin/plans/${updateAssetId}`);
   }
 
@@ -169,9 +170,7 @@ const PlansManage = () => {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h3>Plans List</h3>
-
-
+                      <h1>Plans List</h1>
                     </div>
                   </div>
                 </div>
@@ -212,7 +211,7 @@ const PlansManage = () => {
                         )} */}
 
                         {hasWritePermission() && (
-                          <button className="button" onClick={() => { router.push('/admin/plans/addplans') }}>
+                          <button className="button" onClick={() => { setLoader(true); router.push('/admin/plans/addplans') }}>
                             Add Plan
                           </button>
                         )}
@@ -232,47 +231,14 @@ const PlansManage = () => {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th
-                            style={{ cursor: 'pointer', width: "10%" }}
-                          >
-                            Date
-                          </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "12%" }}
-                          >
-                            Name
-                          </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "10%" }}
-                          >
-                            Title
-                          </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "7%" }}
-                          >
-                            Description
-                          </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "7%" }}
-                          >
-                            Price
-                          </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "20%" }}
-                          >
-                            Duration
-                          </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "15%" }}
-                          >
-                            Features
-                          </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "10%" }}
-                          >
-                            Uploaded By
-                          </th>
-
+                          <th>Date</th>
+                          <th>Name</th>
+                          <th>Title</th>
+                          <th className="w-25">Description</th>
+                          <th>Price</th>
+                          <th>Duration </th>
+                          <th>Features</th>
+                          <th>Uploaded By</th>
                           {hasWritePermission() && <th style={{ width: "10%" }}>Action</th>}
                         </tr>
                       </thead>
@@ -282,14 +248,14 @@ const PlansManage = () => {
                             <tr key={plan._id}>
                               <td data-label="Date">{new Date(plan?.createdAt)?.toLocaleDateString()}</td>
                               <td data-label="Name">{plan?.name}</td>
-                              <td data-label="Title"><small className='d-flex align-items-center gap-2'>{ plan?.title }</small></td>
+                              <td data-label="Title">{plan?.title}</td>
                               <td data-label="Description">{plan?.description}</td>
                               <td data-label="Price">{plan?.price ? parseFloat(plan?.price).toFixed(2) : ""}</td>
                               <td data-label="Duration">{plan?.duration ? <span class="badge bg-success text-light m-1">{plan?.duration}</span> : ""}</td>
                               <td data-label="Features">
                                 <div class="flex flex-wrap gap-3">
                                   {plan?.features?.map(p => (
-                                    <span class="badge bg-info text-dark m-1">{p}</span>
+                                    <span class="badge bg-Secondary text-light m-1">{p}</span>
                                   ))}
                                 </div>
                               </td>
@@ -297,18 +263,18 @@ const PlansManage = () => {
 
                               {hasWritePermission() && (
                                 <td data-label="Action">
-                                  <div className="d-flex justify-content-start align-items-center gap-2">
+                                  <div className="d-flex justify-content-start align-items-center">
                                     <button
                                       className="admin_action_edit"
                                       onClick={() => handleEditPlans(plan._id)}
-                                      title="Edit Asset"
+                                    // title="Edit Asset"
                                     >
                                       <i className="fa fa-edit"></i>
                                     </button>
                                     <button
                                       className="admin_action_delete"
                                       onClick={() => handlePlanDelete(plan._id)}
-                                      title="Delete User"
+                                    // title="Delete User"
                                     >
                                       <i className="fa fa-trash"></i>
                                     </button>
@@ -361,6 +327,7 @@ const PlansManage = () => {
             </div>
           </div>
         </div>
+        {loader && <Loader />}
       </div>
 
 
@@ -369,10 +336,9 @@ const PlansManage = () => {
           show={deletePlans}
           data={plansId}
           onHide={handleDeleteSuccess}
-          setLoader={setLoader}
         />
       )}
-      {loader && <Loader />}
+
     </>
   );
 }

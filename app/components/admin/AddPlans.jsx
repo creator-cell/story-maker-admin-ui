@@ -86,7 +86,7 @@ const AddPlans = () => {
       });
   };
 
-  return (
+    return (
     <div id="main_container">
       <div className="inner_container">
         <div className="container-lg container-fluid p-0">
@@ -95,7 +95,7 @@ const AddPlans = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Add New Plan</h3>
+                    <h1>Add New Plan</h1>
                   </div>
                 </div>
               </div>
@@ -154,7 +154,7 @@ const AddPlans = () => {
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="full-name">Description</label>
-                        <textarea className="form-control" {...register("description", { required:{ value:true, message:"Description is required" } })}>
+                        <textarea className="form-control" rows="1" {...register("description", { required: { value: true, message: "Description is required" } })}>
                         </textarea>
                       </div>
                       {errors?.description ? (
@@ -168,10 +168,11 @@ const AddPlans = () => {
                       <div className="form_group">
                         <label htmlFor="full-name">Price</label>
                         <input
+                          className="form-control"
                           type="number"
                           name=""
                           id=""
-                          {...register("price", { required:{ value:true, message:"Price is required" }, min: { value:0, message: "Price is invalid" } })}/>
+                          {...register("price", { required: { value: true, message: "Price is required" }, min: { value: 0, message: "Price is invalid" } })} />
                       </div>
                       {errors?.price ? (
                         <p className="text-danger">
@@ -190,7 +191,7 @@ const AddPlans = () => {
                           name="duration"
                           render={({ field: { onChange, value } }) => {
                             return (
-                              <select value={value} onChange={onChange}>
+                              <select value={value} onChange={onChange} className="form-control">
                                 <option value="" selected>
                                   Please select
                                 </option>
@@ -235,6 +236,9 @@ const AddPlans = () => {
                                   onChange([...value, tag]);
                                 }
                               }}
+                              classNames={{
+                                tagInputField: "form-control"
+                              }}
                             />
                           )}
                         />
@@ -253,8 +257,8 @@ const AddPlans = () => {
                       <button
                         type="button"
                         className="button"
-                        style={{ backgroundColor: "#6c757d" }}
-                        onClick={() => router.push("/admin/assets")}
+                        style={{ backgroundColor: "rgba(108, 117, 125, 1)" }}
+                        onClick={() => router.push("/admin/plans")}
                       >
                         Cancel
                       </button>

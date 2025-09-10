@@ -76,62 +76,67 @@ const ChatHistory = ({ ticketId }) => {
   return (
     <div className="chat-container">
       <div className="chat">
-        <h1>Support Ticket Chat</h1>
+        <h2>Support Ticket Chat</h2>
         {/* {loading && <div>Loading...</div>} */}
         <div className="box">
           {ticket?.messages?.length ? (
             ticket.messages.map((msg) => (
-              <div
-                key={msg._id}
-                style={{
-                  paddingLeft: "10px",
-                  marginBottom: 12,
-                  display: "flex",
-                  justifyContent:
-                    msg.role === "user" ? "flex-end" : "flex-start",
-                }}
-              >
-                <div
-                  className="user-chat"
-                  style={{
-                    alignItems: msg.role === "user" ? "flex-end" : "flex-start",
-                  }}
-                >
-                  {/* Message */}
-                  <p
-                    className="mt-3"
-                    style={{
-                      background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
-                    }}
-                  >
+              <div key={msg._id}>
+                <di className="user-chat" >
+                  <p className="mt-3">
                     <div className="icon-name">
-                      <i
-                        className={
-                          msg.role === "user"
-                            ? "fa-solid fa-user"
-                            : "fa-solid fa-user-astronaut"
-                        }
-                      ></i>
+                      <div>
+                        <i
+                          className={
+                            msg.role === "user"
+                              ? "fa-solid fa-user"
+                              : "fa-solid fa-user-astronaut"
+                          }
+                        ></i></div>
                       <div className="name">
                         <small>
                           {msg.role === "user" ? "User" : "Moderator"}
                         </small>
+                        <small>
+                          {msg.sentAt ? (() => {
+                            const date = new Date(msg.sentAt);
+                            const now = new Date();
+
+                            const isToday = date.toDateString() === now.toDateString();
+
+                            const yesterday = new Date();
+                            yesterday.setDate(now.getDate() - 1);
+                            const isYesterday = date.toDateString() === yesterday.toDateString();
+
+                            // Time format with AM/PM
+                            let time = date.toLocaleString("en-GB", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true,
+                            });
+                            time = time.replace("am", "AM").replace("pm", "PM");
+
+                            if (isToday) {
+                              return `Today at ${time}`;
+                            } else if (isYesterday) {
+                              return `Yesterday at ${time}`;
+                            } else {
+                              // Custom date without comma
+                              const formattedDate = date.toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                              });
+                              return `${formattedDate} ${time}`;
+                            }
+                          })() : "Just now"}
+                        </small>
+
+                        <span> {msg.message}</span>
                       </div>
                     </div>
-                    {msg.message}
-                    <small>
-                      {msg.sentAt
-                        ? new Date(msg.sentAt).toLocaleString("en-GB", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })
-                        : "Just now"}
-                    </small>
                   </p>
-                </div>
+                </di>
               </div>
             ))
           ) : (

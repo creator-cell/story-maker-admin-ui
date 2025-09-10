@@ -78,7 +78,7 @@ export default function Notification() {
     getNotifications();
   }, []);
 
-  return (
+   return (
     <>
       <div id="main_container">
         <div className="inner_container">
@@ -86,56 +86,61 @@ export default function Notification() {
             <div id="user" className="comman_admin_layout">
               <div className="container p-0">
                 <div className="row">
-                    <div className="container mt-4">
-                        <h2 className="mb-4">Notifications</h2>
-
-                        <div className="mb-3">
-                        <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Write your notification..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <button
-                        className="btn btn-primary me-2"
-                        onClick={() => handleSend("mail")}
-                        >
-                        Send by Email
-                        </button>
-                        <button
-                        className="btn btn-success"
-                        onClick={() => handleSend("sms")}
-                        >
-                        Send by SMS
-                        </button>
-                    </div>
-                </div>
-                </div>
-                <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      {/* <h3>Notification history</h3> */}
+                      <h1>Notifications</h1>
                     </div>
                   </div>
                 </div>
+                {/* <div className="row">
+                  <div className="col-lg-12 col-md-12 col-sm-12">
+                    <div className="title_head">
+                    </div>
+                  </div>
+                </div> */}
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-4 col-md-6 col-12">
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="col-lg-8 col-md-6 col-12">
+                    <div className="notification col-lg-8 col-md-6 col-12">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative">
-                          
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Write your notification..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                          />
+                          <i class="fa-solid fa-pen"></i>
                         </div>
+
+                        <button
+                          className="btn me-2 mail-button" 
+                          onClick={() => handleSend("mail")}
+                        >
+                          Send by <i class="fa-solid fa-envelope"></i>
+                          {/* Email */}
+                        </button>
+                        <button
+                          className="btn sms-button"
+                          onClick={() => handleSend("sms")}
+                        >
+                          Send by <i class="fa-solid fa-comment-sms"></i>
+                          {/* SMS */}
+                        </button>
                       </div>
                     </div>
                   </div>
+                  <div className="col-lg-8 col-md-6 col-12">
+                    <div className="filter_field d-flex gap-2 justify-content-end">
+                      <div className="form_group position-relative">
+                      </div>
+                    </div>
+                  </div>
+
 
                   {loading && (
                     <div className="text-center py-4">
@@ -149,34 +154,29 @@ export default function Notification() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
                           >
                             Date
                           </th>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
                           >
                             Message
                             {/* <i
                               className={`fa ${getSortIcon("email")} ms-1`}
                             ></i> */}
                           </th>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
                           >
                             Send By
-                        </th>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          </th>
+                          <th className="cursor"
                           >
                             Type
                             {/* <i
                               className={`fa ${getSortIcon("isActive")} ms-1`}
                             ></i> */}
                           </th>
-                        <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
                           >
                             Deliver Count
                             {/* <i
@@ -206,7 +206,7 @@ export default function Notification() {
                               colSpan={"4"}
                               className="text-center py-4"
                             >
-                                No notification found
+                              No notification found
                             </td>
                           </tr>
                         )}
