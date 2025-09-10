@@ -10,7 +10,7 @@ import CustomLink from "../CustomLink";
 import Loader from "../Loader";
 
 export default function Roles() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);

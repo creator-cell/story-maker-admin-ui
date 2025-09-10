@@ -7,7 +7,7 @@ import axios from "axios";
 import Loader from "../Loader";
 
 export default function EditRole({ roleId }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const router = useRouter();
   const [loader, setLoader] = useState(false);
 

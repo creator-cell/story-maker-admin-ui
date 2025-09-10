@@ -448,8 +448,8 @@ export default function Users() {
                               </tr>
                             );
                           })}
-
-                        {!loading && users.length === 0 && (
+                        
+                        {!loading && users?.length === 0 && (
                           <tr>
                             <td
                               colSpan={hasWritePermission() ? "4" : "3"}
