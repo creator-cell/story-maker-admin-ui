@@ -87,6 +87,7 @@ const PlansManage = () => {
   };
 
   const handleEditPlans = (updateAssetId) => {
+    setLoader(true);
     router.push(`/admin/plans/${updateAssetId}`);
   }
 
@@ -249,7 +250,7 @@ const PlansManage = () => {
                             <tr key={plan._id}>
                               <td data-label="Date">{new Date(plan?.createdAt)?.toLocaleDateString()}</td>
                               <td data-label="Name">{plan?.name}</td>
-                              <td data-label="Title"><small className='d-flex align-items-center gap-2'>{plan?.title}</small></td>
+                              <td data-label="Title">{plan?.title}</td>
                               <td data-label="Description">{plan?.description}</td>
                               <td data-label="Price">{plan?.price ? parseFloat(plan?.price).toFixed(2) : ""}</td>
                               <td data-label="Duration">{plan?.duration ? <span class="badge bg-success text-light m-1">{plan?.duration}</span> : ""}</td>
@@ -337,7 +338,6 @@ const PlansManage = () => {
           show={deletePlans}
           data={plansId}
           onHide={handleDeleteSuccess}
-          setLoader={setLoader}
         />
       )}
 

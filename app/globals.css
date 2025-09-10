@@ -9861,7 +9861,7 @@ html {
 }
 
 .permission-badges strong {
-  min-width: 100px;
+  min-width: 115px;
   font-size: 18px;
 }
 
@@ -9997,7 +9997,7 @@ html {
 
 .comman_admin_layout .admin_form_panel button:hover,
 .comman_admin_layout .admin_form_panel button:visited {
-  background: var(--Blue) !important;
+  background: var(--Blue);
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
   color: var(--white);
@@ -10294,11 +10294,40 @@ html {
   opacity: 0.8;
 }
 
-.ReactTags__selected {
-  display: flex;
-  flex-direction: column;
-  gap: 3;
+.ReactTags__tags .ReactTags__selected span {
+  background: var(--vibrant-blue);
+  color: var(--white);
+  border-radius: 5px;
+  padding: 5px 20px 5px 10px;
 }
-.ReactTags__selected span {
-  order: 10;
+
+.ReactTags__tags .ReactTags__selected span button {
+  position: absolute;
+  border-radius: 10px;
+  margin-top: -11px;
+  padding-right: 10px;
+  padding-top: 3px;
+  border: none;
+  background: var(--badge_failed) !important;
+  opacity: 1 !important;
+}
+.ReactTags__tags .ReactTags__selected span button :hover{
+    background: var(--badge_failed) !important;
+}
+.ReactTags__tags .ReactTags__selected span button svg {
+  padding-left: 7px;
+  display: flex;
+  height: 17px;
+  width: 17px;
+  color: var(--white);
+}
+
+.ReactTags__tags .ReactTags__selected {
+  flex-wrap: wrap;
+  gap: 20px;
+  display: flex;
+}
+
+.ReactTags__tagInput {
+  width: 100%;
 }
