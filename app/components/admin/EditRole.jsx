@@ -7,10 +7,10 @@ import axios from "axios";
 import Loader from "../Loader";
 
 export default function EditRole({ roleId }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
   const router = useRouter();
-    const [loader, setLoader] = useState(false);
-  
+  const [loader, setLoader] = useState(false);
+
   const [menuPermissions, setMenuPermissions] = useState({
     Users: {
       read: false,
@@ -25,7 +25,7 @@ export default function EditRole({ roleId }) {
     Assets: {
       read: false,
       write: false,
-      both: false
+      both: false,
     },
     Tickets: {
       read: false,
@@ -45,8 +45,8 @@ export default function EditRole({ roleId }) {
     Notification: {
       read: false,
       write: false,
-      both: false
-    }
+      both: false,
+    },
   });
 
   // Hardcoded menu options
@@ -57,7 +57,7 @@ export default function EditRole({ roleId }) {
     { key: "Tickets", label: "Tickets" },
     { key: "Category", label: "Category" },
     { key: "Template", label: "Template" },
-    { key: "Notification", label: "Notification" }
+    { key: "Notification", label: "Notification" },
   ];
 
   const {
@@ -92,7 +92,7 @@ export default function EditRole({ roleId }) {
         Category: { read: false, write: false, both: false },
         Assets: { read: false, write: false, both: false },
         Template: { read: false, write: false, both: false },
-        Notification: { read: false, write: false, both: false }
+        Notification: { read: false, write: false, both: false },
       };
       if (role.menuPermissions) {
         setMenuPermissions({
@@ -148,7 +148,7 @@ export default function EditRole({ roleId }) {
   };
 
   const handleRoleUpdate = async (data) => {
-    setLoader(true);  
+    setLoader(true);
     if (data) {
       const missingFields = [];
 
@@ -259,7 +259,8 @@ export default function EditRole({ roleId }) {
                       <div className="col-lg-12 col-md-12 col-12 mb-3">
                         <div className="form_group">
                           <label>
-                            Menu Access & Permissions{" "} <span className="text-denger"> *</span>
+                            Menu Access & Permissions{" "}
+                            <span className="text-denger"> *</span>
                             {/* <span className="text-danger">*</span> */}
                           </label>
                           <div className="menu-permissions-table mt-3">
@@ -378,8 +379,7 @@ export default function EditRole({ roleId }) {
             </div>
           </div>
         </div>
-              {loader && <Loader />}
-        
+        {loader && <Loader />}
       </div>
     </>
   );

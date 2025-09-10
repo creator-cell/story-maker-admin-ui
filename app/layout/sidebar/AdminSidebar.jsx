@@ -21,7 +21,7 @@ const AdminSidebar = () => {
   const [activeLink, setActiveLink] = useState("");
   const [shouldRender, setShouldRender] = useState(true);
   const [userRolePermissions, setUserRolePermissions] = useState(null);
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
 
   useEffect(() => {
     // Check if we should render the sidebar
@@ -254,7 +254,9 @@ const AdminSidebar = () => {
                           <li className="nav-item">
                             <CustomLink
                               className={`nav-link ${
-                                activeLink === "/admin/notification" ? "active" : ""
+                                activeLink === "/admin/notification"
+                                  ? "active"
+                                  : ""
                               }`}
                               href={`/admin/notification`}
                             >

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
 
 const ChatHistory = ({ ticketId }) => {
   const currentUser = localStorage.getItem("user");
@@ -83,17 +83,35 @@ const ChatHistory = ({ ticketId }) => {
             ticket.messages.map((msg) => (
               <div
                 key={msg._id}
-                style={{ paddingLeft: "10px", marginBottom: 12, display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start", }}>
-                <div className="user-chat"
-                  style={{ alignItems: msg.role === "user" ? "flex-end" : "flex-start", }}>
+                style={{
+                  paddingLeft: "10px",
+                  marginBottom: 12,
+                  display: "flex",
+                  justifyContent:
+                    msg.role === "user" ? "flex-end" : "flex-start",
+                }}
+              >
+                <div
+                  className="user-chat"
+                  style={{
+                    alignItems: msg.role === "user" ? "flex-end" : "flex-start",
+                  }}
+                >
                   {/* Message */}
-                  <p className="mt-3" style={{ background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8", }} >
+                  <p
+                    className="mt-3"
+                    style={{
+                      background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
+                    }}
+                  >
                     <div className="icon-name">
-                      <i className={
-                        msg.role === "user"
-                          ? "fa-solid fa-user"
-                          : "fa-solid fa-user-astronaut"
-                      }></i>
+                      <i
+                        className={
+                          msg.role === "user"
+                            ? "fa-solid fa-user"
+                            : "fa-solid fa-user-astronaut"
+                        }
+                      ></i>
                       <div className="name">
                         <small>
                           {msg.role === "user" ? "User" : "Moderator"}
@@ -104,12 +122,12 @@ const ChatHistory = ({ ticketId }) => {
                     <small>
                       {msg.sentAt
                         ? new Date(msg.sentAt).toLocaleString("en-GB", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
                         : "Just now"}
                     </small>
                   </p>
@@ -142,7 +160,10 @@ const ChatHistory = ({ ticketId }) => {
             height={50}
             width={50}
             onClick={sendChatMessage}
-            style={{ cursor: loading || !chatMessage.trim() ? 'default' : 'pointer', opacity: loading || !chatMessage.trim() ? 0.5 : 1 }}
+            style={{
+              cursor: loading || !chatMessage.trim() ? "default" : "pointer",
+              opacity: loading || !chatMessage.trim() ? 0.5 : 1,
+            }}
             role="button"
             aria-label="Send message"
             aria-disabled={loading || !chatMessage.trim()}
@@ -155,15 +176,3 @@ const ChatHistory = ({ ticketId }) => {
 };
 
 export default ChatHistory;
-
-
-
-
-
-
-
-
-
-
-
-

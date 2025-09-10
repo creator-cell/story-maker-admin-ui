@@ -10,7 +10,7 @@ import CustomLink from "../CustomLink";
 import Loader from "../Loader";
 
 export default function Roles() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
@@ -226,11 +226,10 @@ export default function Roles() {
                                           key={idx}
                                           className="permission-item mb-2 p-2 border rounded"
                                         >
-
                                           <div className="permission-badges">
                                             {/* <div className="menu-header mb-1"> */}
                                             <strong className="text-dark">
-                                              {menuItem.menuName}  :
+                                              {menuItem.menuName} :
                                             </strong>
                                             {/* </div> */}
                                             {menuItem.read && (
@@ -269,16 +268,24 @@ export default function Roles() {
                                 {hasWritePermission() && (
                                   <td data-label="Action">
                                     <div className="d-flex justify-content-start align-items-center">
-                                      <button className="admin_action_edit"
-                                        onClick={() => handleUserUpdate(user._id)}>
+                                      <button
+                                        className="admin_action_edit"
+                                        onClick={() =>
+                                          handleUserUpdate(user._id)
+                                        }
+                                      >
                                         <i className="fa-solid fa-pencil"></i>
                                       </button>
-                                      {!user?.isSuperAdmin ?
-                                        <button className="admin_action_delete"
-                                          onClick={() => handleUserDelete(user._id)}>
+                                      {!user?.isSuperAdmin ? (
+                                        <button
+                                          className="admin_action_delete"
+                                          onClick={() =>
+                                            handleUserDelete(user._id)
+                                          }
+                                        >
                                           <i className="fa fa-trash"></i>
                                         </button>
-                                        : null}
+                                      ) : null}
                                     </div>
                                   </td>
                                 )}

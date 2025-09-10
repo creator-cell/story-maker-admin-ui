@@ -13,8 +13,8 @@ import Loader from "../Loader";
 
 const AssetsManage = () => {
   const { download, isInProgress } = useDownloader();
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
-  const USER_API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSET;
+  const USER_API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const [loader, setLoader] = useState(false);
   const [assets, setAssets] = useState([]);
   const [deleteAssets, setDeleteAssets] = useState(false);
@@ -481,36 +481,42 @@ const AssetsManage = () => {
                                   {asset?.uploadedBy?.email}
                                 </td>
 
-                              {hasWritePermission() && (
-                                <td data-label="Action">
-                                  <div className="d-flex justify-content-start align-items-center gap-2">
-                                    <button
-                                      className="admin_action_edit"
-                                      onClick={() => handleEditAssets(asset._id)}
-                                      title="Edit Asset"
-                                    >
-                                      <i className="fa fa-edit"></i>
-                                    </button>
-                                    <button
-                                      className="admin_action_edit"
-                                      onClick={() => handleCloneAssets(asset._id)}
-                                      title="Clone Asset"
-                                    >
-                                      <i className="fa fa-clone"></i>
-                                    </button>
-                                    <button
-                                      className="admin_action_delete"
-                                      onClick={() => handleAssetDelete(asset._id)}
-                                      title="Delete User"
-                                    >
-                                      <i className="fa fa-trash"></i>
-                                    </button>
-                                  </div>
-                                </td>
-                              )}
-                            </tr>
-                          );
-                        })}
+                                {hasWritePermission() && (
+                                  <td data-label="Action">
+                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                      <button
+                                        className="admin_action_edit"
+                                        onClick={() =>
+                                          handleEditAssets(asset._id)
+                                        }
+                                        title="Edit Asset"
+                                      >
+                                        <i className="fa fa-edit"></i>
+                                      </button>
+                                      <button
+                                        className="admin_action_edit"
+                                        onClick={() =>
+                                          handleCloneAssets(asset._id)
+                                        }
+                                        title="Clone Asset"
+                                      >
+                                        <i className="fa fa-clone"></i>
+                                      </button>
+                                      <button
+                                        className="admin_action_delete"
+                                        onClick={() =>
+                                          handleAssetDelete(asset._id)
+                                        }
+                                        title="Delete User"
+                                      >
+                                        <i className="fa fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </td>
+                                )}
+                              </tr>
+                            );
+                          })}
 
                         {!loading && assets?.length === 0 && (
                           <tr>

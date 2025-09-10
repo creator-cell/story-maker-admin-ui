@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Loader from "../Loader";
 
 export default function EditCategory({ userId }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);

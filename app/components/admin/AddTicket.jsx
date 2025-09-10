@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
 
 const AddTicket = () => {
   const [ticket, setTicket] = useState(null);

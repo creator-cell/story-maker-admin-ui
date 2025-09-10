@@ -50,7 +50,7 @@ export default function AddTemplatePage() {
   const fetchCategories = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}category`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY}category`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -84,7 +84,7 @@ export default function AddTemplatePage() {
     setLoader(true);
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template`,
         { ...data, content: json, status: "pending" },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

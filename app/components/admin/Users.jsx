@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Loader from "../Loader";
 
 export default function Users() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
@@ -113,7 +113,6 @@ export default function Users() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-    
       if (response.data) {
         setUsers(response.data.data);
         console.log(response.data);
@@ -121,7 +120,6 @@ export default function Users() {
         setTotalItems(response.data.pagination.totalItems);
         setCurrentPage(response.data.pagination.currentPage - 1);
       } else {
-       
         setUsers(response.data.data || response.data.data || []);
         setTotalPages(response.data.totalPages || 1);
         setTotalItems(response.data.totalItems || 0);
@@ -191,13 +189,11 @@ export default function Users() {
           userData.rolePermissions &&
           userData.rolePermissions.menu
         ) {
-      
           const usersMenu = userData.rolePermissions.menu.find(
             (menu) => menu.menuName === "Users"
           );
 
           if (usersMenu) {
-         
             setUserPermissions({
               read: usersMenu.read || false,
               write: usersMenu.write || false,
@@ -348,14 +344,16 @@ export default function Users() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th className="cursor"
+                          <th
+                            className="cursor"
                             // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("name")}
                           >
                             First Name
                             <i className={`fa ${getSortIcon("name")} ms-1`}></i>
                           </th>
-                          <th className="cursor"
+                          <th
+                            className="cursor"
                             // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("email")}
                           >
@@ -365,7 +363,8 @@ export default function Users() {
                             ></i>
                           </th>
                           <th>Phone Number</th>
-                          <th className="cursor"
+                          <th
+                            className="cursor"
                             // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("isActive")}
                           >
@@ -432,7 +431,7 @@ export default function Users() {
                                         onClick={() => handleEditUser(user._id)}
                                         // title="Edit User"
                                       >
-                                       <i class="fa-solid fa-pencil"></i>
+                                        <i class="fa-solid fa-pencil"></i>
                                       </button>
                                       <button
                                         className="admin_action_delete"
@@ -446,9 +445,9 @@ export default function Users() {
                                     </div>
                                   </td>
                                 )}
-                            </tr>
-                          );
-                        })}
+                              </tr>
+                            );
+                          })}
 
                         {!loading && users.length === 0 && (
                           <tr>

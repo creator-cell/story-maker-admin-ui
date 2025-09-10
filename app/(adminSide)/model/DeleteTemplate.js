@@ -3,7 +3,7 @@ import { Modal, Container, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 export default function DeleteTemplate({ show, onHide, data, props }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
   const router = useRouter();
 
   const handleUserDelete = async () => {

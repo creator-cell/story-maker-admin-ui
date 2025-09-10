@@ -8,7 +8,7 @@ import DeleteCategory from "@/app/(adminSide)/model/DeleteCategory";
 import Loader from "../Loader";
 
 export default function Categories() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState();
   const [loading, setLoading] = useState(false);
@@ -216,7 +216,6 @@ export default function Categories() {
           </div>
         </div>
         {loader && <Loader />}
-
       </div>
       <DeleteCategory
         show={deleteUser}

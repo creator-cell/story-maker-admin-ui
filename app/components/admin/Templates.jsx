@@ -8,7 +8,7 @@ import DeleteTemplate from "@/app/(adminSide)/model/DeleteTemplate";
 import Loader from "../Loader";
 import { jsPDF } from "jspdf";
 export default function Template() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -117,76 +117,77 @@ export default function Template() {
   };
 
   const handleDownloadPDF = (tpl) => {
-  if (!tpl.content) {
-    toast.error("No template data found");
-    return;
-  }
+    if (!tpl.content) {
+      toast.error("No template data found");
+      return;
+    }
 
-  // create a hidden canvas to render
-  const canvas = new fabric.StaticCanvas(null, { width: 800, height: 600 });
+    // create a hidden canvas to render
+    const canvas = new fabric.StaticCanvas(null, { width: 800, height: 600 });
 
-  try {
-    const jsonData =
-      typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
+    try {
+      const jsonData =
+        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
 
-    canvas.loadFromJSON(jsonData, () => {
-      const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
+      canvas.loadFromJSON(jsonData, () => {
+        const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
 
-      const pdf = new jsPDF("l", "pt", [canvas.width, canvas.height]);
-      pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height);
-      pdf.save(`${tpl.name || "template"}.pdf`);
-    });
-  } catch (err) {
-    toast.error("Error exporting PDF");
-  }
-};
-const handleDownloadCSV = (tpl) => {
-  if (!tpl.content) {
-    toast.error("No template data found");
-    return;
-  }
-
-  try {
-    const jsonData =
-      typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
-
-    // flatten objects
-    const rows = [];
-    jsonData.objects.forEach((obj) => {
-      rows.push({
-        type: obj.type,
-        text: obj.text || "",
-        left: obj.left,
-        top: obj.top,
-        width: obj.width,
-        height: obj.height,
-        fill: obj.fill,
-        stroke: obj.stroke,
-        fontSize: obj.fontSize,
-        fontFamily: obj.fontFamily,
+        const pdf = new jsPDF("l", "pt", [canvas.width, canvas.height]);
+        pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height);
+        pdf.save(`${tpl.name || "template"}.pdf`);
       });
-    });
+    } catch (err) {
+      toast.error("Error exporting PDF");
+    }
+  };
+  const handleDownloadCSV = (tpl) => {
+    if (!tpl.content) {
+      toast.error("No template data found");
+      return;
+    }
 
-    // convert to CSV
-    const headers = Object.keys(rows[0]).join(",");
-    const csv = [headers, ...rows.map((r) => Object.values(r).join(","))].join(
-      "\n"
-    );
+    try {
+      const jsonData =
+        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
 
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
+      // flatten objects
+      const rows = [];
+      jsonData.objects.forEach((obj) => {
+        rows.push({
+          type: obj.type,
+          text: obj.text || "",
+          left: obj.left,
+          top: obj.top,
+          width: obj.width,
+          height: obj.height,
+          fill: obj.fill,
+          stroke: obj.stroke,
+          fontSize: obj.fontSize,
+          fontFamily: obj.fontFamily,
+        });
+      });
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `${tpl.name || "template"}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  } catch (err) {
-    toast.error("Error exporting CSV");
-  }
-};
+      // convert to CSV
+      const headers = Object.keys(rows[0]).join(",");
+      const csv = [
+        headers,
+        ...rows.map((r) => Object.values(r).join(",")),
+      ].join("\n");
+
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${tpl.name || "template"}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      toast.error("Error exporting CSV");
+    }
+  };
 
   return (
     <>
@@ -317,21 +318,20 @@ const handleDownloadCSV = (tpl) => {
                                   Delete
                                 </button>
                                 <button
-  className="button mx-1"
-  style={{ backgroundColor: "#0d6efd" }}
-  onClick={() => handleDownloadPDF(tpl)}
->
-  Download PDF
-</button>
+                                  className="button mx-1"
+                                  style={{ backgroundColor: "#0d6efd" }}
+                                  onClick={() => handleDownloadPDF(tpl)}
+                                >
+                                  Download PDF
+                                </button>
 
-<button
-  className="button mx-1"
-  style={{ backgroundColor: "#20c997" }}
-  onClick={() => handleDownloadCSV(tpl)}
->
-  Download CSV
-</button>
-
+                                <button
+                                  className="button mx-1"
+                                  style={{ backgroundColor: "#20c997" }}
+                                  onClick={() => handleDownloadCSV(tpl)}
+                                >
+                                  Download CSV
+                                </button>
                               </td>
                             </tr>
                           ))}

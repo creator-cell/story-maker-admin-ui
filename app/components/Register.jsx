@@ -9,7 +9,7 @@ import Loader from "./Loader";
 import PhoneNumber from "react-phone-number-input";
 
 export default function Register() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showLoader, setShowLoader] = useState(false);

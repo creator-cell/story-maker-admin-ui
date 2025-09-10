@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import Loader from "./Loader";
 
 export default function Login() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const {
     formState: { errors },
     handleSubmit,
