@@ -74,109 +74,135 @@ const ChatHistory = ({ ticketId }) => {
   }, [ticket?.messages]);
 
   return (
-    <div className="chat-container">
-      <div className="chat">
-        <h2>Support Ticket Chat</h2>
-        {/* {loading && <div>Loading...</div>} */}
-        <div className="box">
-          {ticket?.messages?.length ? (
-            ticket.messages.map((msg) => (
-              <div key={msg._id}>
-                <di className="user-chat" >
-                  <p className="mt-3">
-                    <div className="icon-name">
-                      <div>
-                        <i
-                          className={
-                            msg.role === "user"
-                              ? "fa-solid fa-user"
-                              : "fa-solid fa-user-astronaut"
-                          }
-                        ></i></div>
-                      <div className="name">
-                        <small>
-                          {msg.role === "user" ? "User" : "Moderator"}
-                        </small>
-                        <small>
-                          {msg.sentAt ? (() => {
-                            const date = new Date(msg.sentAt);
-                            const now = new Date();
+    <>
+      {/* <div className="chat-container">
+    
+      </div> */}
+      <div className="chat-container">
+        <div className="chat">
+          <p className="title">Reply</p>
+          <div className="box">
+            <div className="type-messages gap-3">
+              <span>Your message</span>
 
-                            const isToday = date.toDateString() === now.toDateString();
-
-                            const yesterday = new Date();
-                            yesterday.setDate(now.getDate() - 1);
-                            const isYesterday = date.toDateString() === yesterday.toDateString();
-
-                            // Time format with AM/PM
-                            let time = date.toLocaleString("en-GB", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              hour12: true,
-                            });
-                            time = time.replace("am", "AM").replace("pm", "PM");
-
-                            if (isToday) {
-                              return `Today at ${time}`;
-                            } else if (isYesterday) {
-                              return `Yesterday at ${time}`;
-                            } else {
-                              // Custom date without comma
-                              const formattedDate = date.toLocaleDateString("en-GB", {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                              });
-                              return `${formattedDate} ${time}`;
-                            }
-                          })() : "Just now"}
-                        </small>
-
-                        <span> {msg.message}</span>
-                      </div>
-                    </div>
-                  </p>
-                </di>
+              <textarea
+                type="text"
+                className="form-control"
+                value={chatMessage}
+                onChange={(e) => setChatMessage(e.target.value)}
+                rows={4}
+              // placeholder="Type a message..."
+              />
+              <div className="upload-file gap-4 d-flex">
+                <label htmlFor="file-upload" className="upload-text">
+                  <i class="fa-solid fa-file-arrow-up"></i> <span> Upload a file </span>
+                </label>
+                <input
+                  id="file-upload"
+                  type="file"
+                  style={{ display: "none" }}
+                />
               </div>
-            ))
-          ) : (
-            <div>No messages yet.</div>
-          )}
-          <div ref={messagesEndRef} />
+              <button
+                className="button"
+                onClick={sendChatMessage}
+                disabled={loading || !chatMessage.trim()}
+              >
+                Reply
+              </button>
+              {/* <img
+                src="/images/send.jpg"
+                alt="Send message"
+                height={50}
+                width={50}
+                onClick={sendChatMessage}
+                style={{
+                  cursor: loading || !chatMessage.trim() ? "default" : "pointer",
+                  opacity: loading || !chatMessage.trim() ? 0.5 : 1,
+                }}
+                role="button"
+                aria-label="Send message"
+                aria-disabled={loading || !chatMessage.trim()}
+                tabIndex={0}
+              /> */}
+            </div>
+          </div>
         </div>
-        <div className="type-message d-flex gap-2">
-          <input
-            type="text"
-            className="form-control"
-            value={chatMessage}
-            onChange={(e) => setChatMessage(e.target.value)}
-            placeholder="Type a message..."
-          />
-          {/* <button
-            className="button"
-            onClick={sendChatMessage}
-            disabled={loading || !chatMessage.trim()}
-          >
-            Send
-          </button> */}
-          <img
-            src="/images/send.jpg"
-            alt="Send message"
-            height={50}
-            width={50}
-            onClick={sendChatMessage}
-            style={{
-              cursor: loading || !chatMessage.trim() ? "default" : "pointer",
-              opacity: loading || !chatMessage.trim() ? 0.5 : 1,
-            }}
-            role="button"
-            aria-label="Send message"
-            aria-disabled={loading || !chatMessage.trim()}
-            tabIndex={0}
-          />
+        <br />
+        <div className="chat">
+          <p className="title">Support Ticket Chat</p>
+          {/* {loading && <div>Loading...</div>} */}
+
+          <div className="box">
+            {ticket?.messages?.length ? (
+              ticket.messages.map((msg) => (
+                <div key={msg._id}>
+                  <di className="user-chat" >
+                    <p>
+                      <div className="icon-name">
+                        <div>
+                          <i
+                            className={
+                              msg.role === "user"
+                                ? "fa-solid fa-user"
+                                : "fa-solid fa-user-astronaut"
+                            }
+                          ></i></div>
+                        <div className="name">
+                          <small>
+                            {msg.role === "user" ? "User" : "Moderator"}
+                          </small>
+                          <small>
+                            {msg.sentAt ? (() => {
+                              const date = new Date(msg.sentAt);
+                              const now = new Date();
+
+                              const isToday = date.toDateString() === now.toDateString();
+
+                              const yesterday = new Date();
+                              yesterday.setDate(now.getDate() - 1);
+                              const isYesterday = date.toDateString() === yesterday.toDateString();
+
+                              // Time format with AM/PM
+                              let time = date.toLocaleString("en-GB", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              });
+                              time = time.replace("am", "AM").replace("pm", "PM");
+
+                              if (isToday) {
+                                return `Today at ${time}`;
+                              } else if (isYesterday) {
+                                return `Yesterday at ${time}`;
+                              } else {
+                                // Custom date without comma
+                                const formattedDate = date.toLocaleDateString("en-GB", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                });
+                                return `${formattedDate} ${time}`;
+                              }
+                            })() : "Just now"}
+                          </small>
+
+                          <span> {msg.message}</span>
+                        </div>
+                      </div>
+                    </p>
+                  </di>
+                </div>
+              ))
+            ) : (
+              <div>No messages yet.</div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -274,7 +274,7 @@ const AssetsManage = () => {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h3>Assets List</h3>
+                      <h1>Assets List</h1>
                     </div>
                   </div>
                 </div>
@@ -338,34 +338,15 @@ const AssetsManage = () => {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th style={{ cursor: "pointer", width: "10%" }}>
-                            Date
-                          </th>
-                          <th style={{ cursor: "pointer", width: "12%" }}>
-                            Name
-                          </th>
-                          <th style={{ cursor: "pointer", width: "10%" }}>
-                            Document
-                          </th>
-                          <th style={{ cursor: "pointer", width: "7%" }}>
-                            Type
-                          </th>
-                          <th style={{ cursor: "pointer", width: "7%" }}>
-                            Format
-                          </th>
-                          <th style={{ cursor: "pointer", width: "20%" }}>
-                            Description
-                          </th>
-                          <th style={{ cursor: "pointer", width: "15%" }}>
-                            Tags
-                          </th>
-                          <th style={{ cursor: "pointer", width: "15%" }}>
-                            Status
-                          </th>
-                          <th style={{ cursor: "pointer", width: "10%" }}>
-                            Uploaded By
-                          </th>
-
+                          <th>Date</th>
+                          <th> Name</th>
+                          <th>Document</th>
+                          <th>Type</th>
+                          <th>Format</th>
+                          <th>Description</th>
+                          <th>Tags</th>
+                          <th>Status</th>
+                          <th> Uploaded By</th>
                           {hasWritePermission() && (
                             <th style={{ width: "10%" }}>Action</th>
                           )}

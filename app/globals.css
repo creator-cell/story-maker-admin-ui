@@ -9888,15 +9888,17 @@ html {
 .bg-secondary {
   background-color: #6c757d !important;
 }
-
-.permission-item {
+.checkbox{
+border: 1px solid;
+}
+/* .permission-item {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
-  /* background-color: #f8f9fa; */
+  background-color: #f8f9fa;
   border: 1px solid #dee2e6;
   border-radius: 4px;
   margin-bottom: 8px;
   padding: 8px;
-}
+} */
 
 .menu-header {
   width: 30px;
@@ -9972,7 +9974,7 @@ html {
   background: #f5f8fa;
   width: calc(100% - 250px);
   height: 100%;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   color: var(--dark);
   z-index: 2;
   margin: 0 0 0 auto;
@@ -10030,8 +10032,8 @@ html {
 
 .chat-container .chat .box {
   background-color: var(--white) !important;
-  height: 350px;
-  max-height: 350px;
+  height: auto;
+  /* max-height: 350px; */
   overflow-y: auto;
 }
 
@@ -10045,7 +10047,6 @@ html {
 
 .chat-container .chat .box .user-chat p {
   color: var(--grayish-blue);
-  border-radius: 8px;
   padding: 30px 30px 10px 30px;
 }
 
@@ -10093,26 +10094,58 @@ html {
   font-size: 25px;
 }
 
-.chat-container .chat h2 {
+.chat-container .chat .title {
   border-bottom: 2px solid #d1d5db;
   background-color: var(--white);
   padding: 15px;
   color: var(--black);
   margin-bottom: 0;
   line-height: 32px;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 24px;
   color: rgb(39, 47, 54);
 }
 
-.chat-container .chat .type-message {
+.chat-container .chat .box .type-message {
   background: var(--white);
   padding: 10px;
 }
 
+.upload-text {
+  cursor: pointer;
+  color: rgb(17, 111, 173);
+}
+
+.upload-text span {
+  color: rgb(17, 111, 173);
+  text-decoration: underline;
+}
+
+.chat-container .chat .box .type-messages {
+  color: var(--black);
+  padding: 30px;
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-container .chat .box .type-messages textarea {
+  /* height: 110px !important; */
+  width: 450px !important;
+  border: 1.5px solid #d1d5db;
+}
+
+.chat-container .chat .box .type-messages button {
+  background: #f1f3f5 !important;
+  color: #b3b5b6;
+  width: fit-content;
+}
+
 .admin_table .table-responsive table .table_body tr td .badge {
-  width: 90px;
+  width: fit-content;
   font-size: 12px;
+  min-width: 100px;
 }
 
 .admin_table .table-responsive table .table_body .permission-item .permission-badges .badge {
@@ -10368,3 +10401,4 @@ html {
 .admin_table .table-responsive table .table_body tr td span:hover {
   opacity: 0.8;
 }
+
