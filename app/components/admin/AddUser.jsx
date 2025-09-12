@@ -141,7 +141,7 @@ const AddUserPage = () => {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Full Name  <span className="text-danger"> *</span></label>
+                        <label htmlFor="full-name" className="form-label">Full Name  <span className="text-danger"> *</span></label>
                         <input
                           type="text"
                           className="form-control"
@@ -156,7 +156,7 @@ const AddUserPage = () => {
                    
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="role">Role  <span className="text-danger"> *</span></label>
+                        <label htmlFor="role" className="form-label">Role  <span className="text-danger"> *</span></label>
                         <select
                           className="form-control"
                           name="role"
@@ -175,7 +175,7 @@ const AddUserPage = () => {
                     </div>
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="email">Email  <span className="text-danger"> *</span></label>
+                        <label htmlFor="email" className="form-label">Email  <span className="text-danger"> *</span></label>
                         <input
                           type="email"
                           className="form-control"
@@ -190,7 +190,7 @@ const AddUserPage = () => {
 
                        <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="email">Mobile Number  <span className="text-danger"> *</span></label>
+                        <label htmlFor="email" className="form-label">Mobile Number  <span className="text-danger"> *</span></label>
                         <input
                           type="text"
                           className="form-control"

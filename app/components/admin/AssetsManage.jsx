@@ -409,7 +409,7 @@ const AssetsManage = () => {
                                 <td data-label="Tags">
                                   <div class="flex flex-wrap gap-3">
                                     {asset?.tags?.map((p) => (
-                                      <span class="badge bg-info text-dark m-1">
+                                      <span class="badge m-1">
                                         {p}
                                       </span>
                                     ))}
@@ -475,7 +475,7 @@ const AssetsManage = () => {
                                         <i className="fa fa-edit"></i>
                                       </button>
                                       <button
-                                        className="admin_action_edit"
+                                        className="admin_action_clone"
                                         onClick={() =>
                                           handleCloneAssets(asset._id)
                                         }

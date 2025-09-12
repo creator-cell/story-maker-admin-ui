@@ -225,20 +225,27 @@ export default function Roles() {
                                   {idx === 0 && <td className="checkbox" rowSpan={user.menu.length}>{user.name}</td>}
 
                                   <td className="w-25">{menuItem.menuName}</td>
+                                  
                                   <td className="checkbox">
-                                    <input type="checkbox" checked={menuItem.read} readOnly />
+                                    <div className="form-check">
+                                    <input type="checkbox"   className="form-check-input"  checked={menuItem.read} readOnly />
+                                  </div>
                                   </td>
                                   <td className="checkbox">
-                                    <input type="checkbox" checked={menuItem.write} readOnly />
+                                    <div className="form-check">
+                                    <input type="checkbox"    className="form-check-input" checked={menuItem.write} readOnly />
+                                  </div>
                                   </td>
                                   <td className="checkbox">
-                                    <input type="checkbox" checked={menuItem.both} readOnly />
+                                    <div className="form-check">
+                                    <input type="checkbox"    className="form-check-input" checked={menuItem.both} readOnly />
+                                 </div>
                                   </td>
 
                                   {/* Action भी सिर्फ पहली row पर */}
                                   {hasWritePermission() && idx === 0 && (
                                     <td rowSpan={user.menu.length}>
-                                      <div className="d-flex justify-content-start align-items-center">
+                                      <div className="d-flex justify-content-start align-items-center gap-2">
                                         <button
                                           className="admin_action_edit"
                                           onClick={() => handleUserUpdate(user._id)}

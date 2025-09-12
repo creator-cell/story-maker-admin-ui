@@ -139,7 +139,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Name</label>
+                                                <label htmlFor="full-name" className="form-label">Name</label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
@@ -155,7 +155,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Document</label>
+                                                <label htmlFor="full-name" className="form-label">Document</label>
                                                 <div className="d-flex align-items-center gap-2">
                                                     { oldDocument ?
                                                         <div className="d-flex align-items-center gap-2">
@@ -187,7 +187,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Type</label>
+                                                <label htmlFor="full-name" className="form-label">Type</label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
@@ -203,7 +203,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Format</label>
+                                                <label htmlFor="full-name" className="form-label">Format</label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
@@ -217,7 +217,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Description</label>
+                                                <label htmlFor="full-name" className="form-label">Description</label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
@@ -231,7 +231,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Tags</label>
+                                                <label htmlFor="full-name" className="form-label">Tags</label>
                                                 <Controller
                                                     control={control}
                                                     name="tags"
@@ -258,7 +258,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-12 mt-3 d-flex gap-3">
                                             <button type="submit" className="button">
-                                                Submit
+                                              Update Assets
                                             </button>
                                             <button
                                                 type="button"

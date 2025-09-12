@@ -200,7 +200,7 @@ const AddRole = () => {
                   <div className="row">
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="role-name">
+                        <label htmlFor="role-name" className="form-label">
                           Role Name <span className="text-denger"> *</span>
                           {/* <span className="text-danger">*</span> */}
                         </label>
@@ -334,7 +334,7 @@ const AddRole = () => {
                         className="button"
                         disabled={loader}
                       >
-                        {loader ? "Creating..." : "Create Role"}
+                        {loader ? "Creating..." : "Submit"}
                       </button>
                       <button
                         type="button"

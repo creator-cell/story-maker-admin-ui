@@ -222,12 +222,12 @@ export default function Template() {
                           />
                           <i
                             className="fa-solid fa-magnifying-glass"
-                            // style={{
-                            //   right: "10px",
-                            //   top: "50%",
-                            //   transform: "translateY(-50%)",
-                            //   color: "#6c757d",
-                            // }}
+                          // style={{
+                          //   right: "10px",
+                          //   top: "50%",
+                          //   transform: "translateY(-50%)",
+                          //   color: "#6c757d",
+                          // }}
                           ></i>
                         </div>
                         <button
@@ -287,51 +287,50 @@ export default function Template() {
                               <td>{tpl.subCategory?.name || "-"}</td>
                               <td>
                                 <span
-                                  className={`badge ${
-                                    tpl.status === "approved"
+                                  className={`badge ${tpl.status === "approved"
                                       ? "bg-success"
                                       : "bg-warning"
-                                  }`}
+                                    }`}
                                 >
                                   {tpl.status}
                                 </span>
                               </td>
                               <td>
-                                <button
-                                  className="button mx-1"
-                                  onClick={() => handleEdit(tpl._id)}
-                                >
-                                  View/Edit
-                                </button>
-                                <button
-                                  className="button mx-1"
-                                  style={{ backgroundColor: "#6c757d" }}
-                                  onClick={() => handleClone(tpl._id)}
-                                >
-                                  Clone
-                                </button>
-                                <button
-                                  className="button mx-1"
-                                  style={{ backgroundColor: "#dc3545" }}
-                                  onClick={() => handleDelete(tpl._id)}
-                                >
-                                  Delete
-                                </button>
-                                <button
-                                  className="button mx-1"
-                                  style={{ backgroundColor: "#0d6efd" }}
-                                  onClick={() => handleDownloadPDF(tpl)}
-                                >
-                                  Download PDF
-                                </button>
-
-                                <button
-                                  className="button mx-1"
-                                  style={{ backgroundColor: "#20c997" }}
-                                  onClick={() => handleDownloadCSV(tpl)}
-                                >
-                                  Download CSV
-                                </button>
+                                <div className="d-flex justify-content-start align-items-center gap-2">
+                                  <button
+                                    className="admin_action_edit"
+                                    onClick={() => handleEdit(tpl._id)}
+                                  >
+                                    {/* View/Edit */}
+                                    <i class="fa-solid fa-pencil"></i>
+                                  </button>
+                                  <button
+                                    className="admin_action_clone"
+                                    onClick={() => handleClone(tpl._id)}
+                                  >
+                                    <i class="fa fa-clone"></i>
+                                    {/* Clone */}
+                                  </button>
+                                  <button
+                                    className="admin_action_delete"
+                                    onClick={() => handleDelete(tpl._id)}
+                                  >
+                                    <i class="fa fa-trash"></i>
+                                    {/* Delete */}
+                                  </button>
+                                  <button
+                                    className="admin-action-download-pdf"
+                                    onClick={() => handleDownloadPDF(tpl)}
+                                  >
+                                    Download <i><img src="/images/pdf.png" alt="" /></i>
+                                  </button>
+                                  <button
+                                    className="admin-actiob-download-csv"
+                                    onClick={() => handleDownloadCSV(tpl)}
+                                  >
+                                    Download  <i><img src="/images/csv.png" alt="" /></i>
+                                  </button>
+                                  </div>
                               </td>
                             </tr>
                           ))}

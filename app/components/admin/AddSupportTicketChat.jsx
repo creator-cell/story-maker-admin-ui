@@ -64,7 +64,7 @@ const AddChatHistory = () => {
   };
 
   return (
-    <div className="chat-container">
+    <div className="chat-container bg-white">
       <div className="title_head">
         <h1>Support Ticket Chat</h1>
       </div>

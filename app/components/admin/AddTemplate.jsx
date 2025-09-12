@@ -142,7 +142,7 @@ export default function AddTemplatePage() {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label>
+                        <label className="form-label">
                           Template Name <span className="text-danger"> *</span>
                         </label>
                         <input
@@ -158,7 +158,7 @@ export default function AddTemplatePage() {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label>
+                        <label className="form-label">
                           Category <span className="text-danger"> *</span>
                         </label>
                         <select
@@ -181,7 +181,7 @@ export default function AddTemplatePage() {
                     {/* Subcategory Dropdown */}
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
-                        <label>
+                        <label className="form-label">
                           Subcategory <span className="text-danger"> *</span>
                         </label>
                         <select

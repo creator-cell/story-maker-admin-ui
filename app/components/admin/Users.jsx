@@ -425,7 +425,7 @@ export default function Users() {
 
                                 {hasWritePermission() && (
                                   <td data-label="Action">
-                                    <div className="d-flex justify-content-start align-items-center">
+                                    <div className="d-flex justify-content-start align-items-center gap-2">
                                       <button
                                         className="admin_action_edit"
                                         onClick={() => handleEditUser(user._id)}

@@ -118,7 +118,7 @@ export default function Notification() {
                         </div>
 
                         <button
-                          className="btn me-2 mail-button" 
+                          className="btn mail-button" 
                           onClick={() => handleSend("mail")}
                         >
                           Send by <i class="fa-solid fa-envelope"></i>

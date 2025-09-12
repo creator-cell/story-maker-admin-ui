@@ -366,12 +366,26 @@ export default function EditRole({ roleId }) {
                       </div>
 
                       <div className="col-lg-12 col-md-12 col-12">
-                        <input
-                          type="submit"
-                          value="Update"
+                        <div className="d-flex gap-3">
+                          <input
+                            type="submit"
+                            value="Update Role"
+                            className="button"
+                          />
+                    
+                        <button
+                          type="button"
                           className="button"
-                        />
+                          onClick={() => {
+                            setLoader(true);
+                            router.push("/admin/role");
+                          }}
+                        >
+                          Cancel
+                        </button>
+                            </div>
                       </div>
+
                     </div>
                   </form>
                 </div>

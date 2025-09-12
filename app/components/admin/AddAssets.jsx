@@ -106,7 +106,7 @@ const AddAssets = () => {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">
+                        <label htmlFor="full-name" className="form-label">
                           Name <span className="text-danger">*</span>
                         </label>
                         <input
@@ -130,7 +130,7 @@ const AddAssets = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">
+                        <label htmlFor="full-name" className="form-label">
                           Document <span className="text-danger">*</span>
                         </label>
                         <input
@@ -156,7 +156,7 @@ const AddAssets = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">
+                        <label htmlFor="full-name" className="form-label">
                           Type <span className="text-danger">*</span>
                         </label>
                         <input
@@ -180,7 +180,7 @@ const AddAssets = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Format</label>
+                        <label htmlFor="full-name" className="form-label">Format</label>
                         <input
                           type="text"
                           className="form-control"
@@ -197,7 +197,7 @@ const AddAssets = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Description</label>
+                        <label htmlFor="full-name" className="form-label">Description</label>
                         <input
                           type="text"
                           className="form-control"
@@ -216,7 +216,7 @@ const AddAssets = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Tags</label>
+                        <label htmlFor="full-name" className="form-label">Tags</label>
                         <Controller
                           control={control}
                           name="tags"

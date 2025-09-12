@@ -105,7 +105,7 @@ const AddPlans = () => {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">
+                        <label htmlFor="full-name" className="form-label">
                           Name <span className="text-danger">*</span>
                         </label>
                         <input
@@ -129,7 +129,7 @@ const AddPlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">
+                        <label htmlFor="full-name" className="form-label">
                           Title <span className="text-danger">*</span>
                         </label>
                         <input
@@ -153,7 +153,7 @@ const AddPlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Description</label>
+                        <label htmlFor="full-name" className="form-label">Description</label>
                         <textarea className="form-control" rows="1" {...register("description", { required: { value: true, message: "Description is required" } })}>
                         </textarea>
                       </div>
@@ -166,7 +166,7 @@ const AddPlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Price</label>
+                        <label htmlFor="full-name" className="form-label">Price</label>
                         <input
                           className="form-control"
                           type="number"
@@ -183,7 +183,7 @@ const AddPlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">
+                        <label htmlFor="full-name" className="form-label">
                           Duration <span className="text-danger">*</span>
                         </label>
                         <Controller
@@ -215,7 +215,7 @@ const AddPlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Features</label>
+                        <label htmlFor="full-name" className="form-label">Features</label>
                         <Controller
                           control={control}
                           name="features"
