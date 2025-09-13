@@ -140,12 +140,6 @@ export default function Tickets() {
                           />
                           <i
                             className="fa-solid fa-magnifying-glass"
-                            // style={{
-                            //   right: "10px",
-                            //   top: "50%",
-                            //   transform: "translateY(-50%)",
-                            //   color: "#6c757d",
-                            // }}
                           ></i>
                         </div>
                         <button
@@ -163,7 +157,6 @@ export default function Tickets() {
                               setSearch("");
                               getTickets(1, "");
                             }}
-                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -226,7 +219,6 @@ export default function Tickets() {
                               </td>
                               <td>
                                 <button
-                                  // style={{padding:"10px 25px"}}
                                   className={`resolvebtn button mx-1 ${
                                     ticket.status === "Resolved"
                                       ? "btn-resolved"

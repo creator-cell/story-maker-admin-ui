@@ -268,25 +268,10 @@ export default function EditRole({ roleId }) {
                               <table className="table table-bordered">
                                 <thead className="table-light">
                                   <tr>
-                                    <th style={{ width: "200px" }}>Menu</th>
-                                    <th
-                                      style={{ width: "150px" }}
-                                      className="text-center"
-                                    >
-                                      Read
-                                    </th>
-                                    <th
-                                      style={{ width: "150px" }}
-                                      className="text-center"
-                                    >
-                                      Write
-                                    </th>
-                                    <th
-                                      style={{ width: "150px" }}
-                                      className="text-center"
-                                    >
-                                      Both
-                                    </th>
+                                    <th>Menu</th>
+                                    <th className="text-center">Read</th>
+                                    <th className="text-center">Write</th>
+                                    <th className="text-center">Both</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -364,7 +349,6 @@ export default function EditRole({ roleId }) {
                           </small>
                         </div>
                       </div>
-
                       <div className="col-lg-12 col-md-12 col-12">
                         <div className="d-flex gap-3">
                           <input
@@ -372,20 +356,18 @@ export default function EditRole({ roleId }) {
                             value="Update Role"
                             className="button"
                           />
-                    
-                        <button
-                          type="button"
-                          className="button"
-                          onClick={() => {
-                            setLoader(true);
-                            router.push("/admin/role");
-                          }}
-                        >
-                          Cancel
-                        </button>
-                            </div>
+                          <button
+                            type="button"
+                            className="button"
+                            onClick={() => {
+                              setLoader(true);
+                              router.push("/admin/role");
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
-
                     </div>
                   </form>
                 </div>

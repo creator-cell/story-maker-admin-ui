@@ -236,7 +236,6 @@ export default function AddTemplatePage() {
                       <button
                         type="button"
                         className="button"
-                        // style={{ backgroundColor: "#6c757d" }}
                         onClick={() => {
                           setLoader(true);
                           router.push("/admin/template");

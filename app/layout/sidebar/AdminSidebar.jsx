@@ -269,7 +269,7 @@ const AdminSidebar = () => {
                                 }`}
                               href={`/admin/notification`}
                             >
-                              <i className="fa-solid fa-newspaper"></i>
+                              <i class="fa-solid fa-bell"></i>
                               Notification
                               {!hasWriteAccess("Notification") && (
                                 <small className="text-muted ms-1">

@@ -45,25 +45,17 @@ const AddTicket = () => {
     <div className="chat-container">
       <h3>Support Ticket Chat</h3>
       {loading && <div>Loading...</div>}
-      <div
-        style={{
-          maxHeight: 350,
-          overflowY: "auto",
-          border: "1px solid #eee",
-          padding: 16,
-          marginBottom: 16,
-        }}
-      >
+      <div>
         {ticket?.messages?.length ? (
           ticket.messages.map((msg) => (
-            <div key={msg._id} style={{ marginBottom: 12 }}>
+            <div key={msg._id}>
               <b>{msg.role === "user" ? "User" : "Moderator"}:</b> {msg.message}
               <br />
-              <small style={{ color: "#888" }}>
+              <smal>
                 {msg.sentAt
                   ? new Date(msg.sentAt).toLocaleString()
                   : "Just now"}
-              </small>
+              </smal>
             </div>
           ))
         ) : (

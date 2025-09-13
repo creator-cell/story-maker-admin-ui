@@ -99,8 +99,9 @@ export default function Users() {
     search = searchUser,
     order = sortOrder
   ) => {
+    setLoader(true);
     try {
-      setLoader(true);
+
       let url = `${API_URL}users?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
@@ -155,6 +156,7 @@ export default function Users() {
   };
 
   const handleClearSearch = () => {
+    setLoader(true);
     setSearchUser("");
     setCurrentPage(0);
     getUsers(1, sortByValue, "", sortOrder);
@@ -295,12 +297,6 @@ export default function Users() {
                           />
                           <i
                             className="fa-solid fa-magnifying-glass"
-                            // style={{
-                            //   right: "10px",
-                            //   top: "50%",
-                            //   transform: "translateY(-50%)",
-                            //   color: "#6c757d",
-                            // }}
                           ></i>
                         </div>
 
@@ -316,7 +312,6 @@ export default function Users() {
                           <button
                             className="button ms-2"
                             onClick={handleClearSearch}
-                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -346,7 +341,6 @@ export default function Users() {
                         <tr>
                           <th
                             className="cursor"
-                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("name")}
                           >
                             First Name
@@ -354,7 +348,6 @@ export default function Users() {
                           </th>
                           <th
                             className="cursor"
-                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("email")}
                           >
                             Email Address
@@ -365,7 +358,6 @@ export default function Users() {
                           <th>Phone Number</th>
                           <th
                             className="cursor"
-                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("isActive")}
                           >
                             Status
@@ -429,16 +421,14 @@ export default function Users() {
                                       <button
                                         className="admin_action_edit"
                                         onClick={() => handleEditUser(user._id)}
-                                        // title="Edit User"
                                       >
-                                        <i class="fa-solid fa-pencil"></i>
+                                       <i className="fa fa-edit"></i>
                                       </button>
                                       <button
                                         className="admin_action_delete"
                                         onClick={() =>
                                           handleUserDelete(user._id)
                                         }
-                                        // title="Delete User"
                                       >
                                         <i className="fa fa-trash"></i>
                                       </button>

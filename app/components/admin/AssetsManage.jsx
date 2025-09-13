@@ -51,8 +51,9 @@ const AssetsManage = () => {
     search = "",
     order = sortOrder
   ) => {
-    try {
       setLoader(true);
+    try {
+    
       let url = `${API_URL}assets?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
@@ -142,6 +143,7 @@ const AssetsManage = () => {
   };
 
   const handleEditAssets = (updateAssetId) => {
+    setLoader(true);
     router.push(`/admin/assets/${updateAssetId}`);
   };
 
@@ -316,6 +318,7 @@ const AssetsManage = () => {
                           <button
                             className="button"
                             onClick={() => {
+                              setLoader(true);
                               router.push("/admin/assets/addassets");
                             }}
                           >
@@ -348,7 +351,7 @@ const AssetsManage = () => {
                           <th>Status</th>
                           <th> Uploaded By</th>
                           {hasWritePermission() && (
-                            <th style={{ width: "10%" }}>Action</th>
+                            <th>Action</th>
                           )}
                         </tr>
                       </thead>
@@ -370,7 +373,6 @@ const AssetsManage = () => {
                                       <small className="d-flex align-items-center gap-2">
                                         <div
                                           className="doc-file"
-                                          style={{ width: 50, height: 50 }}
                                         >
                                           <FileIcon
                                             extension={
@@ -418,11 +420,7 @@ const AssetsManage = () => {
                                 <td data-label="Status">
                                   {hasWritePermission() ? (
                                     <FormSelect
-                                      style={{
-                                        width: "80%",
-                                        fontSize: 10,
-                                        margin: 1,
-                                      }}
+                                    className="status-dropdown"
                                       onChange={(t) => {
                                         const currentValue = t.target.value;
                                         if (currentValue == "Pending") {

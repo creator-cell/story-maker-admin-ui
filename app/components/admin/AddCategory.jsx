@@ -169,7 +169,7 @@ const AddCategoryPage = () => {
                     {/* Buttons */}
                     <div className="d-flex gap-3">
                       <button type="submit" className="button">
-                       Submit
+                        Submit
                       </button>
                       <button
                         type="button"

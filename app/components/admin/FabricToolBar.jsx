@@ -341,14 +341,13 @@ export default function FabricToolbar({
           title="upload image"
           htmlFor="upload-image"
           className="button mb-0"
-          style={{ cursor: "pointer" }}
         >
           {/* Upload Image */}
           <i className="fa-solid fa-image"></i>
-          <input
+          <input 
+          className="d-none"
             type="file"
             accept="image/*"
-            style={{ display: "none" }}
             id="upload-image"
             onChange={(e) => {
               if (e.target.files[0]) onUpload(e.target.files[0]);

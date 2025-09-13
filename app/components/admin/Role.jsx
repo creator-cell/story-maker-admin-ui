@@ -221,7 +221,6 @@ export default function Roles() {
                             user.menu && user.menu.length > 0 ? (
                               user.menu.map((menuItem, idx) => (
                                 <tr key={`${user._id}-${idx}`}>
-                                  {/* Role Name सिर्फ पहली menu row में */}
                                   {idx === 0 && <td className="checkbox" rowSpan={user.menu.length}>{user.name}</td>}
 
                                   <td className="w-25">{menuItem.menuName}</td>
@@ -242,7 +241,6 @@ export default function Roles() {
                                  </div>
                                   </td>
 
-                                  {/* Action भी सिर्फ पहली row पर */}
                                   {hasWritePermission() && idx === 0 && (
                                     <td rowSpan={user.menu.length}>
                                       <div className="d-flex justify-content-start align-items-center gap-2">
@@ -250,7 +248,7 @@ export default function Roles() {
                                           className="admin_action_edit"
                                           onClick={() => handleUserUpdate(user._id)}
                                         >
-                                          <i className="fa-solid fa-pencil"></i>
+                                          <i className="fa fa-edit"></i>
                                         </button>
                                         {!user?.isSuperAdmin ? (
                                           <button

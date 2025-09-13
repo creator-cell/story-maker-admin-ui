@@ -91,16 +91,15 @@ const ChatHistory = ({ ticketId }) => {
                 value={chatMessage}
                 onChange={(e) => setChatMessage(e.target.value)}
                 rows={4}
-              // placeholder="Type a message..."
               />
               <div className="upload-file gap-4 d-flex">
                 <label htmlFor="file-upload" className="upload-text">
                   <i class="fa-solid fa-file-arrow-up"></i> <span> Upload a file </span>
                 </label>
-                <input
+                <input 
+                className="d-none"
                   id="file-upload"
                   type="file"
-                  style={{ display: "none" }}
                 />
               </div>
               <button
@@ -163,7 +162,6 @@ const ChatHistory = ({ ticketId }) => {
                               yesterday.setDate(now.getDate() - 1);
                               const isYesterday = date.toDateString() === yesterday.toDateString();
 
-                              // Time format with AM/PM
                               let time = date.toLocaleString("en-GB", {
                                 hour: "2-digit",
                                 minute: "2-digit",
@@ -176,7 +174,6 @@ const ChatHistory = ({ ticketId }) => {
                               } else if (isYesterday) {
                                 return `Yesterday at ${time}`;
                               } else {
-                                // Custom date without comma
                                 const formattedDate = date.toLocaleDateString("en-GB", {
                                   day: "2-digit",
                                   month: "2-digit",

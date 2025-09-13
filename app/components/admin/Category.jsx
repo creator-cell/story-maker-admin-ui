@@ -94,12 +94,6 @@ export default function Categories() {
                           />
                           <i
                             className="fa-solid fa-magnifying-glass"
-                            // style={{
-                            //   right: "10px",
-                            //   top: "50%",
-                            //   transform: "translateY(-50%)",
-                            //   color: "#6c757d",
-                            // }}
                           ></i>
                         </div>
                         <button
@@ -116,7 +110,6 @@ export default function Categories() {
                               setSearch("");
                               getCategories(1, "");
                             }}
-                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -159,7 +152,7 @@ export default function Categories() {
                                       handleEditCategory(category._id)
                                     }
                                   >
-                                    <i className="fa-solid fa-pencil"></i>
+                                    <i className="fa fa-edit"></i>
                                   </button>
 
                                   <button

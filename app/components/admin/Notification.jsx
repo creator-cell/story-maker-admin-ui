@@ -20,52 +20,52 @@ export default function Notification() {
 
     setLoader(true);
     axios({
-        url: `${API_URL}notification/${type == "sms" ? 'sms' : 'mail'}`,
-        method:"POST",
-        headers: {
-            "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${localStorage.getItem("token")}`
-        },
-        data: JSON.stringify({
-            message: message
-        })
+      url: `${API_URL}notification/${type == "sms" ? 'sms' : 'mail'}`,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
+      data: JSON.stringify({
+        message: message
+      })
     }).then(res => {
-        setMessage("");
-        toast(res.data?.message || "Notification sended successfully", {
-            theme: "light",
-            type: "success",
-            position: "top-right"
-        });
-        getNotifications();
+      setMessage("");
+      toast(res.data?.message || "Notification sended successfully", {
+        theme: "light",
+        type: "success",
+        position: "top-right"
+      });
+      getNotifications();
     }).catch(err => {
-        console.log(err);
-        toast("Something want wrong", {
-            theme: "light",
-            type: "error",
-            position: "top-right"
-        });
+      console.log(err);
+      toast("Something want wrong", {
+        theme: "light",
+        type: "error",
+        position: "top-right"
+      });
     }).finally(() => {
-        setLoader(false);
+      setLoader(false);
     });
   };
 
   const getNotifications = (page = 1) => {
     setLoader(true);
     axios({
-        url: `${API_URL}notification?page=${page}`,
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
-        }
+      url: `${API_URL}notification?page=${page}`,
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
     }).then(res => {
-        setNotifications(res?.data?.data?.items);
-        setTotalPages(res?.data?.data?.pagination?.totalPages);
-        setTotalItems(res?.data?.data?.pagination?.totalItems);
-        setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
+      setNotifications(res?.data?.data?.items);
+      setTotalPages(res?.data?.data?.pagination?.totalPages);
+      setTotalItems(res?.data?.data?.pagination?.totalItems);
+      setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
     }).catch(err => {
-        console.log(err);
+      console.log(err);
     }).finally(() => {
-        setLoader(false);
+      setLoader(false);
     });
   }
 
@@ -78,7 +78,7 @@ export default function Notification() {
     getNotifications();
   }, []);
 
-   return (
+  return (
     <>
       <div id="main_container">
         <div className="inner_container">
@@ -92,12 +92,7 @@ export default function Notification() {
                     </div>
                   </div>
                 </div>
-                {/* <div className="row">
-                  <div className="col-lg-12 col-md-12 col-sm-12">
-                    <div className="title_head">
-                    </div>
-                  </div>
-                </div> */}
+
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-4 col-md-6 col-12">
@@ -118,18 +113,18 @@ export default function Notification() {
                         </div>
 
                         <button
-                          className="btn mail-button" 
+                          className="btn mail-button"
+                          title="Send By Email"
                           onClick={() => handleSend("mail")}
                         >
                           Send by <i class="fa-solid fa-envelope"></i>
-                          {/* Email */}
                         </button>
                         <button
                           className="btn sms-button"
+                          title="Send By SMS"
                           onClick={() => handleSend("sms")}
                         >
                           Send by <i class="fa-solid fa-comment-sms"></i>
-                          {/* SMS */}
                         </button>
                       </div>
                     </div>
@@ -161,9 +156,6 @@ export default function Notification() {
                           <th className="cursor"
                           >
                             Message
-                            {/* <i
-                              className={`fa ${getSortIcon("email")} ms-1`}
-                            ></i> */}
                           </th>
                           <th className="cursor"
                           >
@@ -172,16 +164,10 @@ export default function Notification() {
                           <th className="cursor"
                           >
                             Type
-                            {/* <i
-                              className={`fa ${getSortIcon("isActive")} ms-1`}
-                            ></i> */}
                           </th>
                           <th className="cursor"
                           >
                             Deliver Count
-                            {/* <i
-                              className={`fa ${getSortIcon("isActive")} ms-1`}
-                            ></i> */}
                           </th>
                         </tr>
                       </thead>

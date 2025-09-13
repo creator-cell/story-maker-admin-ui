@@ -422,10 +422,9 @@ export default function FabricTextEditorToolbar({ fRef }) {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          {/* <i className="fa-solid fa-pencil"></i>  */}
           Draw
         </button>
-        <ul className="dropdown-menu p-2" style={{ minWidth: "200px" }}>
+        <ul className="dropdown-menu p-2">
           <li>
             <button
               type="button"

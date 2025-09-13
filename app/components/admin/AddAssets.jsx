@@ -31,7 +31,7 @@ const AddAssets = () => {
     },
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleAddAssets = (data) => {
     setLoader(true);
@@ -73,8 +73,8 @@ const AddAssets = () => {
       .catch((err) => {
         toast(
           err?.response?.data?.errors?.[0]?.message ??
-            err?.response?.data?.message ??
-            "Failed to add assets",
+          err?.response?.data?.message ??
+          "Failed to add assets",
           {
             type: "error",
             theme: "light",
@@ -256,7 +256,7 @@ const AddAssets = () => {
                       <button
                         type="button"
                         className="button"
-                        onClick={() => router.push("/admin/assets")}
+                        onClick={() => { setLoader(true); router.push("/admin/assets") }}
                       >
                         Cancel
                       </button>

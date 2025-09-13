@@ -304,7 +304,6 @@ const UpdatePlans = () => {
                       <button
                         type="button"
                         className="button"
-                        style={{ backgroundColor: "#6c757d" }}
                         onClick={() =>{router.push("/admin/plans")}}
                       >
                         Cancel

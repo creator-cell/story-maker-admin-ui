@@ -134,6 +134,12 @@ html {
 }
 
 :root {
+  --bg-light: #f5f8fa;
+  --border-gray: #d1d5db;
+  --primary-dark: #226B73;
+  --bg-muted: #f1f3f5;
+  --text-gray: #b3b5b6;
+  --line-gray: #ddd;
   --green-shade: #28a745;
   --blue-shade: #007bff;
   --gold: #FFD700;
@@ -142,7 +148,6 @@ html {
   --slat-gray: #6c757d;
   --vibrant-blue: #0872ff;
   --light-gray: #f9f9f9;
-  --black: #000;
   --soft-blue: #86b7fe;
   --deep-blue: #1f4f8f;
   --teal-blue: #2383AA;
@@ -150,25 +155,16 @@ html {
   --Blue: #0056b3;
   --Whitesmoke: #F5F5F7;
   --alpha: #071e37;
-  --beta: #000;
   --red: #FC0909;
-  --omega: #EFAF2F;
   --white: #FFFFFF;
-  --gray: #707070;
   --dark: #000;
   --light: #EBE7EB;
   --badge_success: #00cd78;
   --badge_pending: #ffc107;
   --badge_failed: #dc3545;
 
-  --color-success: #3DB17D;
-  --color-hover-success: #2E825D;
-  --btn-main: #00cd78;
-  --btn-hover-main: #2E825D;
-
   --Avenir-font-family: 'Avenir LT 55 Roman';
   --Avenir-Bold-font-family: 'Avenir LT 55 Roman Bold';
-  --s: 2s;
 }
 
 :focus,
@@ -273,7 +269,7 @@ button {
 
 table {
   width: 100%;
-  background-color: #FFFFFF;
+  background-color: var(--white);
   border-collapse: collapse;
   border: 1px solid var(--alpha);
   color: var(--alpha);
@@ -327,7 +323,7 @@ table thead {
 
 .button:hover,
 .button:focus {
-  background: var(--Blue) !important;
+  background: var(--Blue);
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
 }
@@ -405,13 +401,12 @@ h6 {
 }
 
 /* Login Register */
-
 .auth {
   display: block;
   width: 100%;
   padding: 40px 0;
   margin: 0;
-  border-top: 2px solid var(--beta) !important;
+  border-top: 2px solid var(--dark) !important;
 }
 
 .auth_form {
@@ -451,7 +446,7 @@ h6 {
   font-weight: bold;
   line-height: 49px;
   margin-bottom: 26px;
-  color: var(--beta);
+  color: var(--dark);
 }
 
 .auth_form .title-dark span {
@@ -472,7 +467,7 @@ h6 {
 }
 
 .auth_form .boxwrap a:hover {
-  color: var(--beta);
+  color: var(--dark);
 }
 
 .auth_form .boxwrap .form-check {
@@ -553,7 +548,6 @@ h6 {
 
 .back_link {
   display: flex;
-  /* justify-content: flex-end; */
   padding: 15px 0px 0px 0px;
   align-items: center;
   width: 100%;
@@ -570,7 +564,7 @@ h6 {
 .back_link a {
   display: inline-block;
   width: auto !important;
-  color: var(--beta) !important;
+  color: var(--dark) !important;
 }
 
 .back_link a:hover {
@@ -580,7 +574,7 @@ h6 {
 .back_link .verify_link {
   display: inline-block;
   width: auto !important;
-  color: var(--beta) !important;
+  color: var(--dark) !important;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
@@ -652,8 +646,6 @@ h6 {
 /* Modal Design */
 
 /* Admin Buttons Start */
-
-
 .admin_table .table-responsive table .table_body tr td .admin_action_delete,
 .admin_table .table-responsive table .table_body tr td .admin_action_edit,
 .admin_table .table-responsive table .table_body tr td .admin_action_clone {
@@ -691,9 +683,36 @@ h6 {
   background: var(--blue-shade) !important;
   color: var(--white) !important;
   border: none;
-    display: flex;
+  display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.comman_admin_layout .admin_form_panel form .approve-btn {
+  background: var(--green-shade);
+}
+
+.comman_admin_layout .admin_form_panel form .approve-btn:hover {
+  background: var(--green-shade) !important;
+  opacity: 0.8;
+}
+
+.comman_admin_layout .admin_form_panel form .save-btn {
+  background: var(--slat-gray);
+}
+
+.comman_admin_layout .admin_form_panel form .save-btn:hover {
+  background: var(--slat-gray) !important;
+  opacity: 0.8;
+}
+
+.comman_admin_layout .admin_form_panel form .reject-btn {
+  background: var(--badge_failed);
+}
+
+.comman_admin_layout .admin_form_panel form .reject-btn:hover {
+  background: var(--badge_failed) !important;
+  opacity: 0.8;
 }
 
 .admin_table .table-responsive table .table_body tr td .admin-actiob-download-csv:hover,
@@ -726,53 +745,9 @@ h6 {
 .admin_table .table-responsive table .table_body tr td .admin_action_clone i:hover {
   opacity: 0.6;
 }
-
-/* .view-edit {
-  background: var(--Blue) !important;
+.admin_table .table-responsive table tr .th-space{
+  width: 150px;
 }
-
-.clone {
-  background: var(--slat-gray) !important;
-}
-
-.deleted {
-  background: var(--badge_failed) !important;
-}
-
-.download-pdf {
-  background: #0d6efd !important;
-}
-
-.download-csv {
-  background: #20c997 !important;
-}
-
-.view-edit:hover {
-  opacity: 0.6;
-  background: var(--Blue) !important;
-}
-
-.clone:hover {
-  opacity: 0.6;
-  background: var(--slat-gray) !important;
-}
-
-.deleted:hover {
-  opacity: 0.6;
-  background: var(--badge_failed) !important;
-}
-
-.download-pdf:hover {
-  opacity: 0.6;
-  background: #0d6efd !important;
-}
-
-.download-csv:hover {
-  opacity: 0.6;
-  background: #20c997 !important;
-} */
-
-
 /* Admin Buttons End */
 
 /* Sidebar Start */
@@ -990,7 +965,7 @@ button.admin_menuToggler {
   width: 100%;
   margin: 0 0 0px;
   padding: 0 0 10px;
-  border-bottom: 2px solid var(--beta) !important;
+  border-bottom: 2px solid var(--dark) !important;
 }
 
 .comman_admin_layout .title_head h1 {
@@ -1011,7 +986,7 @@ button.admin_menuToggler {
 
 .comman_admin_layout .admin_form_panel button:hover,
 .comman_admin_layout .admin_form_panel button:visited {
-  background: var(--Blue) !important;
+  background: var(--Blue);
   opacity: 0.8;
   transition: background-color, box-shadow 1s ease;
   color: var(--white);
@@ -1109,14 +1084,13 @@ button.admin_menuToggler {
 }
 
 .comman_admin_layout .admin_table .form-check-input:checked {
-  background-color: #0d6efd;
-  border-color: #0d6efd !important;
+  background-color: var(--blue-shade);
+  border-color: var(--blue-shade) !important;
 }
 
 .comman_admin_layout .admin_table .form-check-input,
 .comman_admin_layout .admin_table .form-check-input:focus,
-.comman_admin_layout .admin_table .form-check-input:active,
-.comman_admin_layout .admin_table .form-check-input:hover {
+.comman_admin_layout .admin_table .form-check-input:active {
   border: 1px solid var(--alpha) !important;
 }
 
@@ -1127,7 +1101,7 @@ button.admin_menuToggler {
   right: 14px;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #81898f;
+  color: var(--slat-gray);
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
@@ -1216,7 +1190,7 @@ button.admin_menuToggler {
 }
 
 .admin_table .table-responsive table thead {
-  background-color: var(--beta) !important;
+  background-color: var(--dark) !important;
   color: var(--white);
 }
 
@@ -1264,9 +1238,21 @@ button.admin_menuToggler {
   opacity: 0.8;
 }
 
+.admin_table .table-responsive table .table_body tr td small .doc-file,
+.doc-file {
+  height: 40px;
+  width: 40px;
+}
+
+.admin_table .table-responsive table .table_body tr td .status-dropdown {
+  font-size: 10px !important;
+  width: 80% !important;
+  margin: 1px;
+}
+
 .admin_table .table-responsive table .table_body .permission-item .permission-badges .badge {
   color: var(--white) !important;
-  background-color: var(--black) !important;
+  background-color: var(--dark) !important;
 }
 
 .admin_table .table-responsive table .table_body .permission-item .permission-badges .badge:hover {
@@ -1367,7 +1353,7 @@ button.admin_menuToggler {
 
 .admin_table .pagination li.disabled a {
   background-color: #e9ecef;
-  color: var(--black);
+  color: var(--dark);
   cursor: not-allowed;
 }
 
@@ -1375,14 +1361,14 @@ button.admin_menuToggler {
 
 /* Loader Start */
 .spinner-border {
-  color: var(--beta)
+  color: var(--dark)
 }
 
 /* Loader End */
 
 /* chat box start  */
 .chat-container {
-  background: #f5f8fa;
+  background: var(--bg-light);
   width: calc(100% - 250px);
   height: 100%;
   color: var(--dark);
@@ -1403,7 +1389,7 @@ button.admin_menuToggler {
   width: 100%;
   margin: 0 0 0px;
   padding: 0 0 10px;
-  border-bottom: 2px solid var(--beta) !important;
+  border-bottom: 2px solid var(--dark) !important;
 }
 
 .chat-container .title_head h1 {
@@ -1415,20 +1401,20 @@ button.admin_menuToggler {
 }
 
 .chat-container .chat h1 {
-  border-bottom: 2px solid #d1d5db;
+  border-bottom: 2px solid var(--border-gray);
   background-color: var(--white);
   padding: 15px;
-  color: var(--black);
+  color: var(--dark);
   margin-bottom: 0;
   font-weight: 100 !important;
   font-size: 25px;
 }
 
 .chat-container .chat .title {
-  border-bottom: 2px solid #d1d5db;
+  border-bottom: 2px solid var(--border-gray);
   background-color: var(--white);
   padding: 15px;
-  color: var(--black);
+  color: var(--dark);
   margin-bottom: 0;
   line-height: 32px;
   font-weight: 500;
@@ -1466,18 +1452,18 @@ button.admin_menuToggler {
 }
 
 .chat-container .chat .box .user-chat p .icon-name .name small {
-  color: var(--black);
+  color: var(--dark);
   font-weight: 600;
   font-size: 13px;
 }
 
 .chat-container .chat .box .user-chat p .icon-name .name span {
   padding-top: 10px;
-  color: var(--black);
+  color: var(--dark);
 }
 
 .chat-container .chat .box .user-chat p small {
-  color: var(--black);
+  color: var(--dark);
 }
 
 .chat-container .chat .box .user-chat p .icon-name i {
@@ -1485,8 +1471,8 @@ button.admin_menuToggler {
   font-size: 15px;
   padding: 10px;
   border-radius: 50%;
-  background: #226B73;
-  color: white;
+  background: var(--primary-dark);
+  color: var(--white);
 }
 
 .chat-container .chat .box .type-message {
@@ -1505,7 +1491,7 @@ button.admin_menuToggler {
 }
 
 .chat-container .chat .box .type-messages {
-  color: var(--black);
+  color: var(--dark);
   padding: 30px;
   font-size: 17px;
   font-weight: 600;
@@ -1515,12 +1501,12 @@ button.admin_menuToggler {
 
 .chat-container .chat .box .type-messages textarea {
   width: 450px !important;
-  border: 1.5px solid #d1d5db;
+  border: 1.5px solid var(--border-gray);
 }
 
 .chat-container .chat .box .type-messages button {
-  background: #f1f3f5 !important;
-  color: #b3b5b6;
+  background: var(--bg-muted) !important;
+  color: var(--text-gray);
   width: fit-content;
 }
 
@@ -1573,7 +1559,7 @@ button.admin_menuToggler {
 }
 
 .main-toolbar .editor-toolbar label input {
-  border: 1px solid #ddd !important;
+  border: 1px solid var(--line-gray) !important;
   border-radius: 6px 8px;
   width: 40px;
   text-align: center;
@@ -1590,14 +1576,14 @@ button.admin_menuToggler {
 }
 
 .main-toolbar .editor-toolbar button {
-  border: 1px solid #ddd !important;
+  border: 1px solid var(--line-gray) !important;
   border-radius: 6px 8px;
   padding: 0px 10px 5px 10px;
 }
 
 .main-toolbar .editor-toolbar select {
   height: 30px;
-  border: 1px solid #ddd !important;
+  border: 1px solid var(--line-gray) !important;
   border-radius: 6px 8px;
 }
 
@@ -1651,7 +1637,7 @@ button.admin_menuToggler {
 }
 
 .main-toolbar .toolbar .dropdown ul li .dropdown-item .green {
-  color: var(--btn-main);
+  color: var(--badge_success);
 }
 
 .main-toolbar .toolbar .dropdown ul li .dropdown-item .blue {
@@ -1730,34 +1716,5 @@ button.admin_menuToggler {
 .ReactTags__tagInput {
   width: 100%;
 }
-
-
-/* .permission-badges {
-  margin-top: 2px;
-  padding: 10px 10px 10px 20px;
-  display: flex;
-  align-items: center;
-  padding-top: 10px;
-  margin-top: 2px;
-  max-width: 150px;
-}
-
-.permission-badges strong {
-  min-width: 100px;
-  font-size: 18px;
-} */
-
-/* .badge {
-  font-size: 10px;
-  padding: 2px 6px;
-} */
-
-/* .permission-badges .badge {
-  font-size: 14px;
-  padding: 6px 6px;
-  margin-right: 4px;
-} */
-
-
 
 /* badge end  */

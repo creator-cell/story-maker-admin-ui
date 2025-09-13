@@ -257,7 +257,6 @@ const AddPlans = () => {
                       <button
                         type="button"
                         className="button"
-                        style={{ backgroundColor: "rgba(108, 117, 125, 1)" }}
                         onClick={() => router.push("/admin/plans")}
                       >
                         Cancel

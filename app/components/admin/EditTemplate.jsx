@@ -299,36 +299,31 @@ export default function EditTemplatePage({ id, isClone }) {
 
                       {/* Fabric Editor */}
                       <div className="col-lg-12 col-md-12 col-12 mb-3 main-toolbar">
-                        {/* <div className="form_group"> */}
                         <label className="pb-4">Template Editor</label>
                         <FabricTextEditorToolbar fRef={fabricRef} />
-                        {/* </div> */}
                         <FabricToolbar fRef={fabricRef} />
                       </div>
+
                       <div className="col-lg-12 col-md-12 col-12 mb-3">
                         <canvas id="fabricCanvas" ref={canvasRef} />
                       </div>
-                      {/* Action Buttons */}
 
+                      {/* Action Buttons */}
                       <div className="col-12 mt-3 d-flex gap-3">
-                        <button type="submit" className="button">
-                          Save
-                        </button>
                         {userObj?.role.name === "Super Admin" && (
                           <button
                             type="button"
-                            className="button"
-                            style={{ backgroundColor: "#198754" }}
+                            className="button approve-btn"
                             onClick={() => setApproveModel(true)}
                           >
                             Approve
                           </button>
                         )}
+                        <button type="submit" className="button save-btn">Save</button>
                         {userObj?.role.name === "Super Admin" && (
                           <button
                             type="button"
-                            className="button"
-                            style={{ backgroundColor: "#dc3545" }}
+                            className="button reject-btn"
                             onClick={() => setShowRejectModal(true)}
                           >
                             Reject

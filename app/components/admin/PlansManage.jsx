@@ -38,14 +38,14 @@ const PlansManage = () => {
 
 
   const getPlans = async (page = 1, sort = sortByValue, search = "", order = sortOrder) => {
+    setLoader(true);
     try {
-      setLoader(true);
       let url = `${API_URL}plan?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
       if (search && search.trim()) url += `&search=${encodeURIComponent(search.trim())}`;
 
-      const response = await axios({    
+      const response = await axios({
         url: url,
         method: "GET",
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -239,7 +239,7 @@ const PlansManage = () => {
                           <th>Duration </th>
                           <th>Features</th>
                           <th>Uploaded By</th>
-                          {hasWritePermission() && <th style={{ width: "10%" }}>Action</th>}
+                          {hasWritePermission() && <th>Action</th>}
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -267,14 +267,12 @@ const PlansManage = () => {
                                     <button
                                       className="admin_action_edit"
                                       onClick={() => handleEditPlans(plan._id)}
-                                    // title="Edit Asset"
                                     >
                                       <i className="fa fa-edit"></i>
                                     </button>
                                     <button
                                       className="admin_action_delete"
                                       onClick={() => handlePlanDelete(plan._id)}
-                                    // title="Delete User"
                                     >
                                       <i className="fa fa-trash"></i>
                                     </button>

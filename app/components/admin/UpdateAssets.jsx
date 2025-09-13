@@ -158,8 +158,8 @@ const UpdateAssets = () => {
                                                 <label htmlFor="full-name" className="form-label">Document</label>
                                                 <div className="d-flex align-items-center gap-2">
                                                     { oldDocument ?
-                                                        <div className="d-flex align-items-center gap-2">
-                                                            <div className="doc-file" style={{ width: 40, height: 40 }}>
+                                                        <div className="d-flex align-items-center gap-2 pb-2">
+                                                            <div className="doc-file">    
                                                                 <FileIcon extension={oldDocument?.split('/assets/')[1]?.split('.')[1]} {...defaultStyles[oldDocument?.split('/assets/')[1]?.split('.')[1]]} />
                                                             </div>
                                                             {/* <button className='button align-self-end yellow p-1 rounded-pill' onClick={(e) => {

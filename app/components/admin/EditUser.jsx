@@ -156,7 +156,7 @@ export default function EditUser({ userId }) {
                                             <div className="col-lg-6 col-md-6 col-12">
                                                 <div className="form_group">
                                                     <label htmlFor="email">Email  <span className="text-danger"> *</span></label>
-                                                    <input type="email" name="" id="email" className="form-control" style={{ border: "none" }}
+                                                    <input type="email" name="" id="email" className="form-control border-0"
                                                         {...register("email")}
                                                         readOnly disabled />
                                                 </div>

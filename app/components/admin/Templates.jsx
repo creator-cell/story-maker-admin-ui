@@ -117,6 +117,7 @@ export default function Template() {
   };
 
   const handleDownloadPDF = (tpl) => {
+
     if (!tpl.content) {
       toast.error("No template data found");
       return;
@@ -222,12 +223,6 @@ export default function Template() {
                           />
                           <i
                             className="fa-solid fa-magnifying-glass"
-                          // style={{
-                          //   right: "10px",
-                          //   top: "50%",
-                          //   transform: "translateY(-50%)",
-                          //   color: "#6c757d",
-                          // }}
                           ></i>
                         </div>
                         <button
@@ -244,7 +239,6 @@ export default function Template() {
                               setSearch("");
                               getTemplates(1, "");
                             }}
-                            style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -271,11 +265,11 @@ export default function Template() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th>Category</th>
-                          <th>Subcategory</th>
-                          <th>Status</th>
-                          <th>Action</th>
+                          <th className="th-space">Name</th>
+                          <th className="th-space">Category</th>
+                          <th className="th-space">Subcategory</th>
+                          <th className="th-space">Status</th>
+                          <th className="th-space">Action</th>
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -288,8 +282,8 @@ export default function Template() {
                               <td>
                                 <span
                                   className={`badge ${tpl.status === "approved"
-                                      ? "bg-success"
-                                      : "bg-warning"
+                                    ? "bg-success"
+                                    : "bg-warning"
                                     }`}
                                 >
                                   {tpl.status}
@@ -297,40 +291,37 @@ export default function Template() {
                               </td>
                               <td>
                                 <div className="d-flex justify-content-start align-items-center gap-2">
-                                  <button
+                                  <button title="Edit Template"
                                     className="admin_action_edit"
                                     onClick={() => handleEdit(tpl._id)}
                                   >
-                                    {/* View/Edit */}
-                                    <i class="fa-solid fa-pencil"></i>
+                                    <i className="fa fa-edit"></i>
                                   </button>
-                                  <button
+                                  <button title="Clone Template"
                                     className="admin_action_clone"
                                     onClick={() => handleClone(tpl._id)}
                                   >
                                     <i class="fa fa-clone"></i>
-                                    {/* Clone */}
                                   </button>
-                                  <button
+                                  <button title="Delete Template"
                                     className="admin_action_delete"
                                     onClick={() => handleDelete(tpl._id)}
                                   >
                                     <i class="fa fa-trash"></i>
-                                    {/* Delete */}
                                   </button>
-                                  <button
+                                  <button title="Download PDF"
                                     className="admin-action-download-pdf"
                                     onClick={() => handleDownloadPDF(tpl)}
                                   >
                                     Download <i><img src="/images/pdf.png" alt="" /></i>
                                   </button>
-                                  <button
+                                  <button title="Download CSV"
                                     className="admin-actiob-download-csv"
                                     onClick={() => handleDownloadCSV(tpl)}
                                   >
                                     Download  <i><img src="/images/csv.png" alt="" /></i>
                                   </button>
-                                  </div>
+                                </div>
                               </td>
                             </tr>
                           ))}
