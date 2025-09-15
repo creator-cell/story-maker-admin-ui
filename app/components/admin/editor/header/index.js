@@ -81,8 +81,8 @@ function Header() {
   };
 
   return (
-    <header className="header-gradient header flex items-center justify-between px-4 h-14">
-      <div className="flex items-center space-x-2">
+    <header className="header-gradient header d-flex align-items-center justify-content-between px-4 h-14">
+      <div className="d-flex align-items-center gap-2">
         <Link href={"/"}>
           <Image
             src="https://static.canva.com/web/images/856bac30504ecac8dbd38dbee61de1f1.svg"
@@ -94,7 +94,7 @@ function Header() {
         </Link>
         <DropdownMenu>
           <DropdownMenuTrigger asChild="true">
-            <button className="header-button flex items-center text-white">
+            <button className="header-button d-flex align-items-center text-white">
               <span>{isEditing ? "Editing" : "Viewing"}</span>
               <ChevronDown className="ml-1 h-4 w-4" />
             </button>
@@ -111,8 +111,8 @@ function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
         <button
-          className={
-            "relative flex items-center justify-center p-1.5 rounded-md hover:bg-muted transition-colors"
+          className={ 
+            "save position-relative d-flex align-items-center justify-content-center border-0 text-white"
           }
           title={saveStatus !== "Saving..." ? "Save" : saveStatus}
           disabled={saveStatus === "Saving..."}
@@ -140,19 +140,19 @@ function Header() {
           <Download className="w-5 h-5" />
         </button>
       </div>
-      <div className="flex-1 flex justify-center max-w-md">
-        <Input
-          className="w-full"
+      <div className="flex-1 d-flex justify-content-center mw-100">
+        <Input 
+          className="search-input w-full text-white rounded-3"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
-      <div className="flex items-center space-x-3">
+      <div className="d-flex align-items-center gap-3">
         <button
           onClick={() => setShowPremiumModal(true)}
-          className="upgrade-button flex items-center bg-white/10 hover:bg-white/20 text-white rounded-md h-9 px-3 transition-colors"
+          className="upgrade-button d-flex align-items-center text-white rounded-3 border-0"
         >
-          <Star className="mr-1 h-4 w-4 text-yellow-400" />
+          <Star className="mr-1 h-4 w-4 text-warning" />
           <span>
             {!userSubscription?.isPremium
               ? "Upgrade To Premium"
@@ -160,8 +160,8 @@ function Header() {
           </span>
         </button>
         <DropdownMenu>
-          <DropdownMenuTrigger aschild="true">
-            <div className="flex items-center space-x-2 ">
+          <DropdownMenuTrigger aschild="true" className="icon-btn border-0 bg-success">
+            <div className="d-flex align-items-center gap-2 justify-content-center">
               <Avatar>
                 <AvatarFallback>{"U"}</AvatarFallback>
                 <AvatarImage src={"/placeholder-user.jpg"} />

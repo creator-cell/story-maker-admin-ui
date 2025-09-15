@@ -81,13 +81,13 @@ function ElementsPanel() {
   };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-4">
-        <div className="grid grid-cols-3 gap-1">
+    <>
+      <div className="container">
+        <div className="row h-100 overflow-auto">
           {shapeTypes.map((shapeType) => (
             <div
-              style={{ height: "90px" }}
-              className="cursor-pointer flex flex-col items-center justify-center"
+              // style={{ height: "90px" }}
+              className="col-6 col-md-4 col-lg-4 d-flex align-items-center justify-content-center cursor-pointer"
               key={shapeType}
               onClick={() => handleShapeClick(shapeType)}
             >
@@ -100,7 +100,7 @@ function ElementsPanel() {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

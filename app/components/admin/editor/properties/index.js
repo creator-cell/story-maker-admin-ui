@@ -165,7 +165,7 @@ function Properties() {
       }
     };
 
-    const handleSelectionCleared = () => {};
+    const handleSelectionCleared = () => { };
 
     const activeObject = canvas.getActiveObject();
     if (activeObject) {
@@ -396,274 +396,332 @@ function Properties() {
   };
 
   return (
-    <div className="fixed right-0 top-[56px] bottom-[0px] w-[280px] bg-white border-l border-gray-200 z-10">
-      <div className="flex items-center justify-between p-3 border-b">
-        <div className="flex items-center gap-2">
-          <span className="font-medium">Properties</span>
-        </div>
-      </div>
-      <div className="h-[calc(100%-96px)] overflow-auto p-4 space-y-6">
-        <h3 className="text-sm font-medium">Size & Position</h3>
-        {/* Width & Height */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1">
-            <Label className={"text-xs"}>Width</Label>
-            <div className="h-9 px-3 py-2 border rounded-md flex items-center">
-              {width}
-            </div>
-          </div>
-          <div className="space-y-1">
-            <Label className={"text-xs"}>height</Label>
-            <div className="h-9 px-3 py-2 border rounded-md flex items-center">
-              {height}
-            </div>
+    <>
+      <div className="properties">
+        <div className="d-flex align-items-center justify-content-between p-3 border-bottom">
+          <div className="d-flex align-items-center gap-2 ">
+            <span className="font-medium">Properties</span>
           </div>
         </div>
-        {/* Opacity */}
-        <div className="space-y-2">
-          <div className="flex justify-between">
-            <Label htmlFor="opacity" className={"text-xs"}>
-              Opacity
-            </Label>
-            <span>{opacity}%</span>
-          </div>
-          <Slider
-            id="opacity"
-            min={0}
-            max={100}
-            step={1}
-            value={[opacity]}
-            onValueChange={(value) => handleOpacityChange(value)}
-          />
-        </div>
-        {/* Flip H, Flip V */}
-        <div className="flex flex-wrap gap-2">
-          <Button
-            onClick={handleFlipHorizontal}
-            variant={"outline"}
-            size="sm"
-            className={"h-8 text-xs"}
-          >
-            <FlipHorizontal className="h-4 w-4 mr-1" />
-            Flip H
-          </Button>
-          <Button
-            variant={"outline"}
-            onClick={handleFlipVertical}
-            size="sm"
-            className={"h-8 text-xs"}
-          >
-            <FlipVertical className="h-4 w-4 mr-1" />
-            Flip V
-          </Button>
-        </div>
-
-        {/* Arrangement */}
-        <div className="space-y-4 pt-4 border-t">
-          <h3 className="text-sm font-medium">Layer Position</h3>
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              onClick={handleBringToFront}
-              variant={"outline"}
-              size="sm"
-              className={"h-8 text-xs"}
-            >
-              <MoveUp className="h-4 w-4" />
-              <span>Bring to front</span>
-            </Button>
-            <Button
-              onClick={handleSendToBack}
-              variant={"outline"}
-              size="sm"
-              className={"h-8 text-xs"}
-            >
-              <MoveDown className="h-4 w-4" />
-              <span>Send to back</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* Duplicate and delete */}
-        <div className="space-y-4 pt-4 border-t">
-          <h3 className="text-sm font-medium">Duplicate and Delete</h3>
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              onClick={handleDuplicate}
-              variant={"default"}
-              size="sm"
-              className={"h-8 text-xs"}
-            >
-              <Copy className="h-4 w-4" />
-              <span>Duplicate</span>
-            </Button>
-            <Button
-              onClick={handleDelete}
-              variant={"destructive"}
-              size="sm"
-              className={"h-8 text-xs"}
-            >
-              <Trash className="h-4 w-4" />
-              <span>Delete</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* Text related properties */}
-        {objectType === "text" && (
-          <div className="space-y-4 border-t">
-            <h3 className="text-sm font-medium">Text Properties</h3>
-            <div className="space-y-2">
-              <Label className={"text-xs"} htmlFor="text-content">
-                Text Content
-              </Label>
-              <Textarea
-                id="text-content"
-                value={text}
-                onChange={handleTextChange}
-                className={"h-20 resize-none"}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className={"text-xs"} htmlFor="font-size">
-                Font Size
-              </Label>
-              <Input
-                id="font-size"
-                value={fontSize}
-                onChange={(e) => handleFontSizeChange(e)}
-                className={"w-16 h-7 text-xs"}
-                type={"number"}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="font-family" className="text-sm">
-                Font family
-              </Label>
-              <Select value={fontFamily} onValueChange={handleFontFamilyChange}>
-                <SelectTrigger id="font-family" className={"h-10"}>
-                  <SelectValue placeholder="Select Font" />
-                </SelectTrigger>
-                <SelectContent>
-                  {fontFamilies.map((fontItem) => (
-                    <SelectItem
-                      key={fontItem}
-                      value={fontItem}
-                      style={{ fontFamily: fontItem }}
-                    >
-                      {fontItem}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-sm">Style</Label>
-              <div className="flex gap-2">
-                <Button
-                  variant={fontWeight === "bold" ? "default" : "outline"}
-                  size="icon"
-                  onClick={handleToggleBold}
-                  className={"w-8 h-8"}
-                >
-                  <Bold className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant={fontStyle === "italic" ? "default" : "outline"}
-                  size="icon"
-                  onClick={handleToggleItalic}
-                  className={"w-8 h-8"}
-                >
-                  <Italic className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant={underline ? "default" : "outline"}
-                  size="icon"
-                  onClick={handleToggleUnderline}
-                  className={"w-8 h-8"}
-                >
-                  <Underline className="w-4 h-4" />
-                </Button>
+        <div className="overflow-auto p-4">
+          <h3 className="fs-6 fw-medium fw-bold">Size & Position</h3>
+          {/* Width & Height */}
+          <div className="d-flex gap-3">
+            <div className="w-50">
+              <Label className={"text-xs"}>Width</Label>
+              <div className="h-9 px-3 py-2 border rounded d-flex align-items-center">
+                {width}
               </div>
             </div>
+            <div className="w-50">
+                <Label className={"text-xs"}>height</Label>
+                <div className="h-9 px-3 py-2 border rounded d-flex align-items-center">
+                  {height}
+                </div>
+            </div>
+          </div>
+          {/* Opacity */}
+          <div className="space-y-2">
             <div className="flex justify-between">
-              <div className="space-y-2">
-                <Label htmlFor="text-color" className="text-sm">
-                  Text Color
-                </Label>
-                <div className="relative w-8 h-8 overflow-hidden rounded-md border">
-                  <div
-                    className="absolute inset-0"
-                    style={{ backgroundColor: textColor }}
-                  />
-                  <Input
-                    id="text-color"
-                    type="color"
-                    value={textColor}
-                    onChange={handleToggleTextColorChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="text-bg-color" className="text-sm">
-                  Text BG Color
-                </Label>
-                <div className="relative w-8 h-8 overflow-hidden rounded-md border">
-                  <div
-                    className="absolute inset-0"
-                    style={{ backgroundColor: textBackgroundColor }}
-                  />
-                  <Input
-                    id="text-bg-color"
-                    type="color"
-                    value={textBackgroundColor}
-                    onChange={handleToggleTextBackgroundColorChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
-                </div>
-              </div>
+              <Label htmlFor="opacity" className={"text-xs"}>
+                Opacity
+              </Label>
+              <span>{opacity}%</span>
             </div>
-            <div className="space-y-2">
+            <Slider
+              id="opacity"
+              min={0}
+              max={100}
+              step={1}
+              value={[opacity]}
+              onValueChange={(value) => handleOpacityChange(value)}
+            />
+          </div>
+          {/* Flip H, Flip V */}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              onClick={handleFlipHorizontal}
+              variant={"outline"}
+              size="sm"
+              className={"h-8 text-xs"}
+            >
+              <FlipHorizontal className="h-4 w-4 mr-1" />
+              Flip H
+            </Button>
+            <Button
+              variant={"outline"}
+              onClick={handleFlipVertical}
+              size="sm"
+              className={"h-8 text-xs"}
+            >
+              <FlipVertical className="h-4 w-4 mr-1" />
+              Flip V
+            </Button>
+          </div>
+
+          {/* Arrangement */}
+          <div className="space-y-4 pt-4 border-t">
+            <h3 className="text-sm font-medium">Layer Position</h3>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                onClick={handleBringToFront}
+                variant={"outline"}
+                size="sm"
+                className={"h-8 text-xs"}
+              >
+                <MoveUp className="h-4 w-4" />
+                <span>Bring to front</span>
+              </Button>
+              <Button
+                onClick={handleSendToBack}
+                variant={"outline"}
+                size="sm"
+                className={"h-8 text-xs"}
+              >
+                <MoveDown className="h-4 w-4" />
+                <span>Send to back</span>
+              </Button>
+            </div>
+          </div>
+
+          {/* Duplicate and delete */}
+          <div className="space-y-4 pt-4 border-t">
+            <h3 className="text-sm font-medium">Duplicate and Delete</h3>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                onClick={handleDuplicate}
+                variant={"default"}
+                size="sm"
+                className={"h-8 text-xs"}
+              >
+                <Copy className="h-4 w-4" />
+                <span>Duplicate</span>
+              </Button>
+              <Button
+                onClick={handleDelete}
+                variant={"destructive"}
+                size="sm"
+                className={"h-8 text-xs"}
+              >
+                <Trash className="h-4 w-4" />
+                <span>Delete</span>
+              </Button>
+            </div>
+          </div>
+
+          {/* Text related properties */}
+          {objectType === "text" && (
+            <div className="space-y-4 border-t">
+              <h3 className="text-sm font-medium">Text Properties</h3>
+              <div className="space-y-2">
+                <Label className={"text-xs"} htmlFor="text-content">
+                  Text Content
+                </Label>
+                <Textarea
+                  id="text-content"
+                  value={text}
+                  onChange={handleTextChange}
+                  className={"h-20 resize-none"}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className={"text-xs"} htmlFor="font-size">
+                  Font Size
+                </Label>
+                <Input
+                  id="font-size"
+                  value={fontSize}
+                  onChange={(e) => handleFontSizeChange(e)}
+                  className={"w-16 h-7 text-xs"}
+                  type={"number"}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="font-family" className="text-sm">
+                  Font family
+                </Label>
+                <Select value={fontFamily} onValueChange={handleFontFamilyChange}>
+                  <SelectTrigger id="font-family" className={"h-10"}>
+                    <SelectValue placeholder="Select Font" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {fontFamilies.map((fontItem) => (
+                      <SelectItem
+                        key={fontItem}
+                        value={fontItem}
+                        style={{ fontFamily: fontItem }}
+                      >
+                        {fontItem}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm">Style</Label>
+                <div className="flex gap-2">
+                  <Button
+                    variant={fontWeight === "bold" ? "default" : "outline"}
+                    size="icon"
+                    onClick={handleToggleBold}
+                    className={"w-8 h-8"}
+                  >
+                    <Bold className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant={fontStyle === "italic" ? "default" : "outline"}
+                    size="icon"
+                    onClick={handleToggleItalic}
+                    className={"w-8 h-8"}
+                  >
+                    <Italic className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant={underline ? "default" : "outline"}
+                    size="icon"
+                    onClick={handleToggleUnderline}
+                    className={"w-8 h-8"}
+                  >
+                    <Underline className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
               <div className="flex justify-between">
-                <Label className={"text-xs"} htmlFor="letter-spacing">
-                  Letter Spacing
-                </Label>
-                <span className="text-xs">{letterSpacing}</span>
-              </div>
-              <Slider
-                id="letter-spacing"
-                min={-200}
-                max={800}
-                step={10}
-                value={[letterSpacing]}
-                onValueChange={(value) => handleLetterSpacingChange(value)}
-              />
-            </div>
-          </div>
-        )}
-
-        {objectType === "shape" && (
-          <div className="space-y-4 p-4 border-t">
-            <h3 className="text-sm font-medium">Shape Properties</h3>
-            <div className="flex justify-between">
-              <div className="space-y-2">
-                <Label htmlFor="fill-color" className="text-xs">
-                  Fill Color
-                </Label>
-                <div className="relative w-8 h-8 overflow-hidden rounded-md border">
-                  <div
-                    className="absolute inset-0"
-                    style={{ backgroundColor: fillColor }}
-                  />
-                  <Input
-                    id="fill-color"
-                    type="color"
-                    value={fillColor}
-                    onChange={handleFillColorChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
+                <div className="space-y-2">
+                  <Label htmlFor="text-color" className="text-sm">
+                    Text Color
+                  </Label>
+                  <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                    <div
+                      className="absolute inset-0"
+                      style={{ backgroundColor: textColor }}
+                    />
+                    <Input
+                      id="text-color"
+                      type="color"
+                      value={textColor}
+                      onChange={handleToggleTextColorChange}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="text-bg-color" className="text-sm">
+                    Text BG Color
+                  </Label>
+                  <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                    <div
+                      className="absolute inset-0"
+                      style={{ backgroundColor: textBackgroundColor }}
+                    />
+                    <Input
+                      id="text-bg-color"
+                      type="color"
+                      value={textBackgroundColor}
+                      onChange={handleToggleTextBackgroundColorChange}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
                 </div>
               </div>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <Label className={"text-xs"} htmlFor="letter-spacing">
+                    Letter Spacing
+                  </Label>
+                  <span className="text-xs">{letterSpacing}</span>
+                </div>
+                <Slider
+                  id="letter-spacing"
+                  min={-200}
+                  max={800}
+                  step={10}
+                  value={[letterSpacing]}
+                  onValueChange={(value) => handleLetterSpacingChange(value)}
+                />
+              </div>
+            </div>
+          )}
+
+          {objectType === "shape" && (
+            <div className="space-y-4 p-4 border-t">
+              <h3 className="text-sm font-medium">Shape Properties</h3>
+              <div className="flex justify-between">
+                <div className="space-y-2">
+                  <Label htmlFor="fill-color" className="text-xs">
+                    Fill Color
+                  </Label>
+                  <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                    <div
+                      className="absolute inset-0"
+                      style={{ backgroundColor: fillColor }}
+                    />
+                    <Input
+                      id="fill-color"
+                      type="color"
+                      value={fillColor}
+                      onChange={handleFillColorChange}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="border-color" className="text-xs">
+                    Border Color
+                  </Label>
+                  <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                    <div
+                      className="absolute inset-0"
+                      style={{ backgroundColor: borderColor }}
+                    />
+                    <Input
+                      id="fill-color"
+                      type="color"
+                      value={borderColor}
+                      onChange={handleBorderColorChange}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="border-width" className={"text-xs"}>
+                  Border Width
+                </Label>
+                <span className={"text-xs mb-2"}>{borderWidth}%</span>
+                <Slider
+                  id="border-width"
+                  min={0}
+                  max={20}
+                  step={1}
+                  value={[borderWidth]}
+                  onValueChange={(value) => handleBorderWidthChange(value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="border-style" className={"text-xs"}>
+                  Border Style
+                </Label>
+                <Select
+                  value={borderStyle}
+                  onValueChange={handleBorderStyleChange}
+                >
+                  <SelectTrigger id="border-style" className={"h-10"}>
+                    <SelectValue placeholder="Select Border Style" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="solid">Solid</SelectItem>
+                    <SelectItem value="dashed">Dashed</SelectItem>
+                    <SelectItem value="dotted">Dotted</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )}
+
+          {objectType === "image" && (
+            <div className="space-y-4 p-4 border-t">
+              <h3 className="text-sm font-medium">Image Properties</h3>
               <div className="space-y-2">
                 <Label htmlFor="border-color" className="text-xs">
                   Border Color
@@ -682,190 +740,134 @@ function Properties() {
                   />
                 </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="border-width" className={"text-xs"}>
-                Border Width
-              </Label>
-              <span className={"text-xs mb-2"}>{borderWidth}%</span>
-              <Slider
-                id="border-width"
-                min={0}
-                max={20}
-                step={1}
-                value={[borderWidth]}
-                onValueChange={(value) => handleBorderWidthChange(value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="border-style" className={"text-xs"}>
-                Border Style
-              </Label>
-              <Select
-                value={borderStyle}
-                onValueChange={handleBorderStyleChange}
-              >
-                <SelectTrigger id="border-style" className={"h-10"}>
-                  <SelectValue placeholder="Select Border Style" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="solid">Solid</SelectItem>
-                  <SelectItem value="dashed">Dashed</SelectItem>
-                  <SelectItem value="dotted">Dotted</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        )}
-
-        {objectType === "image" && (
-          <div className="space-y-4 p-4 border-t">
-            <h3 className="text-sm font-medium">Image Properties</h3>
-            <div className="space-y-2">
-              <Label htmlFor="border-color" className="text-xs">
-                Border Color
-              </Label>
-              <div className="relative w-8 h-8 overflow-hidden rounded-md border">
-                <div
-                  className="absolute inset-0"
-                  style={{ backgroundColor: borderColor }}
-                />
-                <Input
-                  id="fill-color"
-                  type="color"
-                  value={borderColor}
-                  onChange={handleBorderColorChange}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="border-width" className={"text-xs"}>
-                Border Width
-              </Label>
-              <span className={"text-xs mb-2"}>{borderWidth}%</span>
-              <Slider
-                id="border-width"
-                min={0}
-                max={20}
-                step={1}
-                value={[borderWidth]}
-                onValueChange={(value) => handleBorderWidthChange(value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="border-style" className={"text-xs"}>
-                Border Style
-              </Label>
-              <Select
-                value={borderStyle}
-                onValueChange={handleBorderStyleChange}
-              >
-                <SelectTrigger id="border-style" className={"h-10"}>
-                  <SelectValue placeholder="Select Border Style" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="solid">Solid</SelectItem>
-                  <SelectItem value="dashed">Dashed</SelectItem>
-                  <SelectItem value="dotted">Dotted</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="filter" className={"text-xs"}>
-                Filter
-              </Label>
-              <Select value={filter} onValueChange={handleImageFilterChange}>
-                <SelectTrigger id="filter" className={"h-10"}>
-                  <SelectValue placeholder="Select Image Filter" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="grayscale">Grayscale</SelectItem>
-                  <SelectItem value="sepia">Sepia</SelectItem>
-                  <SelectItem value="invert">Invert</SelectItem>
-                  <SelectItem value="blur">Blur</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            {filter === "blur" && (
               <div className="space-y-2">
-                <div className="flex justify-between mb-4">
-                  <Label htmlFor="blur" className="text-xs">
-                    Blur Amount
-                  </Label>
-                  <span className="font-medium text-xs">{blur}%</span>
-                </div>
+                <Label htmlFor="border-width" className={"text-xs"}>
+                  Border Width
+                </Label>
+                <span className={"text-xs mb-2"}>{borderWidth}%</span>
                 <Slider
-                  id="blur"
+                  id="border-width"
                   min={0}
-                  max={100}
+                  max={20}
                   step={1}
-                  value={[blur]}
-                  onValueChange={(value) => handleBlurChange(value)}
+                  value={[borderWidth]}
+                  onValueChange={(value) => handleBorderWidthChange(value)}
                 />
               </div>
-            )}
-          </div>
-        )}
+              <div className="space-y-2">
+                <Label htmlFor="border-style" className={"text-xs"}>
+                  Border Style
+                </Label>
+                <Select
+                  value={borderStyle}
+                  onValueChange={handleBorderStyleChange}
+                >
+                  <SelectTrigger id="border-style" className={"h-10"}>
+                    <SelectValue placeholder="Select Border Style" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="solid">Solid</SelectItem>
+                    <SelectItem value="dashed">Dashed</SelectItem>
+                    <SelectItem value="dotted">Dotted</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="filter" className={"text-xs"}>
+                  Filter
+                </Label>
+                <Select value={filter} onValueChange={handleImageFilterChange}>
+                  <SelectTrigger id="filter" className={"h-10"}>
+                    <SelectValue placeholder="Select Image Filter" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="grayscale">Grayscale</SelectItem>
+                    <SelectItem value="sepia">Sepia</SelectItem>
+                    <SelectItem value="invert">Invert</SelectItem>
+                    <SelectItem value="blur">Blur</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              {filter === "blur" && (
+                <div className="space-y-2">
+                  <div className="flex justify-between mb-4">
+                    <Label htmlFor="blur" className="text-xs">
+                      Blur Amount
+                    </Label>
+                    <span className="font-medium text-xs">{blur}%</span>
+                  </div>
+                  <Slider
+                    id="blur"
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={[blur]}
+                    onValueChange={(value) => handleBlurChange(value)}
+                  />
+                </div>
+              )}
+            </div>
+          )}
 
-        {objectType === "path" && (
-          <div className="space-y-4 p-4 border-t">
-            <h3 className="text-sm font-medium">Path Properties</h3>
-            <div className="space-y-2">
-              <Label htmlFor="border-color" className="text-xs">
-                Border Color
-              </Label>
-              <div className="relative w-8 h-8 overflow-hidden rounded-md border">
-                <div
-                  className="absolute inset-0"
-                  style={{ backgroundColor: borderColor }}
-                />
-                <Input
-                  id="fill-color"
-                  type="color"
-                  value={borderColor}
-                  onChange={handleBorderColorChange}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
+          {objectType === "path" && (
+            <div className="space-y-4 p-4 border-t">
+              <h3 className="text-sm font-medium">Path Properties</h3>
+              <div className="space-y-2">
+                <Label htmlFor="border-color" className="text-xs">
+                  Border Color
+                </Label>
+                <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                  <div
+                    className="absolute inset-0"
+                    style={{ backgroundColor: borderColor }}
+                  />
+                  <Input
+                    id="fill-color"
+                    type="color"
+                    value={borderColor}
+                    onChange={handleBorderColorChange}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="border-width" className={"text-xs"}>
+                  Border Width
+                </Label>
+                <span className={"text-xs mb-2"}>{borderWidth}%</span>
+                <Slider
+                  id="border-width"
+                  min={0}
+                  max={20}
+                  step={1}
+                  value={[borderWidth]}
+                  onValueChange={(value) => handleBorderWidthChange(value)}
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="border-style" className={"text-xs"}>
+                  Border Style
+                </Label>
+                <Select
+                  value={borderStyle}
+                  onValueChange={handleBorderStyleChange}
+                >
+                  <SelectTrigger id="border-style" className={"h-10"}>
+                    <SelectValue placeholder="Select Border Style" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="solid">Solid</SelectItem>
+                    <SelectItem value="dashed">Dashed</SelectItem>
+                    <SelectItem value="dotted">Dotted</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="border-width" className={"text-xs"}>
-                Border Width
-              </Label>
-              <span className={"text-xs mb-2"}>{borderWidth}%</span>
-              <Slider
-                id="border-width"
-                min={0}
-                max={20}
-                step={1}
-                value={[borderWidth]}
-                onValueChange={(value) => handleBorderWidthChange(value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="border-style" className={"text-xs"}>
-                Border Style
-              </Label>
-              <Select
-                value={borderStyle}
-                onValueChange={handleBorderStyleChange}
-              >
-                <SelectTrigger id="border-style" className={"h-10"}>
-                  <SelectValue placeholder="Select Border Style" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="solid">Solid</SelectItem>
-                  <SelectItem value="dashed">Dashed</SelectItem>
-                  <SelectItem value="dotted">Dotted</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

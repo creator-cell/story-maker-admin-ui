@@ -81,7 +81,7 @@ function Sidebar() {
   const activeItem = sidebarItems.find((item) => item.id === activeSidebar);
 
   return (
-    <div className="flex h-full">
+    <div className="d-flex h-100">
       <aside className="sidebar">
         {sidebarItems.map((item) => (
           <div
@@ -113,7 +113,7 @@ function Sidebar() {
           </div>
           <div className="panel-content">{activeItem?.panel()}</div>
           <button className="collapse-button" onClick={togglePanelCollapse}>
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-50 w-50" />
           </button>
         </div>
       )}
