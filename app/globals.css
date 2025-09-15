@@ -162,7 +162,9 @@ html {
   --badge_success: #00cd78;
   --badge_pending: #ffc107;
   --badge_failed: #dc3545;
-
+  --bg-success:#198754;
+  --bg-warning:#ffc107;
+  
   --Avenir-font-family: 'Avenir LT 55 Roman';
   --Avenir-Bold-font-family: 'Avenir LT 55 Roman Bold';
 }
@@ -308,7 +310,8 @@ table thead {
   white-space: nowrap;
   font-size: 16px;
   font-weight: 600;
-  background: linear-gradient(180deg, var(--blue-shade), #00c6ff);
+  /* background: linear-gradient(180deg, var(--blue-shade), #00c6ff); */
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   color: var(--white);
   line-height: 1;
   border: 1px solid transparent;
@@ -323,9 +326,10 @@ table thead {
 
 .button:hover,
 .button:focus {
-  background: var(--Blue);
+  /* background: var(--Blue); */
   opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  /* background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); */
+  /* transition: background-color, box-shadow 1s ease; */
 }
 
 h1 {
@@ -604,25 +608,6 @@ h6 {
 /* Login Register */
 
 /* Modal Design */
-.country_list .flag_currency {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 0px;
-  padding: 10px 0;
-}
-
-.country_list .flag_currency img {
-  width: 30px;
-  height: 30px;
-}
-
-.country_list .modal-body {
-  max-height: 80vh;
-  overflow-y: scroll;
-}
-
 .user_delete p {
   display: block;
   width: 100%;
@@ -689,11 +674,11 @@ h6 {
 }
 
 .comman_admin_layout .admin_form_panel form .approve-btn {
-  background: var(--green-shade);
+  background: var(--bg-success);
 }
 
 .comman_admin_layout .admin_form_panel form .approve-btn:hover {
-  background: var(--green-shade) !important;
+  background: var(--bg-success) !important;
   opacity: 0.8;
 }
 
@@ -987,23 +972,23 @@ button.admin_menuToggler {
 .comman_admin_layout .admin_form_panel button:hover,
 .comman_admin_layout .admin_form_panel button:visited {
   background: var(--Blue);
-  opacity: 0.8;
+  opacity: 0.7;
   transition: background-color, box-shadow 1s ease;
   color: var(--white);
 }
 
 .comman_admin_layout .admin_table .table_filter button:hover,
 .comman_admin_layout .admin_table .table_filter button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  /* background: var(--Blue) !important; */
+  opacity: 0.7;
+  /* transition: background-color, box-shadow 1s ease; */
 }
 
 .comman_admin_layout .admin_forms form .button:hover,
 .comman_admin_layout .admin_forms form .button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  /* background: var(--Blue) !important; */
+  opacity: 0.7;
+  /* transition: background-color, box-shadow 1s ease; */
 }
 
 .comman_admin_layout .admin_table .form_group button {
@@ -1238,11 +1223,11 @@ button.admin_menuToggler {
   opacity: 0.8;
 }
 
-.admin_table .table-responsive table .table_body tr td small .doc-file,
-.doc-file {
+.comman_admin_layout .admin_form_panel form .form_group .doc-file {
   height: 40px;
   width: 40px;
 }
+
 
 .admin_table .table-responsive table .table_body tr td .status-dropdown {
   font-size: 10px !important;
@@ -1512,9 +1497,9 @@ button.admin_menuToggler {
 
 .chat-container .send-chat button:hover,
 .chat-container .send-chat button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  /* background: var(--Blue) !important; */
+  opacity: 0.7;
+  /* transition: background-color, box-shadow 1s ease; */
 }
 
 .chat-container .send-chat .form-control {
@@ -1528,9 +1513,9 @@ button.admin_menuToggler {
 
 .chat-container .chat .type-message button:hover,
 .chat-container .chat .type-message button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  /* background: var(--Blue) !important; */
+  opacity: 0.7;
+  /* transition: background-color, box-shadow 1s ease; */
 }
 
 /* chat box end  */
@@ -1655,9 +1640,9 @@ button.admin_menuToggler {
 
 .toolbar .button:hover,
 .toolbar .button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  /* background: var(--Blue) !important; */
+  opacity: 0.7;
+  /* transition: background-color, box-shadow 1s ease; */
 }
 
 .canvas-container {

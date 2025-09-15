@@ -228,10 +228,10 @@ export default function EditRole({ show, onHide, data, onUpdate }) {
                                                 <table className="table table-bordered">
                                                     <thead className="table-light">
                                                         <tr>
-                                                            <th style={{ width: '200px' }}>Menu</th>
-                                                            <th style={{ width: '150px' }} className="text-center">Read</th>
-                                                            <th style={{ width: '150px' }} className="text-center">Write</th>
-                                                            <th style={{ width: '150px' }} className="text-center">Both</th>
+                                                            <th>Menu</th>
+                                                            <th className="text-center">Read</th>
+                                                            <th className="text-center">Write</th>
+                                                            <th className="text-center">Both</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>

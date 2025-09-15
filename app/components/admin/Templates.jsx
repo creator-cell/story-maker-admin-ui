@@ -313,13 +313,13 @@ export default function Template() {
                                     className="admin-action-download-pdf"
                                     onClick={() => handleDownloadPDF(tpl)}
                                   >
-                                    Download <i><img src="/images/pdf.png" alt="" /></i>
+                                    Download <i><img src="/images/pdf.png" alt="pdf" /></i>
                                   </button>
                                   <button title="Download CSV"
                                     className="admin-actiob-download-csv"
                                     onClick={() => handleDownloadCSV(tpl)}
                                   >
-                                    Download  <i><img src="/images/csv.png" alt="" /></i>
+                                    Download  <i><img src="/images/csv.png" alt="csv" /></i>
                                   </button>
                                 </div>
                               </td>

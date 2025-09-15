@@ -55,14 +55,12 @@ export default function ApproveTemplate({ show, onHide, data, props }) {
                   <button
                     onClick={handleUserDelete}
                     className="button"
-                    style={{ backgroundColor: "red" }}
                   >
                     Approve
                   </button>
                   <button
                     onClick={onHide}
                     className="button"
-                    style={{ backgroundColor: "gray" }}
                   >
                     Cancel
                   </button>

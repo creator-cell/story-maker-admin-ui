@@ -138,8 +138,8 @@ const ChatHistory = ({ ticketId }) => {
                 <div key={msg._id}>
                   <di className="user-chat" >
                     <p>
-                      <div className="icon-name">
-                        <div>
+                      <div className="icon-name">   
+                        <div className="pt-1">
                           <i
                             className={
                               msg.role === "user"

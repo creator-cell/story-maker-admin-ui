@@ -156,20 +156,15 @@ const UpdateAssets = () => {
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
                                                 <label htmlFor="full-name" className="form-label">Document</label>
-                                                <div className="d-flex align-items-center gap-2">
+                                                <div className="d-flex align-items-center">
                                                     { oldDocument ?
-                                                        <div className="d-flex align-items-center gap-2 pb-2">
+                                                        <div className="d-flex gap-2">
                                                             <div className="doc-file">    
                                                                 <FileIcon extension={oldDocument?.split('/assets/')[1]?.split('.')[1]} {...defaultStyles[oldDocument?.split('/assets/')[1]?.split('.')[1]]} />
                                                             </div>
-                                                            {/* <button className='button align-self-end yellow p-1 rounded-pill' onClick={(e) => {
-                                                                e.preventDefault();
-                                                                download(oldDocument, oldDocument?.split('assets/')[1])
-                                                            }}>
-                                                                <IconDownload size={20} stroke={2} />
-                                                            </button> */}
-                                                            <a target="_blank" href={oldDocument} className='button align-self-end yellow p-1 rounded-pill'>
-                                                                <IconEye size={20} stroke={2} />
+                                                            <a target="_blank" href={oldDocument} >
+                                                                {/* <IconEye size={20} stroke={2} /> */}
+                                                                <img src="/images/eye.png" alt="Eye" className="w-75" />
                                                             </a>
                                                         </div>
                                                     : null }

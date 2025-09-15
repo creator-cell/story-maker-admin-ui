@@ -218,7 +218,7 @@ export default function EditTemplatePage({ id, isClone }) {
 
   return (
     <>
-      <div id="main_container">
+      <div id="main_container" className="bg-white">
         <div className="inner_container">
           <div className="container-lg container-fluid p-0">
             <div className="comman_admin_layout flex-column p-0">
@@ -332,7 +332,6 @@ export default function EditTemplatePage({ id, isClone }) {
                         <button
                           type="button"
                           className="button"
-                          style={{ backgroundColor: "#6c757d" }}
                           onClick={() => router.push("/admin/template")}
                         >
                           Cancel

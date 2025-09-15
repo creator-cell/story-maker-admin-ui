@@ -371,9 +371,6 @@ const AssetsManage = () => {
                                   {asset?.url ? (
                                     <>
                                       <small className="d-flex align-items-center gap-2">
-                                        <div
-                                          className="doc-file"
-                                        >
                                           <FileIcon
                                             extension={
                                               asset?.url
@@ -386,17 +383,13 @@ const AssetsManage = () => {
                                                 ?.split(".")[1]
                                             ]}
                                           />
-                                        </div>
-                                        {/* <button disabled={isInProgress} className='button align-self-end yellow p-1 rounded-pill' onClick={() => download(asset?.url, asset?.url?.split('/assets/')[1])}>
-                                      <IconDownload size={20} stroke={2} />
-                                    </button> */}
                                         <a
                                           target="_blank"
                                           href={asset?.url}
                                           disabled={isInProgress}
-                                          className="button align-self-end yellow p-1 rounded-pill"
+                                          className=""
                                         >
-                                          <IconEye size={20} stroke={2} />
+                                          <img src="/images/eye.png" alt="Eye" />
                                         </a>
                                       </small>
                                     </>
