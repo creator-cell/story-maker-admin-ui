@@ -21,7 +21,7 @@ const ChatHistory = ({ ticketId }) => {
       const response = await axios.get(`${API_URL}tickets/${ticketId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      setTicket(response.data.user);
+      setTicket(response.data.ticket);
     } catch (err) {
       toast.error("Failed to load ticket");
     } finally {
@@ -114,7 +114,8 @@ const ChatHistory = ({ ticketId }) => {
                       ></i>
                       <div className="name">
                         <small>
-                          {msg.role === "user" ? "User" : "Moderator"}
+                          {/* {msg.role === "user" ? "User" : "Moderator"} */}
+                          {msg.sender.name}
                         </small>
                       </div>
                     </div>
