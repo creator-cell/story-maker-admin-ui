@@ -48,12 +48,12 @@ function Sidebar() {
       label: "Draw",
       panel: () => <DrawingPanel />,
     },
-    {
-      id: "ai",
-      icon: Sparkle,
-      label: "AI",
-      panel: () => <AiPanel />,
-    },
+    // {
+    //   id: "ai",
+    //   icon: Sparkle,
+    //   label: "AI",
+    //   panel: () => <AiPanel />,
+    // },
     {
       id: "settings",
       icon: Settings,

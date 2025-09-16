@@ -83,15 +83,15 @@ function DrawingPanel() {
 
   return (
     <div className="p-4">
-      <div className="space-y-5">
+      <div className="">
         <Button
           variant={isDrawingMode ? "default" : "outline"}
-          className={"w-full py-6 group transition-all"}
+          className={"w-100 py-2 rounded bg-transparent d-flex justify-content-center align-items-center gap-3"}
           size="lg"
           onClick={handleToggleDrawingMode}
         >
           <PencilIcon
-            className={`mr-2 h-5 w-5 ${
+            className={` pencil-icon ${
               isDrawingMode ? "animate-bounce" : "hover:animate-bounce"
             }`}
           />

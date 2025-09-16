@@ -5,6 +5,7 @@ import { textPresets } from "../../../config";
 import { addTextToCanvas } from "./../../../fabric/fabric-utils";
 import { useEditorStore } from "../../../../../redux/UserStore";
 import { Type } from "lucide-react";
+import { Label } from "@radix-ui/react-dropdown-menu";
 
 function TextPanel() {
   const { canvas } = useEditorStore();
@@ -21,23 +22,25 @@ function TextPanel() {
   };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="p-4 space-y-4">
+    <div className="overflow-auto">
+      <div className="p-4 mt-2">
+        <div className="add-text-btn">
         <Button
           onClick={handleAddCustomTextBox}
-          className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-md flex items-center justify-center transition-colors"
+          className="w-100 py-2 text-white rounded d-flex align-items-center justify-content-center border-0 gap-3"
         >
-          <Type className="mr-2 h-5 w-5" />
-          <span className="font-medium">Add a text box</span>
+          <Type/>
+          <span>Add a text box</span>
         </Button>
-        <div className="pt-2">
-          <h4 className="text-lg font-medium text-gray-800 mb-4">
+        </div>
+        <div className="pt-3">
+          <h3 className="fs-6 fw-bold">
             Default Text Styles
-          </h4>
-          <div className="space-y-4">
+          </h3>
+          <div className="mt-3 d-flex flex-column gap-3">
             {textPresets.map((preset, index) => (
               <button
-                className="w-full text-left p-3 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
+                className="shivam w-100 p-3 d-flex bg-white border rounded"
                 key={index}
                 onClick={() => handleAddPresetText(preset)}
                 style={{

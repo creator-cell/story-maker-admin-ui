@@ -10695,26 +10695,126 @@ html {
   font-size: 12px;
 }
 
-.upgrade-button svg{
-  height:15px;
-}
-.search-input{
-  min-width: 350px;
-}
-.icon-btn{
-      border-radius: 50%;
-    height: 35px;
-    width: 35px;
-}
-.properties{
-    z-index: 10;
-    background-color: rgb(255, 255, 255);
-    border-left: 1px solid rgb(229, 231, 235);
-    width: 280px;
-    position: absolute;
-    top: 96px;
-    bottom: 0px;
-    right: 40px;
+.upgrade-button svg {
+  height: 15px;
 }
 
+.search-input {
+  min-width: 350px;
+}
+
+.icon-btn {
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+}
+
+.properties {
+  z-index: 10;
+  background-color: rgb(255, 255, 255);
+  border-left: 1px solid rgb(229, 231, 235);
+  width: 315px;
+  position: absolute;
+  top: 96px;
+  /* bottom: 0px; */
+  right: 40px;
+}
+
+.flip-h button {
+  padding: 6px 15px 5px !important;
+  display: flex;
+  border-radius: 5px;
+  /* border: 2px solid #dee2e6; */
+  background-color: transparent;
+}
+
+.arrangement button {
+  align-items: center;
+  white-space: nowrap;
+  padding: 7px 10px 6px !important;
+  display: flex;
+  border-radius: 5px;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.arrangement button small svg {
+  height: 20px;
+}
+
+.delete-update button {
+  width: 50%;
+  align-items: center;
+  padding: 5px 5px 5px !important;
+  display: flex;
+  border-radius: 5px;
+  justify-content: center;
+}
+
+.delete-update .duplicate {
+  background-color: black !important;
+  color: white;
+  border: black;
+}
+
+.delete-update .delete {
+  background-color: red !important;
+  color: white;
+  border: red;
+}
+
+.font-family button {
+  width: fit-content;
+  height: auto;
+  padding: 4px 10px 4px !important;
+}
+
+.styles button {
+  background-color: transparent;
+  padding: 5px 10px !important;
+}
+.styles button:focus{
+    background-color: transparent;
+}
+.text-color,
+.bg-color,
+.fill-color,
+.border-color {
+  height: 40px;
+  width: 40px;
+}
+
+.pencil-icon {
+  height: 20px;
+}
+
+.add-text-btn button {
+  background-color: #8b3dff !important;
+}
+
+.choose-color button {
+  height: 40px;
+  width: 40px;
+}
+
+.choose-color {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.setting-background > :first-child{
+  padding: 8px !important;
+  height: 40px;
+  width: 65px;
+}
+.pellete-icon{
+   color: #8b3dff !important;
+}
 /* template css end  */
+
+
+
+
+
+

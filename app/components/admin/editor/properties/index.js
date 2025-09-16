@@ -399,32 +399,32 @@ function Properties() {
     <>
       <div className="properties">
         <div className="d-flex align-items-center justify-content-between p-3 border-bottom">
-          <div className="d-flex align-items-center gap-2 ">
+          <div className="d-flex align-items-center gap-2">
             <span className="font-medium">Properties</span>
           </div>
         </div>
         <div className="overflow-auto p-4">
-          <h3 className="fs-6 fw-medium fw-bold">Size & Position</h3>
+          <h3 className="fs-6 fw-bold">Size & Position</h3>
           {/* Width & Height */}
-          <div className="d-flex gap-3">
-            <div className="w-50">
-              <Label className={"text-xs"}>Width</Label>
-              <div className="h-9 px-3 py-2 border rounded d-flex align-items-center">
+          <div className="d-flex gap-3 pt-2 cursur-pointer">
+            <div className="w-50 d-flex flex-column gap-1">
+              <Label><small>Width</small></Label>
+              <div className="px-3 py-2 border rounded d-flex align-items-center">
                 {width}
               </div>
             </div>
-            <div className="w-50">
-                <Label className={"text-xs"}>height</Label>
-                <div className="h-9 px-3 py-2 border rounded d-flex align-items-center">
-                  {height}
-                </div>
+            <div className="w-50 d-flex flex-column gap-1">
+              <Label><small>height</small></Label>
+              <div className="h-9 px-3 py-2 border rounded d-flex align-items-center">
+                {height}
+              </div>
             </div>
           </div>
           {/* Opacity */}
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <Label htmlFor="opacity" className={"text-xs"}>
-                Opacity
+          <div className="mt-1">
+            <div className="d-flex justify-content-between pb-1">
+              <Label htmlFor="opacity">
+                <small>Opacity</small>
               </Label>
               <span>{opacity}%</span>
             </div>
@@ -438,162 +438,159 @@ function Properties() {
             />
           </div>
           {/* Flip H, Flip V */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flip-h d-flex gap-2 pt-2 pb-2">
             <Button
               onClick={handleFlipHorizontal}
               variant={"outline"}
-              size="sm"
-              className={"h-8 text-xs"}
             >
-              <FlipHorizontal className="h-4 w-4 mr-1" />
-              Flip H
+              <FlipHorizontal />
+              <Label><small className="d-flex">Flip H</small></Label>
             </Button>
             <Button
               variant={"outline"}
               onClick={handleFlipVertical}
-              size="sm"
-              className={"h-8 text-xs"}
             >
-              <FlipVertical className="h-4 w-4 mr-1" />
-              Flip V
+              <FlipVertical />
+              <Label><small className="d-flex">Flip V</small></Label>
             </Button>
           </div>
+          <hr></hr>
 
           {/* Arrangement */}
-          <div className="space-y-4 pt-4 border-t">
-            <h3 className="text-sm font-medium">Layer Position</h3>
-            <div className="grid grid-cols-2 gap-2">
+          <div className="pt-2 pb-2">
+            <h3 className="fs-6 fw-bold">Layer Position</h3>
+            <div className="arrangement d-flex gap-2 pt-3">
               <Button
                 onClick={handleBringToFront}
                 variant={"outline"}
-                size="sm"
-                className={"h-8 text-xs"}
               >
-                <MoveUp className="h-4 w-4" />
-                <span>Bring to front</span>
+                <Label><small className="d-flex"><MoveUp />Bring to front</small></Label>
               </Button>
               <Button
                 onClick={handleSendToBack}
                 variant={"outline"}
-                size="sm"
-                className={"h-8 text-xs"}
               >
-                <MoveDown className="h-4 w-4" />
-                <span>Send to back</span>
+                <Label><small className="d-flex"><MoveDown />Send to back</small></Label>
               </Button>
             </div>
           </div>
+          <hr></hr>
 
           {/* Duplicate and delete */}
-          <div className="space-y-4 pt-4 border-t">
-            <h3 className="text-sm font-medium">Duplicate and Delete</h3>
-            <div className="grid grid-cols-2 gap-2">
+          <div className="pt-2 pb-2">
+            <h3 className="fs-6 fw-bold">Duplicate and Delete</h3>
+            <div className="delete-update d-flex gap-2 pt-3">
               <Button
+                className={"duplicate"}
                 onClick={handleDuplicate}
                 variant={"default"}
-                size="sm"
-                className={"h-8 text-xs"}
               >
-                <Copy className="h-4 w-4" />
-                <span>Duplicate</span>
+                <Label><small className="d-flex gap-2"><Copy />Duplicate</small></Label>
               </Button>
               <Button
+                className={"delete"}
                 onClick={handleDelete}
                 variant={"destructive"}
-                size="sm"
-                className={"h-8 text-xs"}
               >
-                <Trash className="h-4 w-4" />
-                <span>Delete</span>
+                <Label><small className="d-flex gap-2"><Trash />Delete</small></Label>
               </Button>
             </div>
           </div>
+          <hr></hr>
+
 
           {/* Text related properties */}
           {objectType === "text" && (
-            <div className="space-y-4 border-t">
-              <h3 className="text-sm font-medium">Text Properties</h3>
-              <div className="space-y-2">
-                <Label className={"text-xs"} htmlFor="text-content">
-                  Text Content
+            <div className="pt-2 pb-2">
+              <h3 className="fs-6 fw-bold">Text Properties</h3>
+              <div className="d-flex flex-column gap-1 pt-2 pb-2">
+                <Label htmlFor="text-content">
+                  <small>Text Content</small>
                 </Label>
                 <Textarea
                   id="text-content"
                   value={text}
                   onChange={handleTextChange}
-                  className={"h-20 resize-none"}
+                  className={"rounded"}
                 />
               </div>
-              <div className="space-y-2">
-                <Label className={"text-xs"} htmlFor="font-size">
-                  Font Size
-                </Label>
-                <Input
-                  id="font-size"
-                  value={fontSize}
-                  onChange={(e) => handleFontSizeChange(e)}
-                  className={"w-16 h-7 text-xs"}
-                  type={"number"}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="font-family" className="text-sm">
-                  Font family
-                </Label>
-                <Select value={fontFamily} onValueChange={handleFontFamilyChange}>
-                  <SelectTrigger id="font-family" className={"h-10"}>
-                    <SelectValue placeholder="Select Font" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {fontFamilies.map((fontItem) => (
-                      <SelectItem
-                        key={fontItem}
-                        value={fontItem}
-                        style={{ fontFamily: fontItem }}
-                      >
-                        {fontItem}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label className="text-sm">Style</Label>
-                <div className="flex gap-2">
-                  <Button
-                    variant={fontWeight === "bold" ? "default" : "outline"}
-                    size="icon"
-                    onClick={handleToggleBold}
-                    className={"w-8 h-8"}
-                  >
-                    <Bold className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant={fontStyle === "italic" ? "default" : "outline"}
-                    size="icon"
-                    onClick={handleToggleItalic}
-                    className={"w-8 h-8"}
-                  >
-                    <Italic className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant={underline ? "default" : "outline"}
-                    size="icon"
-                    onClick={handleToggleUnderline}
-                    className={"w-8 h-8"}
-                  >
-                    <Underline className="w-4 h-4" />
-                  </Button>
+              <div className="pt-2 pb-2">
+                <div className="d-flex flex-column gap-1">
+                  <Label htmlFor="font-size">
+                    <small>Font Size</small>
+                  </Label>
+                  <Input
+                    id="font-size"
+                    value={fontSize}
+                    onChange={(e) => handleFontSizeChange(e)}
+                    className={"w-25 rounded"}
+                    type={"number"}
+                  />
                 </div>
               </div>
-              <div className="flex justify-between">
-                <div className="space-y-2">
-                  <Label htmlFor="text-color" className="text-sm">
-                    Text Color
+              <div className="pt-2">
+                <div className="font-family d-flex flex-column gap-1 pb-2">
+                  <Label htmlFor="font-family">
+                    <small>Font family</small>
                   </Label>
-                  <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                  <Select value={fontFamily} onValueChange={handleFontFamilyChange} >
+                    <SelectTrigger id="font-family" className={"rounded"}>
+                      <SelectValue placeholder="Select Font" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {fontFamilies.map((fontItem) => (
+                        <SelectItem
+                          key={fontItem}
+                          value={fontItem}
+                          style={{ fontFamily: fontItem }}
+                        >
+                          {fontItem}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="pt-2">
+                <div className="styles d-flex flex-column gap-1 pb-2">
+                  <Label><small>Style</small></Label>
+                  <div className="d-flex gap-2">
+                    <Button
+                      variant={fontWeight === "bold" ? "default" : "outline"}
+                      size="icon"
+                      onClick={handleToggleBold}
+                      className={"rounded"}
+                    >
+                      <Bold />
+                    </Button>
+                    <Button
+                      variant={fontStyle === "italic" ? "default" : "outline"}
+                      size="icon"
+                      onClick={handleToggleItalic}
+                      className={"rounded"}
+                    >
+                      <Italic />
+                    </Button>
+                    <Button
+                      variant={underline ? "default" : "outline"}
+                      size="icon"
+                      onClick={handleToggleUnderline}
+                      className={"rounded"}
+                    >
+                      <Underline />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-between mt-2">
+                <div className="d-flex flex-column gap-1 pb-2">
+                  <Label htmlFor="text-color">
+                    <small>Text Color</small>
+                  </Label>
+                  <div className="text-color position-relative overflow-hidden rounded border">
                     <div
-                      className="absolute inset-0"
+                      className="position-absolute top-0 start-0 bottom-0 end-0"
                       style={{ backgroundColor: textColor }}
                     />
                     <Input
@@ -601,17 +598,17 @@ function Properties() {
                       type="color"
                       value={textColor}
                       onChange={handleToggleTextColorChange}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
+                      className="position-absolute top-0 start-0 bottom-0 end-0 opacity-0 cursor-pointer"
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="text-bg-color" className="text-sm">
-                    Text BG Color
+                <div className="d-flex flex-column gap-1 pb-2">
+                  <Label htmlFor="text-bg-color">
+                    <small>Text BG Color</small>
                   </Label>
-                  <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                  <div className="bg-color position-relative overflow-hidden rounded border">
                     <div
-                      className="absolute inset-0"
+                      className="position-absolute top-0 start-0 bottom-0 end-0"
                       style={{ backgroundColor: textBackgroundColor }}
                     />
                     <Input
@@ -619,17 +616,17 @@ function Properties() {
                       type="color"
                       value={textBackgroundColor}
                       onChange={handleToggleTextBackgroundColorChange}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
+                      className="position-absolute top-0 start-0 bottom-0 end-0 opacity-0 cursor-pointer"
                     />
                   </div>
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <Label className={"text-xs"} htmlFor="letter-spacing">
-                    Letter Spacing
+              <div className="mt-2">
+                <div className="d-flex justify-content-between">
+                  <Label htmlFor="letter-spacing">
+                    <small>Letter Spacing</small>
                   </Label>
-                  <span className="text-xs">{letterSpacing}</span>
+                  <small>{letterSpacing}</small>
                 </div>
                 <Slider
                   id="letter-spacing"
@@ -644,16 +641,16 @@ function Properties() {
           )}
 
           {objectType === "shape" && (
-            <div className="space-y-4 p-4 border-t">
-              <h3 className="text-sm font-medium">Shape Properties</h3>
-              <div className="flex justify-between">
-                <div className="space-y-2">
-                  <Label htmlFor="fill-color" className="text-xs">
-                    Fill Color
+            <div className="mt-2">
+              <h3 className="fs-6 fw-bold">Shape Properties</h3>
+              <div className="d-flex justify-content-between">
+                <div className="d-flex flex-column gap-1 pb-2">
+                  <Label htmlFor="fill-color">
+                    <small>Fill Color</small>
                   </Label>
-                  <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                  <div className="fill-color position-relative overflow-hidden rounded border">
                     <div
-                      className="absolute inset-0"
+                      className="position-absolute top-0 start-0 bottom-0 end-0"
                       style={{ backgroundColor: fillColor }}
                     />
                     <Input
@@ -661,17 +658,17 @@ function Properties() {
                       type="color"
                       value={fillColor}
                       onChange={handleFillColorChange}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
+                      className="position-absolute top-0 start-0 bottom-0 end-0 opacity-0 cursor-pointer"
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="border-color" className="text-xs">
-                    Border Color
+                <div className="d-flex flex-column gap-1 pb-2">
+                  <Label htmlFor="border-color">
+                    <small>Border Color</small>
                   </Label>
-                  <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                  <div className="border-color position-relative overflow-hidden rounded border">
                     <div
-                      className="absolute inset-0"
+                      className="position-absolute top-0 start-0 bottom-0 end-0"
                       style={{ backgroundColor: borderColor }}
                     />
                     <Input
@@ -679,16 +676,19 @@ function Properties() {
                       type="color"
                       value={borderColor}
                       onChange={handleBorderColorChange}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
+                      className="position-absolute top-0 start-0 bottom-0 end-0 opacity-0 cursor-pointer"
                     />
                   </div>
                 </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="border-width" className={"text-xs"}>
-                  Border Width
-                </Label>
-                <span className={"text-xs mb-2"}>{borderWidth}%</span>
+
+              <div className="mt-2">
+                <div className="d-flex justify-content-between mb-1">
+                  <Label htmlFor="border-width">
+                    <small>Border Width</small>
+                  </Label>
+                  <span>{borderWidth}%</span>
+                </div>
                 <Slider
                   id="border-width"
                   min={0}
@@ -698,23 +698,26 @@ function Properties() {
                   onValueChange={(value) => handleBorderWidthChange(value)}
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="border-style" className={"text-xs"}>
-                  Border Style
-                </Label>
-                <Select
-                  value={borderStyle}
-                  onValueChange={handleBorderStyleChange}
-                >
-                  <SelectTrigger id="border-style" className={"h-10"}>
-                    <SelectValue placeholder="Select Border Style" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="solid">Solid</SelectItem>
-                    <SelectItem value="dashed">Dashed</SelectItem>
-                    <SelectItem value="dotted">Dotted</SelectItem>
-                  </SelectContent>
-                </Select>
+
+              <div className="mt-4">
+                <div className="font-family d-flex flex-column gap-1">
+                  <Label htmlFor="border-style">
+                    <small>Border Style</small>
+                  </Label>
+                  <Select
+                    value={borderStyle}
+                    onValueChange={handleBorderStyleChange}
+                  >
+                    <SelectTrigger id="border-style"  className={"rounded"}>
+                      <SelectValue placeholder="Select Border Style" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="solid">Solid</SelectItem>
+                      <SelectItem value="dashed">Dashed</SelectItem>
+                      <SelectItem value="dotted">Dotted</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
           )}
@@ -866,7 +869,7 @@ function Properties() {
             </div>
           )}
         </div>
-      </div>
+      </div >
     </>
   );
 }
