@@ -10736,8 +10736,11 @@ html {
   border-radius: 5px;
   justify-content: center;
   background-color: transparent;
+  cursor: pointer;
 }
-
+.arrangement button label{
+  cursor:pointer;
+}
 .arrangement button small svg {
   height: 20px;
 }
@@ -10750,7 +10753,9 @@ html {
   border-radius: 5px;
   justify-content: center;
 }
-
+.delete-update button label{
+  cursor:pointer;
+}
 .delete-update .duplicate {
   background-color: black !important;
   color: white;
@@ -10773,9 +10778,11 @@ html {
   background-color: transparent;
   padding: 5px 10px !important;
 }
-.styles button:focus{
-    background-color: transparent;
+
+.styles button:focus {
+  background-color: transparent;
 }
+
 .text-color,
 .bg-color,
 .fill-color,
@@ -10783,7 +10790,12 @@ html {
   height: 40px;
   width: 40px;
 }
-
+.text-color input,
+.bg-color input,
+.fill-color input,
+.border-color input{
+  cursor: pointer;
+}
 .pencil-icon {
   height: 20px;
 }
@@ -10803,18 +10815,28 @@ html {
   gap: 6px;
 }
 
-.setting-background > :first-child{
+.setting-background> :first-child {
   padding: 8px !important;
   height: 40px;
   width: 65px;
 }
-.pellete-icon{
-   color: #8b3dff !important;
+
+.pellete-icon {
+  color: #8b3dff !important;
 }
+
+.canvas-container {
+  position: absolute !important;
+  user-select: none !important;
+  width: 70% !important;
+  /* height: 150px; */
+  top: 27% !important;
+  left: 18% !important;
+  transform: translate(0) !important;
+}
+.lower-canvas,
+.upper-canvas{
+  height: auto !important;
+}
+
 /* template css end  */
-
-
-
-
-
-

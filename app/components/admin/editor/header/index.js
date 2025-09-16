@@ -83,7 +83,7 @@ function Header() {
   return (
     <header className="header-gradient header d-flex align-items-center justify-content-between px-4 h-14">
       <div className="d-flex align-items-center gap-2">
-        <Link href={"/"}>
+        {/* <Link href={"/"}>
           <Image
             src="https://static.canva.com/web/images/856bac30504ecac8dbd38dbee61de1f1.svg"
             alt="canva"
@@ -91,7 +91,7 @@ function Header() {
             height={30}
             priority
           />
-        </Link>
+        </Link> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild="true">
             <button className="header-button d-flex align-items-center text-white">
@@ -160,14 +160,14 @@ function Header() {
           </span>
         </button>
         <DropdownMenu>
-          <DropdownMenuTrigger aschild="true" className="icon-btn border-0 bg-success">
+          {/* <DropdownMenuTrigger aschild="true" className="icon-btn border-0 bg-success">
             <div className="d-flex align-items-center gap-2 justify-content-center">
               <Avatar>
                 <AvatarFallback>{"U"}</AvatarFallback>
                 <AvatarImage src={"/placeholder-user.jpg"} />
               </Avatar>
             </div>
-          </DropdownMenuTrigger>
+          </DropdownMenuTrigger> */}
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuItem
               onClick={handleLogout}

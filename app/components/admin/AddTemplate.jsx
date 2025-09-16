@@ -124,7 +124,7 @@ export default function AddTemplatePage() {
   };
 
   return (
-    <div id="main_container" className="bg-white">
+    <div id="main_container">
       <div className="inner_container">
         <div className="container-lg container-fluid p-0">
           <div className="comman_admin_layout flex-column p-0">

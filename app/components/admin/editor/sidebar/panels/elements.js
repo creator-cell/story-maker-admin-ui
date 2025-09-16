@@ -83,7 +83,7 @@ function ElementsPanel() {
   return (
     <>
       <div className="container">
-        <div className="row h-100 overflow-auto">
+        <div className="row overflow-auto">
           {shapeTypes.map((shapeType) => (
             <div
               // style={{ height: "90px" }}

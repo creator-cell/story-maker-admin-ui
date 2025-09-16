@@ -107,13 +107,13 @@ function Sidebar() {
         >
           <div className="panel-header">
             <button className="back-button" onClick={closeSecondaryPanel}>
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft />
             </button>
             <span className="panel-title">{activeItem.label}</span>
           </div>
           <div className="panel-content">{activeItem?.panel()}</div>
-          <button className="collapse-button" onClick={togglePanelCollapse}>
-            <ChevronLeft className="h-50 w-50" />
+          <button className="collapse-button" onClick={closeSecondaryPanel}>
+            <ChevronLeft />
           </button>
         </div>
       )}

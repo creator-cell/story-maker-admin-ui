@@ -406,20 +406,46 @@ function Properties() {
         <div className="overflow-auto p-4">
           <h3 className="fs-6 fw-bold">Size & Position</h3>
           {/* Width & Height */}
-          <div className="d-flex gap-3 pt-2 cursur-pointer">
-            <div className="w-50 d-flex flex-column gap-1">
-              <Label><small>Width</small></Label>
-              <div className="px-3 py-2 border rounded d-flex align-items-center">
-                {width}
-              </div>
-            </div>
-            <div className="w-50 d-flex flex-column gap-1">
-              <Label><small>height</small></Label>
-              <div className="h-9 px-3 py-2 border rounded d-flex align-items-center">
-                {height}
-              </div>
-            </div>
-          </div>
+         <div className="d-flex gap-3 pt-2 cursor-pointer">
+  {/* Width */}
+  <div className="w-50 d-flex flex-column gap-1">
+    <Label><small>Width</small></Label>
+    <Input
+      type="number"
+      value={width}
+      onChange={(e) => {
+        const newWidth = Number(e.target.value);
+        setWidth(newWidth);
+        if (selectedObject) {
+          selectedObject.set("scaleX", newWidth / selectedObject.width);
+          canvas.renderAll();
+          markAsModified();
+        }
+      }}
+      className="px-3 py-2 border rounded"
+    />
+  </div>
+
+  {/* Height */}
+  <div className="w-50 d-flex flex-column gap-1">
+    <Label><small>Height</small></Label>
+    <Input
+      type="number"
+      value={height}
+      onChange={(e) => {
+        const newHeight = Number(e.target.value);
+        setHeight(newHeight);
+        if (selectedObject) {
+          selectedObject.set("scaleY", newHeight / selectedObject.height);
+          canvas.renderAll();
+          markAsModified();
+        }
+      }}
+      className="px-3 py-2 border rounded"
+    />
+  </div>
+</div>
+
           {/* Opacity */}
           <div className="mt-1">
             <div className="d-flex justify-content-between pb-1">
@@ -700,7 +726,7 @@ function Properties() {
               </div>
 
               <div className="mt-4">
-                <div className="font-family d-flex flex-column gap-1">
+                <div className="d-flex flex-column gap-1">
                   <Label htmlFor="border-style">
                     <small>Border Style</small>
                   </Label>
