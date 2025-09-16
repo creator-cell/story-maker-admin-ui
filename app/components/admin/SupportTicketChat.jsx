@@ -11,6 +11,11 @@ const ChatHistory = ({ ticketId }) => {
   const [ticket, setTicket] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
 
   // Ref for auto scroll
   const messagesEndRef = useRef(null);
@@ -34,32 +39,27 @@ const ChatHistory = ({ ticketId }) => {
   }, [ticketId]);
 
   const sendChatMessage = async () => {
-    if (!chatMessage.trim()) return;
-    const user = JSON.parse(localStorage.getItem("user"));
-    let role = "";
-    if (user?.role.name === "Moderator") {
-      role = "moderator";
-    } else {
-      role = "user";
-    }
-    const newMessage = {
-      sender: user._id,
-      role: role,
-      message: chatMessage.trim(),
-      sentAt: new Date(),
-    };
-    console.log("new message", newMessage);
+    if (!chatMessage.trim() && !imageFile) return;
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    const role = user?.role.name === "Moderator" ? "moderator" : "user";
+
+    const formData = new FormData();
+    formData.append("sender", user._id);
+    formData.append("role", role);
+    formData.append("messages", chatMessage.trim());
+    if (imageFile) formData.append("image", imageFile);
+    console.log("imageFile", imageFile);
     try {
-      await axios.put(
-        `${API_URL}tickets/${ticketId}`,
-        { messages: [newMessage] },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
+      await axios.put(`${API_URL}tickets/${ticketId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       toast.success("Message sent");
       setChatMessage("");
+      setImageFile(null);
       getTicket();
     } catch (err) {
       toast.error("Failed to send message");
@@ -115,11 +115,18 @@ const ChatHistory = ({ ticketId }) => {
                       <div className="name">
                         <small>
                           {/* {msg.role === "user" ? "User" : "Moderator"} */}
-                          {msg.sender.name}
+                          {msg?.sender?.name}
                         </small>
                       </div>
                     </div>
                     {msg.message}
+                    {msg.image && (
+                      <div>
+                        <img
+                          src={`${API_URL.replace(/\/$/, "")}${msg.image}`}
+                        />
+                      </div>
+                    )}
                     <small>
                       {msg.sentAt
                         ? new Date(msg.sentAt).toLocaleString("en-GB", {
@@ -148,13 +155,10 @@ const ChatHistory = ({ ticketId }) => {
             onChange={(e) => setChatMessage(e.target.value)}
             placeholder="Type a message..."
           />
-          {/* <button
-            className="button"
-            onClick={sendChatMessage}
-            disabled={loading || !chatMessage.trim()}
-          >
-            Send
-          </button> */}
+
+          {/* File input for images */}
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+
           <img
             src="/images/send.jpg"
             alt="Send message"
@@ -162,13 +166,13 @@ const ChatHistory = ({ ticketId }) => {
             width={50}
             onClick={sendChatMessage}
             style={{
-              cursor: loading || !chatMessage.trim() ? "default" : "pointer",
-              opacity: loading || !chatMessage.trim() ? 0.5 : 1,
+              cursor:
+                loading || (!chatMessage.trim() && !imageFile)
+                  ? "default"
+                  : "pointer",
+              opacity: loading || (!chatMessage.trim() && !imageFile) ? 0.5 : 1,
             }}
             role="button"
-            aria-label="Send message"
-            aria-disabled={loading || !chatMessage.trim()}
-            tabIndex={0}
           />
         </div>
       </div>
