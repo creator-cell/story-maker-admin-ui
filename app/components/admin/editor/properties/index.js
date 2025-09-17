@@ -406,54 +406,57 @@ function Properties() {
         <div className="overflow-auto p-4">
           <h3 className="fs-6 fw-bold">Size & Position</h3>
           {/* Width & Height */}
-         <div className="d-flex gap-3 pt-2 cursor-pointer">
-  {/* Width */}
-  <div className="w-50 d-flex flex-column gap-1">
-    <Label><small>Width</small></Label>
-    <Input
-      type="number"
-      value={width}
-      onChange={(e) => {
-        const newWidth = Number(e.target.value);
-        setWidth(newWidth);
-        if (selectedObject) {
-          selectedObject.set("scaleX", newWidth / selectedObject.width);
-          canvas.renderAll();
-          markAsModified();
-        }
-      }}
-      className="px-3 py-2 border rounded"
-    />
-  </div>
+          <div className="d-flex gap-3 pt-2 cursor-pointer">
+            {/* Width */}
+            <div className="w-50 d-flex flex-column gap-1">
+              <Label><small>Width</small></Label>
+              <Input
+                type="number"
+                value={width}
+                onChange={(e) => {
+                  const newWidth = Number(e.target.value);
+                  setWidth(newWidth);
+                  if (selectedObject) {
+                    selectedObject.set("scaleX", newWidth / selectedObject.width);
+                    canvas.renderAll();
+                    markAsModified();
+                  }
+                }}
+                className="px-3 py-2 border rounded"
+              />
+            </div>
 
-  {/* Height */}
-  <div className="w-50 d-flex flex-column gap-1">
-    <Label><small>Height</small></Label>
-    <Input
-      type="number"
-      value={height}
-      onChange={(e) => {
-        const newHeight = Number(e.target.value);
-        setHeight(newHeight);
-        if (selectedObject) {
-          selectedObject.set("scaleY", newHeight / selectedObject.height);
-          canvas.renderAll();
-          markAsModified();
-        }
-      }}
-      className="px-3 py-2 border rounded"
-    />
-  </div>
-</div>
+            {/* Height */}
+            <div className="w-50 d-flex flex-column gap-1">
+              <Label><small>Height</small></Label>
+              <Input
+                type="number"
+                value={height}
+                onChange={(e) => {
+                  const newHeight = Number(e.target.value);
+                  setHeight(newHeight);
+                  if (selectedObject) {
+                    selectedObject.set("scaleY", newHeight / selectedObject.height);
+                    canvas.renderAll();
+                    markAsModified();
+                  }
+                }}
+                className="px-3 py-2 border rounded"
+              />
+            </div>
+          </div>
 
           {/* Opacity */}
           <div className="mt-1">
-            <div className="d-flex justify-content-between pb-1">
-              <Label htmlFor="opacity">
+            {/* Top row: Opacity label + percentage */}
+            <div className="d-flex justify-content-between align-items-center pb-1">
+              <label htmlFor="opacity" className="mb-0">
                 <small>Opacity</small>
-              </Label>
+              </label>
               <span>{opacity}%</span>
             </div>
+
+            {/* Slider */}
             <Slider
               id="opacity"
               min={0}
@@ -461,10 +464,12 @@ function Properties() {
               step={1}
               value={[opacity]}
               onValueChange={(value) => handleOpacityChange(value)}
+              className="custom-opacity"
             />
           </div>
+
           {/* Flip H, Flip V */}
-          <div className="flip-h d-flex gap-2 pt-2 pb-2">
+          <div className="flip-h d-flex gap-2 mt-5 pb-2">
             <Button
               onClick={handleFlipHorizontal}
               variant={"outline"}
@@ -624,7 +629,7 @@ function Properties() {
                       type="color"
                       value={textColor}
                       onChange={handleToggleTextColorChange}
-                      className="position-absolute top-0 start-0 bottom-0 end-0 opacity-0 cursor-pointer"
+                      className="position-absolute top-0 start-0 bottom-0 end-0"
                     />
                   </div>
                 </div>
@@ -642,7 +647,7 @@ function Properties() {
                       type="color"
                       value={textBackgroundColor}
                       onChange={handleToggleTextBackgroundColorChange}
-                      className="position-absolute top-0 start-0 bottom-0 end-0 opacity-0 cursor-pointer"
+                      className="position-absolute top-0 start-0 bottom-0 end-0"
                     />
                   </div>
                 </div>
@@ -684,7 +689,7 @@ function Properties() {
                       type="color"
                       value={fillColor}
                       onChange={handleFillColorChange}
-                      className="position-absolute top-0 start-0 bottom-0 end-0 opacity-0 cursor-pointer"
+                      className="position-absolute top-0 start-0 bottom-0 end-0"
                     />
                   </div>
                 </div>
@@ -702,7 +707,7 @@ function Properties() {
                       type="color"
                       value={borderColor}
                       onChange={handleBorderColorChange}
-                      className="position-absolute top-0 start-0 bottom-0 end-0 opacity-0 cursor-pointer"
+                      className="position-absolute top-0 start-0 bottom-0 end-0"
                     />
                   </div>
                 </div>
@@ -726,7 +731,7 @@ function Properties() {
               </div>
 
               <div className="mt-4">
-                <div className="d-flex flex-column gap-1">
+                <div className="border-style d-flex flex-column gap-1 pb-2">
                   <Label htmlFor="border-style">
                     <small>Border Style</small>
                   </Label>
@@ -734,7 +739,7 @@ function Properties() {
                     value={borderStyle}
                     onValueChange={handleBorderStyleChange}
                   >
-                    <SelectTrigger id="border-style"  className={"rounded"}>
+                    <SelectTrigger id="border-style" className={"rounded"}>
                       <SelectValue placeholder="Select Border Style" />
                     </SelectTrigger>
                     <SelectContent>
@@ -773,7 +778,7 @@ function Properties() {
                 <Label htmlFor="border-width" className={"text-xs"}>
                   Border Width
                 </Label>
-                <span className={"text-xs mb-2"}>{borderWidth}%</span>
+                <span>{borderWidth}%</span>
                 <Slider
                   id="border-width"
                   min={0}
@@ -783,15 +788,15 @@ function Properties() {
                   onValueChange={(value) => handleBorderWidthChange(value)}
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="border-style" className={"text-xs"}>
-                  Border Style
+              <div className="mt-2">
+                <Label htmlFor="border-style">
+                  <small>Border Style</small>
                 </Label>
                 <Select
                   value={borderStyle}
                   onValueChange={handleBorderStyleChange}
                 >
-                  <SelectTrigger id="border-style" className={"h-10"}>
+                  <SelectTrigger id="border-style" className={"rounded"}>
                     <SelectValue placeholder="Select Border Style" />
                   </SelectTrigger>
                   <SelectContent>
@@ -819,12 +824,12 @@ function Properties() {
                 </Select>
               </div>
               {filter === "blur" && (
-                <div className="space-y-2">
+                <div className="mt-2">
                   <div className="flex justify-between mb-4">
                     <Label htmlFor="blur" className="text-xs">
                       Blur Amount
                     </Label>
-                    <span className="font-medium text-xs">{blur}%</span>
+                    <span>{blur}%</span>
                   </div>
                   <Slider
                     id="blur"
@@ -840,15 +845,15 @@ function Properties() {
           )}
 
           {objectType === "path" && (
-            <div className="space-y-4 p-4 border-t">
-              <h3 className="text-sm font-medium">Path Properties</h3>
+            <div className="mt-2">
+              <h3 className="fs-6 fw-bold">Path Properties</h3>
               <div className="space-y-2">
-                <Label htmlFor="border-color" className="text-xs">
-                  Border Color
+                <Label htmlFor="border-color">
+                  <small>Border Color</small>
                 </Label>
-                <div className="relative w-8 h-8 overflow-hidden rounded-md border">
+                <div className="path-border-color position-relative overflow-hidden rounded border">
                   <div
-                    className="absolute inset-0"
+                    className="position-absolute top-0 start-0 bottom-0 end-0"
                     style={{ backgroundColor: borderColor }}
                   />
                   <Input
@@ -856,15 +861,17 @@ function Properties() {
                     type="color"
                     value={borderColor}
                     onChange={handleBorderColorChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
+                    className="position-absolute top-0 start-0 bottom-0 end-0"
                   />
                 </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="border-width" className={"text-xs"}>
-                  Border Width
-                </Label>
-                <span className={"text-xs mb-2"}>{borderWidth}%</span>
+              <div className="mt-3">
+                <div className="d-flex justify-content-between mb-1">
+                  <Label htmlFor="border-width">
+                    <small>Border Width</small>
+                  </Label>
+                  <span>{borderWidth}%</span>
+                </div>
                 <Slider
                   id="border-width"
                   min={0}
@@ -874,23 +881,25 @@ function Properties() {
                   onValueChange={(value) => handleBorderWidthChange(value)}
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="border-style" className={"text-xs"}>
-                  Border Style
-                </Label>
-                <Select
-                  value={borderStyle}
-                  onValueChange={handleBorderStyleChange}
-                >
-                  <SelectTrigger id="border-style" className={"h-10"}>
-                    <SelectValue placeholder="Select Border Style" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="solid">Solid</SelectItem>
-                    <SelectItem value="dashed">Dashed</SelectItem>
-                    <SelectItem value="dotted">Dotted</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="mt-4">
+                <div className="border-style d-flex flex-column gap-1 pb-2">
+                  <Label htmlFor="border-style">
+                    <small>Border Style</small>
+                  </Label>
+                  <Select
+                    value={borderStyle}
+                    onValueChange={handleBorderStyleChange}
+                  >
+                    <SelectTrigger id="border-style" className={"rounded"}>
+                      <SelectValue placeholder="Select Border Style" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="solid">Solid</SelectItem>
+                      <SelectItem value="dashed">Dashed</SelectItem>
+                      <SelectItem value="dotted">Dotted</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
           )}
