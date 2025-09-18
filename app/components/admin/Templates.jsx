@@ -110,11 +110,49 @@ export default function Template() {
     setDeleteId(id);
     setShowDeletedId(true);
   };
+  const handleTemplateSubmit = async () => {
+    try {
+      const responseData = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template`,
+        { name: "Untitle design", content: "", user: userObj._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(responseData);
+      setLoader(false);
+      router.push(`/admin/template/${responseData.data.template._id}`);
+    } catch (err) {
+      setLoader(false);
+      toast.error(err?.response?.data?.message || "Failed to add template");
+    }
+    // const responseData = await axios
+    //   .post(
+    //     `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template`,
+    //     { name: "Untitle design", content: "", user: userObj._id },
+    //     {
+    //       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    //     }
+    //   )
+    //   .then(() => {
+    //     console.log("response", responseData);
+    //     toast.success("Template added successfully");
 
-  const handleNewTemplate = () => {
-    setLoader(true);
-    router.push(`/admin/template/add-template`);
+    //     router.push(`/admin/template/${responseData.data.template._id}`);
+    //   })
+    //   .catch((err) => {
+    //     toast.error(err?.response?.data?.message || "Failed to add template");
+    //   })
+    //   .finally(() => setLoader(false));
   };
+
+  // const handleNewTemplate = () => {
+  //   setLoader(true);
+
+  //   router.push(`/admin/template/add-template`);
+  // };
 
   const handleDownloadPDF = (tpl) => {
     if (!tpl.content) {
@@ -250,7 +288,10 @@ export default function Template() {
                             Clear
                           </button>
                         )}
-                        <button className="button" onClick={handleNewTemplate}>
+                        <button
+                          className="button"
+                          onClick={handleTemplateSubmit}
+                        >
                           Add New Template
                         </button>
                       </div>

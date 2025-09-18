@@ -51,10 +51,6 @@ function Header() {
   // const { data: session } = useSession();
   const [showExportModal, setShowExportModal] = useState(false);
 
-  const handleLogout = () => {
-    signOut();
-  };
-
   useEffect(() => {
     if (!canvas) return;
     canvas.selection = isEditing;
@@ -70,29 +66,21 @@ function Header() {
   }, [name, canvas, designId]);
 
   const handleExport = () => {
-    if (userDesigns?.length >= 5 && !userSubscription.isPremium) {
-      toast.error("Please upgrade to premium!", {
-        description: "You need to upgrade to premium to create more designs",
-      });
+    // if (userDesigns?.length >= 5 && !userSubscription.isPremium) {
+    //   toast.error("Please upgrade to premium!", {
+    //     description: "You need to upgrade to premium to create more designs",
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
     setShowExportModal(true);
+    console.log("opened", showExportModal);
   };
 
   return (
     <header className="header-gradient header d-flex align-items-center justify-content-between px-4 h-14">
       <div className="d-flex align-items-center gap-2">
-        {/* <Link href={"/"}>
-          <Image
-            src="https://static.canva.com/web/images/856bac30504ecac8dbd38dbee61de1f1.svg"
-            alt="canva"
-            width={70}
-            height={30}
-            priority
-          />
-        </Link> */}
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild="true">
             <button className="header-button d-flex align-items-center text-white">
               <span>{isEditing ? "Editing" : "Viewing"}</span>
@@ -109,9 +97,9 @@ function Header() {
               <span>Viewing</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
         <button
-          className={ 
+          className={
             "save position-relative d-flex align-items-center justify-content-center border-0 text-white"
           }
           title={saveStatus !== "Saving..." ? "Save" : saveStatus}
@@ -141,13 +129,13 @@ function Header() {
         </button>
       </div>
       <div className="flex-1 d-flex justify-content-center mw-100">
-        <Input 
+        <Input
           className="search-input w-full text-white rounded-3"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
-      <div className="d-flex align-items-center gap-3">
+      {/* <div className="d-flex align-items-center gap-3">
         <button
           onClick={() => setShowPremiumModal(true)}
           className="upgrade-button d-flex align-items-center text-white rounded-3 border-0"
@@ -160,14 +148,7 @@ function Header() {
           </span>
         </button>
         <DropdownMenu>
-          {/* <DropdownMenuTrigger aschild="true" className="icon-btn border-0 bg-success">
-            <div className="d-flex align-items-center gap-2 justify-content-center">
-              <Avatar>
-                <AvatarFallback>{"U"}</AvatarFallback>
-                <AvatarImage src={"/placeholder-user.jpg"} />
-              </Avatar>
-            </div>
-          </DropdownMenuTrigger> */}
+       
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuItem
               onClick={handleLogout}
@@ -178,8 +159,12 @@ function Header() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
-      <ExportModal isOpen={showExportModal} onClose={setShowExportModal} />
+      </div> */}
+     <ExportModal 
+  isOpen={showExportModal} 
+  onClose={() => setShowExportModal(false)} 
+/>
+
     </header>
   );
 }

@@ -27,7 +27,7 @@ import {
   Plus,
 } from "lucide-react";
 import { useState } from "react";
-import { drawingPanelColorPresets } from "./../../../config/index";
+import { drawingPanelColorPresets, brushSizes } from "./../../../config/index";
 
 function DrawingPanel() {
   const { canvas } = useEditorStore();
@@ -86,7 +86,9 @@ function DrawingPanel() {
       <div className="">
         <Button
           variant={isDrawingMode ? "default" : "outline"}
-          className={"w-100 py-2 rounded bg-transparent d-flex justify-content-center align-items-center gap-3"}
+          className={
+            "w-100 py-2 rounded bg-transparent d-flex justify-content-center align-items-center gap-3"
+          }
           size="lg"
           onClick={handleToggleDrawingMode}
         >

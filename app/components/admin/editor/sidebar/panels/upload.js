@@ -7,7 +7,7 @@ import { addImageToCanvas } from "./../../../fabric/fabric-utils";
 //import { uploadFileWithAuth } from "@/services/upload-service";
 import { useEditorStore } from "../../../../../redux/UserStore";
 import { Loader2, Upload } from "lucide-react";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 
 function UploadPanel() {
@@ -17,22 +17,22 @@ function UploadPanel() {
   const [isLoading, setIsLoading] = useState(false);
   const [userUploads, setUserUploads] = useState([]);
 
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
 
-  const fetchUserUploads = useCallback(async () => {
-    if (status !== "authenticated" || !session?.idToken) return;
+  // const fetchUserUploads = useCallback(async () => {
+  //   if (status !== "authenticated" || !session?.idToken) return;
 
-    try {
-      setIsLoading(true);
-      const data = await fetchWithAuth("/v1/media/get");
-      console.log(data, "fetchUserUploads");
-      setUserUploads(data?.data || []);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [status, session?.idToken]);
+  //   try {
+  //     setIsLoading(true);
+  //     const data = await fetchWithAuth("/v1/media/get");
+  //     console.log(data, "fetchUserUploads");
+  //     setUserUploads(data?.data || []);
+  //   } catch (e) {
+  //     console.error(e);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }, [status, session?.idToken]);
 
   // useEffect(() => {
   //   if (status === "authenticated") fetchUserUploads();

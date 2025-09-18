@@ -29,7 +29,7 @@ import { useState } from "react";
 
 function ExportModal({ isOpen, onClose }) {
   const { canvas } = useEditorStore();
-
+  console.log("export canvas");
   const [selectedFormat, setSelectedFormat] = useState("png");
   const [isExporting, setIsExporting] = useState(false);
 
@@ -59,50 +59,122 @@ function ExportModal({ isOpen, onClose }) {
       description: "Editable template format",
     },
   ];
+  const handleDownloadPDF = (tpl) => {
+    if (!tpl.content) {
+      toast.error("No template data found");
+      return;
+    }
 
-  // const handleExport = async () => {
-  //   if (!canvas) return;
-  //   setIsExporting(true);
+    // create a hidden canvas to render
+    const canvas = new fabric.StaticCanvas(null, { width: 800, height: 600 });
 
-  //   try {
-  //     let successFlag = false;
+    try {
+      const jsonData =
+        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
 
-  //     switch (selectedFormat) {
-  //       case "json":
-  //         successFlag = exportAsJson(canvas, "JSON FileName");
+      canvas.loadFromJSON(jsonData, () => {
+        const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
 
-  //         break;
+        const pdf = new jsPDF("l", "pt", [canvas.width, canvas.height]);
+        pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height);
+        pdf.save(`${tpl.name || "template"}.pdf`);
+      });
+    } catch (err) {
+      toast.error("Error exporting PDF");
+    }
+  };
+  const handleDownloadCSV = (tpl) => {
+    if (!tpl.content) {
+      toast.error("No template data found");
+      return;
+    }
 
-  //       case "png":
-  //         successFlag = exportAsPng(canvas, "PNG FileName");
+    try {
+      const jsonData =
+        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
 
-  //         break;
+      // flatten objects
+      const rows = [];
+      jsonData.objects.forEach((obj) => {
+        rows.push({
+          type: obj.type,
+          text: obj.text || "",
+          left: obj.left,
+          top: obj.top,
+          width: obj.width,
+          height: obj.height,
+          fill: obj.fill,
+          stroke: obj.stroke,
+          fontSize: obj.fontSize,
+          fontFamily: obj.fontFamily,
+        });
+      });
 
-  //       case "svg":
-  //         successFlag = exportAsSVG(canvas, "SVG FileName");
+      // convert to CSV
+      const headers = Object.keys(rows[0]).join(",");
+      const csv = [
+        headers,
+        ...rows.map((r) => Object.values(r).join(",")),
+      ].join("\n");
 
-  //         break;
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
 
-  //       case "pdf":
-  //         successFlag = exportAsPDF(canvas, "PDF FileName");
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${tpl.name || "template"}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      toast.error("Error exporting CSV");
+    }
+  };
 
-  //         break;
+  const handleExport = async () => {
+    if (!canvas) return;
+    setIsExporting(true);
 
-  //       default:
-  //         break;
-  //     }
+    try {
+      let successFlag = false;
 
-  //     if (successFlag) {
-  //       setTimeout(() => {
-  //         onClose();
-  //       }, 500);
-  //     }
-  //   } catch (e) {
-  //     throw new Error("Export failed");
-  //   } finally {
-  //     setIsExporting(false);
-  //   }
-  // };
+      switch (selectedFormat) {
+        case "json":
+          successFlag = handleDownloadCSV(canvas, "JSON FileName");
+
+          break;
+
+        // case "png":
+        //   successFlag = exportAsPng(canvas, "PNG FileName");
+
+        //   break;
+
+        // case "svg":
+        //   successFlag = exportAsSVG(canvas, "SVG FileName");
+
+        //   break;
+
+        case "pdf":
+          successFlag = handleDownloadPDF(canvas, "PDF FileName");
+
+          break;
+
+        default:
+          break;
+      }
+
+      if (successFlag) {
+        setTimeout(() => {
+          onClose();
+        }, 500);
+      }
+    } catch (e) {
+      throw new Error("Export failed");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -149,7 +221,7 @@ function ExportModal({ isOpen, onClose }) {
         </div>
         <DialogFooter>
           <Button
-            // onClick={handleExport}
+            onClick={handleExport}
             disabled={isExporting}
             className="min-w-[120px] bg-purple-700 text-white"
             variant="default"

@@ -13,8 +13,8 @@ import Properties from "./properties";
 function MainEditor() {
   const params = useParams();
   const router = useRouter();
-  const designId = params?.slug;
-
+  const designId = params?.ID;
+  console.log("designId", designId);
   const [isLoading, setIsLoading] = useState(!!designId);
   const [loadAttempted, setLoadAttempted] = useState(false);
   const [error, setError] = useState(null);
