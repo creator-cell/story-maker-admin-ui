@@ -5,61 +5,120 @@ import { Label } from "@/app/components/ui/label";
 import { addImageToCanvas } from "./../../../fabric/fabric-utils";
 //import { fetchWithAuth } from "@/services/base-service";
 //import { uploadFileWithAuth } from "@/services/upload-service";
+import axios from "axios";
 import { useEditorStore } from "../../../../../redux/UserStore";
 import { Loader2, Upload } from "lucide-react";
+import { toast } from "react-toastify";
 // import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 
 function UploadPanel() {
   const { canvas } = useEditorStore();
-
+  console.log("canvas", canvas);
+  const currentUser = JSON.parse(localStorage.getItem("user"));
   const [isUploading, setIsUploading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userUploads, setUserUploads] = useState([]);
 
   // const { data: session, status } = useSession();
+  const fetchUserUploads = useCallback(async () => {
+    try {
+      setIsLoading(true);
 
-  // const fetchUserUploads = useCallback(async () => {
-  //   if (status !== "authenticated" || !session?.idToken) return;
+      let url = `${process.env.NEXT_PUBLIC_SERVER_URL_ASSETS}assets?page=1&pageSize=20`;
 
-  //   try {
-  //     setIsLoading(true);
-  //     const data = await fetchWithAuth("/v1/media/get");
-  //     console.log(data, "fetchUserUploads");
-  //     setUserUploads(data?.data || []);
-  //   } catch (e) {
-  //     console.error(e);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }, [status, session?.idToken]);
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
 
-  // useEffect(() => {
-  //   if (status === "authenticated") fetchUserUploads();
-  // }, [status, fetchUserUploads]);
+      const items = response.data?.data?.assets?.items ?? [];
+      console.log("items", items);
+      console.log("currentUser._id:", currentUser._id);
+      const myItems = items.filter(
+        (asset) => String(asset.uploadedBy?._id) === String(currentUser._id)
+      );
+
+      setUserUploads(myItems);
+      console.log("Fetched my assets:", myItems);
+    } catch (error) {
+      console.error("Error fetching assets:", error);
+      toast.error("Failed to fetch assets");
+      setUserUploads([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [currentUser?._id]);
+
+  useEffect(() => {
+    fetchUserUploads();
+  }, [fetchUserUploads]);
+  const handleAddAssets = async (file) => {
+    setIsLoading(true);
+
+    if (!file) {
+      toast("Please select an image", { type: "error" });
+      setIsLoading(false);
+      return null;
+    }
+
+    const newFormData = new FormData();
+    newFormData.append("document", file);
+    newFormData.append("name", file.name);
+    newFormData.append("type", "image");
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL_ASSETS}assets`,
+        newFormData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return res;
+    } catch (err) {
+      toast(
+        err?.response?.data?.errors?.[0]?.message ??
+          err?.response?.data?.message ??
+          "Failed to upload image",
+        {
+          type: "error",
+          theme: "light",
+          position: "top-right",
+        }
+      );
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleFileUpload = async (e) => {
-    console.log(e.target.files);
     const file = e.target.files[0];
+    if (!file) return;
 
     setIsUploading(true);
 
     try {
-      const result = await uploadFileWithAuth(file);
+      const result = await handleAddAssets(file);
+      console.log("result", result);
 
-      setUserUploads((prev) => [result?.data, ...prev]);
-
-      console.log(result);
+      if (result?.data) {
+        setUserUploads((prev) => [result.data, ...prev]);
+      }
     } catch (e) {
-      console.error("Error while uploading the file");
+      console.error("Error while uploading the file", e);
     } finally {
       setIsUploading(false);
-      e.target.value = "";
+      e.target.value = ""; // reset file input
     }
   };
 
   const handleAddImage = (imageUrl) => {
-    if (!canvas) return;
+    console.log(imageUrl);
+    console.log(canvas);
+    // if (!canvas) return;
     addImageToCanvas(canvas, imageUrl);
   };
 
@@ -82,8 +141,8 @@ function UploadPanel() {
               type="file"
               className="hidden"
               accept="image/*"
-              // onChange={handleFileUpload}
-              //disabled={isUploading}
+              onChange={handleFileUpload}
+              disabled={isUploading}
             />
           </Label>
         </div>
@@ -100,7 +159,7 @@ function UploadPanel() {
                 <div
                   className="aspect-auto bg-gray-50 rounded-md overflow-hidden hover:opacity-85 transition-opacity relative group"
                   key={imageData._id}
-                  // onClick={() => handleAddImage(imageData.url)}
+                  onClick={() => handleAddImage(imageData.url)}
                 >
                   <img
                     src={imageData.url}

@@ -5,6 +5,7 @@ import Canvas from "./canvas";
 import Header from "./header";
 import Sidebar from "./sidebar";
 import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
 import { useEditorStore } from "../../../redux/UserStore";
 //import { getUserDesignByID } from "@/services/design-service";
 import Properties from "./properties";
@@ -68,86 +69,84 @@ function MainEditor() {
     }
   }, [canvas]);
 
-  //load the design ->
-  // const loadDesign = useCallback(async () => {
-  //   if (!canvas || !designId || loadAttempted) return;
-  //   try {
-  //     setIsLoading(true);
-  //     setLoadAttempted(true);
+  const fetchTemplate = async (designId) => {
+    // setLoader(true);
+    console.log(
+      `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${designId}`
+    );
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${designId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      console.log("res template", res);
+      return res;
+    } catch (err) {
+      //toast.error("Failed to load template");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  //     const response = await getUserDesignByID(designId);
-  //     const design = response.data;
+  const loadDesign = useCallback(async () => {
+    if (!canvas || !designId || loadAttempted) return;
+    try {
+      setIsLoading(true);
+      setLoadAttempted(true);
 
-  //     if (design) {
-  //       //update name
-  //       setName(design.name);
+      const response = await fetchTemplate(designId);
+      const design = response.data.template;
+      console.log("design loaded", design);
 
-  //       //set the design ID just incase after getting the data
-  //       setDesignId(designId);
+      if (design) {
+        setName(design.name);
+        setDesignId(designId);
 
-  //       try {
-  //         if (design.canvasData) {
-  //           canvas.clear();
-  //           if (design.width && design.height) {
-  //             canvas.setDimensions({
-  //               width: design.width,
-  //               height: design.height,
-  //             });
-  //           }
+        if (design.content) {
+          canvas.clear();
 
-  //           const canvasData =
-  //             typeof design.canvasData === "string"
-  //               ? JSON.parse(design.canvasData)
-  //               : design.canvasData;
+          const canvasData =
+            typeof design.content === "string"
+              ? JSON.parse(design.content)
+              : design.content;
 
-  //           const hasObjects =
-  //             canvasData.objects && canvasData.objects.length > 0;
+          if (canvasData.background) {
+            canvas.backgroundColor = canvasData.background;
+          } else {
+            canvas.backgroundColor = "#ffffff";
+          }
 
-  //           if (canvasData.background) {
-  //             canvas.backgroundColor = canvasData.background;
-  //           } else {
-  //             canvas.backgroundColor = "#ffffff";
-  //           }
+          if (!canvasData.objects?.length) {
+            canvas.renderAll();
+            return;
+          }
 
-  //           if (!hasObjects) {
-  //             canvas.renderAll();
-  //             return true;
-  //           }
+          canvas.loadFromJSON(canvasData).then(() => {
+            canvas.requestRenderAll();
+          });
+        } else {
+          canvas.clear();
+          canvas.backgroundColor = "#ffffff";
+          canvas.renderAll();
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load design", e);
+      setError("failed to load design");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [canvas, designId, loadAttempted, setDesignId]);
 
-  //           canvas
-  //             .loadFromJSON(design.canvasData)
-  //             .then((canvas) => canvas.requestRenderAll());
-  //         } else {
-  //           console.log("no canvas data");
-  //           canvas.clear();
-  //           canvas.setWidth(design.width);
-  //           canvas.setHeight(design.height);
-  //           canvas.backgroundColor = "#ffffff";
-  //           canvas.renderAll();
-  //         }
-  //       } catch (e) {
-  //         console.error(("Error loading canvas", e));
-  //         setError("Error loading canvas");
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     }
-
-  //     console.log(response);
-  //   } catch (e) {
-  //     console.error("Failed to load design", e);
-  //     setError("failed to load design");
-  //     setIsLoading(false);
-  //   }
-  // }, [canvas, designId, loadAttempted, setDesignId]);
-
-  // useEffect(() => {
-  //   if (designId && canvas && !loadAttempted) {
-  //     loadDesign();
-  //   } else if (!designId) {
-  //     router.replace("/");
-  //   }
-  // }, [canvas, designId, loadDesign, loadAttempted, router]);
+  useEffect(() => {
+    if (designId && canvas && !loadAttempted) {
+      loadDesign();
+    } else if (!designId) {
+      router.replace("/");
+    }
+  }, [canvas, designId, loadDesign, loadAttempted, router]);
 
   useEffect(() => {
     if (!canvas) return;

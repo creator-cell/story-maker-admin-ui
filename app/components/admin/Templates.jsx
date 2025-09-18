@@ -23,34 +23,6 @@ export default function Template() {
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
-  // const getTemplates = async (page = 1, searchTerm = "") => {
-  //   setLoader(true);
-  //   try {
-  //     let url = `${API_URL}template?page=${page}&pageSize=${itemsPerPage}`;
-
-  //     if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
-
-  //     if (currentUser?.role === "admin") {
-  //     } else {
-  //       if (currentUser?._id) {
-  //         url += `&userId=${currentUser._id}&role=user`;
-  //       }
-  //     }
-
-  //     const res = await axios.get(url, {
-  //       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  //     });
-
-  //     setTemplates(res.data.data || []);
-  //     setTotalPages(res.data.pagination?.totalPages || 1);
-  //     setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
-  //   } catch (err) {
-  //     setTemplates([]);
-  //     setTotalPages(0);
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // };
   const getTemplates = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
@@ -110,11 +82,12 @@ export default function Template() {
     setDeleteId(id);
     setShowDeletedId(true);
   };
+  console.log(" currentUser._id ", currentUser);
   const handleTemplateSubmit = async () => {
     try {
       const responseData = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template`,
-        { name: "Untitle design", content: "", user: userObj._id },
+        { name: "Untitle design", content: "", user: currentUser._id },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -357,21 +330,6 @@ export default function Template() {
                                   onClick={() => handleDelete(tpl._id)}
                                 >
                                   Delete
-                                </button>
-                                <button
-                                  className="button mx-1"
-                                  style={{ backgroundColor: "#0d6efd" }}
-                                  onClick={() => handleDownloadPDF(tpl)}
-                                >
-                                  Download PDF
-                                </button>
-
-                                <button
-                                  className="button mx-1"
-                                  style={{ backgroundColor: "#20c997" }}
-                                  onClick={() => handleDownloadCSV(tpl)}
-                                >
-                                  Download CSV
                                 </button>
                               </td>
                             </tr>

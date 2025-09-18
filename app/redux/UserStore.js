@@ -6,7 +6,7 @@ import { debounce } from "lodash";
 import { centerCanvas } from "../components/admin/fabric/fabric-utils";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 // ---------------- AUTH SLICE ----------------
 const userSlice = createSlice({
   name: "auth",
@@ -139,12 +139,12 @@ async function saveCanvasState(
           },
         }
       );
-      toast.success("Template updated successfully");
+      // toast.success("Template updated successfully");
       //router.push("/admin/template");
     } catch (err) {
       toast.error(err?.response?.data?.message || "Failed to update template");
     } finally {
-      setLoader(false);
+      //  setLoader(false);
     }
     //return saveDesign(designData, designId);
   } catch (error) {

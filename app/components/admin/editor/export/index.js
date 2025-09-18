@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/app/components/ui/dialog";
 import { cn } from "../../lib/utils";
+import { jsPDF } from "jspdf";
 // import {
 //   exportAsJson,
 //   exportAsPDF,
@@ -29,23 +30,11 @@ import { useState } from "react";
 
 function ExportModal({ isOpen, onClose }) {
   const { canvas } = useEditorStore();
-  console.log("export canvas");
-  const [selectedFormat, setSelectedFormat] = useState("png");
+  console.log("export canvas", isOpen);
+  const [selectedFormat, setSelectedFormat] = useState("pdf");
   const [isExporting, setIsExporting] = useState(false);
 
   const exportFormats = [
-    {
-      id: "png",
-      name: "PNG Image",
-      icon: FileImage,
-      description: "Best for web and social media",
-    },
-    {
-      id: "svg",
-      name: "SVG Vector",
-      icon: FileIcon,
-      description: "Scalable vector format",
-    },
     {
       id: "pdf",
       name: "PDF Document",
@@ -59,76 +48,105 @@ function ExportModal({ isOpen, onClose }) {
       description: "Editable template format",
     },
   ];
-  const handleDownloadPDF = (tpl) => {
-    if (!tpl.content) {
-      toast.error("No template data found");
-      return;
-    }
 
-    // create a hidden canvas to render
-    const canvas = new fabric.StaticCanvas(null, { width: 800, height: 600 });
-
+  const handleDownloadPDF = async (tpl, name) => {
     try {
+      // load Fabric dynamically (Next.js client-side only)
+      const fabricMod = await import("fabric");
+      const fabric = fabricMod.fabric || fabricMod;
+
+      const rawData = tpl?.content ?? tpl;
       const jsonData =
-        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
+        typeof rawData === "string" ? JSON.parse(rawData) : rawData;
 
-      canvas.loadFromJSON(jsonData, () => {
-        const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
+      if (!jsonData?.objects?.length && !jsonData?._objects?.length) {
+        console.log("no object");
+        return false;
+      }
 
-        const pdf = new jsPDF("l", "pt", [canvas.width, canvas.height]);
-        pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height);
-        pdf.save(`${tpl.name || "template"}.pdf`);
-      });
-    } catch (err) {
-      toast.error("Error exporting PDF");
-    }
-  };
-  const handleDownloadCSV = (tpl) => {
-    if (!tpl.content) {
-      toast.error("No template data found");
-      return;
-    }
+      const width = jsonData.width || 800;
+      const height = jsonData.height || 600;
 
-    try {
-      const jsonData =
-        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
+      // create offscreen canvas
+      const el = document.createElement("canvas");
+      el.width = width;
+      el.height = height;
 
-      // flatten objects
-      const rows = [];
-      jsonData.objects.forEach((obj) => {
-        rows.push({
-          type: obj.type,
-          text: obj.text || "",
-          left: obj.left,
-          top: obj.top,
-          width: obj.width,
-          height: obj.height,
-          fill: obj.fill,
-          stroke: obj.stroke,
-          fontSize: obj.fontSize,
-          fontFamily: obj.fontFamily,
+      const canvas = new fabric.StaticCanvas(el, { width, height });
+
+      // load JSON into canvas
+      await new Promise((resolve) => {
+        canvas.loadFromJSON(jsonData, () => {
+          canvas.renderAll(); // render objects
+          resolve();
         });
       });
 
-      // convert to CSV
-      const headers = Object.keys(rows[0]).join(",");
-      const csv = [
-        headers,
-        ...rows.map((r) => Object.values(r).join(",")),
-      ].join("\n");
+      const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
 
+      const { jsPDF } = await import("jspdf");
+      const pdf = new jsPDF("l", "pt", [width, height]);
+      pdf.addImage(dataUrl, "PNG", 0, 0, width, height);
+      pdf.save(`${tpl.name || name || "template"}.pdf`);
+
+      return true;
+    } catch (err) {
+      console.error("PDF export error:", err);
+      return false;
+    }
+  };
+
+  const handleDownloadCSV = (tpl, name) => {
+    console.log("tpl input:", tpl);
+
+    try {
+      // Normalize data
+      const rawData = tpl.content ?? tpl;
+      const jsonData =
+        typeof rawData === "string" ? JSON.parse(rawData) : rawData;
+
+      console.log("parsed jsonData:", jsonData);
+
+      if (!jsonData._objects?.length) {
+        console.log("no object found");
+        return false;
+      }
+
+      // Collect all unique keys
+      const allKeys = Array.from(
+        new Set(jsonData._objects.flatMap((obj) => Object.keys(obj)))
+      );
+
+      // Build CSV rows
+      const rows = jsonData._objects.map((obj) =>
+        allKeys.map((key) => {
+          let val = obj[key];
+          if (val === null || val === undefined) return "";
+          if (typeof val === "object") return JSON.stringify(val);
+          return String(val).replace(/,/g, " ");
+        })
+      );
+
+      // Final CSV string
+      const csv = [allKeys.join(","), ...rows.map((r) => r.join(","))].join(
+        "\n"
+      );
+
+      // Download CSV
       const blob = new Blob([csv], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
-
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `${tpl.name || "template"}.csv`);
+      link.setAttribute("download", `${tpl.name || name || "template"}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+
+      return true;
     } catch (err) {
-      toast.error("Error exporting CSV");
+      console.error("CSV export error:", err);
+      return false;
     }
   };
 
@@ -142,22 +160,18 @@ function ExportModal({ isOpen, onClose }) {
       switch (selectedFormat) {
         case "json":
           successFlag = handleDownloadCSV(canvas, "JSON FileName");
-
           break;
 
         // case "png":
         //   successFlag = exportAsPng(canvas, "PNG FileName");
-
         //   break;
 
         // case "svg":
         //   successFlag = exportAsSVG(canvas, "SVG FileName");
-
         //   break;
 
         case "pdf":
           successFlag = handleDownloadPDF(canvas, "PDF FileName");
-
           break;
 
         default:
@@ -170,7 +184,8 @@ function ExportModal({ isOpen, onClose }) {
         }, 500);
       }
     } catch (e) {
-      throw new Error("Export failed");
+      console.error("Export error:", e);
+      //  toast.error("Export failed");
     } finally {
       setIsExporting(false);
     }

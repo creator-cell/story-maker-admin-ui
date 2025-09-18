@@ -96,52 +96,103 @@ export const addTextToCanvas = async (
   }
 };
 
+// export const addImageToCanvas = async (canvas, imageUrl) => {
+//   if (!canvas) return null;
+
+//   try {
+//     const { Image: FabricImage } = await import("fabric");
+
+//     let imgObj = new Image();
+//     imgObj.crossOrigin = "Anonymous";
+//     const safeUrl = encodeURI(imageUrl);
+//     imgObj.src = safeUrl;
+
+//     return new Promise((resolve, reject) => {
+//       imgObj.onload = () => {
+//         let image = new FabricImage(imgObj);
+//         console.log("canva image", image);
+//         image.set({
+//           id: `image-${Date.now()}`,
+//           top: 100,
+//           left: 100,
+//           padding: 10,
+//           cornorSize: 10,
+//         });
+
+//         const maxDimension = 400;
+
+//         if (image.width > maxDimension || image.height > maxDimension) {
+//           if (image.width > image.height) {
+//             const scale = maxDimension / image.width;
+//             image.scale(scale);
+//           } else {
+//             const scale = maxDimension / image.height;
+//             image.scale(scale);
+//           }
+//         }
+
+//         canvas.add(image);
+//         canvas.setActiveObject(image);
+//         canvas.renderAll();
+//         resolve(image);
+//       };
+
+//       imgObj.onerror = () => {
+//         reject(new Error("Failed to load image", imageUrl));
+//       };
+//     });
+//   } catch (error) {
+//     console.error("Error adding image");
+
+//     return null;
+//   }
+// };
+
 export const addImageToCanvas = async (canvas, imageUrl) => {
   if (!canvas) return null;
 
   try {
-    const { Image: FabricImage } = await import("fabric");
+    const fabricMod = await import("fabric");
+    const fabric = fabricMod.fabric || fabricMod; // handle default export cases
 
-    let imgObj = new Image();
-    imgObj.crossOrigin = "Anonymous";
-    imgObj.src = imageUrl;
+    const safeUrl = encodeURI(imageUrl);
 
     return new Promise((resolve, reject) => {
-      imgObj.onload = () => {
-        let image = new FabricImage(imgObj);
-        image.set({
-          id: `image-${Date.now()}`,
-          top: 100,
-          left: 100,
-          padding: 10,
-          cornorSize: 10,
-        });
-
-        const maxDimension = 400;
-
-        if (image.width > maxDimension || image.height > maxDimension) {
-          if (image.width > image.height) {
-            const scale = maxDimension / image.width;
-            image.scale(scale);
-          } else {
-            const scale = maxDimension / image.height;
-            image.scale(scale);
+      fabric.Image.fromURL(
+        safeUrl,
+        (image) => {
+          if (!image) {
+            reject(new Error("Image could not be loaded"));
+            return;
           }
-        }
 
-        canvas.add(image);
-        canvas.setActiveObject(image);
-        canvas.renderAll();
-        resolve(image);
-      };
+          image.set({
+            id: `image-${Date.now()}`,
+            top: 100,
+            left: 100,
+            padding: 10,
+            cornerSize: 10,
+          });
 
-      imgObj.onerror = () => {
-        reject(new Error("Failed to load image", imageUrl));
-      };
+          const maxDimension = 400;
+          if (image.width > maxDimension || image.height > maxDimension) {
+            if (image.width > image.height) {
+              image.scaleToWidth(maxDimension);
+            } else {
+              image.scaleToHeight(maxDimension);
+            }
+          }
+
+          canvas.add(image);
+          canvas.setActiveObject(image);
+          canvas.renderAll();
+          resolve(image);
+        },
+        { crossOrigin: "anonymous" }
+      );
     });
   } catch (error) {
-    console.error("Error adding image");
-
+    console.error("Error adding image:", error);
     return null;
   }
 };

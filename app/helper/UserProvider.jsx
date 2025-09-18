@@ -61,20 +61,12 @@ export const UserProvider = ({ children }) => {
     if (!token) return;
 
     // Try fetching user from API
-    axios
-      .get(`${process.env.NEXT_PUBLIC_SERVER_URL_USER}users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        userStore.dispatch(login({ user: res.data, token }));
-      })
-      .catch(() => {
-        // fallback: restore cached user if API fails
-        const user = localStorage.getItem("user");
-        if (user) {
-          userStore.dispatch(login({ user: JSON.parse(user), token }));
-        }
-      });
+
+    // fallback: restore cached user if API fails
+    const user = localStorage.getItem("user");
+    if (user) {
+      userStore.dispatch(login({ user: JSON.parse(user), token }));
+    }
   }, []);
 
   return <Provider store={userStore}>{children}</Provider>;
