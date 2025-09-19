@@ -55,14 +55,12 @@ export default function DeleteAssets({ show, onHide, data, setLoader, props }) {
                   <button
                     onClick={handleAssetsDelete}
                     className="button"
-                    style={{ backgroundColor: "red" }}
                   >
                     Delete
                   </button>
                   <button
                     onClick={onHide}
                     className="button"
-                    style={{ backgroundColor: "gray" }}
                   >
                     Cancel
                   </button>

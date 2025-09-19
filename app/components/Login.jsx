@@ -104,7 +104,16 @@ export default function Login() {
       {showLoader ? (
         <Loader />
       ) : (
-        <div className="auth">
+        <div
+          className="auth"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            background: "linear-gradient(to bottom right, #ffffff, #d9d9d9)",
+          }}
+        >
           <div className="container">
             <div className="row justify-content-center align-items-center">
               <div className="col-lg-5 col-md-7 col-12 mt-10">
@@ -118,11 +127,15 @@ export default function Login() {
                       className="row justify-content-center needs-validation"
                     >
                       <div className="col-lg-12 col-md-12 col-12">
+                        <label htmlFor="email" className="form-label">
+                          Email Address
+                        </label>
                         <div className="mb-input">
                           <input
+                            id="email"
                             type="email"
                             className="form-control"
-                            placeholder="Email address *"
+                            placeholder="Enter your email"
                             value={watch("email") || ""}
                             {...register("email", {
                               required: {
@@ -143,12 +156,16 @@ export default function Login() {
                         </div>
                       </div>
                       <div className="col-lg-12 col-md-12 col-12">
+                        <label htmlFor="password" className="form-label">
+                          Password
+                        </label>
                         <div className="mb-input">
                           <div className="password_eye">
                             <input
+                              id="password"
                               type={showPassword ? "text" : "password"}
                               className="form-control"
-                              placeholder="Password *"
+                              placeholder="Enter your password"
                               value={watch("password") || ""}
                               {...register("password", {
                                 required: {
@@ -181,11 +198,13 @@ export default function Login() {
                         </div>
                       </div>
                       <div className="col-lg-12 col-md-12 col-12">
+                        <div className="d-flex justify-content-center">
                         <input
                           type="submit"
                           value="Log in"
-                          className="button w-100"
+                          className="login-btn"
                         />
+                        </div>
                       </div>
                     </form>
                   </div>
