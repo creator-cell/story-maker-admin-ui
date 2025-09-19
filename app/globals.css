@@ -301,28 +301,21 @@ table thead {
 .button,
 .button:focus,
 .button:active {
-  display: inline-block;
+  background-color: #808080;
+  color: #fff;
+  border: none;
+  padding: 8px 17px;
   font-size: 16px;
-  font-weight: 600;
-  /* background: var(--btn-main); */
-  background: linear-gradient(180deg, #007bff, #00c6ff);
-  color: var(--white);
-  line-height: 1;
-  border: 1px solid transparent;
   border-radius: 4px;
-  text-transform: capitalize;
   cursor: pointer;
-  outline: none;
-  padding: 14px 18px;
   transition: all 0.3s ease;
-  font-family: var(--Avenir-Bold-font-family);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .button:hover,
 .button:focus {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  background-color: #43484d !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 .auth_button,
@@ -3062,6 +3055,23 @@ h6 {
   background-color: var(--dark);
 }
 
+.login-btn {
+  background-color: #808080;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.login-btn:hover {
+  background-color: #43484d !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
 /* Admin Buttons End */
 
 /* Sidebar Start */
@@ -3334,9 +3344,9 @@ button.admin_menuToggler {
   padding: 0 0;
 }
 
-.comman_admin_layout .admin_table .table_filter .filter_field .button {
+/* .comman_admin_layout .admin_table .table_filter .filter_field .button {
   padding: 10px 10px;
-}
+} */
 
 .comman_admin_layout .admin_table .form-control,
 .comman_admin_layout .admin_table .form-control:focus,
@@ -3376,13 +3386,29 @@ button.admin_menuToggler {
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
-  padding: 10px 25px;
-  background: var(--vibrant-blue) !important;
+    
+    background-color: #808080;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .click-to-resolve {
-  padding: 10px 10px;
-  background: var(--slat-gray) !important;
+  background-color: #808080;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -3402,7 +3428,7 @@ button.admin_menuToggler {
 .admin_table .table-responsive table {
   margin: 0;
   padding: 0;
-  border: 1px solid var(--dark) !important;
+  border: 1px solid #808080 !important;
 }
 
 .admin_table .table-responsive table thead {
@@ -3411,13 +3437,13 @@ button.admin_menuToggler {
 }
 
 .admin_table .table-responsive table thead th {
-  background-color: var(--alpha) !important;
+  background-color: #808080 !important;
   color: var(--white) !important;
 }
 
 .admin_table .table-responsive table thead th,
 .admin_table .table-responsive table tbody tr td {
-  border-bottom: 1px solid var(--dark) !important;
+  border-bottom: 1px solid #808080 !important;
   padding: 6px 6px;
   font-size: 14px;
   line-height: 1.2;
@@ -9981,9 +10007,8 @@ html {
 
 .comman_admin_layout .admin_table .table_filter .filter_field .button:hover,
 .comman_admin_layout .admin_table .table_filter .filter_field .button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  background-color: #43484d;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 .comman_admin_layout .admin_form_panel,
@@ -9996,28 +10021,24 @@ html {
 
 .comman_admin_layout .admin_form_panel button:hover,
 .comman_admin_layout .admin_form_panel button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
-  color: var(--white);
+  background-color: #43484d;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 .comman_admin_layout .admin_table .table_filter button:hover,
 .comman_admin_layout .admin_table .table_filter button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  background-color: #43484d;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 .comman_admin_layout .admin_forms form .button:hover,
 .comman_admin_layout .admin_forms form .button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  background-color: #43484d;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 .comman_admin_layout .admin_table .form_group button {
-  padding: 10px 10px;
+  /* padding: 10px 10px; */
   margin-right: 15px;
 }
 
@@ -10117,9 +10138,8 @@ html {
 
 .chat-container .send-chat button:hover,
 .chat-container .send-chat button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  background-color: #43484d;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 .chat-container .send-chat .form-control {
@@ -10205,9 +10225,8 @@ html {
 
 .toolbar .button:hover,
 .toolbar .button:visited {
-  background: var(--Blue) !important;
-  opacity: 0.8;
-  transition: background-color, box-shadow 1s ease;
+  background-color: #43484d;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 .main-toolbar {
@@ -10226,7 +10245,7 @@ html {
 }
 
 .main-toolbar .toolbar {
-  margin-top: -45px;
+  margin-top: -40px;
   padding-left: 110px;
 }
 

@@ -318,7 +318,7 @@ export default function EditTemplatePage({ id, isClone }) {
                           <button
                             type="button"
                             className="button"
-                            style={{ backgroundColor: "#198754" }}
+                            // style={{ backgroundColor: "#198754" }}
                             onClick={() => setApproveModel(true)}
                           >
                             Approve
@@ -328,7 +328,7 @@ export default function EditTemplatePage({ id, isClone }) {
                           <button
                             type="button"
                             className="button"
-                            style={{ backgroundColor: "#dc3545" }}
+                            // style={{ backgroundColor: "#dc3545" }}
                             onClick={() => setShowRejectModal(true)}
                           >
                             Reject
@@ -337,7 +337,7 @@ export default function EditTemplatePage({ id, isClone }) {
                         <button
                           type="button"
                           className="button"
-                          style={{ backgroundColor: "#6c757d" }}
+                          // style={{ backgroundColor: "#6c757d" }}
                           onClick={() => router.push("/admin/template")}
                         >
                           Cancel

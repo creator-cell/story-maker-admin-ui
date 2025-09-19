@@ -198,20 +198,13 @@ export default function Login() {
                         </div>
                       </div>
                       <div className="col-lg-12 col-md-12 col-12">
+                        <div className="d-flex justify-content-center">
                         <input
                           type="submit"
                           value="Log in"
-                          className="button"
-                          style={{
-                            backgroundColor: "#808080 !important",
-                            color: "#fff",
-                            padding: "10px 20px",
-                            fontSize: "16px",
-                            border: "none",
-                            borderRadius: "4px",
-                            cursor: "pointer",
-                          }}
+                          className="login-btn"
                         />
+                        </div>
                       </div>
                     </form>
                   </div>
