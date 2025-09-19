@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import DeleteTemplate from "@/app/(adminSide)/model/DeleteTemplate";
 import Loader from "../Loader";
 import { jsPDF } from "jspdf";
+import ApproveTemplate from "@/app/(adminSide)/model/ApproveTemplate";
 export default function Template() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
   const [templates, setTemplates] = useState([]);
@@ -22,7 +23,9 @@ export default function Template() {
   const userObj = userStr ? JSON.parse(userStr) : null;
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
+  const [approveModel, setApproveModel] = useState(false);
 
+  const [showRejectModal, setShowRejectModal] = useState(false);
   const getTemplates = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
@@ -200,6 +203,11 @@ export default function Template() {
     }
   };
 
+  const handleApprove = (id) => {
+    setApproveModel(true);
+    setDeleteId(id);
+  };
+
   return (
     <>
       <div id="main_container">
@@ -231,15 +239,7 @@ export default function Template() {
                               e.key === "Enter" && getTemplates(1, search)
                             }
                           />
-                          <i
-                            className="fa-solid fa-magnifying-glass"
-                            // style={{
-                            //   right: "10px",
-                            //   top: "50%",
-                            //   transform: "translateY(-50%)",
-                            //   color: "#6c757d",
-                            // }}
-                          ></i>
+                          <i className="fa-solid fa-magnifying-glass"></i>
                         </div>
                         <button
                           className="button"
@@ -286,8 +286,8 @@ export default function Template() {
                       <thead>
                         <tr>
                           <th>Name</th>
-                          <th>Category</th>
-                          <th>Subcategory</th>
+                          {/* <th>Category</th>
+                          <th>Subcategory</th> */}
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
@@ -297,8 +297,8 @@ export default function Template() {
                           templates.map((tpl) => (
                             <tr key={tpl._id}>
                               <td>{tpl.name}</td>
-                              <td>{tpl.category?.name || "-"}</td>
-                              <td>{tpl.subCategory?.name || "-"}</td>
+                              {/* <td>{tpl.category?.name || "-"}</td>
+                              <td>{tpl.subCategory?.name || "-"}</td> */}
                               <td>
                                 <span
                                   className={`badge ${
@@ -329,8 +329,18 @@ export default function Template() {
                                   style={{ backgroundColor: "#dc3545" }}
                                   onClick={() => handleDelete(tpl._id)}
                                 >
-                                  Delete
+                                  Delete/Reject
                                 </button>
+                                {currentUser.role.name === "Super Admin" &&
+                                  tpl.status === "pending" && (
+                                    <button
+                                      className="button mx-1"
+                                      style={{ backgroundColor: "6c757d" }}
+                                      onClick={() => handleApprove(tpl._id)}
+                                    >
+                                      Approve
+                                    </button>
+                                  )}
                               </td>
                             </tr>
                           ))}
@@ -383,6 +393,13 @@ export default function Template() {
         show={showDeletedId}
         data={deleteId}
         onHide={() => (setShowDeletedId(false), getTemplates())}
+      />
+      <ApproveTemplate
+        show={approveModel}
+        data={deleteId}
+        onHide={() => {
+          setApproveModel(false), getTemplates();
+        }}
       />
     </>
   );

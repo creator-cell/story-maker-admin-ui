@@ -118,7 +118,7 @@ function UploadPanel() {
   const handleAddImage = (imageUrl) => {
     console.log(imageUrl);
     console.log(canvas);
-    // if (!canvas) return;
+    if (!canvas) return;
     addImageToCanvas(canvas, imageUrl);
   };
 
@@ -130,12 +130,10 @@ function UploadPanel() {
         <div className="upload-btn d-flex gap-2 rounded">
           <Label
             className={`w-100 d-flex align-items-center justify-content-center gap-2 py-2 px-4 text-white
-          rounded fs-6 ${
-            isUploading ? "opacity-70 cursor-not-allowed" : ""
-          }
+          rounded fs-6 ${isUploading ? "opacity-70 cursor-not-allowed" : ""}
           `}
           >
-            <Upload/>
+            <Upload />
             <span>{isUploading ? "Uploading..." : "Upload Files"}</span>
             <Input
               type="file"
@@ -147,11 +145,15 @@ function UploadPanel() {
           </Label>
         </div>
         <div className="mt-3">
-          <h4 className="fs-6 fw-bold mb-3"><small>Your Uploads</small></h4>
+          <h4 className="fs-6 fw-bold mb-3">
+            <small>Your Uploads</small>
+          </h4>
           {isLoading ? (
             <div className="border p-6 d-flex rounded align-items-center justify-content-center gap-3">
-              <Loader2/>
-              <p className="fw-bold"><small>Loading your uploads...</small></p>
+              <Loader2 />
+              <p className="fw-bold">
+                <small>Loading your uploads...</small>
+              </p>
             </div>
           ) : userUploads.length > 0 ? (
             <div className="d-flex flex-wrap gap-2 w-100">
