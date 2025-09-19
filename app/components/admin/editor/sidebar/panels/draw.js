@@ -83,19 +83,18 @@ function DrawingPanel() {
 
   return (
     <div className="p-4">
-      <div className="">
+      <div>
         <Button
           variant={isDrawingMode ? "default" : "outline"}
           className={
-            "w-100 py-2 rounded bg-transparent d-flex justify-content-center align-items-center gap-3"
+            "draw-btn w-100 py-2 rounded bg-transparent d-flex justify-content-center align-items-center gap-3"
           }
           size="lg"
           onClick={handleToggleDrawingMode}
         >
           <PencilIcon
-            className={` pencil-icon ${
-              isDrawingMode ? "animate-bounce" : "hover:animate-bounce"
-            }`}
+            className={`pencil-icon ${isDrawingMode ? "animate-bounce" : "hover:animate-bounce"
+              }`}
           />
           <span className="font-medium">
             {isDrawingMode ? "Exit Drawing Mode" : "Enter Drawing Mode"}
@@ -105,59 +104,58 @@ function DrawingPanel() {
           <>
             <Tabs
               defaultValue="colors"
-              className={"w-full"}
+              className={"w-100 mt-3"}
               value={activeTab}
               onValueChange={setActiveTab}
             >
-              <TabsList className={"grid grid-cols-3 mb-4"}>
-                <TabsTrigger value="colors">
-                  <Palette className="mr-2 h-4 w-4" />
+              <TabsList className="tablist d-flex flex-col gap-2 w-100 mt-3">
+                <TabsTrigger value="colors" className="rounded gap-1">
+                  <Palette />
                   Colors
                 </TabsTrigger>
-                <TabsTrigger value="brush">
-                  <Paintbrush className="mr-2 h-4 w-4" />
+                <TabsTrigger value="brush" className="rounded gap-1" >
+                  <Paintbrush className="" />
                   Brush
                 </TabsTrigger>
-                <TabsTrigger value="tools">
-                  <EraserIcon className="mr-2 h-4 w-4" />
+                <TabsTrigger value="tools" className="rounded not-last-of-type:gap-1" >
+                  <EraserIcon className="" />
                   Tools
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="colors">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
+                <div className="mt-3">
+                  <div className="d-flex justify-content-between align-items-center">
                     <Label>Color Palette</Label>
                     <div
-                      className="w-6 h-6 rounded-full border shadow-sm"
+                      className="rounded border"
                       style={{ backgroundColor: drawingColor }}
                     />
                   </div>
-                  <div className="grid grid-cols-5 gap-2">
-                    {drawingPanelColorPresets.map((color) => (
-                      <div key={color}>
-                        <button
-                          className={`w-10 h-10 rounded-full border transition-transform
-                            hover:scale-110 ${
-                              color === drawingColor
-                                ? "ring-1 ring-offset-2 ring-primary"
-                                : ""
-                            }
+                  <div className="mt-2">
+                    <div className="choose-color">
+                      {drawingPanelColorPresets.map((color) => (
+                        <div key={color}>
+                          <button
+                            className={`rounded border  ${color === drawingColor
+                              ? "ring-1 ring-offset-2 ring-primary"
+                              : ""
+                              }
                             `}
-                          onClick={() => handleDrawingColorChange(color)}
-                          style={{ backgroundColor: color }}
-                        />
-                      </div>
-                    ))}
+                            onClick={() => handleDrawingColorChange(color)}
+                            style={{ backgroundColor: color }}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex mt-5 space-x-2">
-                    <div className="relative">
+                  <div className="mt-4">
+                    <div className="draw-background position-relative">
                       <Input
                         type="color"
                         value={drawingColor}
                         onChange={(e) =>
                           handleDrawingColorChange(e.target.value)
                         }
-                        className={"w-12 h-10 p-1 cursor-pointer"}
                         disabled={isErasing}
                       />
                     </div>
@@ -165,37 +163,38 @@ function DrawingPanel() {
                       type="text"
                       value={drawingColor}
                       onChange={(e) => handleDrawingColorChange(e.target.value)}
-                      className={"flex-1"}
+                      className={"rounded mt-3"}
                       disabled={isErasing}
                     />
                   </div>
                 </div>
               </TabsContent>
-              <TabsContent value="brush" className={"space-y-4"}>
-                <div className="space-y-3">
+              <TabsContent value="brush" className={"mt-2"}>
+                <div className="">
                   <Label className={"block text-sm font-semibold"}>
                     Brush Size
                   </Label>
-                  <div className="flex items-center space-x-3">
-                    <Minus className="h-4 w-4 text-gray-500" />
-                    <Slider
-                      value={[brushWidth]}
-                      min={1}
-                      max={30}
-                      step={1}
-                      onValueChange={(value) => setBrushWidth(value[0])}
-                      className="flex-1"
+                  <div className="d-flex align-items-center gap-2">
+                    <Minus />
+                    <input
+                      type="range"
+                      className="form-range flex-grow-1"
+                      min="1"
+                      max="30"
+                      step="1"
+                      value={brushWidth}
+                      onChange={(e) => setBrushWidth(Number(e.target.value))}
                     />
-                    <Plus className="h-4 w-4 text-gray-500" />
+                    <Plus />
                   </div>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="mt-2 brush-size-button">
                     {brushSizes.map((size) => (
                       <Button
                         key={size.value}
                         variant={
                           size.value === brushWidth ? "default" : "outline"
                         }
-                        className={"px-2 py-1 h-auto"}
+                        className={"rounded bg-white border"}
                         onClick={() => handleBrushWidthChange(size.value)}
                       >
                         {size.label}
@@ -224,14 +223,14 @@ function DrawingPanel() {
                   </div>
                 </div>
               </TabsContent>
-              <TabsContent value="tools">
+              <TabsContent value="tools" className={"tools mt-3 d-flex"}>
                 <Button
                   onClick={handleToggleErasing}
                   variant={isErasing ? "destructive" : "outline"}
-                  className={"w-full py-6"}
+                  className={"w-100 rounded bg-white p-2 d-flex align-items-center justify-content-center gap-2 text-dark"}
                   size="lg"
                 >
-                  <EraserIcon className="mr-2 w-5 h-5" />
+                  <EraserIcon />
                   {isErasing ? "Stop Erasing" : "Eraser mode"}
                 </Button>
               </TabsContent>

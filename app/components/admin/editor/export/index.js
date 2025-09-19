@@ -195,39 +195,39 @@ function ExportModal({ isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={"sm:max-w-md"}>
-        <DialogHeader>
-          <DialogTitle className={"text-xl"}>Export Design</DialogTitle>
+      <DialogContent>
+        <DialogHeader className="border-0">
+          <DialogTitle><small>Export Design</small></DialogTitle>
         </DialogHeader>
 
-        <div className="py-4">
-          <h3 className="text-xs font-medium mb-3">Choose Format</h3>
-          <div className="grid grid-cols-2 gap-3">
+        <div className="mx-3">
+          <h3 className="fs-6 fw-bold mb-3"><small>Choose Format</small></h3>
+          <div className="d-flex gap-3">
             {exportFormats.map((exportFormat) => (
               <Card
                 key={exportFormat.id}
                 className={cn(
-                  "cursor-pointer border transition-colors hover:bg-accent hover:text-accent-foreground",
+                  "w-50 rounded",
                   selectedFormat === exportFormat.id
-                    ? "border-primary bg-accent"
+                    ? "border-dark bg-accent rounded"
                     : "border-border"
                 )}
                 onClick={() => setSelectedFormat(exportFormat.id)}
               >
                 <CardContent
-                  className={"p-4 flex flex-col items-center text-center"}
+                  className={"p-4 d-flex flex-column align-items-center text-center"}
                 >
                   <exportFormat.icon
                     className={cn(
-                      "h-8 w-8 mb-2",
+                      "mb-2",
                       selectedFormat === exportFormat.id
-                        ? "text-primary"
-                        : "text-muted-foreground"
+                        ? "text-dark"
+                        : ""
                     )}
                   />
-                  <h4 className="font-medium text-sm">{exportFormat.name}</h4>
-                  <p className="mt-1 text-muted-foreground font-medium">
-                    {exportFormat.description}
+                  <h6 className="fs-6 fw-bold"><small>{exportFormat.name}</small></h6>
+                  <p className="fs-7">
+                  {exportFormat.description}
                   </p>
                 </CardContent>
               </Card>
@@ -238,17 +238,17 @@ function ExportModal({ isOpen, onClose }) {
           <Button
             onClick={handleExport}
             disabled={isExporting}
-            className="min-w-[120px] bg-purple-700 text-white"
+            className="text-white d-flex gap-3 rounded border-0"
             variant="default"
           >
             {isExporting ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4" />
+                <Loader2 className="" />
                 Exporting...
               </>
             ) : (
               <>
-                <Download className="mr-2 h-4 w-4" />
+                <Download className="" />
                 Export {selectedFormat.toUpperCase()}
               </>
             )}

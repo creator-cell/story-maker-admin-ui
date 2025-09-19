@@ -177,7 +177,7 @@ function MainEditor() {
   }, [canvas]);
 
   return (
-    <div id="main_container">
+    <div id="main_container" className="p-2">
       <div className="inner_container">
         <div className="flex flex-col h-screen overflow-hidden">
           <Header />
