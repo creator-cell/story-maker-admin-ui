@@ -290,38 +290,41 @@ export default function Template() {
                                 </span>
                               </td>
                               <td>
-                                <div className="d-flex justify-content-start align-items-center gap-2">
-                                  <button title="Edit Template"
-                                    className="admin_action_edit"
-                                    onClick={() => handleEdit(tpl._id)}
-                                  >
-                                    <i className="fa fa-edit"></i>
-                                  </button>
-                                  <button title="Clone Template"
-                                    className="admin_action_clone"
-                                    onClick={() => handleClone(tpl._id)}
-                                  >
-                                    <i class="fa fa-clone"></i>
-                                  </button>
-                                  <button title="Delete Template"
-                                    className="admin_action_delete"
-                                    onClick={() => handleDelete(tpl._id)}
-                                  >
-                                    <i class="fa fa-trash"></i>
-                                  </button>
-                                  <button title="Download PDF"
-                                    className="admin-action-download-pdf"
-                                    onClick={() => handleDownloadPDF(tpl)}
-                                  >
-                                    Download <i><img src="/images/pdf.png" alt="pdf" /></i>
-                                  </button>
-                                  <button title="Download CSV"
-                                    className="admin-actiob-download-csv"
-                                    onClick={() => handleDownloadCSV(tpl)}
-                                  >
-                                    Download  <i><img src="/images/csv.png" alt="csv" /></i>
-                                  </button>
-                                </div>
+                                <button
+                                  className="button mx-1"
+                                  onClick={() => handleEdit(tpl._id)}
+                                >
+                                  View/Edit
+                                </button>
+                                <button
+                                  className="button mx-1"
+                                  // style={{ backgroundColor: "#6c757d" }}
+                                  onClick={() => handleClone(tpl._id)}
+                                >
+                                  Clone
+                                </button>
+                                <button
+                                  className="button mx-1"
+                                  // style={{ backgroundColor: "#dc3545" }}
+                                  onClick={() => handleDelete(tpl._id)}
+                                >
+                                  Delete
+                                </button>
+                                <button
+                                  className="button mx-1"
+                                  // style={{ backgroundColor: "#0d6efd" }}
+                                  onClick={() => handleDownloadPDF(tpl)}
+                                >
+                                  Download PDF
+                                </button>
+
+                                <button
+                                  className="button mx-1"
+                                  // style={{ backgroundColor: "#20c997" }}
+                                  onClick={() => handleDownloadCSV(tpl)}
+                                >
+                                  Download CSV
+                                </button>
                               </td>
                             </tr>
                           ))}
