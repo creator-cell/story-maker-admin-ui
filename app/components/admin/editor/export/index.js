@@ -49,58 +49,55 @@ function ExportModal({ isOpen, onClose }) {
     },
   ];
 
-  const handleDownloadPDF = async (tpl, name) => {
+  function exportAsPDF(canvas, fileName = "PDF Design", options = {}) {
+    if (!canvas) return;
+
     try {
-      // load Fabric dynamically (Next.js client-side only)
-      const fabricMod = await import("fabric");
-      const fabric = fabricMod.fabric || fabricMod;
+      const defaultOptions = {
+        format: "a4",
+        orientation: "landscape",
+        unit: "mm",
+        ...options,
+      };
 
-      const rawData = tpl?.content ?? tpl;
-      const jsonData =
-        typeof rawData === "string" ? JSON.parse(rawData) : rawData;
+      const pdf = new jsPDF(
+        defaultOptions.orientation,
+        defaultOptions.unit,
+        defaultOptions.format
+      );
 
-      if (!jsonData?.objects?.length && !jsonData?._objects?.length) {
-        console.log("no object");
-        return false;
-      }
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
 
-      const width = jsonData.width || 800;
-      const height = jsonData.height || 600;
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      // create offscreen canvas
-      const el = document.createElement("canvas");
-      el.width = width;
-      el.height = height;
+      const scale =
+        Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight) * 0.9; //90% available space
 
-      const canvas = new fabric.StaticCanvas(el, { width, height });
+      const x = (pdfWidth - canvasWidth * scale) / 2;
+      const y = (pdfHeight - canvasHeight * scale) / 2;
 
-      // load JSON into canvas
-      await new Promise((resolve) => {
-        canvas.loadFromJSON(jsonData, () => {
-          canvas.renderAll(); // render objects
-          resolve();
-        });
-      });
+      const imgData = canvas.toDataURL("image/png", 1.0);
 
-      const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
+      pdf.addImage(
+        imgData,
+        "PNG",
+        x,
+        y,
+        canvasWidth * scale,
+        canvasHeight * scale
+      );
 
-      const { jsPDF } = await import("jspdf");
-      const pdf = new jsPDF("l", "pt", [width, height]);
-      pdf.addImage(dataUrl, "PNG", 0, 0, width, height);
-      pdf.save(`${tpl.name || name || "template"}.pdf`);
+      pdf.save(`${fileName}.pdf`);
 
       return true;
-    } catch (err) {
-      console.error("PDF export error:", err);
+    } catch (e) {
       return false;
     }
-  };
-
+  }
   const handleDownloadCSV = (tpl, name) => {
-    console.log("tpl input:", tpl);
-
     try {
-      // Normalize data
       const rawData = tpl.content ?? tpl;
       const jsonData =
         typeof rawData === "string" ? JSON.parse(rawData) : rawData;
@@ -112,12 +109,10 @@ function ExportModal({ isOpen, onClose }) {
         return false;
       }
 
-      // Collect all unique keys
       const allKeys = Array.from(
         new Set(jsonData._objects.flatMap((obj) => Object.keys(obj)))
       );
 
-      // Build CSV rows
       const rows = jsonData._objects.map((obj) =>
         allKeys.map((key) => {
           let val = obj[key];
@@ -127,12 +122,10 @@ function ExportModal({ isOpen, onClose }) {
         })
       );
 
-      // Final CSV string
       const csv = [allKeys.join(","), ...rows.map((r) => r.join(","))].join(
         "\n"
       );
 
-      // Download CSV
       const blob = new Blob([csv], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -162,16 +155,8 @@ function ExportModal({ isOpen, onClose }) {
           successFlag = handleDownloadCSV(canvas, "JSON FileName");
           break;
 
-        // case "png":
-        //   successFlag = exportAsPng(canvas, "PNG FileName");
-        //   break;
-
-        // case "svg":
-        //   successFlag = exportAsSVG(canvas, "SVG FileName");
-        //   break;
-
         case "pdf":
-          successFlag = handleDownloadPDF(canvas, "PDF FileName");
+          successFlag = exportAsPDF(canvas, "PDF FileName");
           break;
 
         default:
@@ -197,11 +182,15 @@ function ExportModal({ isOpen, onClose }) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader className="border-0">
-          <DialogTitle><small>Export Design</small></DialogTitle>
+          <DialogTitle>
+            <small>Export Design</small>
+          </DialogTitle>
         </DialogHeader>
 
         <div className="mx-3">
-          <h3 className="fs-6 fw-bold mb-3"><small>Choose Format</small></h3>
+          <h3 className="fs-6 fw-bold mb-3">
+            <small>Choose Format</small>
+          </h3>
           <div className="d-flex gap-3">
             {exportFormats.map((exportFormat) => (
               <Card
@@ -215,20 +204,20 @@ function ExportModal({ isOpen, onClose }) {
                 onClick={() => setSelectedFormat(exportFormat.id)}
               >
                 <CardContent
-                  className={"p-4 d-flex flex-column align-items-center text-center"}
+                  className={
+                    "p-4 d-flex flex-column align-items-center text-center"
+                  }
                 >
                   <exportFormat.icon
                     className={cn(
                       "mb-2",
-                      selectedFormat === exportFormat.id
-                        ? "text-dark"
-                        : ""
+                      selectedFormat === exportFormat.id ? "text-dark" : ""
                     )}
                   />
-                  <h6 className="fs-6 fw-bold"><small>{exportFormat.name}</small></h6>
-                  <p className="fs-7">
-                  {exportFormat.description}
-                  </p>
+                  <h6 className="fs-6 fw-bold">
+                    <small>{exportFormat.name}</small>
+                  </h6>
+                  <p className="fs-7">{exportFormat.description}</p>
                 </CardContent>
               </Card>
             ))}
