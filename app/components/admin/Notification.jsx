@@ -20,52 +20,52 @@ export default function Notification() {
 
     setLoader(true);
     axios({
-        url: `${API_URL}notification/${type == "sms" ? 'sms' : 'mail'}`,
-        method:"POST",
-        headers: {
-            "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${localStorage.getItem("token")}`
-        },
-        data: JSON.stringify({
-            message: message
-        })
+      url: `${API_URL}notification/${type == "sms" ? 'sms' : 'mail'}`,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
+      data: JSON.stringify({
+        message: message
+      })
     }).then(res => {
-        setMessage("");
-        toast(res.data?.message || "Notification sended successfully", {
-            theme: "light",
-            type: "success",
-            position: "top-right"
-        });
-        getNotifications();
+      setMessage("");
+      toast(res.data?.message || "Notification sended successfully", {
+        theme: "light",
+        type: "success",
+        position: "top-right"
+      });
+      getNotifications();
     }).catch(err => {
-        console.log(err);
-        toast("Something want wrong", {
-            theme: "light",
-            type: "error",
-            position: "top-right"
-        });
+      console.log(err);
+      toast("Something want wrong", {
+        theme: "light",
+        type: "error",
+        position: "top-right"
+      });
     }).finally(() => {
-        setLoader(false);
+      setLoader(false);
     });
   };
 
   const getNotifications = (page = 1) => {
     setLoader(true);
     axios({
-        url: `${API_URL}notification?page=${page}`,
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
-        }
+      url: `${API_URL}notification?page=${page}`,
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
     }).then(res => {
-        setNotifications(res?.data?.data?.items);
-        setTotalPages(res?.data?.data?.pagination?.totalPages);
-        setTotalItems(res?.data?.data?.pagination?.totalItems);
-        setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
+      setNotifications(res?.data?.data?.items);
+      setTotalPages(res?.data?.data?.pagination?.totalPages);
+      setTotalItems(res?.data?.data?.pagination?.totalItems);
+      setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
     }).catch(err => {
-        console.log(err);
+      console.log(err);
     }).finally(() => {
-        setLoader(false);
+      setLoader(false);
     });
   }
 
@@ -86,6 +86,7 @@ export default function Notification() {
             <div id="user" className="comman_admin_layout">
               <div className="container p-0">
                 <div className="row">
+                  <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="container mt-4">
                         <h2 className="mb-4">Notifications</h2>
 
@@ -113,13 +114,6 @@ export default function Notification() {
                         Send by SMS
                         </button>
                     </div>
-                </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-12 col-md-12 col-sm-12">
-                    <div className="title_head">
-                      {/* <h3>Notification history</h3> */}
-                    </div>
                   </div>
                 </div>
                 <div className="admin_table">
@@ -128,14 +122,43 @@ export default function Notification() {
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="col-lg-8 col-md-6 col-12">
+                    <div className="notification col-lg-8 col-md-6 col-12">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative">
-                          
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Write your notification..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                          />
+                          <i class="fa-solid fa-pen"></i>
                         </div>
+
+                        <button
+                          className="btn me-2 mail-button" 
+                          onClick={() => handleSend("mail")}
+                        >
+                          Send by <i class="fa-solid fa-envelope"></i>
+                          {/* Email */}
+                        </button>
+                        <button
+                          className="btn sms-button"
+                          onClick={() => handleSend("sms")}
+                        >
+                          Send by <i class="fa-solid fa-comment-sms"></i>
+                          {/* SMS */}
+                        </button>
                       </div>
                     </div>
                   </div>
+                  <div className="col-lg-8 col-md-6 col-12">
+                    <div className="filter_field d-flex gap-2 justify-content-end">
+                      <div className="form_group position-relative">
+                      </div>
+                    </div>
+                  </div>
+
 
                   {loading && (
                     <div className="text-center py-4">
@@ -149,34 +172,29 @@ export default function Notification() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
                           >
                             Date
                           </th>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
                           >
                             Message
                             {/* <i
                               className={`fa ${getSortIcon("email")} ms-1`}
                             ></i> */}
                           </th>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
                           >
                             Send By
-                        </th>
-                          <th
-                            style={{ cursor: "pointer" }}
+                          </th>
+                          <th className="cursor"
                           >
                             Type
                             {/* <i
                               className={`fa ${getSortIcon("isActive")} ms-1`}
                             ></i> */}
                           </th>
-                        <th
-                            style={{ cursor: "pointer" }}
+                          <th className="cursor"
                           >
                             Deliver Count
                             {/* <i
@@ -206,7 +224,7 @@ export default function Notification() {
                               colSpan={"4"}
                               className="text-center py-4"
                             >
-                                No notification found
+                              No notification found
                             </td>
                           </tr>
                         )}

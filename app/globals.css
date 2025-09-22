@@ -134,6 +134,7 @@ html {
 }
 
 :root {
+  --green-shade: #28a745;
   --gold: #FFD700;
   --orange: #FFA500;
   --pink: #FFC0CB;
@@ -146,6 +147,7 @@ html {
   --teal-blue: #2383AA;
   --grayish-blue: #626773;
   --Blue: #0056b3;
+  --blue-shade: #007bff;
   --Whitesmoke: #F5F5F7;
   --alpha: #071e37;
   --beta: #000;
@@ -4327,7 +4329,7 @@ button.admin_menuToggler {
 .btn-view-details {
   flex: 1;
   padding: 0.75rem;
-  background: #007bff;
+  background: var(--blue-shade);
   color: white;
   border: none;
   border-radius: 6px;
@@ -4342,7 +4344,7 @@ button.admin_menuToggler {
 
 .btn-qr-code {
   padding: 0.75rem 1rem;
-  background: #28a745;
+  background: var(--green-shade);
   color: white;
   border: none;
   border-radius: 6px;
@@ -4367,7 +4369,7 @@ button.admin_menuToggler {
   width: 40px;
   height: 40px;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #007bff;
+  border-top: 4px solid var(--blue-shade);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1rem;
@@ -4580,7 +4582,7 @@ button.admin_menuToggler {
 
 /* Focus states for accessibility */
 .tab-button:focus {
-  outline: 2px solid #007bff;
+  outline: 2px solid var(--blue-shade);
   outline-offset: 2px;
 }
 
@@ -4901,7 +4903,7 @@ button.admin_menuToggler {
 }
 
 .usage-value.remaining {
-  color: #28a745;
+  color: var(--green-shade);
 }
 
 .validity-info {
@@ -6271,7 +6273,7 @@ button.admin_menuToggler {
 .topup-benefit-icon {
   width: 16px;
   height: 16px;
-  color: #28a745;
+  color: var(--green-shade);
   font-size: 12px;
   flex-shrink: 0;
 }
@@ -7431,7 +7433,7 @@ button.admin_menuToggler {
 }
 
 .topup-notification.success {
-  border-left: 4px solid #28a745;
+  border-left: 4px solid var(--green-shade);
 }
 
 .topup-notification.error {
@@ -7568,7 +7570,7 @@ button.admin_menuToggler {
 
 .phone-input-container .PhoneInputInput:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: var(--blue-shade);
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
@@ -7584,7 +7586,7 @@ button.admin_menuToggler {
 
 .phone-input-container .PhoneInputCountrySelect:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: var(--blue-shade);
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
@@ -7633,7 +7635,7 @@ button.admin_menuToggler {
 /* Success state styling */
 .mb-input.success .phone-input-container .PhoneInputInput,
 .mb-input.success .phone-input-container .PhoneInputCountrySelect {
-  border-color: #28a745;
+  border-color: var(--green-shade);
 }
 
 /* Custom dropdown styling */
@@ -7650,12 +7652,12 @@ button.admin_menuToggler {
 
 /* Focus within container */
 .phone-input-container:focus-within .PhoneInputCountrySelect {
-  border-color: #007bff;
+  border-color: var(--blue-shade);
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .phone-input-container:focus-within .PhoneInputInput {
-  border-color: #007bff;
+  border-color: var(--blue-shade);
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
@@ -7697,7 +7699,7 @@ button.admin_menuToggler {
 
 .phone-input-container .PhoneInputInput.is-valid,
 .phone-input-container .PhoneInputCountrySelect.is-valid {
-  border-color: #28a745;
+  border-color: var(--green-shade);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='m2.3 6.73.94-.94 1.44 1.44L7.4 4.5l.94.94-3.63 3.63L2.3 6.73z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right calc(0.375em + 0.1875rem) center;
@@ -7713,7 +7715,7 @@ button.admin_menuToggler {
 /* Phone Input Success State */
 .phone-input-container.success .PhoneInputInput,
 .phone-input-container.success .PhoneInputCountrySelect {
-  border-color: #28a745 !important;
+  border-color: var(--green-shade) !important;
 }
 
 
@@ -8959,8 +8961,8 @@ html {
 }
 
 .btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: var(--blue-shade);
+  border-color: var(--blue-shade);
   color: #fff;
 }
 
@@ -9897,7 +9899,7 @@ html {
 }
 
 .bg-success {
-  background-color: #28a745 !important;
+  background-color: var(--green-shade) !important;
 }
 
 .bg-warning {
@@ -9973,7 +9975,7 @@ html {
 }
 
 .btn-resolve {
-  background-color: #28a745;
+  background-color: var(--green-shade);
   /* Green */
   color: white;
 }
@@ -10306,4 +10308,26 @@ html {
 
 .admin_table .table-responsive table tr .cursor {
   cursor: pointer;
+}
+
+.comman_admin_layout .admin_table .table_filter .notification .filter_field .mail-button {
+  background: var(--blue-shade) !important;
+  color: var(--white) !important;
+  border-radius: 4px;
+}
+
+.comman_admin_layout .admin_table .table_filter .notification .filter_field .sms-button {
+  background: var(--green-shade) !important;
+  color: var(--white) !important;
+  border-radius: 4px;
+}
+
+.comman_admin_layout .admin_table .table_filter .notification .filter_field .mail-button:hover {
+  background: var(--blue-shade) !important;
+  opacity: 0.8 !important;
+}
+
+.comman_admin_layout .admin_table .table_filter .notification .filter_field .sms-button:hover {
+  background: var(--green-shade) !important;
+  opacity: 0.8 !important;
 }
