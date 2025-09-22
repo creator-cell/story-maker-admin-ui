@@ -49,7 +49,7 @@ const ChatHistory = ({ ticketId }) => {
     formData.append("role", role);
     formData.append("messages", chatMessage.trim());
     if (imageFile) formData.append("image", imageFile);
-    console.log("imageFile", imageFile);
+
     try {
       await axios.put(`${API_URL}tickets/${ticketId}`, formData, {
         headers: {

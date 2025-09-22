@@ -69,17 +69,14 @@ function Properties() {
       const activeObject = canvas.getActiveObject();
 
       if (activeObject) {
-        console.log(activeObject.type, "activeObjecttype");
-
         setSelectedObject(activeObject);
-        //update common properties
+
         setOpacity(Math.round(activeObject.opacity * 100) || 100);
         setWidth(Math.round(activeObject.width * activeObject.scaleX));
         setHeight(Math.round(activeObject.height * activeObject.scaleY));
         setBorderColor(activeObject.stroke || "#000000");
         setBorderWidth(activeObject.strokeWidth || 0);
 
-        //check based on type
         if (activeObject.type === "i-text") {
           setObjectType("text");
 

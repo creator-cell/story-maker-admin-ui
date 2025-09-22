@@ -39,7 +39,6 @@ const AddPlans = () => {
   useEffect(() => {}, []);
 
   const handleAddAssets = (data) => {
-    console.log(data);
     setLoader(true);
     axios({
       method: "POST",
@@ -50,7 +49,12 @@ const AddPlans = () => {
       },
       data: JSON.stringify({
         ...data,
-        features: data?.features?.length > 0 ? data?.features?.map(p => { return p.id }) : []
+        features:
+          data?.features?.length > 0
+            ? data?.features?.map((p) => {
+                return p.id;
+              })
+            : [],
       }),
     })
       .then((res) => {
@@ -154,8 +158,15 @@ const AddPlans = () => {
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="full-name">Description</label>
-                        <textarea className="form-control" {...register("description", { required:{ value:true, message:"Description is required" } })}>
-                        </textarea>
+                        <textarea
+                          className="form-control"
+                          {...register("description", {
+                            required: {
+                              value: true,
+                              message: "Description is required",
+                            },
+                          })}
+                        ></textarea>
                       </div>
                       {errors?.description ? (
                         <p className="text-danger">
@@ -171,12 +182,17 @@ const AddPlans = () => {
                           type="number"
                           name=""
                           id=""
-                          {...register("price", { required:{ value:true, message:"Price is required" }, min: { value:0, message: "Price is invalid" } })}/>
+                          {...register("price", {
+                            required: {
+                              value: true,
+                              message: "Price is required",
+                            },
+                            min: { value: 0, message: "Price is invalid" },
+                          })}
+                        />
                       </div>
                       {errors?.price ? (
-                        <p className="text-danger">
-                          {errors?.price?.message}
-                        </p>
+                        <p className="text-danger">{errors?.price?.message}</p>
                       ) : null}
                     </div>
 
@@ -208,7 +224,9 @@ const AddPlans = () => {
                         />
                       </div>
                       {errors?.duration ? (
-                        <p className="text-danger">{errors?.duration?.message}</p>
+                        <p className="text-danger">
+                          {errors?.duration?.message}
+                        </p>
                       ) : null}
                     </div>
 

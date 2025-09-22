@@ -66,7 +66,6 @@ const AssetsManage = () => {
       });
 
       setAssets(response.data?.data?.assets?.items);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {

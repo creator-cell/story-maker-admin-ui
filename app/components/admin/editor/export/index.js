@@ -30,7 +30,7 @@ import { useState } from "react";
 
 function ExportModal({ isOpen, onClose }) {
   const { canvas } = useEditorStore();
-  console.log("export canvas", isOpen);
+
   const [selectedFormat, setSelectedFormat] = useState("pdf");
   const [isExporting, setIsExporting] = useState(false);
 
@@ -101,8 +101,6 @@ function ExportModal({ isOpen, onClose }) {
       const rawData = tpl.content ?? tpl;
       const jsonData =
         typeof rawData === "string" ? JSON.parse(rawData) : rawData;
-
-      console.log("parsed jsonData:", jsonData);
 
       if (!jsonData._objects?.length) {
         console.log("no object found");

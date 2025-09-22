@@ -1,38 +1,15 @@
 "use client";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/app/components/ui/avatar";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/app/components/ui/dropdown-menu";
 import { Input } from "@/app/components/ui/input";
 import { useEditorStore } from "../../../../redux/UserStore";
-import {
-  ChevronDown,
-  Download,
-  Eye,
-  Loader2,
-  LogOut,
-  Pencil,
-  Save,
-  SaveOff,
-  Share,
-  Star,
-} from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
+import axios from "axios";
+import { Download, Loader2, Save } from "lucide-react";
+
 import { useEffect, useState } from "react";
 import ExportModal from "../export";
 import { toast } from "sonner";
 import { cn } from "../../lib/utils";
-import Image from "next/image";
-import Link from "next/link";
+import { Dropdown } from "bootstrap";
 
 function Header() {
   const {
@@ -44,12 +21,43 @@ function Header() {
     saveStatus,
     markAsModified,
     designId,
+    category,
+    subCategory,
     userDesigns,
     userSubscription,
     setShowPremiumModal,
   } = useEditorStore();
-  // const { data: session } = useSession();
+
   const [showExportModal, setShowExportModal] = useState(false);
+  const [allCategories, setAllCategories] = useState([]);
+  const [parentCategories, setParentCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY}category`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      const categoriesData = res.data.categories || [];
+      setAllCategories(categoriesData);
+
+      const parentCats = categoriesData.filter((cat) => !cat.parentCategory);
+      setParentCategories(parentCats);
+      console.log(categoriesData);
+      console.log(parentCategories);
+    } catch {
+      toast.error("Failed to fetch categories");
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     if (!canvas) return;
@@ -66,38 +74,26 @@ function Header() {
   }, [name, canvas, designId]);
 
   const handleExport = () => {
-    // if (userDesigns?.length >= 5 && !userSubscription.isPremium) {
-    //   toast.error("Please upgrade to premium!", {
-    //     description: "You need to upgrade to premium to create more designs",
-    //   });
-
-    //   return;
-    // }
     setShowExportModal(true);
-    console.log("opened", showExportModal);
+  };
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+
+    const relatedSubCategories = allCategories.filter(
+      (cat) => cat.parentCategory === category._id
+    );
+    setSubCategories(relatedSubCategories);
+    setSelectedSubcategory(null);
+  };
+
+  const handleSubcategoryChange = (subcategory) => {
+    setSelectedSubcategory(subcategory);
   };
 
   return (
     <header className="header-gradient header d-flex align-items-center justify-content-between px-4 h-14">
       <div className="d-flex align-items-center gap-2">
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger asChild="true">
-            <button className="header-button d-flex align-items-center text-white">
-              <span>{isEditing ? "Editing" : "Viewing"}</span>
-              <ChevronDown className="ml-1 h-4 w-4" />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuItem onClick={() => setIsEditing(true)}>
-              <Pencil className="mr-2 h-4 w-4" />
-              <span>Editing</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setIsEditing(false)}>
-              <Eye className="mr-2 h-4 w-4" />
-              <span>Viewing</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu> */}
         <button
           className={
             "save position-relative d-flex align-items-center justify-content-center border-0 text-white"
@@ -120,6 +116,7 @@ function Header() {
             <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-yellow-400 animate-pulse" />
           )}
         </button>
+
         <button
           onClick={handleExport}
           className="header-export-button ml-3 relative"
@@ -135,36 +132,10 @@ function Header() {
           onChange={(e) => setName(e.target.value)}
         />
       </div>
-      {/* <div className="d-flex align-items-center gap-3">
-        <button
-          onClick={() => setShowPremiumModal(true)}
-          className="upgrade-button d-flex align-items-center text-white rounded-3 border-0"
-        >
-          <Star className="mr-1 h-4 w-4 text-warning" />
-          <span>
-            {!userSubscription?.isPremium
-              ? "Upgrade To Premium"
-              : "Premium Member"}
-          </span>
-        </button>
-        <DropdownMenu>
-       
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuItem
-              onClick={handleLogout}
-              className={"cursor-pointer"}
-            >
-              <LogOut className="mr-2 w-4 h-4" />
-              <span className="font-bold">Log out</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div> */}
-     <ExportModal 
-  isOpen={showExportModal} 
-  onClose={() => setShowExportModal(false)} 
-/>
-
+      <ExportModal
+        isOpen={showExportModal}
+        onClose={() => setShowExportModal(false)}
+      />
     </header>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { FileIcon, defaultStyles } from "react-file-icon";
@@ -27,7 +27,7 @@ const PlansManage = () => {
   const [userPermissions, setUserPermissions] = useState({
     read: false,
     write: false,
-    both: false
+    both: false,
   });
   const itemsPerPage = 20;
   const router = useRouter();
@@ -36,24 +36,27 @@ const PlansManage = () => {
     return userPermissions.write || userPermissions.both;
   };
 
-
-  const getPlans = async (page = 1, sort = sortByValue, search = "", order = sortOrder) => {
+  const getPlans = async (
+    page = 1,
+    sort = sortByValue,
+    search = "",
+    order = sortOrder
+  ) => {
     try {
       setLoading(true);
       let url = `${API_URL}plan?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
-      if (search && search.trim()) url += `&search=${encodeURIComponent(search.trim())}`;
+      if (search && search.trim())
+        url += `&search=${encodeURIComponent(search.trim())}`;
 
-      const response = await axios({    
+      const response = await axios({
         url: url,
         method: "GET",
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
       setPlans(response.data?.data?.plan?.items);
-      console.log(response.data);
-
     } catch (error) {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
@@ -73,40 +76,43 @@ const PlansManage = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
       return response.data;
     } catch (err) {
       console.log("Error fetching user data:", err);
-
     }
   };
 
   const handleEditPlans = (updateAssetId) => {
     router.push(`/admin/plans/${updateAssetId}`);
-  }
+  };
 
   const handlePlanDelete = (deletePlanId) => {
     setPlansId(deletePlanId);
     setDeletePlans(true);
-  }
+  };
 
   const handleDeleteSuccess = () => {
     setDeletePlans(false);
     getPlans();
-  }
+  };
 
   useEffect(() => {
     const initializeUserPermissions = async () => {
       try {
         const userData = await getUserDetail();
 
-        if (userData && userData.rolePermissions && userData.rolePermissions.menu) {
+        if (
+          userData &&
+          userData.rolePermissions &&
+          userData.rolePermissions.menu
+        ) {
           // Find the Users menu permissions
           const usersMenu = userData.rolePermissions.menu.find(
-            menu => menu.menuName === "Plans"
+            (menu) => menu.menuName === "Plans"
           );
 
           if (usersMenu) {
@@ -115,7 +121,7 @@ const PlansManage = () => {
               read: usersMenu.read || false,
               write: usersMenu.write || false,
               both: usersMenu.both || false,
-              hasUsersMenu: true
+              hasUsersMenu: true,
             });
 
             // If user has read permission or both, fetch users
@@ -130,7 +136,7 @@ const PlansManage = () => {
               read: false,
               write: false,
               both: false,
-              hasUsersMenu: false
+              hasUsersMenu: false,
             });
             toast.error("You don't have permission to access this page");
           }
@@ -140,7 +146,7 @@ const PlansManage = () => {
             read: false,
             write: false,
             both: false,
-            hasUsersMenu: false
+            hasUsersMenu: false,
           });
           toast.error("You don't have permission to access this page");
         }
@@ -150,7 +156,7 @@ const PlansManage = () => {
           read: false,
           write: false,
           both: false,
-          hasUsersMenu: false
+          hasUsersMenu: false,
         });
         toast.error("Error loading user permissions");
       }
@@ -170,17 +176,13 @@ const PlansManage = () => {
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
                       <h3>Plans List</h3>
-
-
                     </div>
                   </div>
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-6 col-md-6 col-12">
-                      <div className="d-flex gap-2 align-items-center">
-
-                      </div>
+                      <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
                     <div className="col-lg-6 col-md-6 col-12">
@@ -212,7 +214,12 @@ const PlansManage = () => {
                         )} */}
 
                         {hasWritePermission() && (
-                          <button className="button" onClick={() => { router.push('/admin/plans/addplans') }}>
+                          <button
+                            className="button"
+                            onClick={() => {
+                              router.push("/admin/plans/addplans");
+                            }}
+                          >
                             Add Plan
                           </button>
                         )}
@@ -232,96 +239,117 @@ const PlansManage = () => {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th
-                            style={{ cursor: 'pointer', width: "10%" }}
-                          >
+                          <th style={{ cursor: "pointer", width: "10%" }}>
                             Date
                           </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "12%" }}
-                          >
+                          <th style={{ cursor: "pointer", width: "12%" }}>
                             Name
                           </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "10%" }}
-                          >
+                          <th style={{ cursor: "pointer", width: "10%" }}>
                             Title
                           </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "7%" }}
-                          >
+                          <th style={{ cursor: "pointer", width: "7%" }}>
                             Description
                           </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "7%" }}
-                          >
+                          <th style={{ cursor: "pointer", width: "7%" }}>
                             Price
                           </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "20%" }}
-                          >
+                          <th style={{ cursor: "pointer", width: "20%" }}>
                             Duration
                           </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "15%" }}
-                          >
+                          <th style={{ cursor: "pointer", width: "15%" }}>
                             Features
                           </th>
-                          <th
-                            style={{ cursor: 'pointer', width: "10%" }}
-                          >
+                          <th style={{ cursor: "pointer", width: "10%" }}>
                             Uploaded By
                           </th>
 
-                          {hasWritePermission() && <th style={{ width: "10%" }}>Action</th>}
+                          {hasWritePermission() && (
+                            <th style={{ width: "10%" }}>Action</th>
+                          )}
                         </tr>
                       </thead>
                       <tbody className="table_body">
-                        {!loading && plans && plans?.map((plan, index) => {
-                          return (
-                            <tr key={plan._id}>
-                              <td data-label="Date">{new Date(plan?.createdAt)?.toLocaleDateString()}</td>
-                              <td data-label="Name">{plan?.name}</td>
-                              <td data-label="Title"><small className='d-flex align-items-center gap-2'>{ plan?.title }</small></td>
-                              <td data-label="Description">{plan?.description}</td>
-                              <td data-label="Price">{plan?.price ? parseFloat(plan?.price).toFixed(2) : ""}</td>
-                              <td data-label="Duration">{plan?.duration ? <span class="badge bg-success text-light m-1">{plan?.duration}</span> : ""}</td>
-                              <td data-label="Features">
-                                <div class="flex flex-wrap gap-3">
-                                  {plan?.features?.map(p => (
-                                    <span class="badge bg-info text-dark m-1">{p}</span>
-                                  ))}
-                                </div>
-                              </td>
-                              <td data-label="Uploaded By">{plan?.uploadedBy?.email}</td>
-
-                              {hasWritePermission() && (
-                                <td data-label="Action">
-                                  <div className="d-flex justify-content-start align-items-center gap-2">
-                                    <button
-                                      className="admin_action_edit"
-                                      onClick={() => handleEditPlans(plan._id)}
-                                      title="Edit Asset"
-                                    >
-                                      <i className="fa fa-edit"></i>
-                                    </button>
-                                    <button
-                                      className="admin_action_delete"
-                                      onClick={() => handlePlanDelete(plan._id)}
-                                      title="Delete User"
-                                    >
-                                      <i className="fa fa-trash"></i>
-                                    </button>
+                        {!loading &&
+                          plans &&
+                          plans?.map((plan, index) => {
+                            return (
+                              <tr key={plan._id}>
+                                <td data-label="Date">
+                                  {new Date(
+                                    plan?.createdAt
+                                  )?.toLocaleDateString()}
+                                </td>
+                                <td data-label="Name">{plan?.name}</td>
+                                <td data-label="Title">
+                                  <small className="d-flex align-items-center gap-2">
+                                    {plan?.title}
+                                  </small>
+                                </td>
+                                <td data-label="Description">
+                                  {plan?.description}
+                                </td>
+                                <td data-label="Price">
+                                  {plan?.price
+                                    ? parseFloat(plan?.price).toFixed(2)
+                                    : ""}
+                                </td>
+                                <td data-label="Duration">
+                                  {plan?.duration ? (
+                                    <span class="badge bg-success text-light m-1">
+                                      {plan?.duration}
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )}
+                                </td>
+                                <td data-label="Features">
+                                  <div class="flex flex-wrap gap-3">
+                                    {plan?.features?.map((p) => (
+                                      <span class="badge bg-info text-dark m-1">
+                                        {p}
+                                      </span>
+                                    ))}
                                   </div>
                                 </td>
-                              )}
-                            </tr>
-                          );
-                        })}
+                                <td data-label="Uploaded By">
+                                  {plan?.uploadedBy?.email}
+                                </td>
+
+                                {hasWritePermission() && (
+                                  <td data-label="Action">
+                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                      <button
+                                        className="admin_action_edit"
+                                        onClick={() =>
+                                          handleEditPlans(plan._id)
+                                        }
+                                        title="Edit Asset"
+                                      >
+                                        <i className="fa fa-edit"></i>
+                                      </button>
+                                      <button
+                                        className="admin_action_delete"
+                                        onClick={() =>
+                                          handlePlanDelete(plan._id)
+                                        }
+                                        title="Delete User"
+                                      >
+                                        <i className="fa fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </td>
+                                )}
+                              </tr>
+                            );
+                          })}
 
                         {!loading && plans?.length === 0 && (
                           <tr>
-                            <td colSpan={hasWritePermission() ? "4" : "3"} className="text-center py-4">
+                            <td
+                              colSpan={hasWritePermission() ? "4" : "3"}
+                              className="text-center py-4"
+                            >
                               {/* { ? 
                                 `No users found matching "${searchUser}"` :  */}
                               No plans found
@@ -337,8 +365,8 @@ const PlansManage = () => {
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          Page {currentPage + 1} of {totalPages}
-                          ({totalItems} total items)
+                          Page {currentPage + 1} of {totalPages}({totalItems}{" "}
+                          total items)
                         </small>
                       </div>
                       <ReactPaginate
@@ -363,7 +391,6 @@ const PlansManage = () => {
         </div>
       </div>
 
-
       {hasWritePermission() && (
         <DeletePlan
           show={deletePlans}
@@ -375,6 +402,6 @@ const PlansManage = () => {
       {loader && <Loader />}
     </>
   );
-}
+};
 
 export default PlansManage;

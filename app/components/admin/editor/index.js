@@ -11,11 +11,11 @@ import { useEditorStore } from "../../../redux/UserStore";
 import Properties from "./properties";
 //import SubscriptionModal from "../subscription/premium-modal";
 
-function MainEditor() {
+function MainEditor(props) {
   const params = useParams();
   const router = useRouter();
   const designId = params?.ID;
-  console.log("designId", designId);
+  console.log("props", props);
   const [isLoading, setIsLoading] = useState(!!designId);
   const [loadAttempted, setLoadAttempted] = useState(false);
   const [error, setError] = useState(null);
@@ -54,7 +54,6 @@ function MainEditor() {
     if (isLoading && !canvas && designId) {
       const timer = setTimeout(() => {
         if (isLoading) {
-          console.log("Canvas init timeout");
           setIsLoading(false);
         }
       }, 5000);
@@ -71,9 +70,7 @@ function MainEditor() {
 
   const fetchTemplate = async (designId) => {
     // setLoader(true);
-    console.log(
-      `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${designId}`
-    );
+
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${designId}`,
@@ -81,7 +78,7 @@ function MainEditor() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      console.log("res template", res);
+
       return res;
     } catch (err) {
       //toast.error("Failed to load template");
@@ -98,7 +95,6 @@ function MainEditor() {
 
       const response = await fetchTemplate(designId);
       const design = response.data.template;
-      console.log("design loaded", design);
 
       if (design) {
         setName(design.name);
@@ -153,8 +149,6 @@ function MainEditor() {
 
     const handleSelectionCreated = () => {
       const activeObject = canvas.getActiveObject();
-
-      console.log(activeObject, "activeObject");
 
       if (activeObject) {
         setShowProperties(true);

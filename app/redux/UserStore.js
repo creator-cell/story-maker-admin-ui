@@ -48,6 +48,8 @@ const editorSlice = createSlice({
     designId: null,
     isEditing: true,
     name: "Untitled Design",
+    category: null,
+    subCategory: null,
     showProperties: false,
     saveStatus: "saved",
     lastModified: Date.now(),
@@ -117,7 +119,9 @@ const editorSlice = createSlice({
 async function saveCanvasState(
   canvas,
   designId = null,
-  title = "Untitled Design"
+  title = "Untitled Design",
+  category = null,
+  subCategory = null
 ) {
   if (!canvas) return false;
 
@@ -183,6 +187,8 @@ export const {
   setDesignId,
   setIsEditing,
   setName,
+  setCategory,
+  setSubCategory,
   setShowProperties,
   setSaveStatus,
   markAsModified,
@@ -220,6 +226,8 @@ export const useEditorStore = () => {
     setDesignId: (id) => dispatch(setDesignId(id)),
     setIsEditing: (val) => dispatch(setIsEditing(val)),
     setName: (name) => dispatch(setName(name)),
+    setCategory: (category) => dispatch(setCategory(category)),
+    setSubCategory: (subCategory) => dispatch(setSubCategory(subCategory)),
     setShowProperties: (val) => dispatch(setShowProperties(val)),
     setSaveStatus: (status) => dispatch(setSaveStatus(status)),
     resetStore: () => dispatch(resetStore()),

@@ -115,7 +115,7 @@ export default function Users() {
 
       if (response.data) {
         setUsers(response.data.items);
-        console.log(response.data);
+
         setTotalPages(response.data.pagination.totalPages);
         setTotalItems(response.data.pagination.totalItems);
         setCurrentPage(response.data.pagination.currentPage - 1);

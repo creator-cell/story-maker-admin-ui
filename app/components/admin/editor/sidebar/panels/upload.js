@@ -14,7 +14,7 @@ import { useCallback, useEffect, useState } from "react";
 
 function UploadPanel() {
   const { canvas } = useEditorStore();
-  console.log("canvas", canvas);
+
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const [isUploading, setIsUploading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,14 +32,12 @@ function UploadPanel() {
       });
 
       const items = response.data?.data?.assets?.items ?? [];
-      console.log("items", items);
-      console.log("currentUser._id:", currentUser._id);
+
       const myItems = items.filter(
         (asset) => String(asset.uploadedBy?._id) === String(currentUser._id)
       );
 
       setUserUploads(myItems);
-      console.log("Fetched my assets:", myItems);
     } catch (error) {
       console.error("Error fetching assets:", error);
       toast.error("Failed to fetch assets");
@@ -102,7 +100,6 @@ function UploadPanel() {
 
     try {
       const result = await handleAddAssets(file);
-      console.log("result", result);
 
       if (result?.data) {
         setUserUploads((prev) => [result.data, ...prev]);
@@ -116,13 +113,9 @@ function UploadPanel() {
   };
 
   const handleAddImage = (imageUrl) => {
-    console.log(imageUrl);
-    console.log(canvas);
     if (!canvas) return;
     addImageToCanvas(canvas, imageUrl);
   };
-
-  console.log(userUploads, "userUploads");
 
   return (
     <div className="overflow-auto">
