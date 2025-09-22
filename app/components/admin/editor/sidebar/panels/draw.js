@@ -93,8 +93,9 @@ function DrawingPanel() {
           onClick={handleToggleDrawingMode}
         >
           <PencilIcon
-            className={`pencil-icon ${isDrawingMode ? "animate-bounce" : "hover:animate-bounce"
-              }`}
+            className={`pencil-icon ${
+              isDrawingMode ? "animate-bounce" : "hover:animate-bounce"
+            }`}
           />
           <span className="font-medium">
             {isDrawingMode ? "Exit Drawing Mode" : "Enter Drawing Mode"}
@@ -113,11 +114,14 @@ function DrawingPanel() {
                   <Palette />
                   Colors
                 </TabsTrigger>
-                <TabsTrigger value="brush" className="rounded gap-1" >
+                <TabsTrigger value="brush" className="rounded gap-1">
                   <Paintbrush className="" />
                   Brush
                 </TabsTrigger>
-                <TabsTrigger value="tools" className="rounded not-last-of-type:gap-1" >
+                <TabsTrigger
+                  value="tools"
+                  className="rounded not-last-of-type:gap-1"
+                >
                   <EraserIcon className="" />
                   Tools
                 </TabsTrigger>
@@ -136,10 +140,11 @@ function DrawingPanel() {
                       {drawingPanelColorPresets.map((color) => (
                         <div key={color}>
                           <button
-                            className={`rounded border  ${color === drawingColor
-                              ? "ring-1 ring-offset-2 ring-primary"
-                              : ""
-                              }
+                            className={`rounded border  ${
+                              color === drawingColor
+                                ? "ring-1 ring-offset-2 ring-primary"
+                                : ""
+                            }
                             `}
                             onClick={() => handleDrawingColorChange(color)}
                             style={{ backgroundColor: color }}
@@ -201,8 +206,44 @@ function DrawingPanel() {
                       </Button>
                     ))}
                   </div>
-                  <div className="space-y-2 mt-4">
-                    <div className="flex justify-between">
+                  {/* <div class="space-y-2 mt-4">
+                    <div class="d-flex justify-content-between">
+                      <label
+                        for="opacity-slider"
+                        class="form-label font-medium"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="mr-2 h-4 w-4"
+                        >
+                          <path d="M12 2v20M2 12h20M7 7l10 10M7 17l10-10" />
+                        </svg>
+                        Opacity
+                      </label>
+                      <span class="text-sm font-medium">
+                        <span id="opacity-value">100</span>%
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      class="form-range"
+                      id="opacity-slider"
+                      min="1"
+                      max="100"
+                      step="1"
+                      value="100"
+                    />
+                  </div> */}
+                  <div class="space-y-2 mt-4">
+                    <div class="d-flex justify-content-between">
                       <Label className={"font-medium"}>
                         <Droplets className="mr-2 h-4 w-4" />
                         Opacity
@@ -211,13 +252,16 @@ function DrawingPanel() {
                         {drawingOpacity}%
                       </span>
                     </div>
-                    <Slider
-                      value={[drawingOpacity]}
-                      min={1}
-                      max={100}
-                      step={1}
-                      onValueChange={(value) =>
-                        handleDrawingOpacityChange(value)
+                    <input
+                      type="range"
+                      className="form-range"
+                      id="opacity-slider"
+                      min="1"
+                      max="100"
+                      step="1"
+                      value={drawingOpacity}
+                      onChange={(e) =>
+                        handleDrawingOpacityChange([Number(e.target.value)])
                       }
                     />
                   </div>
@@ -227,7 +271,9 @@ function DrawingPanel() {
                 <Button
                   onClick={handleToggleErasing}
                   variant={isErasing ? "destructive" : "outline"}
-                  className={"w-100 rounded bg-white p-2 d-flex align-items-center justify-content-center gap-2 text-dark"}
+                  className={
+                    "w-100 rounded bg-white p-2 d-flex align-items-center justify-content-center gap-2 text-dark"
+                  }
                   size="lg"
                 >
                   <EraserIcon />
