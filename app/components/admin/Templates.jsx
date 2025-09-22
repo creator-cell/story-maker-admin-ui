@@ -319,14 +319,14 @@ export default function Template() {
                                 </button>
                                 <button
                                   className="button mx-1"
-                                  style={{ backgroundColor: "#6c757d" }}
+                                  // style={{ backgroundColor: "#6c757d" }}
                                   onClick={() => handleClone(tpl._id)}
                                 >
                                   Clone
                                 </button>
                                 <button
                                   className="button mx-1"
-                                  style={{ backgroundColor: "#dc3545" }}
+                                  // style={{ backgroundColor: "#dc3545" }}
                                   onClick={() => handleDelete(tpl._id)}
                                 >
                                   Delete/Reject

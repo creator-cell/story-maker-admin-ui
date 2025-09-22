@@ -165,7 +165,7 @@ function Properties() {
       }
     };
 
-    const handleSelectionCleared = () => { };
+    const handleSelectionCleared = () => {};
 
     const activeObject = canvas.getActiveObject();
     if (activeObject) {
@@ -409,7 +409,9 @@ function Properties() {
           <div className="d-flex gap-3 pt-2 cursor-pointer">
             {/* Width */}
             <div className="w-50 d-flex flex-column gap-1">
-              <Label><small>Width</small></Label>
+              <Label>
+                <small>Width</small>
+              </Label>
               <Input
                 type="number"
                 value={width}
@@ -417,7 +419,10 @@ function Properties() {
                   const newWidth = Number(e.target.value);
                   setWidth(newWidth);
                   if (selectedObject) {
-                    selectedObject.set("scaleX", newWidth / selectedObject.width);
+                    selectedObject.set(
+                      "scaleX",
+                      newWidth / selectedObject.width
+                    );
                     canvas.renderAll();
                     markAsModified();
                   }
@@ -428,7 +433,9 @@ function Properties() {
 
             {/* Height */}
             <div className="w-50 d-flex flex-column gap-1">
-              <Label><small>Height</small></Label>
+              <Label>
+                <small>Height</small>
+              </Label>
               <Input
                 type="number"
                 value={height}
@@ -436,7 +443,10 @@ function Properties() {
                   const newHeight = Number(e.target.value);
                   setHeight(newHeight);
                   if (selectedObject) {
-                    selectedObject.set("scaleY", newHeight / selectedObject.height);
+                    selectedObject.set(
+                      "scaleY",
+                      newHeight / selectedObject.height
+                    );
                     canvas.renderAll();
                     markAsModified();
                   }
@@ -457,32 +467,31 @@ function Properties() {
             </div>
 
             {/* Slider */}
-            <Slider
+            <input
               id="opacity"
-              min={0}
-              max={100}
-              step={1}
-              value={[opacity]}
-              onValueChange={(value) => handleOpacityChange(value)}
-              className="custom-opacity"
+              type="range"
+              className="form-range custom-opacity"
+              min="0"
+              max="100"
+              step="1"
+              value={opacity}
+              onChange={(e) => handleOpacityChange([Number(e.target.value)])}
             />
           </div>
 
           {/* Flip H, Flip V */}
           <div className="flip-h d-flex gap-2 mt-5 pb-2">
-            <Button
-              onClick={handleFlipHorizontal}
-              variant={"outline"}
-            >
+            <Button onClick={handleFlipHorizontal} variant={"outline"}>
               <FlipHorizontal />
-              <Label><small className="d-flex">Flip H</small></Label>
+              <Label>
+                <small className="d-flex">Flip H</small>
+              </Label>
             </Button>
-            <Button
-              variant={"outline"}
-              onClick={handleFlipVertical}
-            >
+            <Button variant={"outline"} onClick={handleFlipVertical}>
               <FlipVertical />
-              <Label><small className="d-flex">Flip V</small></Label>
+              <Label>
+                <small className="d-flex">Flip V</small>
+              </Label>
             </Button>
           </div>
           <hr></hr>
@@ -491,17 +500,21 @@ function Properties() {
           <div className="pt-2 pb-2">
             <h3 className="fs-6 fw-bold">Layer Position</h3>
             <div className="arrangement d-flex gap-2 pt-3">
-              <Button
-                onClick={handleBringToFront}
-                variant={"outline"}
-              >
-                <Label><small className="d-flex"><MoveUp />Bring to front</small></Label>
+              <Button onClick={handleBringToFront} variant={"outline"}>
+                <Label>
+                  <small className="d-flex">
+                    <MoveUp />
+                    Bring to front
+                  </small>
+                </Label>
               </Button>
-              <Button
-                onClick={handleSendToBack}
-                variant={"outline"}
-              >
-                <Label><small className="d-flex"><MoveDown />Send to back</small></Label>
+              <Button onClick={handleSendToBack} variant={"outline"}>
+                <Label>
+                  <small className="d-flex">
+                    <MoveDown />
+                    Send to back
+                  </small>
+                </Label>
               </Button>
             </div>
           </div>
@@ -516,19 +529,28 @@ function Properties() {
                 onClick={handleDuplicate}
                 variant={"default"}
               >
-                <Label><small className="d-flex gap-2"><Copy />Duplicate</small></Label>
+                <Label>
+                  <small className="d-flex gap-2">
+                    <Copy />
+                    Duplicate
+                  </small>
+                </Label>
               </Button>
               <Button
                 className={"delete"}
                 onClick={handleDelete}
                 variant={"destructive"}
               >
-                <Label><small className="d-flex gap-2"><Trash />Delete</small></Label>
+                <Label>
+                  <small className="d-flex gap-2">
+                    <Trash />
+                    Delete
+                  </small>
+                </Label>
               </Button>
             </div>
           </div>
           <hr></hr>
-
 
           {/* Text related properties */}
           {objectType === "text" && (
@@ -561,30 +583,35 @@ function Properties() {
               </div>
               <div className="pt-2">
                 <div className="font-family d-flex flex-column gap-1 pb-2">
-                  <Label htmlFor="font-family">
+                  <label htmlFor="font-family" className="form-label">
                     <small>Font family</small>
-                  </Label>
-                  <Select value={fontFamily} onValueChange={handleFontFamilyChange} >
-                    <SelectTrigger id="font-family" className={"rounded"}>
-                      <SelectValue placeholder="Select Font" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {fontFamilies.map((fontItem) => (
-                        <SelectItem
-                          key={fontItem}
-                          value={fontItem}
-                          style={{ fontFamily: fontItem }}
-                        >
-                          {fontItem}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  </label>
+                  <select
+                    id="font-family"
+                    className="form-select rounded"
+                    value={fontFamily}
+                    onChange={(e) => handleFontFamilyChange(e.target.value)}
+                  >
+                    <option disabled value="">
+                      Select Font
+                    </option>
+                    {fontFamilies.map((fontItem) => (
+                      <option
+                        key={fontItem}
+                        value={fontItem}
+                        style={{ fontFamily: fontItem }}
+                      >
+                        {fontItem}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div className="pt-2">
                 <div className="styles d-flex flex-column gap-1 pb-2">
-                  <Label><small>Style</small></Label>
+                  <Label>
+                    <small>Style</small>
+                  </Label>
                   <div className="d-flex gap-2">
                     <Button
                       variant={fontWeight === "bold" ? "default" : "outline"}
@@ -654,18 +681,22 @@ function Properties() {
               </div>
               <div className="mt-2">
                 <div className="d-flex justify-content-between">
-                  <Label htmlFor="letter-spacing">
+                  <label htmlFor="letter-spacing">
                     <small>Letter Spacing</small>
-                  </Label>
+                  </label>
                   <small>{letterSpacing}</small>
                 </div>
-                <Slider
+                <input
                   id="letter-spacing"
-                  min={-200}
-                  max={800}
-                  step={10}
-                  value={[letterSpacing]}
-                  onValueChange={(value) => handleLetterSpacingChange(value)}
+                  type="range"
+                  className="form-range"
+                  min="-200"
+                  max="800"
+                  step="10"
+                  value={letterSpacing}
+                  onChange={(e) =>
+                    handleLetterSpacingChange([Number(e.target.value)])
+                  }
                 />
               </div>
             </div>
@@ -718,36 +749,37 @@ function Properties() {
                   <Label htmlFor="border-width">
                     <small>Border Width</small>
                   </Label>
-                  <span>{borderWidth}%</span>
+                  <span>{borderWidth}</span>
                 </div>
-                <Slider
+                <input
                   id="border-width"
-                  min={0}
-                  max={20}
-                  step={1}
-                  value={[borderWidth]}
-                  onValueChange={(value) => handleBorderWidthChange(value)}
+                  type="range"
+                  className="form-range"
+                  min="0"
+                  max="20"
+                  step="1"
+                  value={borderWidth}
+                  onChange={(e) =>
+                    handleBorderWidthChange([Number(e.target.value)])
+                  }
                 />
               </div>
 
               <div className="mt-4">
                 <div className="border-style d-flex flex-column gap-1 pb-2">
-                  <Label htmlFor="border-style">
+                  <label htmlFor="border-style" className="form-label">
                     <small>Border Style</small>
-                  </Label>
-                  <Select
+                  </label>
+                  <select
+                    id="border-style"
+                    className="form-select rounded"
                     value={borderStyle}
-                    onValueChange={handleBorderStyleChange}
+                    onChange={(e) => handleBorderStyleChange(e.target.value)}
                   >
-                    <SelectTrigger id="border-style" className={"rounded"}>
-                      <SelectValue placeholder="Select Border Style" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="solid">Solid</SelectItem>
-                      <SelectItem value="dashed">Dashed</SelectItem>
-                      <SelectItem value="dotted">Dotted</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    <option value="solid">Solid</option>
+                    <option value="dashed">Dashed</option>
+                    <option value="dotted">Dotted</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -757,9 +789,9 @@ function Properties() {
             <div className="space-y-4 p-4 border-t">
               <h3 className="text-sm font-medium">Image Properties</h3>
               <div className="space-y-2">
-                <Label htmlFor="border-color" className="text-xs">
+                <label htmlFor="border-color" className="text-xs">
                   Border Color
-                </Label>
+                </label>
                 <div className="relative w-8 h-8 overflow-hidden rounded-md border">
                   <div
                     className="absolute inset-0"
@@ -775,69 +807,74 @@ function Properties() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="border-width" className={"text-xs"}>
-                  Border Width
-                </Label>
-                <span>{borderWidth}%</span>
-                <Slider
+                <div className="d-flex justify-content-between mb-1">
+                  <label htmlFor="border-width" className="text-xs">
+                    Border Width
+                  </label>
+                  <span>{borderWidth}%</span>
+                </div>
+                <input
                   id="border-width"
-                  min={0}
-                  max={20}
-                  step={1}
-                  value={[borderWidth]}
-                  onValueChange={(value) => handleBorderWidthChange(value)}
+                  type="range"
+                  className="form-range"
+                  min="0"
+                  max="20"
+                  step="1"
+                  value={borderWidth}
+                  onChange={(e) =>
+                    handleBorderWidthChange([Number(e.target.value)])
+                  }
                 />
               </div>
               <div className="mt-2">
-                <Label htmlFor="border-style">
+                <label htmlFor="border-style" className="form-label">
                   <small>Border Style</small>
-                </Label>
-                <Select
+                </label>
+                <select
+                  id="border-style"
+                  className="form-select rounded"
                   value={borderStyle}
-                  onValueChange={handleBorderStyleChange}
+                  onChange={(e) => handleBorderStyleChange(e.target.value)}
                 >
-                  <SelectTrigger id="border-style" className={"rounded"}>
-                    <SelectValue placeholder="Select Border Style" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="solid">Solid</SelectItem>
-                    <SelectItem value="dashed">Dashed</SelectItem>
-                    <SelectItem value="dotted">Dotted</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                </select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="filter" className={"text-xs"}>
+                <label htmlFor="filter" className="text-xs">
                   Filter
-                </Label>
-                <Select value={filter} onValueChange={handleImageFilterChange}>
-                  <SelectTrigger id="filter" className={"h-10"}>
-                    <SelectValue placeholder="Select Image Filter" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">None</SelectItem>
-                    <SelectItem value="grayscale">Grayscale</SelectItem>
-                    <SelectItem value="sepia">Sepia</SelectItem>
-                    <SelectItem value="invert">Invert</SelectItem>
-                    <SelectItem value="blur">Blur</SelectItem>
-                  </SelectContent>
-                </Select>
+                </label>
+                <select
+                  id="filter"
+                  className="form-select h-10"
+                  value={filter}
+                  onChange={(e) => handleImageFilterChange(e.target.value)}
+                >
+                  <option value="none">None</option>
+                  <option value="grayscale">Grayscale</option>
+                  <option value="sepia">Sepia</option>
+                  <option value="invert">Invert</option>
+                  <option value="blur">Blur</option>
+                </select>
               </div>
               {filter === "blur" && (
                 <div className="mt-2">
                   <div className="flex justify-between mb-4">
-                    <Label htmlFor="blur" className="text-xs">
+                    <label htmlFor="blur" className="text-xs">
                       Blur Amount
-                    </Label>
+                    </label>
                     <span>{blur}%</span>
                   </div>
-                  <Slider
+                  <input
                     id="blur"
-                    min={0}
-                    max={100}
-                    step={1}
-                    value={[blur]}
-                    onValueChange={(value) => handleBlurChange(value)}
+                    type="range"
+                    className="form-range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={blur}
+                    onChange={(e) => handleBlurChange([Number(e.target.value)])}
                   />
                 </div>
               )}
@@ -848,9 +885,9 @@ function Properties() {
             <div className="mt-2">
               <h3 className="fs-6 fw-bold">Path Properties</h3>
               <div className="space-y-2">
-                <Label htmlFor="border-color">
+                <label htmlFor="border-color" className="form-label">
                   <small>Border Color</small>
-                </Label>
+                </label>
                 <div className="path-border-color position-relative overflow-hidden rounded border">
                   <div
                     className="position-absolute top-0 start-0 bottom-0 end-0"
@@ -867,44 +904,45 @@ function Properties() {
               </div>
               <div className="mt-3">
                 <div className="d-flex justify-content-between mb-1">
-                  <Label htmlFor="border-width">
+                  <label htmlFor="border-width" className="form-label">
                     <small>Border Width</small>
-                  </Label>
-                  <span>{borderWidth}%</span>
+                  </label>
+                  <span>{borderWidth}</span>
                 </div>
-                <Slider
+                <input
                   id="border-width"
-                  min={0}
-                  max={20}
-                  step={1}
-                  value={[borderWidth]}
-                  onValueChange={(value) => handleBorderWidthChange(value)}
+                  type="range"
+                  className="form-range"
+                  min="0"
+                  max="20"
+                  step="1"
+                  value={borderWidth}
+                  onChange={(e) =>
+                    handleBorderWidthChange([Number(e.target.value)])
+                  }
                 />
               </div>
               <div className="mt-4">
                 <div className="border-style d-flex flex-column gap-1 pb-2">
-                  <Label htmlFor="border-style">
+                  <label htmlFor="border-style" className="form-label">
                     <small>Border Style</small>
-                  </Label>
-                  <Select
+                  </label>
+                  <select
+                    id="border-style"
+                    className="form-select rounded"
                     value={borderStyle}
-                    onValueChange={handleBorderStyleChange}
+                    onChange={(e) => handleBorderStyleChange(e.target.value)}
                   >
-                    <SelectTrigger id="border-style" className={"rounded"}>
-                      <SelectValue placeholder="Select Border Style" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="solid">Solid</SelectItem>
-                      <SelectItem value="dashed">Dashed</SelectItem>
-                      <SelectItem value="dotted">Dotted</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    <option value="solid">Solid</option>
+                    <option value="dashed">Dashed</option>
+                    <option value="dotted">Dotted</option>
+                  </select>
                 </div>
               </div>
             </div>
           )}
         </div>
-      </div >
+      </div>
     </>
   );
 }

@@ -44,8 +44,8 @@ export default function DeletePlan({ show, onHide, data, setLoader, props }) {
                             <div className="col-lg-12 col-md-12 col-12">
                                 <p>Are you sure? You want to delete this plan?</p>
                                 <div className="btns">
-                                    <button onClick={handlePlanDelete} className="button" style={{backgroundColor:'red'}}>Delete</button>
-                                    <button onClick={onHide} className="button" style={{backgroundColor:'gray'}}>Cancel</button>
+                                    <button onClick={handlePlanDelete} className="button">Delete</button>
+                                    <button onClick={onHide} className="button">Cancel</button>
                                 </div>
                             </div>
                         </Row>
