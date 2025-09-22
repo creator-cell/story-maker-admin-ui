@@ -6,8 +6,9 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import DeleteTemplate from "@/app/(adminSide)/model/DeleteTemplate";
 import Loader from "../Loader";
+import { jsPDF } from "jspdf";
 export default function Template() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -22,20 +23,68 @@ export default function Template() {
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
+  // const getTemplates = async (page = 1, searchTerm = "") => {
+  //   setLoader(true);
+  //   try {
+  //     let url = `${API_URL}template?page=${page}&pageSize=${itemsPerPage}`;
+
+  //     if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+
+  //     if (currentUser?.role === "admin") {
+  //     } else {
+  //       if (currentUser?._id) {
+  //         url += `&userId=${currentUser._id}&role=user`;
+  //       }
+  //     }
+
+  //     const res = await axios.get(url, {
+  //       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  //     });
+
+  //     setTemplates(res.data.data || []);
+  //     setTotalPages(res.data.pagination?.totalPages || 1);
+  //     setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
+  //   } catch (err) {
+  //     setTemplates([]);
+  //     setTotalPages(0);
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // };
   const getTemplates = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
       let url = `${API_URL}template?page=${page}&pageSize=${itemsPerPage}`;
+
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      setTemplates(res.data.data || []);
+      let allTemplates = res.data.data || [];
+
+      let filteredTemplates = allTemplates;
+
+      if (currentUser?.role === "admin") {
+        filteredTemplates = allTemplates;
+      } else if (currentUser?._id) {
+        filteredTemplates = allTemplates.filter(
+          (tpl) =>
+            tpl.status === "approved" ||
+            (tpl.user?._id === currentUser._id &&
+              ["pending", "approved"].includes(tpl.status))
+        );
+      } else {
+        filteredTemplates = allTemplates.filter(
+          (tpl) => tpl.status === "approved"
+        );
+      }
+
+      setTemplates(filteredTemplates);
       setTotalPages(res.data.pagination?.totalPages || 1);
       setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
     } catch (err) {
-      // toast.error("Failed to fetch templates");
       setTemplates([]);
       setTotalPages(0);
     } finally {
@@ -65,6 +114,79 @@ export default function Template() {
   const handleNewTemplate = () => {
     setLoader(true);
     router.push(`/admin/template/add-template`);
+  };
+
+  const handleDownloadPDF = (tpl) => {
+    if (!tpl.content) {
+      toast.error("No template data found");
+      return;
+    }
+
+    // create a hidden canvas to render
+    const canvas = new fabric.StaticCanvas(null, { width: 800, height: 600 });
+
+    try {
+      const jsonData =
+        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
+
+      canvas.loadFromJSON(jsonData, () => {
+        const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
+
+        const pdf = new jsPDF("l", "pt", [canvas.width, canvas.height]);
+        pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height);
+        pdf.save(`${tpl.name || "template"}.pdf`);
+      });
+    } catch (err) {
+      toast.error("Error exporting PDF");
+    }
+  };
+  const handleDownloadCSV = (tpl) => {
+    if (!tpl.content) {
+      toast.error("No template data found");
+      return;
+    }
+
+    try {
+      const jsonData =
+        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
+
+      // flatten objects
+      const rows = [];
+      jsonData.objects.forEach((obj) => {
+        rows.push({
+          type: obj.type,
+          text: obj.text || "",
+          left: obj.left,
+          top: obj.top,
+          width: obj.width,
+          height: obj.height,
+          fill: obj.fill,
+          stroke: obj.stroke,
+          fontSize: obj.fontSize,
+          fontFamily: obj.fontFamily,
+        });
+      });
+
+      // convert to CSV
+      const headers = Object.keys(rows[0]).join(",");
+      const csv = [
+        headers,
+        ...rows.map((r) => Object.values(r).join(",")),
+      ].join("\n");
+
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${tpl.name || "template"}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      toast.error("Error exporting CSV");
+    }
   };
 
   return (
@@ -165,10 +287,11 @@ export default function Template() {
                               <td>{tpl.subCategory?.name || "-"}</td>
                               <td>
                                 <span
-                                  className={`badge ${tpl.status === "approved"
+                                  className={`badge ${
+                                    tpl.status === "approved"
                                       ? "bg-success"
                                       : "bg-warning"
-                                    }`}
+                                  }`}
                                 >
                                   {tpl.status}
                                 </span>
@@ -182,17 +305,32 @@ export default function Template() {
                                 </button>
                                 <button
                                   className="button mx-1"
-                                  style={{ backgroundColor: "#6c757d" }}
+                                  // style={{ backgroundColor: "#6c757d" }}
                                   onClick={() => handleClone(tpl._id)}
                                 >
                                   Clone
                                 </button>
                                 <button
                                   className="button mx-1"
-                                  style={{ backgroundColor: "#dc3545" }}
+                                  // style={{ backgroundColor: "#dc3545" }}
                                   onClick={() => handleDelete(tpl._id)}
                                 >
                                   Delete
+                                </button>
+                                <button
+                                  className="button mx-1"
+                                  // style={{ backgroundColor: "#0d6efd" }}
+                                  onClick={() => handleDownloadPDF(tpl)}
+                                >
+                                  Download PDF
+                                </button>
+
+                                <button
+                                  className="button mx-1"
+                                  // style={{ backgroundColor: "#20c997" }}
+                                  onClick={() => handleDownloadCSV(tpl)}
+                                >
+                                  Download CSV
                                 </button>
                               </td>
                             </tr>

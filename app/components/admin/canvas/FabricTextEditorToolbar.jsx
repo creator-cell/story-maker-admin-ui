@@ -51,22 +51,56 @@ export default function FabricTextEditorToolbar({ fRef }) {
   const toggleStyle = (style) => {
     const text = getActiveText();
     if (!text) return;
-    if (style === "bold") {
-      text.set("fontWeight", text.fontWeight === "bold" ? "normal" : "bold");
+
+    const selectionStart = text.selectionStart;
+    const selectionEnd = text.selectionEnd;
+
+    if (selectionStart !== selectionEnd) {
+      // Apply to selected range only
+      let styleProp = {};
+      if (style === "bold") {
+        styleProp = {
+          fontWeight:
+            text.getSelectionStyles()[0]?.fontWeight === "bold"
+              ? "normal"
+              : "bold",
+        };
+      }
+      if (style === "italic") {
+        styleProp = {
+          fontStyle:
+            text.getSelectionStyles()[0]?.fontStyle === "italic"
+              ? "normal"
+              : "italic",
+        };
+      }
+      if (style === "underline") {
+        styleProp = { underline: !text.getSelectionStyles()[0]?.underline };
+      }
+      text.setSelectionStyles(styleProp, selectionStart, selectionEnd);
+    } else {
+      // Apply to whole object if no selection
+      if (style === "bold") {
+        text.set("fontWeight", text.fontWeight === "bold" ? "normal" : "bold");
+      }
+      if (style === "italic") {
+        text.set(
+          "fontStyle",
+          text.fontStyle === "italic" ? "normal" : "italic"
+        );
+      }
+      if (style === "underline") {
+        text.set("underline", !text.underline);
+      }
     }
-    if (style === "italic") {
-      text.set("fontStyle", text.fontStyle === "italic" ? "normal" : "italic");
-    }
-    if (style === "underline") {
-      text.set("underline", !text.underline);
-    }
-    fRef.current.renderAll();
+
+    fRef.current.requestRenderAll();
   };
 
   const changeAlign = (align) => {
     const text = getActiveText();
     if (!text) return;
-    text.set("textAlign", align);
+    text.set({ textAlign: align });
     fRef.current.renderAll();
   };
 
@@ -115,7 +149,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
   const addText = () => {
     const canvas = fRef.current;
     if (!canvas) return;
-    console.log("Adding text...");
+
     disableDrawing();
 
     const defaultProps = {
@@ -124,12 +158,13 @@ export default function FabricTextEditorToolbar({ fRef }) {
       fontSize: 24,
       fontFamily: fontFamily,
       fill: "#000000",
-      padding: 0,
       textAlign: "left",
+      width: 300,
+      editable: true,
       id: `text-${Date.now()}`,
     };
 
-    const textObj = new fabric.IText("Edit me", { ...defaultProps });
+    const textObj = new fabric.Textbox("Edit me", { ...defaultProps });
 
     textObj.on("editing:exited", () => {
       if (!textObj.text || textObj.text.trim() === "") {
@@ -143,7 +178,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
     canvas.renderAll();
   };
 
-  // ---------- Drawing Tools ----------
   const activatePencil = () => {
     const canvas = fRef.current;
     if (!canvas) return;
@@ -207,8 +241,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
 
   return (
     <>
-      <div
-        className="editor-toolbar">
+      <div className="editor-toolbar">
         <button type="button" title="Add Text" onClick={addText}>
           Add Text
         </button>
@@ -276,7 +309,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
         </button>
 
         {/* alignments */}
-        <button
+        {/* <button
           type="button"
           title="Align Left"
           onClick={() => changeAlign("left")}
@@ -303,7 +336,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
           onClick={() => changeAlign("justify")}
         >
           <FaAlignJustify />
-        </button>
+        </button> */}
 
         {/* delete & duplicate */}
         <button title="Delete" type="button" onClick={deleteObj}>
@@ -312,21 +345,7 @@ export default function FabricTextEditorToolbar({ fRef }) {
         <button title="Copy" type="button" onClick={duplicateObj}>
           <FaCopy />
         </button>
-        {/* pencil  */}
-        {/* <button
-        onClick={activatePencil}
-        style={{ border: activeTool === "pencil" ? "2px solid black" : "" }}
-      >
-        <FaPencilAlt /> Pencil
-      </button> */}
-        {/* drawing tools */}
-        {/* highlighter  */}
-        {/* <button
-        onClick={activateHighlighter}
-        style={{ border: activeTool === "highlighter" ? "2px solid black" : "" }}
-      >
-        <FaHighlighter /> Highlighter
-      </button> */}
+
         <button title="Exit Draw" type="button" onClick={exitDrawingMode}>
           <FaTimes /> Exit Draw
         </button>
@@ -365,7 +384,6 @@ export default function FabricTextEditorToolbar({ fRef }) {
           }}
         />
       </label> */}
-
 
         {/* Fill & Stroke */}
         <label title="Fill Color">

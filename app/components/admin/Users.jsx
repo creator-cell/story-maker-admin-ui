@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Loader from "../Loader";
 
 export default function Users() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
@@ -63,7 +63,7 @@ export default function Users() {
   const getUserDetail = async () => {
     try {
       const response = await axios({
-        url: `${API_URL}me`,
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL_USER}me`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export default function Users() {
         },
       });
 
-      if (response.data && response.data.rolePermissions) {
+      if (response.data.items && response.data.rolePermissions) {
         setUserRolePermissions(response.data.rolePermissions);
         setRole(response.data.role || "");
       }
@@ -113,15 +113,14 @@ export default function Users() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      // Handle the new response structure
-      if (response.data.items) {
+      if (response.data) {
         setUsers(response.data.items);
+        console.log(response.data);
         setTotalPages(response.data.pagination.totalPages);
         setTotalItems(response.data.pagination.totalItems);
         setCurrentPage(response.data.pagination.currentPage - 1);
       } else {
-        // Fallback for old structure
-        setUsers(response.data.user || response.data || []);
+        setUsers(response.data.data || response.data.data || []);
         setTotalPages(response.data.totalPages || 1);
         setTotalItems(response.data.totalItems || 0);
         setCurrentPage(page - 1);
@@ -190,13 +189,11 @@ export default function Users() {
           userData.rolePermissions &&
           userData.rolePermissions.menu
         ) {
-          // Find the Users menu permissions
           const usersMenu = userData.rolePermissions.menu.find(
             (menu) => menu.menuName === "Users"
           );
 
           if (usersMenu) {
-            // Set permissions based on the Users menu
             setUserPermissions({
               read: usersMenu.read || false,
               write: usersMenu.write || false,
@@ -204,7 +201,6 @@ export default function Users() {
               hasUsersMenu: true,
             });
 
-            // If user has read permission or both, fetch users
             if (usersMenu.read || usersMenu.both) {
               getUsers(1);
             } else {
@@ -348,14 +344,16 @@ export default function Users() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th className="cursor"
+                          <th
+                            className="cursor"
                             // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("name")}
                           >
                             First Name
                             <i className={`fa ${getSortIcon("name")} ms-1`}></i>
                           </th>
-                          <th className="cursor"
+                          <th
+                            className="cursor"
                             // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("email")}
                           >
@@ -365,7 +363,8 @@ export default function Users() {
                             ></i>
                           </th>
                           <th>Phone Number</th>
-                          <th className="cursor"
+                          <th
+                            className="cursor"
                             // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("isActive")}
                           >
@@ -432,7 +431,7 @@ export default function Users() {
                                         onClick={() => handleEditUser(user._id)}
                                         // title="Edit User"
                                       >
-                                       <i class="fa-solid fa-pencil"></i>
+                                        <i class="fa-solid fa-pencil"></i>
                                       </button>
                                       <button
                                         className="admin_action_delete"
@@ -446,11 +445,11 @@ export default function Users() {
                                     </div>
                                   </td>
                                 )}
-                            </tr>
-                          );
-                        })}
+                              </tr>
+                            );
+                          })}
 
-                        {!loading && users.length === 0 && (
+                        {!loading && users?.length === 0 && (
                           <tr>
                             <td
                               colSpan={hasWritePermission() ? "4" : "3"}

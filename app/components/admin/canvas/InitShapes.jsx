@@ -1,7 +1,6 @@
 import { fabric } from "fabric";
 
 export const initCanvas = (canvasRef, wrapRef, fRef, setSelectedObject) => {
-  console.log("Initializing canvas...");
   if (!canvasRef.current) return;
   const f = new fabric.Canvas(canvasRef.current, {
     backgroundColor: "#f8fafc",
@@ -25,7 +24,7 @@ export const initCanvas = (canvasRef, wrapRef, fRef, setSelectedObject) => {
     setSelectedObject(obj);
   });
   f.on("selection:cleared", () => {
-    setSelectedObject(null);
+    setSelectedObject();
   });
 
   const resize = () => {

@@ -11,7 +11,7 @@ import { fabric } from "fabric";
 import FabricTextEditorToolbar from "./canvas/FabricTextEditorToolbar";
 import FabricToolbar from "./FabricToolBar";
 
-export default function EditTemplatePage({ id }) {
+export default function EditTemplatePage({ id, isClone }) {
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);
   const [approveModel, setApproveModel] = useState(false);
@@ -79,7 +79,7 @@ export default function EditTemplatePage({ id }) {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}category`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}category`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -92,26 +92,28 @@ export default function EditTemplatePage({ id }) {
     }
   };
 
-  // Fetch template details
+  const [templateData, setTemplateData] = useState(null);
+
   const fetchTemplate = async () => {
     setLoader(true);
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
+
       const t = res.data.template;
+      setTemplateData(t); // store for later
+
       setValue("name", t.name || "");
-      setValue("category", t.category._id || "");
-      setValue("subCategory", t.subCategory._id || "");
+      setValue("category", t.category?._id || "");
+      setValue("subCategory", t.subCategory?._id || "");
       setValue("content", t.content || "");
 
       if (t.content && fabricRef.current) {
         fabricRef.current.loadFromJSON(t.content, () => {
-          fabricRef.current.renderAll();
-
           fabricRef.current.getObjects().forEach((obj) => {
             obj.set({
               selectable: true,
@@ -119,16 +121,8 @@ export default function EditTemplatePage({ id }) {
               hasBorders: true,
             });
           });
-
           fabricRef.current.renderAll();
         });
-      }
-
-      if (t.category) {
-        const subs = categories.filter(
-          (cat) => cat.parentCategory === t.category
-        );
-        setSubCategories(subs);
       }
     } catch (err) {
       toast.error("Failed to load template");
@@ -136,6 +130,15 @@ export default function EditTemplatePage({ id }) {
       setLoader(false);
     }
   };
+
+  useEffect(() => {
+    if (templateData?.category?._id && categories.length > 0) {
+      const subs = categories.filter(
+        (cat) => cat.parentCategory === templateData.category._id
+      );
+      setSubCategories(subs);
+    }
+  }, [categories, templateData]);
 
   const parentCategories = categories.filter((cat) => !cat.parentCategory);
 
@@ -156,29 +159,60 @@ export default function EditTemplatePage({ id }) {
 
     const jsonContent = JSON.stringify(fabricRef.current.toJSON());
     setLoader(true);
-    try {
-      await axios.put(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/${id}`,
-        {
-          name: data.name,
-          category: data.category,
-          subCategory: data.subCategory,
-          content: jsonContent,
-          user: userId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+    if (isClone) {
+      try {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${id}`,
+          {
+            name: data.name,
+            category: data.category,
+            subCategory: data.subCategory,
+            content: jsonContent,
+            user: userId,
           },
-        }
-      );
-      toast.success("Template updated successfully");
-      router.push("/admin/template");
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "Failed to update template");
-    } finally {
-      setLoader(false);
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        toast.success("Template clone successfully");
+        router.push("/admin/template");
+      } catch (err) {
+        toast.error(
+          err?.response?.data?.message || "Failed to update template"
+        );
+      } finally {
+        setLoader(false);
+      }
+    } else {
+      try {
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${id}`,
+          {
+            name: data.name,
+            category: data.category,
+            subCategory: data.subCategory,
+            content: jsonContent,
+            user: userId,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        toast.success("Template updated successfully");
+        router.push("/admin/template");
+      } catch (err) {
+        toast.error(
+          err?.response?.data?.message || "Failed to update template"
+        );
+      } finally {
+        setLoader(false);
+      }
     }
   };
 
@@ -203,7 +237,8 @@ export default function EditTemplatePage({ id }) {
                       <div className="col-lg-6 col-md-6 col-12 mb-3">
                         <div className="form_group">
                           <label>
-                            Template Name <span className="text-danger"> *</span>
+                            Template Name{" "}
+                            <span className="text-danger"> *</span>
                           </label>
                           <input
                             type="text"
@@ -224,7 +259,9 @@ export default function EditTemplatePage({ id }) {
                           <select
                             className="form-control"
                             value={watch("category")}
-                            onChange={(e) => handleCategoryChange(e.target.value)}
+                            onChange={(e) =>
+                              handleCategoryChange(e.target.value)
+                            }
                           >
                             <option value="">Select Category</option>
                             {parentCategories.map((cat) => (
@@ -269,45 +306,44 @@ export default function EditTemplatePage({ id }) {
                         <FabricToolbar fRef={fabricRef} />
                       </div>
                       <div className="col-lg-12 col-md-12 col-12 mb-3">
-                        
                         <canvas id="fabricCanvas" ref={canvasRef} />
-                        </div>
-                        {/* Action Buttons */}
+                      </div>
+                      {/* Action Buttons */}
 
-                        <div className="col-12 mt-3 d-flex gap-3">
-                          <button type="submit" className="button">
-                            Save
-                          </button>
-                          {userObj?.role.name === "Super Admin" && (
-                            <button
-                              type="button"
-                              className="button"
-                              style={{ backgroundColor: "#198754" }}
-                              onClick={() => setApproveModel(true)}
-                            >
-                              Approve
-                            </button>
-                          )}
-                          {userObj?.role.name === "Super Admin" && (
-                            <button
-                              type="button"
-                              className="button"
-                              style={{ backgroundColor: "#dc3545" }}
-                              onClick={() => setShowRejectModal(true)}
-                            >
-                              Reject
-                            </button>
-                          )}
+                      <div className="col-12 mt-3 d-flex gap-3">
+                        <button type="submit" className="button">
+                          Save
+                        </button>
+                        {userObj?.role.name === "Super Admin" && (
                           <button
                             type="button"
                             className="button"
-                            style={{ backgroundColor: "#6c757d" }}
-                            onClick={() => router.push("/admin/template")}
+                            // style={{ backgroundColor: "#198754" }}
+                            onClick={() => setApproveModel(true)}
                           >
-                            Cancel
+                            Approve
                           </button>
-                        </div>
+                        )}
+                        {userObj?.role.name === "Super Admin" && (
+                          <button
+                            type="button"
+                            className="button"
+                            // style={{ backgroundColor: "#dc3545" }}
+                            onClick={() => setShowRejectModal(true)}
+                          >
+                            Reject
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="button"
+                          // style={{ backgroundColor: "#6c757d" }}
+                          onClick={() => router.push("/admin/template")}
+                        >
+                          Cancel
+                        </button>
                       </div>
+                    </div>
                   </form>
                 </div>
               </div>

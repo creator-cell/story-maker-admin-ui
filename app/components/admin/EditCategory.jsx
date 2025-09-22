@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Loader from "../Loader";
 
 export default function EditCategory({ userId }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -126,7 +126,8 @@ export default function EditCategory({ userId }) {
                   {/* Name */}
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <label className="form-label">Name
+                      <label className="form-label">
+                        Name
                         <span className="text-danger"> *</span>
                       </label>
                       <input
@@ -190,7 +191,10 @@ export default function EditCategory({ userId }) {
                       <button
                         type="button"
                         className="button"
-                        onClick={() => { setLoader(true); router.push("/admin/category") }}
+                        onClick={() => {
+                          setLoader(true);
+                          router.push("/admin/category");
+                        }}
                       >
                         Cancel
                       </button>

@@ -87,17 +87,35 @@ export default function Notification() {
               <div className="container p-0">
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
-                    <div className="title_head">
-                      <h1>Notifications</h1>
+                    <div className="container mt-4">
+                        <h2 className="mb-4">Notifications</h2>
+
+                        <div className="mb-3">
+                        <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Write your notification..."
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="mb-4">
+                        <button
+                        className="button me-2"
+                        onClick={() => handleSend("mail")}
+                        >
+                        Send by Email
+                        </button>
+                        <button
+                        className="button"
+                        onClick={() => handleSend("sms")}
+                        >
+                        Send by SMS
+                        </button>
                     </div>
                   </div>
                 </div>
-                {/* <div className="row">
-                  <div className="col-lg-12 col-md-12 col-sm-12">
-                    <div className="title_head">
-                    </div>
-                  </div>
-                </div> */}
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-4 col-md-6 col-12">

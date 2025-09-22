@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
-const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
+const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
 
 const AddChatHistory = () => {
   const currentUser = localStorage.getItem("user");
