@@ -122,7 +122,7 @@ function Header() {
         </button>
         <button
           onClick={handleExport}
-          className="header-button ml-3 relative"
+          className="header-export-button ml-3 relative"
           title="Export"
         >
           <Download className="w-5 h-5" />

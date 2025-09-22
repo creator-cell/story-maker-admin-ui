@@ -128,7 +128,7 @@ const AdminSidebar = () => {
           </div>
         </div>
       </div>
-      <div className="navbar-expand-xl">
+      <div className="navbar-expand-lg">
         <div
           className="toggle_sideBar collapse navbar-collapse"
           id="navbarSupportedContent"

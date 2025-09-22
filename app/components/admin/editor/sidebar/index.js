@@ -18,8 +18,14 @@ import DrawingPanel from "./panels/draw";
 import SettingsPanel from "./panels/settings";
 import AiPanel from "./panels/ai";
 import { useEditorStore } from "../../../../redux/UserStore";
+import { toggleDrawingMode } from "../../fabric/fabric-utils";
 
 function Sidebar() {
+  const { canvas } = useEditorStore();
+  const [isDrawingMode, setIsDrawingMode] = useState(false);
+  const [isErasing, setIsErasing] = useState(false);
+  const [drawingColor, setDrawingColor] = useState("#000000");
+  const [brushWidth, setBrushWidth] = useState(5);
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false);
   const [activeSidebar, setActiveSidebar] = useState(null);
 
@@ -70,8 +76,18 @@ function Sidebar() {
   };
 
   const closeSecondaryPanel = () => {
+    if (activeSidebar === "draw") {
+      setIsErasing(false);
+      setIsDrawingMode(false);
+      if (canvas) {
+        toggleDrawingMode(canvas, false, drawingColor, brushWidth);
+      }
+    }
     setActiveSidebar(null);
   };
+  const closePanel = () => {
+    setActiveSidebar(null);
+  }
 
   const togglePanelCollapse = (e) => {
     e.stopPropagation();
@@ -81,15 +97,14 @@ function Sidebar() {
   const activeItem = sidebarItems.find((item) => item.id === activeSidebar);
 
   return (
-    <div className="d-flex h-100">
+    <div className="editor-main d-flex">
       <aside className="sidebar">
         {sidebarItems.map((item) => (
           <div
             onClick={() => handleItemClick(item.id)}
             key={item.id}
-            className={`sidebar-item ${
-              activeSidebar === item.id ? "active" : ""
-            }`}
+            className={`sidebar-item ${activeSidebar === item.id ? "active" : ""
+              }`}
           >
             <item.icon className="sidebar-item-icon h-5 w-5" />
             <span className="sidebar-item-label">{item.label}</span>
@@ -112,7 +127,7 @@ function Sidebar() {
             <span className="panel-title">{activeItem.label}</span>
           </div>
           <div className="panel-content">{activeItem?.panel()}</div>
-          <button className="collapse-button" onClick={closeSecondaryPanel}>
+          <button className="collapse-button" onClick={closePanel}>
             <ChevronLeft />
           </button>
         </div>

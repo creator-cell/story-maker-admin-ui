@@ -88,7 +88,7 @@ function SettingsPanel() {
         </div>
         <hr></hr>
         <Separator className="my-3" />
-        <Button className="w-100 bg-dark text-white border-0 rounded" onClick={handleApplyChanges}>
+        <Button className="apply-btn w-100 text-white border-0 rounded" onClick={handleApplyChanges}>
           Apply Changes
         </Button>
       </div>
