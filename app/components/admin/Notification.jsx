@@ -101,13 +101,13 @@ export default function Notification() {
 
                     <div className="mb-4">
                         <button
-                        className="btn btn-primary me-2"
+                        className="button me-2"
                         onClick={() => handleSend("mail")}
                         >
                         Send by Email
                         </button>
                         <button
-                        className="btn btn-success"
+                        className="button"
                         onClick={() => handleSend("sms")}
                         >
                         Send by SMS

@@ -51,14 +51,12 @@ export default function DeleteCategory({ show, onHide, data, props }) {
                   <button
                     onClick={handleUserDelete}
                     className="button"
-                    style={{ backgroundColor: "red" }}
                   >
                     Delete
                   </button>
                   <button
                     onClick={onHide}
                     className="button"
-                    style={{ backgroundColor: "gray" }}
                   >
                     Cancel
                   </button>
