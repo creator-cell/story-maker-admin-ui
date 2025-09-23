@@ -223,9 +223,9 @@ export default function Roles() {
                                 <tr key={`${user._id}-${idx}`}>
                                   {idx === 0 && <td className="checkbox" rowSpan={user.menu.length}>{user.name}</td>}
 
-                                  <td className="w-25">{menuItem.menuName}</td>
+                                  <td className="checkbox w-25">{menuItem.menuName}</td>
                                   
-                                  <td className="checkbox">
+                                  <td className="checkbox border-1">
                                     <div className="form-check">
                                     <input type="checkbox"   className="form-check-input"  checked={menuItem.read} readOnly />
                                   </div>

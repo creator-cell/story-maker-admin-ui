@@ -184,32 +184,6 @@ const PlansManage = () => {
 
                     <div className="col-lg-6 col-md-6 col-12">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        {/* <div className="form_group position-relative">
-                          <input
-                            type="text"
-                            placeholder="Search by name, email, or phone..."
-                            className="form-control"
-                          />
-                          <i className="fa-solid fa-magnifying-glass position-absolute"
-                            style={{ right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#6c757d' }}>
-                          </i>
-                        </div> */}
-
-                        {/* <button className="button" onClick={handleSearch} disabled={loading}>
-                          {loading ? "Searching..." : "Search"}
-                        </button> */}
-
-                        {/* {searchUser && (
-                          <button 
-                            className="button ms-2" 
-                            onClick={handleClearSearch} 
-                            style={{ backgroundColor: '#6c757d' }}
-                            disabled={loading}
-                          >
-                            Clear
-                          </button>
-                        )} */}
-
                         {hasWritePermission() && (
                           <button className="button" onClick={() => { setLoader(true); router.push('/admin/plans/addplans') }}>
                             Add Plan

@@ -29,23 +29,7 @@ export default function Notification() {
       data: JSON.stringify({
         message: message
       })
-      url: `${API_URL}notification/${type == "sms" ? 'sms' : 'mail'}`,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      },
-      data: JSON.stringify({
-        message: message
-      })
     }).then(res => {
-      setMessage("");
-      toast(res.data?.message || "Notification sended successfully", {
-        theme: "light",
-        type: "success",
-        position: "top-right"
-      });
-      getNotifications();
       setMessage("");
       toast(res.data?.message || "Notification sended successfully", {
         theme: "light",
@@ -60,14 +44,7 @@ export default function Notification() {
         type: "error",
         position: "top-right"
       });
-      console.log(err);
-      toast("Something want wrong", {
-        theme: "light",
-        type: "error",
-        position: "top-right"
-      });
     }).finally(() => {
-      setLoader(false);
       setLoader(false);
     });
   };
@@ -110,37 +87,6 @@ export default function Notification() {
               <div className="container p-0">
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
-                    <div className="container mt-4">
-                        <h2 className="mb-4">Notifications</h2>
-
-                        <div className="mb-3">
-                        <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Write your notification..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <button
-                        className="button me-2"
-                        onClick={() => handleSend("mail")}
-                        >
-                        Send by Email
-                        </button>
-                        <button
-                        className="button"
-                        onClick={() => handleSend("sms")}
-                        >
-                        Send by SMS
-                        </button>
-                    </div>
-                </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
                       <h1>Notifications</h1>
                     </div>
@@ -167,18 +113,18 @@ export default function Notification() {
                         </div>
 
                         <button
-                          className="btn me-2 mail-button" 
+                          className="button"
+                          title="Send By Email"
                           onClick={() => handleSend("mail")}
                         >
                           Send by <i class="fa-solid fa-envelope"></i>
-                          {/* Email */}
                         </button>
                         <button
-                          className="btn sms-button"
+                          className="button"
+                          title="Send By SMS"
                           onClick={() => handleSend("sms")}
                         >
                           Send by <i class="fa-solid fa-comment-sms"></i>
-                          {/* SMS */}
                         </button>
                       </div>
                     </div>

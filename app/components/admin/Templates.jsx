@@ -298,21 +298,18 @@ export default function Template() {
                                 </button>
                                 <button
                                   className="button mx-1"
-                                  // style={{ backgroundColor: "#6c757d" }}
                                   onClick={() => handleClone(tpl._id)}
                                 >
                                   Clone
                                 </button>
                                 <button
                                   className="button mx-1"
-                                  // style={{ backgroundColor: "#dc3545" }}
                                   onClick={() => handleDelete(tpl._id)}
                                 >
                                   Delete
                                 </button>
                                 <button
                                   className="button mx-1"
-                                  // style={{ backgroundColor: "#0d6efd" }}
                                   onClick={() => handleDownloadPDF(tpl)}
                                 >
                                   Download PDF
@@ -320,7 +317,6 @@ export default function Template() {
 
                                 <button
                                   className="button mx-1"
-                                  // style={{ backgroundColor: "#20c997" }}
                                   onClick={() => handleDownloadCSV(tpl)}
                                 >
                                   Download CSV
