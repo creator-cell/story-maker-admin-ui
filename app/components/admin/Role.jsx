@@ -209,92 +209,90 @@ export default function Roles() {
                         <tr>
                           <th>Name</th>
                           <th>Menus & Permissions</th>
+                          <th>Read</th>
+                          <th>Write</th>
+                          <th>Both</th>
                           {hasWritePermission() && <th>Action</th>}
                         </tr>
                       </thead>
                       <tbody className="table_body">
                         {users &&
-                          users.map((user, index) => {
-                            return (
-                              <tr key={user._id}>
-                                <td data-label="Name">{user.name}</td>
-                                <td data-label="Menus & Permissions">
-                                  {user.menu && user.menu.length > 0 ? (
-                                    <div>
-                                      {user.menu.map((menuItem, idx) => (
-                                        <div
-                                          key={idx}
-                                          className="permission-item mb-2 p-2 border rounded"
-                                        >
-                                          <div className="permission-badges">
-                                            {/* <div className="menu-header mb-1"> */}
-                                            <strong className="text-dark">
-                                              {menuItem.menuName} :
-                                            </strong>
-                                            {/* </div> */}
-                                            {menuItem.read && (
-                                              <span className="badge b me-1">
-                                                Read
-                                              </span>
-                                            )}
-                                            {menuItem.write && (
-                                              <span className="badge  me-1">
-                                                Write
-                                              </span>
-                                            )}
-                                            {menuItem.both && (
-                                              <span className="badge  me-1">
-                                                Both
-                                              </span>
-                                            )}
-                                            {!menuItem.read &&
-                                              !menuItem.write &&
-                                              !menuItem.both && (
-                                                <span className="badge bg-secondary">
-                                                  No Access
-                                                </span>
-                                              )}
-                                          </div>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  ) : (
-                                    <span className="text-muted">
-                                      No permissions assigned
-                                    </span>
-                                  )}
-                                </td>
+                          users.map((user) =>
+                            user.menu && user.menu.length > 0 ? (
+                              user.menu.map((menuItem, idx) => (
+                                <tr key={`${user._id}-${idx}`}>
+                                  {idx === 0 && <td className="checkbox" rowSpan={user.menu.length}>{user.name}</td>}
 
-                                {hasWritePermission() && (
-                                  <td data-label="Action">
-                                    <div className="d-flex justify-content-start align-items-center">
-                                      <button
-                                        className="admin_action_edit"
-                                        onClick={() =>
-                                          handleUserUpdate(user._id)
-                                        }
-                                      >
-                                        <i className="fa-solid fa-pencil"></i>
-                                      </button>
-                                      {!user?.isSuperAdmin ? (
+                                  <td className="checkbox w-25">{menuItem.menuName}</td>
+                                  
+                                  <td className="checkbox border-1">
+                                    <div className="form-check">
+                                    <input type="checkbox"   className="form-check-input"  checked={menuItem.read} readOnly />
+                                  </div>
+                                  </td>
+                                  <td className="checkbox">
+                                    <div className="form-check">
+                                    <input type="checkbox"    className="form-check-input" checked={menuItem.write} readOnly />
+                                  </div>
+                                  </td>
+                                  <td className="checkbox">
+                                    <div className="form-check">
+                                    <input type="checkbox"    className="form-check-input" checked={menuItem.both} readOnly />
+                                 </div>
+                                  </td>
+
+                                  {hasWritePermission() && idx === 0 && (
+                                    <td rowSpan={user.menu.length}>
+                                      <div className="d-flex justify-content-start align-items-center gap-2">
                                         <button
-                                          className="admin_action_delete"
-                                          onClick={() =>
-                                            handleUserDelete(user._id)
-                                          }
+                                          className="admin_action_edit"
+                                          onClick={() => handleUserUpdate(user._id)}
                                         >
-                                          <i className="fa fa-trash"></i>
+                                          <i className="fa fa-edit"></i>
                                         </button>
-                                      ) : null}
-                                    </div>
+                                        {!user?.isSuperAdmin ? (
+                                          <button
+                                            className="admin_action_delete"
+                                            onClick={() => handleUserDelete(user._id)}
+                                          >
+                                            <i className="fa fa-trash"></i>
+                                          </button>
+                                        ) : null}
+                                      </div>
+                                    </td>
+                                  )}
+                                </tr>
+                              ))
+                            ) : (
+                              <tr key={user._id}>
+                                <td>{user.name}</td>
+                                <td colSpan="4" className="text-muted">
+                                  No permissions assigned
+                                </td>
+                                {hasWritePermission() && (
+                                  <td>
+                                    <button
+                                      className="admin_action_edit"
+                                      onClick={() => handleUserUpdate(user._id)}
+                                    >
+                                      <i className="fa-solid fa-pencil"></i>
+                                    </button>
+                                    {!user?.isSuperAdmin ? (
+                                      <button
+                                        className="admin_action_delete"
+                                        onClick={() => handleUserDelete(user._id)}
+                                      >
+                                        <i className="fa fa-trash"></i>
+                                      </button>
+                                    ) : null}
                                   </td>
                                 )}
                               </tr>
-                            );
-                          })}
+                            )
+                          )}
                         {users.length === 0 && (
                           <tr>
-                            <td colSpan="3" className="text-center">
+                            <td colSpan="6" className="text-center">
                               No role found
                             </td>
                           </tr>
