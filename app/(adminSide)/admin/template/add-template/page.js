@@ -1,8 +1,17 @@
-import AddTemplatePage from "./../../../../components/admin/AddTemplate";
+// import AddTemplatePage from "./../../../../components/admin/AddTemplate";
+// export default function Page() {
+//   return (
+//     <>
+//       <cls
+// AddTemplatePage />
+//     </>
+//   );
+// }
+import MainEditor from "@/app/components/admin/editor";
 export default function Page() {
   return (
     <>
-      <AddTemplatePage />
+      <MainEditor />
     </>
   );
 }

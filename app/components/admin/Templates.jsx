@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import DeleteTemplate from "@/app/(adminSide)/model/DeleteTemplate";
 import Loader from "../Loader";
 import { jsPDF } from "jspdf";
+import ApproveTemplate from "@/app/(adminSide)/model/ApproveTemplate";
 export default function Template() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
   const [templates, setTemplates] = useState([]);
@@ -22,35 +23,9 @@ export default function Template() {
   const userObj = userStr ? JSON.parse(userStr) : null;
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
+  const [approveModel, setApproveModel] = useState(false);
 
-  // const getTemplates = async (page = 1, searchTerm = "") => {
-  //   setLoader(true);
-  //   try {
-  //     let url = `${API_URL}template?page=${page}&pageSize=${itemsPerPage}`;
-
-  //     if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
-
-  //     if (currentUser?.role === "admin") {
-  //     } else {
-  //       if (currentUser?._id) {
-  //         url += `&userId=${currentUser._id}&role=user`;
-  //       }
-  //     }
-
-  //     const res = await axios.get(url, {
-  //       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  //     });
-
-  //     setTemplates(res.data.data || []);
-  //     setTotalPages(res.data.pagination?.totalPages || 1);
-  //     setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
-  //   } catch (err) {
-  //     setTemplates([]);
-  //     setTotalPages(0);
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // };
+  const [showRejectModal, setShowRejectModal] = useState(false);
   const getTemplates = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
@@ -111,9 +86,24 @@ export default function Template() {
     setShowDeletedId(true);
   };
 
-  const handleNewTemplate = () => {
-    setLoader(true);
-    router.push(`/admin/template/add-template`);
+  const handleTemplateSubmit = async () => {
+    try {
+      const responseData = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template`,
+        { name: "Untitle design", content: "", user: currentUser._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setLoader(false);
+      router.push(`/admin/template/${responseData.data.template._id}`);
+    } catch (err) {
+      setLoader(false);
+      toast.error(err?.response?.data?.message || "Failed to add template");
+    }
   };
 
   const handleDownloadPDF = (tpl) => {
@@ -122,7 +112,6 @@ export default function Template() {
       return;
     }
 
-    // create a hidden canvas to render
     const canvas = new fabric.StaticCanvas(null, { width: 800, height: 600 });
 
     try {
@@ -189,6 +178,11 @@ export default function Template() {
     }
   };
 
+  const handleApprove = (id) => {
+    setApproveModel(true);
+    setDeleteId(id);
+  };
+
   return (
     <>
       <div id="main_container">
@@ -220,15 +214,7 @@ export default function Template() {
                               e.key === "Enter" && getTemplates(1, search)
                             }
                           />
-                          <i
-                            className="fa-solid fa-magnifying-glass"
-                            // style={{
-                            //   right: "10px",
-                            //   top: "50%",
-                            //   transform: "translateY(-50%)",
-                            //   color: "#6c757d",
-                            // }}
-                          ></i>
+                          <i className="fa-solid fa-magnifying-glass"></i>
                         </div>
                         <button
                           className="button"
@@ -250,7 +236,10 @@ export default function Template() {
                             Clear
                           </button>
                         )}
-                        <button className="button" onClick={handleNewTemplate}>
+                        <button
+                          className="button"
+                          onClick={handleTemplateSubmit}
+                        >
                           Add New Template
                         </button>
                       </div>
@@ -272,8 +261,8 @@ export default function Template() {
                       <thead>
                         <tr>
                           <th>Name</th>
-                          <th>Category</th>
-                          <th>Subcategory</th>
+                          {/* <th>Category</th>
+                          <th>Subcategory</th> */}
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
@@ -283,8 +272,8 @@ export default function Template() {
                           templates.map((tpl) => (
                             <tr key={tpl._id}>
                               <td>{tpl.name}</td>
-                              <td>{tpl.category?.name || "-"}</td>
-                              <td>{tpl.subCategory?.name || "-"}</td>
+                              {/* <td>{tpl.category?.name || "-"}</td>
+                              <td>{tpl.subCategory?.name || "-"}</td> */}
                               <td>
                                 <span
                                   className={`badge ${
@@ -315,23 +304,18 @@ export default function Template() {
                                   // style={{ backgroundColor: "#dc3545" }}
                                   onClick={() => handleDelete(tpl._id)}
                                 >
-                                  Delete
+                                  Delete/Reject
                                 </button>
-                                <button
-                                  className="button mx-1"
-                                  // style={{ backgroundColor: "#0d6efd" }}
-                                  onClick={() => handleDownloadPDF(tpl)}
-                                >
-                                  Download PDF
-                                </button>
-
-                                <button
-                                  className="button mx-1"
-                                  // style={{ backgroundColor: "#20c997" }}
-                                  onClick={() => handleDownloadCSV(tpl)}
-                                >
-                                  Download CSV
-                                </button>
+                                {currentUser.role.name === "Super Admin" &&
+                                  tpl.status === "pending" && (
+                                    <button
+                                      className="button mx-1"
+                                      style={{ backgroundColor: "6c757d" }}
+                                      onClick={() => handleApprove(tpl._id)}
+                                    >
+                                      Approve
+                                    </button>
+                                  )}
                               </td>
                             </tr>
                           ))}
@@ -384,6 +368,13 @@ export default function Template() {
         show={showDeletedId}
         data={deleteId}
         onHide={() => (setShowDeletedId(false), getTemplates())}
+      />
+      <ApproveTemplate
+        show={approveModel}
+        data={deleteId}
+        onHide={() => {
+          setApproveModel(false), getTemplates();
+        }}
       />
     </>
   );

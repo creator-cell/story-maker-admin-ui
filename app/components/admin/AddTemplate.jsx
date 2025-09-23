@@ -69,8 +69,7 @@ export default function AddTemplatePage() {
 
   const handleCategoryChange = (id) => {
     setValue("category", id);
-    console.log(id);
-    console.log(categories);
+
     setSubCategories(categories.filter((c) => c.parentCategory === id));
     setValue("subCategory", "");
   };

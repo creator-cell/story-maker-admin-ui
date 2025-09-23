@@ -1,10 +1,8 @@
-import EditTemplatePage from "./../../../../../components/admin/EditTemplate";
-
-export default function Page({ params }) {
-  const roleId = params.ID;
+import MainEditor from "@/app/components/admin/editor";
+export default function Page() {
   return (
     <>
-      <EditTemplatePage id={roleId} isClone="true" />
+      <MainEditor isClone={true} />
     </>
   );
 }

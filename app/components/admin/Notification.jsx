@@ -20,33 +20,36 @@ export default function Notification() {
 
     setLoader(true);
     axios({
-      url: `${API_URL}notification/${type == "sms" ? 'sms' : 'mail'}`,
+      url: `${API_URL}notification/${type == "sms" ? "sms" : "mail"}`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       data: JSON.stringify({
-        message: message
+        message: message,
+      }),
+    })
+      .then((res) => {
+        setMessage("");
+        toast(res.data?.message || "Notification sended successfully", {
+          theme: "light",
+          type: "success",
+          position: "top-right",
+        });
+        getNotifications();
       })
-    }).then(res => {
-      setMessage("");
-      toast(res.data?.message || "Notification sended successfully", {
-        theme: "light",
-        type: "success",
-        position: "top-right"
+      .catch((err) => {
+        console.log(err);
+        toast("Something want wrong", {
+          theme: "light",
+          type: "error",
+          position: "top-right",
+        });
+      })
+      .finally(() => {
+        setLoader(false);
       });
-      getNotifications();
-    }).catch(err => {
-      console.log(err);
-      toast("Something want wrong", {
-        theme: "light",
-        type: "error",
-        position: "top-right"
-      });
-    }).finally(() => {
-      setLoader(false);
-    });
   };
 
   const getNotifications = (page = 1) => {
@@ -55,24 +58,26 @@ export default function Notification() {
       url: `${API_URL}notification?page=${page}`,
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
-    }).then(res => {
-      setNotifications(res?.data?.data?.items);
-      setTotalPages(res?.data?.data?.pagination?.totalPages);
-      setTotalItems(res?.data?.data?.pagination?.totalItems);
-      setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
-    }).catch(err => {
-      console.log(err);
-    }).finally(() => {
-      setLoader(false);
-    });
-  }
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        setNotifications(res?.data?.data?.items);
+        setTotalPages(res?.data?.data?.pagination?.totalPages);
+        setTotalItems(res?.data?.data?.pagination?.totalItems);
+        setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  };
 
   const handlePageClick = (selectedPage) => {
-    console.log(selectedPage);
     getNotifications(selectedPage?.selected + 1);
-  }
+  };
 
   useEffect(() => {
     getNotifications();
@@ -90,29 +95,29 @@ export default function Notification() {
                     <div className="container mt-4">
                         <h2 className="mb-4">Notifications</h2>
 
-                        <div className="mb-3">
-                        <input
+                    <div className="mb-3">
+                      <input
                         type="text"
                         className="form-control"
                         placeholder="Write your notification..."
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        />
+                      />
                     </div>
 
                     <div className="mb-4">
-                        <button
+                      <button
                         className="button me-2"
                         onClick={() => handleSend("mail")}
-                        >
+                      >
                         Send by Email
-                        </button>
-                        <button
+                      </button>
+                      <button
                         className="button"
                         onClick={() => handleSend("sms")}
-                        >
+                      >
                         Send by SMS
-                        </button>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -209,11 +214,23 @@ export default function Notification() {
                           notifications.map((notification, index) => {
                             return (
                               <tr key={index}>
-                                <td data-label="Date">{new Date(notification?.updatedAt).toLocaleDateString()}</td>
-                                <td data-label="Message">{notification?.message}</td>
-                                <td data-label="Send By">{notification?.sendedBy?.name}</td>
-                                <td data-label="Type">{notification?.type?.toUpperCase()}</td>
-                                <td data-label="Deliver Count">{notification?.deliverCount}</td>
+                                <td data-label="Date">
+                                  {new Date(
+                                    notification?.updatedAt
+                                  ).toLocaleDateString()}
+                                </td>
+                                <td data-label="Message">
+                                  {notification?.message}
+                                </td>
+                                <td data-label="Send By">
+                                  {notification?.sendedBy?.name}
+                                </td>
+                                <td data-label="Type">
+                                  {notification?.type?.toUpperCase()}
+                                </td>
+                                <td data-label="Deliver Count">
+                                  {notification?.deliverCount}
+                                </td>
                               </tr>
                             );
                           })}

@@ -119,7 +119,6 @@ export default function EditRole({ roleId }) {
   }, [roleId]);
 
   const handlePermissionChange = (menuKey, permissionType) => {
-    console.log(menuKey, permissionType);
     setMenuPermissions((prev) => {
       const currentMenu = prev[menuKey];
       let newPermissions = { ...currentMenu };

@@ -38,7 +38,6 @@ const AddCategoryPage = () => {
         (cat) => !cat.parentCategory
       );
 
-      console.log("Parent categories:", parentCategories);
       setCategories(parentCategories || []);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -57,7 +56,6 @@ const AddCategoryPage = () => {
       toast.error("Category name is required", { theme: "dark" });
       return;
     }
-    console.log(data);
 
     setLoader(true);
 
