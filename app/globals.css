@@ -134,14 +134,7 @@ html {
 }
 
 :root {
-  --bg-light: #f5f8fa;
-  --border-gray: #d1d5db;
-  --primary-dark: #226B73;
-  --bg-muted: #f1f3f5;
-  --text-gray: #b3b5b6;
-  --line-gray: #ddd;
   --green-shade: #28a745;
-  --blue-shade: #007bff;
   --gold: #FFD700;
   --orange: #FFA500;
   --pink: #FFC0CB;
@@ -153,6 +146,7 @@ html {
   --teal-blue: #2383AA;
   --grayish-blue: #626773;
   --Blue: #0056b3;
+  --blue-shade: #007bff;
   --Whitesmoke: #F5F5F7;
   --alpha: #071e37;
   --red: #FC0909;
@@ -2274,7 +2268,7 @@ button.admin_menuToggler {
 }
 
 .bg-success {
-  background-color: #28a745 !important;
+  background-color: var(--green-shade) !important;
 }
 
 .bg-warning {
@@ -2350,7 +2344,7 @@ button.admin_menuToggler {
 }
 
 .btn-resolve {
-  background-color: #28a745;
+  background-color: var(--green-shade);
   /* Green */
   color: white;
 }

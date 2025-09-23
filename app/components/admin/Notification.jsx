@@ -29,7 +29,23 @@ export default function Notification() {
       data: JSON.stringify({
         message: message
       })
+      url: `${API_URL}notification/${type == "sms" ? 'sms' : 'mail'}`,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
+      data: JSON.stringify({
+        message: message
+      })
     }).then(res => {
+      setMessage("");
+      toast(res.data?.message || "Notification sended successfully", {
+        theme: "light",
+        type: "success",
+        position: "top-right"
+      });
+      getNotifications();
       setMessage("");
       toast(res.data?.message || "Notification sended successfully", {
         theme: "light",
@@ -44,7 +60,14 @@ export default function Notification() {
         type: "error",
         position: "top-right"
       });
+      console.log(err);
+      toast("Something want wrong", {
+        theme: "light",
+        type: "error",
+        position: "top-right"
+      });
     }).finally(() => {
+      setLoader(false);
       setLoader(false);
     });
   };
@@ -86,6 +109,7 @@ export default function Notification() {
             <div id="user" className="comman_admin_layout">
               <div className="container p-0">
                 <div className="row">
+                  <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="container mt-4">
                         <h2 className="mb-4">Notifications</h2>
 
@@ -143,18 +167,18 @@ export default function Notification() {
                         </div>
 
                         <button
-                          className="btn mail-button"
-                          title="Send By Email"
+                          className="btn me-2 mail-button" 
                           onClick={() => handleSend("mail")}
                         >
                           Send by <i class="fa-solid fa-envelope"></i>
+                          {/* Email */}
                         </button>
                         <button
                           className="btn sms-button"
-                          title="Send By SMS"
                           onClick={() => handleSend("sms")}
                         >
                           Send by <i class="fa-solid fa-comment-sms"></i>
+                          {/* SMS */}
                         </button>
                       </div>
                     </div>
