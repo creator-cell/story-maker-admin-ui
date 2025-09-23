@@ -6,15 +6,22 @@ import { toast } from "react-toastify";
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
 
 const ChatHistory = ({ ticketId }) => {
+  
   const currentUser = localStorage.getItem("user");
-
   const [ticket, setTicket] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
-
+  const [selectedImage, setSelectedImage] = useState(null);
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setSelectedImage(URL.createObjectURL(file));
+    } else {
+      setImageFile(null);
+      setSelectedImage(null);
+    }
   };
 
   // Ref for auto scroll
@@ -40,7 +47,6 @@ const ChatHistory = ({ ticketId }) => {
 
   const sendChatMessage = async () => {
     if (!chatMessage.trim() && !imageFile) return;
-
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role.name === "Moderator" ? "moderator" : "user";
 
@@ -49,6 +55,7 @@ const ChatHistory = ({ ticketId }) => {
     formData.append("role", role);
     formData.append("messages", chatMessage.trim());
     if (imageFile) formData.append("image", imageFile);
+    console.log("imageFile", imageFile);
 
     try {
       await axios.put(`${API_URL}tickets/${ticketId}`, formData, {
@@ -66,6 +73,16 @@ const ChatHistory = ({ ticketId }) => {
     }
   };
 
+  const getInitials = (name = "") => {
+    if (!name) return "";
+    const words = name.trim().split(" ");
+    let initials = words[0].charAt(0);
+    if (words.length > 1) {
+      initials += words[1].charAt(0);
+    }
+    return initials.toUpperCase();
+  };
+
   // Scroll to bottom when messages change
   useEffect(() => {
     if (ticket?.messages?.length) {
@@ -74,109 +91,126 @@ const ChatHistory = ({ ticketId }) => {
   }, [ticket?.messages]);
 
   return (
-    <div className="chat-container">
-      <div className="chat">
-        <h1>Support Ticket Chat</h1>
-        {/* {loading && <div>Loading...</div>} */}
-        <div className="box">
-          {ticket?.messages?.length ? (
-            ticket.messages.map((msg) => (
-              <div
-                key={msg._id}
-                style={{
-                  paddingLeft: "10px",
-                  marginBottom: 12,
-                  display: "flex",
-                  justifyContent:
-                    msg.role === "user" ? "flex-end" : "flex-start",
-                }}
-              >
-                <div
-                  className="user-chat"
-                  style={{
-                    alignItems: msg.role === "user" ? "flex-end" : "flex-start",
-                  }}
-                >
-                  {/* Message */}
-                  <p
-                    className="mt-3"
-                    style={{
-                      background: msg.role === "user" ? "#DCF8C6" : "#E8E8E8",
-                    }}
-                  >
-                    <div className="icon-name">
-                      <i
-                        className={
-                          msg.role === "user"
-                            ? "fa-solid fa-user"
-                            : "fa-solid fa-user-astronaut"
-                        }
-                      ></i>
-                      <div className="name">
-                        <small>
-                          {/* {msg.role === "user" ? "User" : "Moderator"} */}
-                          {msg?.sender?.name}
-                        </small>
-                      </div>
-                    </div>
-                    {msg.message}
-                    {msg.image && (
-                      <div>
-                        <img
-                          src={`${API_URL.replace(/\/$/, "")}${msg.image}`}
-                        />
-                      </div>
-                    )}
-                    <small>
-                      {msg.sentAt
-                        ? new Date(msg.sentAt).toLocaleString("en-GB", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })
-                        : "Just now"}
-                    </small>
-                  </p>
+    <>
+      <div className="chat-container">
+        <div className="chat">
+          <p className="title">Reply</p>
+          <div className="box">
+            <div className="type-messages w-100">
+              <div className="d-flex flex-column">
+                <span>Your message</span>
+
+                <textarea
+                  type="text"
+                  className="form-control mt-3"
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e.target.value)}
+                  rows={4}
+                />
+
+                <div className="upload-file mt-4 gap-4 d-flex">
+                  <label htmlFor="file-upload" className="upload-text">
+                    <i class="fa-solid fa-file-arrow-up"></i> <span> Upload a file </span>
+                  </label>
+                  <input type="file" id="file-upload" accept="image/*" onChange={handleFileChange} className="mt-4 d-none" />
                 </div>
+                <button
+                  className="button mt-4"
+                  onClick={sendChatMessage}
+                  disabled={loading || !chatMessage.trim() && !imageFile}
+                >
+                  Reply
+                </button>
               </div>
-            ))
-          ) : (
-            <div>No messages yet.</div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-        <div className="type-message d-flex gap-2">
-          <input
-            type="text"
-            className="form-control"
-            value={chatMessage}
-            onChange={(e) => setChatMessage(e.target.value)}
-            placeholder="Type a message..."
-          />
+              <div className="show-file mt-2">
+                {selectedImage && (
 
-          {/* File input for images */}
-          <input type="file" accept="image/*" onChange={handleFileChange} />
-
-          <img
-            src="/images/send.jpg"
-            alt="Send message"
-            height={50}
-            width={50}
-            onClick={sendChatMessage}
-            style={{
-              cursor:
-                loading || (!chatMessage.trim() && !imageFile)
-                  ? "default"
-                  : "pointer",
-              opacity: loading || (!chatMessage.trim() && !imageFile) ? 0.5 : 1,
-            }}
-            role="button"
-          />
+                  <img
+                    src={selectedImage}
+                    alt="preview"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+        <br />
+        <div className="chat">
+          <p className="title">Support Ticket Chat</p>
+
+          <div className="box">
+            {ticket?.messages?.length ? (
+              ticket.messages.map((msg) => (
+                <div key={msg._id}>
+                  <di className="user-chat" >
+                    <p>
+                      <div className="icon-name">
+                        <div className="user-initials pt-1">
+                          {getInitials(msg?.sender?.name)}
+                        </div>
+                        <div className="name">
+                          <small>
+                            {msg?.sender?.name}
+                          </small>
+                          <small>
+                            {msg.sentAt ? (() => {
+                              const date = new Date(msg.sentAt);
+                              const now = new Date();
+
+                              const isToday = date.toDateString() === now.toDateString();
+
+                              const yesterday = new Date();
+                              yesterday.setDate(now.getDate() - 1);
+                              const isYesterday = date.toDateString() === yesterday.toDateString();
+
+                              let time = date.toLocaleString("en-GB", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              });
+                              time = time.replace("am", "AM").replace("pm", "PM");
+
+                              if (isToday) {
+                                return `Today at ${time}`;
+                              } else if (isYesterday) {
+                                return `Yesterday at ${time}`;
+                              } else {
+                                const formattedDate = date.toLocaleDateString("en-GB", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                });
+                                return `${formattedDate} ${time}`;
+                              }
+                            })() : "Just now"}
+                          </small>
+
+                          <span> {msg.message}
+                            <div className="mt-4">
+                              {msg.image && (
+                                <div>
+                                  <img
+                                    src={`${API_URL.replace(/\/$/, "")}${msg.image}`}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </span>
+                        </div>
+                      </div>
+                    </p>
+                  </di>
+                </div>
+              ))
+            ) : (
+              <div>No messages yet.</div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+        </div>
+      </div >
+    </>
   );
 };
 
