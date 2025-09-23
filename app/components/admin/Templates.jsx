@@ -76,9 +76,36 @@ export default function Template() {
     router.push(`/admin/template/${id}`);
   };
 
-  const handleClone = (id) => {
+  const handleClone = async (id, name, content) => {
     setLoader(true);
-    router.push(`/admin/template/clone/${id}`);
+    const userStr = localStorage.getItem("user");
+
+    const userObj = userStr ? JSON.parse(userStr) : null;
+    //  router.push(`/admin/template/clone/${id}`);
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${id}`,
+        {
+          name: name,
+
+          content: content,
+          user: userObj._id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      toast.success("Template clone successfully");
+      getTemplates();
+      router.push("/admin/template");
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Failed to update template");
+    } finally {
+      setLoader(false);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -295,7 +322,9 @@ export default function Template() {
                                 <button
                                   className="button mx-1"
                                   // style={{ backgroundColor: "#6c757d" }}
-                                  onClick={() => handleClone(tpl._id)}
+                                  onClick={() =>
+                                    handleClone(tpl._id, tpl.name, tpl.content)
+                                  }
                                 >
                                   Clone
                                 </button>
