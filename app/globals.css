@@ -379,6 +379,7 @@ table thead {
 .button,
 .button:focus,
 .button:active {
+  white-space: nowrap;
   background-color: #808080;
   color: #fff;
   border: none;
@@ -3393,10 +3394,9 @@ button.admin_menuToggler {
 
 .comman_admin_layout .admin_table .filter_field {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 10px;
-  /* flex-wrap: wrap; */
 }
 
 .comman_admin_layout .admin_table .form_group {
@@ -3449,32 +3449,33 @@ button.admin_menuToggler {
   transform: translateY(-50%);
   cursor: pointer;
   color: #81898f;
+  padding-left: 10px;
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
-    
-    background-color: #808080;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  
+
+  background-color: #808080;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
 }
 
 .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .click-to-resolve {
   background-color: #808080;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Comman Admin Container End */
@@ -3801,7 +3802,7 @@ button.admin_menuToggler {
   /* Admin Side Start */
   /* Admin table responsive */
   .admin_table .table-responsive table {
-    border: 0px !important;
+    border: 1px gray !important;
     background-color: transparent;
   }
 
@@ -4305,11 +4306,7 @@ button.admin_menuToggler {
   color: #333;
 }
 
-.form_group {
-  position: relative;
-  flex: 1;
-  min-width: 250px;
-}
+
 
 .form_group i {
   position: absolute;
@@ -4490,7 +4487,7 @@ button.admin_menuToggler {
 
   .form_group,
   .filter_date {
-    min-width: 100%;
+    /* min-width: 100%; */
   }
 
   .tab-button {
@@ -10142,7 +10139,7 @@ html {
   background-color: var(--deep-blue) !important;
 }
 
- /* chat box start  */
+/* chat box start  */
 .chat-container {
   background: var(--bg-light);
   width: calc(100% - 250px);
@@ -10233,7 +10230,8 @@ html {
 .chat-container .chat .box .user-chat p small {
   color: var(--dark);
 }
-.chat-container .chat .box .user-chat p .icon-name{
+
+.chat-container .chat .box .user-chat p .icon-name {
   display: flex;
 }
 
@@ -10773,7 +10771,8 @@ html {
 .upgrade-button:hover {
   transform: translateY(-1px);
 }
-.checkbox{
+
+.checkbox {
   border: 1px solid;
 }
 
@@ -11077,9 +11076,11 @@ html {
   background-color: #2383aa !important;
 
 }
-.inner_container .editor-main .secondary-panel .panel-content .apply-btn:hover{
-  opacity:0.8;
+
+.inner_container .editor-main .secondary-panel .panel-content .apply-btn:hover {
+  opacity: 0.8;
 }
+
 .inner_container .editor-main {
   height: 100vh;
   border: 1px solid #d1d1d1;
@@ -11090,3 +11091,39 @@ html {
 
 
 
+/* responsive design users start */
+@media only screen and (max-width: 767px) {
+
+  .comman_admin_layout .admin_table .filter_field {
+    display: flex;
+    justify-content: start !important;
+    flex-wrap: wrap;
+  }
+
+}
+
+@media only screen and (max-width: 480px) {
+
+  .comman_admin_layout .admin_table .filter_field {
+    display: flex !important;
+    justify-content: start !important;
+    flex-wrap: wrap;
+  }
+
+}
+
+@media (min-width: 320px) and (max-width: 360px) {
+
+  .admin_table .table-responsive table tbody tr td {
+    vertical-align: middle;
+    color: var(--dark);
+    padding: 6px;
+    font-size: 12px !important;
+    line-height: 1.2;
+    border-bottom: 1px solid gray !important;
+  }
+
+
+}
+
+/* responsive design users end */
