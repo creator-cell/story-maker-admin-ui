@@ -206,11 +206,11 @@ function DrawingPanel() {
                       </Button>
                     ))}
                   </div>
-                  {/* <div class="space-y-2 mt-4">
-                    <div class="d-flex justify-content-between">
+                  {/* <div className="space-y-2 mt-4">
+                    <div className="d-flex justify-content-between">
                       <label
                         for="opacity-slider"
-                        class="form-label font-medium"
+                        className="form-label font-medium"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -222,19 +222,19 @@ function DrawingPanel() {
                           stroke-width="2"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                          class="mr-2 h-4 w-4"
+                          className="mr-2 h-4 w-4"
                         >
                           <path d="M12 2v20M2 12h20M7 7l10 10M7 17l10-10" />
                         </svg>
                         Opacity
                       </label>
-                      <span class="text-sm font-medium">
+                      <span className="text-sm font-medium">
                         <span id="opacity-value">100</span>%
                       </span>
                     </div>
                     <input
                       type="range"
-                      class="form-range"
+                      className="form-range"
                       id="opacity-slider"
                       min="1"
                       max="100"
@@ -242,8 +242,8 @@ function DrawingPanel() {
                       value="100"
                     />
                   </div> */}
-                  <div class="space-y-2 mt-4">
-                    <div class="d-flex justify-content-between">
+                  <div className="space-y-2 mt-4">
+                    <div className="d-flex justify-content-between">
                       <Label className={"font-medium"}>
                         <Droplets className="mr-2 h-4 w-4" />
                         Opacity

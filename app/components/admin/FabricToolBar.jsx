@@ -235,7 +235,7 @@ export default function FabricToolbar({
                 onClick={() => onAddLine("dashed")}
               >
                 {" "}
-                <i class="fa-solid dashed-line"></i>
+                <i className="fa-solid dashed-line"></i>
                 <span className="ms-3">Dashed Line</span>
               </button>
             </li>

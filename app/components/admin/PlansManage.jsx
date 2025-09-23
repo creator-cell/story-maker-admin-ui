@@ -296,7 +296,7 @@ const PlansManage = () => {
                                 </td>
                                 <td data-label="Duration">
                                   {plan?.duration ? (
-                                    <span class="badge bg-success text-light m-1">
+                                    <span className="badge bg-success text-light m-1">
                                       {plan?.duration}
                                     </span>
                                   ) : (
@@ -304,9 +304,9 @@ const PlansManage = () => {
                                   )}
                                 </td>
                                 <td data-label="Features">
-                                  <div class="flex flex-wrap gap-3">
+                                  <div className="flex flex-wrap gap-3">
                                     {plan?.features?.map((p) => (
-                                      <span class="badge bg-info text-dark m-1">
+                                      <span className="badge bg-info text-dark m-1">
                                         {p}
                                       </span>
                                     ))}

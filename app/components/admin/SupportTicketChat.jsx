@@ -110,7 +110,7 @@ const ChatHistory = ({ ticketId }) => {
 
                 <div className="upload-file mt-4 gap-4 d-flex">
                   <label htmlFor="file-upload" className="upload-text">
-                    <i class="fa-solid fa-file-arrow-up"></i> <span> Upload a file </span>
+                    <i className="fa-solid fa-file-arrow-up"></i> <span> Upload a file </span>
                   </label>
                   <input type="file" id="file-upload" accept="image/*" onChange={handleFileChange} className="mt-4 d-none" />
                 </div>
