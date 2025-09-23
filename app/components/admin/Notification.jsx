@@ -20,36 +20,33 @@ export default function Notification() {
 
     setLoader(true);
     axios({
-      url: `${API_URL}notification/${type == "sms" ? "sms" : "mail"}`,
+      url: `${API_URL}notification/${type == "sms" ? 'sms' : 'mail'}`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       },
       data: JSON.stringify({
-        message: message,
-      }),
-    })
-      .then((res) => {
-        setMessage("");
-        toast(res.data?.message || "Notification sended successfully", {
-          theme: "light",
-          type: "success",
-          position: "top-right",
-        });
-        getNotifications();
+        message: message
       })
-      .catch((err) => {
-        console.log(err);
-        toast("Something want wrong", {
-          theme: "light",
-          type: "error",
-          position: "top-right",
-        });
-      })
-      .finally(() => {
-        setLoader(false);
+    }).then(res => {
+      setMessage("");
+      toast(res.data?.message || "Notification sended successfully", {
+        theme: "light",
+        type: "success",
+        position: "top-right"
       });
+      getNotifications();
+    }).catch(err => {
+      console.log(err);
+      toast("Something want wrong", {
+        theme: "light",
+        type: "error",
+        position: "top-right"
+      });
+    }).finally(() => {
+      setLoader(false);
+    });
   };
 
   const getNotifications = (page = 1) => {
@@ -58,26 +55,24 @@ export default function Notification() {
       url: `${API_URL}notification?page=${page}`,
       method: "GET",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => {
-        setNotifications(res?.data?.data?.items);
-        setTotalPages(res?.data?.data?.pagination?.totalPages);
-        setTotalItems(res?.data?.data?.pagination?.totalItems);
-        setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoader(false);
-      });
-  };
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    }).then(res => {
+      setNotifications(res?.data?.data?.items);
+      setTotalPages(res?.data?.data?.pagination?.totalPages);
+      setTotalItems(res?.data?.data?.pagination?.totalItems);
+      setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
+    }).catch(err => {
+      console.log(err);
+    }).finally(() => {
+      setLoader(false);
+    });
+  }
 
   const handlePageClick = (selectedPage) => {
+    console.log(selectedPage);
     getNotifications(selectedPage?.selected + 1);
-  };
+  }
 
   useEffect(() => {
     getNotifications();
@@ -92,35 +87,12 @@ export default function Notification() {
               <div className="container p-0">
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
-                    <div className="container mt-4">
-                        <h2 className="mb-4">Notifications</h2>
-
-                    <div className="mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Write your notification..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="mb-4">
-                      <button
-                        className="button me-2"
-                        onClick={() => handleSend("mail")}
-                      >
-                        Send by Email
-                      </button>
-                      <button
-                        className="button"
-                        onClick={() => handleSend("sms")}
-                      >
-                        Send by SMS
-                      </button>
+                    <div className="title_head">
+                      <h1>Notifications</h1>
                     </div>
                   </div>
                 </div>
+
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-4 col-md-6 col-12">
@@ -141,18 +113,18 @@ export default function Notification() {
                         </div>
 
                         <button
-                          className="btn me-2 mail-button" 
+                          className="button"
+                          title="Send By Email"
                           onClick={() => handleSend("mail")}
                         >
                           Send by <i class="fa-solid fa-envelope"></i>
-                          {/* Email */}
                         </button>
                         <button
-                          className="btn sms-button"
+                          className="button"
+                          title="Send By SMS"
                           onClick={() => handleSend("sms")}
                         >
                           Send by <i class="fa-solid fa-comment-sms"></i>
-                          {/* SMS */}
                         </button>
                       </div>
                     </div>
@@ -184,9 +156,6 @@ export default function Notification() {
                           <th className="cursor"
                           >
                             Message
-                            {/* <i
-                              className={`fa ${getSortIcon("email")} ms-1`}
-                            ></i> */}
                           </th>
                           <th className="cursor"
                           >
@@ -195,16 +164,10 @@ export default function Notification() {
                           <th className="cursor"
                           >
                             Type
-                            {/* <i
-                              className={`fa ${getSortIcon("isActive")} ms-1`}
-                            ></i> */}
                           </th>
                           <th className="cursor"
                           >
                             Deliver Count
-                            {/* <i
-                              className={`fa ${getSortIcon("isActive")} ms-1`}
-                            ></i> */}
                           </th>
                         </tr>
                       </thead>
@@ -214,23 +177,11 @@ export default function Notification() {
                           notifications.map((notification, index) => {
                             return (
                               <tr key={index}>
-                                <td data-label="Date">
-                                  {new Date(
-                                    notification?.updatedAt
-                                  ).toLocaleDateString()}
-                                </td>
-                                <td data-label="Message">
-                                  {notification?.message}
-                                </td>
-                                <td data-label="Send By">
-                                  {notification?.sendedBy?.name}
-                                </td>
-                                <td data-label="Type">
-                                  {notification?.type?.toUpperCase()}
-                                </td>
-                                <td data-label="Deliver Count">
-                                  {notification?.deliverCount}
-                                </td>
+                                <td data-label="Date">{new Date(notification?.updatedAt).toLocaleDateString()}</td>
+                                <td data-label="Message">{notification?.message}</td>
+                                <td data-label="Send By">{notification?.sendedBy?.name}</td>
+                                <td data-label="Type">{notification?.type?.toUpperCase()}</td>
+                                <td data-label="Deliver Count">{notification?.deliverCount}</td>
                               </tr>
                             );
                           })}
