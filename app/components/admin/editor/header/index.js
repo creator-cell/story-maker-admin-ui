@@ -47,10 +47,10 @@ function Header() {
       const categoriesData = res.data.categories || [];
       console.log("cat data", categoriesData);
       setAllCategories(categoriesData);
-      const parentCategories = response.data?.categories.filter(
+      const parentCategories = res.data?.categories.filter(
         (cat) => !cat.parentCategory
       );
-
+      console.log(parentCategories);
       setParentCategories(parentCategories || []);
       console.log(categoriesData);
       console.log(parentCategories);
