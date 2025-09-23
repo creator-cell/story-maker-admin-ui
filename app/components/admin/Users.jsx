@@ -390,9 +390,9 @@ export default function Users() {
                                 </td>
                                 <td>
                                   {hasWritePermission() ? (
-                                    <div class="form-check form-switch">
+                                    <div className="form-check form-switch">
                                       <input
-                                        class="form-check-input"
+                                        className="form-check-input"
                                         type="checkbox"
                                         role="switch"
                                         id="flexSwitchCheckChecked"
@@ -402,7 +402,7 @@ export default function Users() {
                                         }}
                                       />
                                       <label
-                                        class="form-check-label"
+                                        className="form-check-label"
                                         for="flexSwitchCheckChecked"
                                       >
                                         Active
@@ -411,11 +411,11 @@ export default function Users() {
                                   ) : (
                                     <>
                                       {user?.isActive ? (
-                                        <span class="badge bg-primary">
+                                        <span className="badge bg-primary">
                                           Active
                                         </span>
                                       ) : (
-                                        <span class="badge bg-secondary">
+                                        <span className="badge bg-secondary">
                                           Deactivate
                                         </span>
                                       )}
@@ -431,7 +431,7 @@ export default function Users() {
                                         onClick={() => handleEditUser(user._id)}
                                         // title="Edit User"
                                       >
-                                        <i class="fa-solid fa-pencil"></i>
+                                        <i className="fa-solid fa-pencil"></i>
                                       </button>
                                       <button
                                         className="admin_action_delete"

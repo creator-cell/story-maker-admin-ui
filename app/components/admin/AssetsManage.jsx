@@ -189,11 +189,11 @@ const AssetsManage = () => {
 
   const showAssetsStatus = (status) => {
     if (status == "Approve") {
-      return <span class="badge bg-primary">Approve</span>;
+      return <span className="badge bg-primary">Approve</span>;
     } else if (status == "Reject") {
-      return <span class="badge badge-danger">Reject</span>;
+      return <span className="badge badge-danger">Reject</span>;
     } else {
-      return <span class="badge bg-warning">Pending</span>;
+      return <span className="badge bg-warning">Pending</span>;
     }
   };
 
@@ -425,9 +425,9 @@ const AssetsManage = () => {
                                   {asset?.description}
                                 </td>
                                 <td data-label="Tags">
-                                  <div class="flex flex-wrap gap-3">
+                                  <div className="flex flex-wrap gap-3">
                                     {asset?.tags?.map((p) => (
-                                      <span class="badge bg-info text-dark m-1">
+                                      <span className="badge bg-info text-dark m-1">
                                         {p}
                                       </span>
                                     ))}

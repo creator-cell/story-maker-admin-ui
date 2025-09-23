@@ -5,10 +5,25 @@ import CustomLink from "../../components/CustomLink";
 import { logout, userStore } from "../../redux/UserStore";
 import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
+import { useTheme } from 'next-themes';
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+
+
 
 const AdminSidebar = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
+
+  const [lang, setLang] = useState("en");
+  // useEffect(() => {
+  //   const savedLang = localStorage.getItem("i18nextLng") || "en";
+  //   i18next.changeLanguage(savedLang);
+  //   setLang(savedLang);
+  // }, []);
+
 
   const handleNavigation = (path) => {
     if (path === "/") {
@@ -102,6 +117,11 @@ const AdminSidebar = () => {
     return menuPermission.write || menuPermission.both;
   };
 
+  const changeLanguage = (newLang) => {
+    i18next.changeLanguage(newLang);
+    setLang(newLang);
+    localStorage.setItem("i18nextLng", newLang);
+  };
   return (
     <>
       <div id="admin_header">
@@ -146,6 +166,24 @@ const AdminSidebar = () => {
                     />
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
+                        <li className="">
+                          <div className="toggle_theme">
+                            <input type="checkbox" id="toggle_checkbox" checked={theme === "dark"}
+                              onChange={(e) => setTheme(e.target.checked ? "dark" : "light")} />
+                            <label htmlFor="toggle_checkbox">
+                              <div id="star">
+                              </div>
+                              <div id="moon"></div>
+                            </label>
+                          </div>
+                        </li>
+                        <li className="nav-item">
+                          <select
+                            value={lang} onChange={(e) => changeLanguage(e.target.value)}>
+                            <option value="en">English</option>
+                            <option value="ar">Arabic</option>
+                          </select>
+                        </li>
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
@@ -155,7 +193,7 @@ const AdminSidebar = () => {
                               href={`/admin/users`}
                             >
                               <i className="fa-solid fa-users"></i>
-                              Users
+                              {t("Users")}
                             </CustomLink>
                           </li>
                         )}

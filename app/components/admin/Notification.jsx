@@ -109,7 +109,7 @@ export default function Notification() {
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                           />
-                          <i class="fa-solid fa-pen"></i>
+                          <i className="fa-solid fa-pen"></i>
                         </div>
 
                         <button
@@ -117,14 +117,14 @@ export default function Notification() {
                           title="Send By Email"
                           onClick={() => handleSend("mail")}
                         >
-                          Send by <i class="fa-solid fa-envelope"></i>
+                          Send by <i className="fa-solid fa-envelope"></i>
                         </button>
                         <button
                           className="button"
                           title="Send By SMS"
                           onClick={() => handleSend("sms")}
                         >
-                          Send by <i class="fa-solid fa-comment-sms"></i>
+                          Send by <i className="fa-solid fa-comment-sms"></i>
                         </button>
                       </div>
                     </div>
