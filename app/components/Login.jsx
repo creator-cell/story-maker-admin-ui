@@ -9,7 +9,7 @@ import { login, userStore } from "../redux/UserStore";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
-
+import { useTranslation } from "react-i18next";
 export default function Login() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
   const {
@@ -20,6 +20,7 @@ export default function Login() {
   } = useForm({
     defaultValues: { email: "", password: "" },
   });
+  const { t } = useTranslation();
   const [user, setUser] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
@@ -128,7 +129,7 @@ export default function Login() {
                     >
                       <div className="col-lg-12 col-md-12 col-12">
                         <label htmlFor="email" className="form-label">
-                          Email Address
+                          {t("Email Address")}
                         </label>
                         <div className="mb-input">
                           <input
@@ -157,7 +158,7 @@ export default function Login() {
                       </div>
                       <div className="col-lg-12 col-md-12 col-12">
                         <label htmlFor="password" className="form-label">
-                          Password
+                          {t("Password")}
                         </label>
                         <div className="mb-input">
                           <div className="password_eye">
@@ -199,11 +200,11 @@ export default function Login() {
                       </div>
                       <div className="col-lg-12 col-md-12 col-12">
                         <div className="d-flex justify-content-center">
-                        <input
-                          type="submit"
-                          value="Log in"
-                          className="login-btn"
-                        />
+                          <input
+                            type="submit"
+                            value="Log in"
+                            className="login-btn"
+                          />
                         </div>
                       </div>
                     </form>

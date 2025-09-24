@@ -5,25 +5,22 @@ import CustomLink from "../../components/CustomLink";
 import { logout, userStore } from "../../redux/UserStore";
 import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
-import { useTheme } from 'next-themes';
+import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
-
-
-const AdminSidebar = () => {
+const AdminSidebar = ({ locale }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
-
-  const [lang, setLang] = useState("en");
+  console.log("locale", locale);
+  const [lang, setLang] = useState("");
   // useEffect(() => {
   //   const savedLang = localStorage.getItem("i18nextLng") || "en";
   //   i18next.changeLanguage(savedLang);
   //   setLang(savedLang);
   // }, []);
-
 
   const handleNavigation = (path) => {
     if (path === "/") {
@@ -117,11 +114,23 @@ const AdminSidebar = () => {
     return menuPermission.write || menuPermission.both;
   };
 
-  const changeLanguage = (newLang) => {
-    i18next.changeLanguage(newLang);
-    setLang(newLang);
-    localStorage.setItem("i18nextLng", newLang);
+  const changeLanguage = (lang) => {
+    console.log("selected lang", lang);
+    if (!pathname) return;
+
+    let parts = pathname.split("/").filter(Boolean); // remove empty items
+
+    // Replace first segment with the language
+    if (parts.length > 0) {
+      parts[0] = lang;
+    } else {
+      parts = [lang];
+    }
+
+    const newPath = "/" + parts.join("/");
+    router.replace(newPath);
   };
+
   return (
     <>
       <div id="admin_header">
@@ -168,20 +177,37 @@ const AdminSidebar = () => {
                       <ul className="navbar-nav mb-2 mb-lg-0">
                         <li className="">
                           <div className="toggle_theme">
-                            <input type="checkbox" id="toggle_checkbox" checked={theme === "dark"}
-                              onChange={(e) => setTheme(e.target.checked ? "dark" : "light")} />
+                            <input
+                              type="checkbox"
+                              id="toggle_checkbox"
+                              checked={theme === "dark"}
+                              onChange={(e) =>
+                                setTheme(e.target.checked ? "dark" : "light")
+                              }
+                            />
                             <label htmlFor="toggle_checkbox">
-                              <div id="star">
-                              </div>
+                              <div id="star"></div>
                               <div id="moon"></div>
                             </label>
                           </div>
                         </li>
                         <li className="nav-item">
                           <select
-                            value={lang} onChange={(e) => changeLanguage(e.target.value)}>
-                            <option value="en">English</option>
-                            <option value="ar">Arabic</option>
+                            value={lang}
+                            onChange={(e) => changeLanguage(e.target.value)}
+                          >
+                            <option
+                              value="en"
+                              checked={locale === "en" ? true : false}
+                            >
+                              English
+                            </option>
+                            <option
+                              value="ar"
+                              checked={locale === "ar" ? true : false}
+                            >
+                              Arabic
+                            </option>
                           </select>
                         </li>
                         {hasMenuAccess("Users") && (

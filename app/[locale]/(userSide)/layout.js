@@ -1,12 +1,12 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css";
-import 'react-phone-number-input/style.css';
-import { UserProvider } from "../helper/UserProvider";
+import "../../globals.css";
+import "react-phone-number-input/style.css";
+import { UserProvider } from "../../helper/UserProvider";
 
 import { ToastContainer } from "react-toastify";
 
-import { LoaderProvider } from "../helper/LoaderContext";
-import LoaderManager from "../helper/LoaderManager";
+import { LoaderProvider } from "../../helper/LoaderContext";
+import LoaderManager from "../../helper/LoaderManager";
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -48,15 +48,13 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <UserProvider>
-         
-            <LoaderProvider>
-              <LoaderManager />
-            
-              {children}
-            
-              <ToastContainer />
-            </LoaderProvider>
-         
+          <LoaderProvider>
+            <LoaderManager />
+
+            {children}
+
+            <ToastContainer />
+          </LoaderProvider>
         </UserProvider>
 
         <Script
