@@ -11118,6 +11118,29 @@ html {
 .toggle_theme #toggle_checkbox:checked+label #star{top:3px;left:64px;transform:scale(0.3);background-color:#000;}
 .toggle_theme #toggle_checkbox:checked+label #moon{bottom:6px;}
 .toggle_theme #toggle_checkbox:checked+label #moon:before{background-color:#000;}
+@media (max-width: 1280px) {
+  .chat-container .chat .box .type-messages textarea{
+  width: 350px;
+}
+}
+@media (max-width: 992px) {
+  .chat-container{
+    width: 100%;
+  }
+  .chat-container .chat .box .type-messages{
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 767px) {
+.chat-container .chat .box .type-messages textarea{
+  width: 350px;
+}
+}
+@media (max-width: 480px) {
+  .chat-container .chat .box .type-messages textarea{
+  width: 100%;
+}
+}
 
 
 /* responsive design users start */
