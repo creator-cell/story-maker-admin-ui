@@ -10157,7 +10157,7 @@ html {
 
 /* chat box start  */
 .chat-container {
-  background: var(--bg-light);
+  /* background: var(--bg-light); */
   width: calc(100% - 250px);
   height: 100%;
   color: var(--dark);
@@ -11126,6 +11126,10 @@ html {
 }
 }
 @media (max-width: 992px) {
+  .chat-container .chat .box .type-messages .show-file{
+    width: 50%;
+    display: block;
+  }
   .chat-container{
     width: 100%;
   }
@@ -11176,6 +11180,8 @@ html {
     line-height: 1.2;
     border-bottom: 1px solid gray !important;
   }
-
+.comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn{
+  padding: 10px;
+}
 
 }
