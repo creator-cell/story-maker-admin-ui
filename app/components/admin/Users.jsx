@@ -278,12 +278,12 @@ export default function Users() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-4 col-md-6 col-12">
+                    <div className="col-lg-4 col-md-4 col-12">
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="col-lg-8 col-md-6 col-12">
-                      <div className="filter_field d-flex gap-2 justify-content-end">
+                    <div className="col-lg-8 col-md-8  col-12">
+                      <div className="filter_field">
                         <div className="form_group position-relative">
                           <input
                             type="text"
@@ -346,7 +346,6 @@ export default function Users() {
                         <tr>
                           <th
                             className="cursor"
-                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("name")}
                           >
                             First Name
@@ -354,7 +353,6 @@ export default function Users() {
                           </th>
                           <th
                             className="cursor"
-                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("email")}
                           >
                             Email Address
@@ -365,7 +363,6 @@ export default function Users() {
                           <th>Phone Number</th>
                           <th
                             className="cursor"
-                            // style={{ cursor: "pointer" }}
                             onClick={() => handleSort("isActive")}
                           >
                             Status
@@ -388,7 +385,8 @@ export default function Users() {
                                 <td data-label="Phone Number">
                                   {user.phone || user.phone || ""}
                                 </td>
-                                <td>
+                                
+                                <td data-label="status">
                                   {hasWritePermission() ? (
                                     <div class="form-check form-switch">
                                       <input
