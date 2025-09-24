@@ -68,9 +68,9 @@ export default async function RootLayout({ children, params }) {
                 resources={resources}
               >
                 <AdminSidebar locale={locale} />
+                {children}
+                <ToastContainer />
               </TranslationProvider>
-              {children}
-              <ToastContainer />
             </LoaderProvider>
           </UserProvider>
         </ThemeProvider>

@@ -7,19 +7,22 @@ const AdminRouters = [
     
     "/admin/users",
     "/admin/role",
-  
+    "/ar/admin/users",
+    "/ar/admin/role",
 ];
 
 const UserRoutes = [
     "/user/sports-transparency-info",
-   
+   "/ar/user/sports-transparency-info",
 ];
 
 const LogoutRoutes = [
     "/login",
     "/register",
     "/forgot-password",
-   
+    "/ar/login",
+    "/ar/register",
+    "/ar/forgot-password",
 ];
 
 export async function middleware(require) {
