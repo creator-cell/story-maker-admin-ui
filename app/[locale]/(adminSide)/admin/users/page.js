@@ -1,4 +1,5 @@
-import Users from "../../../../components/admin/Users";
+// import Users from "@/app/components/admin/Users";
+import Users from "@/app/components/admin/Users";
 import initTranslations from "@/app/i18n";
 import TranslationProvider from "@/app/components/TranslationProvider";
 const i18nNamespaces = ["common"];

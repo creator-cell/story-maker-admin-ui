@@ -4,7 +4,9 @@ const nextConfig = {
     domains: ["localhost"],
   },
   experimental: {
-    turbo: false,
+    turbo: {
+      enabled: true
+    }
   },
   // i18n: {
   //   locales: ["en", "ar"],
