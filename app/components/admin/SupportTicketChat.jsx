@@ -96,7 +96,7 @@ const ChatHistory = ({ ticketId }) => {
         <div className="chat">
           <p className="title">Reply</p>
           <div className="box">
-            <div className="type-messages w-100">
+            <div className="type-messages gap-2 w-100">
               <div className="d-flex flex-column">
                 <span>Your message</span>
 

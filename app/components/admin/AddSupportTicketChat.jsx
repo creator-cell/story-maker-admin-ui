@@ -14,23 +14,6 @@ const AddChatHistory = () => {
   const [chatMessage, setChatMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  //   const getTicket = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await axios.get(`${API_URL}tickets`, {
-  //         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  //       });
-  //       setTicket(response.data.user);
-  //     } catch (err) {
-  //       toast.error("Failed to load ticket");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     getTicket();
-  //   }, []);
 
   const sendChatMessage = async () => {
     setLoader(true);
@@ -59,7 +42,6 @@ const AddChatHistory = () => {
 
       router.push("/admin/tickets");
     } catch (err) {
-      // toast.error("Failed to send message");
     }
   };
 

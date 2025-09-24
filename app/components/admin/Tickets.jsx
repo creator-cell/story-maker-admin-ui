@@ -21,7 +21,6 @@ export default function Tickets() {
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const getTickets = async (page = 1, searchTerm = "") => {
-    // setLoading(true);
     setLoader(true);
     try {
       let url = `${API_URL}tickets?page=${page}&pageSize=${itemsPerPage}&user=${currentUser._id}&role=${currentUser.role.name}`;
@@ -39,7 +38,6 @@ export default function Tickets() {
       setTotalPages(0);
     } finally {
       setLoader(false);
-      // setLoading(false);
     }
   };
 
@@ -100,7 +98,7 @@ export default function Tickets() {
       );
 
       setAllModerator(response.data);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const handleNewChat = () => {
@@ -140,12 +138,6 @@ export default function Tickets() {
                           />
                           <i
                             className="fa-solid fa-magnifying-glass"
-                            // style={{
-                            //   right: "10px",
-                            //   top: "50%",
-                            //   transform: "translateY(-50%)",
-                            //   color: "#6c757d",
-                            // }}
                           ></i>
                         </div>
                         <button
@@ -163,7 +155,6 @@ export default function Tickets() {
                               setSearch("");
                               getTickets(1, "");
                             }}
-                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -197,9 +188,9 @@ export default function Tickets() {
                         {!loading &&
                           tickets.map((ticket) => (
                             <tr key={ticket._id}>
-                              <td>{ticket.userId.name}</td>
-                              <td>{ticket.status}</td>
-                              <td>
+                              <td data-label="User">{ticket.userId.name}</td>
+                              <td data-label="Status">{ticket.status}</td>
+                              <td data-label="Moderator">
                                 <select
                                   value={ticket?.moderator?._id || ""}
                                   onChange={(e) =>
@@ -221,29 +212,26 @@ export default function Tickets() {
                               <td>
                                 {ticket.messages?.length
                                   ? ticket.messages[ticket.messages.length - 1]
-                                      .message
+                                    .message
                                   : ""}
                               </td>
                               <td>
                                 <button
-                                  // style={{padding:"10px 25px"}}
-                                  className={`resolvebtn button mx-1 ${
-                                    ticket.status === "Resolved"
+                                  className={`resolvebtn button mx-1 ${ticket.status === "Resolved"
                                       ? "btn-resolved"
                                       : "btn-resolve"
-                                  }`}
+                                    }`}
                                   onClick={() => handleUserUpdate(ticket._id)}
                                   disabled={ticket.status === "Resolved"}
                                 >
-                                  Chat
+                                  View
                                 </button>
 
                                 <button
-                                  className={`click-to-resolve button mx-4 ${
-                                    ticket.status === "Resolved"
+                                  className={`click-to-resolve button mx-4 ${ticket.status === "Resolved"
                                       ? "btn-resolved"
                                       : "btn-resolve"
-                                  }`}
+                                    }`}
                                   onClick={() => handleResolve(ticket._id)}
                                   disabled={ticket.status === "Resolved"}
                                 >
