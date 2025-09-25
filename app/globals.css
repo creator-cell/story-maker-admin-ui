@@ -10808,7 +10808,7 @@ html {
   transform: translateY(-1px);
 }
 
-.checkbox {
+.admin_table .table-responsive table .table_body tr .checkbox {
   border: 1px solid;
 }
 
@@ -10999,7 +10999,7 @@ html {
   /* width: 90% !important; */
   width: calc(100% - 126px) !important;
   position: absolute !important;
-  top: 17% !important;
+  top: 15% !important;
   left: 8% !important;
   transform: translate(0) !important;
   height: 80% !important;
@@ -11270,48 +11270,138 @@ html {
 }
 
 /* badge end  */
+@media (max-width: 1366px) {
+  .inner_container .design-box .canvas-container {
+    user-select: none !important;
+    width: calc(100% - 126px) !important;
+    position: absolute !important;
+    top: 15% !important;
+    left: 8.5% !important;
+    transform: translate(0) !important;
+    height: 80% !important;
+  }
+}
 
 @media (max-width: 1280px) {
+  .inner_container .design-box .canvas-container {
+    user-select: none !important;
+    width: calc(100% - 126px) !important;
+    position: absolute !important;
+    top: 15% !important;
+    left: 9% !important;
+    transform: translate(0) !important;
+    height: 80% !important;
+  }
   .chat-container .chat .box .type-messages textarea {
     width: 350px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .inner_container .design-box .canvas-container {
+    user-select: none !important;
+    width: calc(100% - 126px) !important;
+    position: absolute !important;
+    top: 15% !important;
+    left: 10% !important;
+    transform: translate(0) !important;
+    height: 80% !important;
   }
 }
 
 @media (max-width: 992px) {
-  .checkbox {
-    border: none;
+  .inner_container .design-box .canvas-container {
+    user-select: none !important;
+    width: calc(100% - 126px) !important;
+    position: absolute !important;
+    top: 15% !important;
+    left: 11% !important;
+    transform: translate(0) !important;
+    height: 80% !important;
   }
-
+  .chat-container {
+    width: 100%;
+  }
   .chat-container .chat .box .type-messages .show-file {
     width: 50%;
     display: block;
   }
-
-  .chat-container {
-    width: 100%;
-  }
-
   .chat-container .chat .box .type-messages {
     flex-wrap: wrap;
   }
-
   .admin_table .table-responsive table .table_body tr td small .doc-file {
     height: 25px;
     width: 25px;
   }
-
+  .admin_table .table-responsive table .table_body tr .checkbox {
+    border: none;
+  }
   .comman_admin_layout .admin_form_panel form .doc-file {
     height: 30px;
     width: 25px;
   }
-
 }
 
 @media (max-width: 767px) {
+  .properties {
+    width: 160px;
+  }
+  .properties .height-and-width {
+    flex-wrap: wrap;
+  }
+  .properties .flip-h {
+    flex-wrap: wrap;
+  }
+  .properties .arrangement {
+    flex-wrap: wrap;
+  }
+  .properties .delete-update {
+    flex-wrap: wrap;
+  }
+  .properties .shape-properties {
+    flex-wrap: wrap;
+  }
+  .properties .styles {
+    flex-wrap: wrap;
+  }
+  .properties .textbg-color {
+    flex-wrap: wrap;
+  }
+  .properties .delete-update button {
+    width: 100%;
+  }
+  .editor-main .secondary-panel {
+    width: 140px !important;
+  }
+  .editor-main .secondary-panel .panel-content .add-text-btn button {
+    padding: 10px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+  .editor-main .secondary-panel .panel-content .draw-button button {
+    padding: 10px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+  .editor-main .secondary-panel .panel-content .draw-button .tablist {
+    display: flex !important;
+    flex-wrap: wrap;
+  }
+  .editor-main .secondary-panel .panel-content .draw-button .draw-main input {
+    width: 100%;
+  }
+  .inner_container .design-box .canvas-container {
+    user-select: none !important;
+    width: calc(100% - 148px) !important;
+    position: absolute !important;
+    top: 15% !important;
+    left: 17% !important;
+    transform: translate(0) !important;
+    height: 80% !important;
+  }
   .chat-container .chat .box .type-messages textarea {
     width: 350px;
   }
-
   .comman_admin_layout .admin_table .filter_field {
     display: flex;
     justify-content: start !important;
@@ -11320,10 +11410,29 @@ html {
 }
 
 @media (max-width: 480px) {
+  .properties {
+    top: 55px;
+  }
+  .header-gradient {
+    flex-wrap: wrap;
+    padding: 5px;
+    height: auto;
+  }
+  .inner_container .header-gradient .search-input {
+    min-width: 250px;
+  }
+  .inner_container .design-box .canvas-container {
+    user-select: none !important;
+    width: calc(100% - 148px) !important;
+    position: absolute !important;
+    top: 15% !important;
+    left: 24% !important;
+    transform: translate(0) !important;
+    height: 80% !important;
+  }
   .chat-container .chat .box .type-messages textarea {
     width: 100%;
   }
-
   .comman_admin_layout .admin_table .filter_field {
     display: flex !important;
     justify-content: start !important;
@@ -11331,8 +11440,22 @@ html {
   }
 }
 
-@media (min-width: 320px) and (max-width: 360px) {
+@media (max-width: 400px) {
+  .properties {
+    top: 90px;
+  }
+}
 
+@media (min-width: 320px) and (max-width: 360px) {
+  .inner_container .design-box .canvas-container {
+    user-select: none !important;
+    width: calc(100% - 148px) !important;
+    height: 80% !important;
+    position: absolute !important;
+    top: 15% !important;
+    left: 33% !important;
+    transform: translate(0) !important;
+  }
   .admin_table .table-responsive table tbody tr td {
     vertical-align: middle;
     color: var(--dark);
@@ -11341,18 +11464,13 @@ html {
     line-height: 1.2;
     border-bottom: 1px solid gray !important;
   }
-
   .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
     padding: 10px;
   }
-
   .comman_admin_layout .admin_form_panel form .role-table {
     font-size: small;
   }
-
   .comman_admin_layout .admin_forms form .role-table {
     font-size: small;
-
   }
 }
-

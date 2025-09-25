@@ -82,7 +82,7 @@ function DrawingPanel() {
   };
 
   return (
-    <div className="p-4">
+    <div className="draw-button p-4">
       <div>
         <Button
           variant={isDrawingMode ? "default" : "outline"}
@@ -153,7 +153,7 @@ function DrawingPanel() {
                       ))}
                     </div>
                   </div>
-                  <div className="mt-4">
+                  <div className="draw-main mt-4">
                     <div className="draw-background position-relative">
                       <Input
                         type="color"

@@ -86,8 +86,7 @@ function ElementsPanel() {
         <div className="row overflow-auto">
           {shapeTypes.map((shapeType) => (
             <div
-              // style={{ height: "90px" }}
-              className="col-6 col-md-4 col-lg-4 d-flex align-items-center justify-content-center cursor-pointer"
+              className="col-12 col-sm-12 col-md-4 col-lg-4 d-flex align-items-center justify-content-center cursor-pointer"
               key={shapeType}
               onClick={() => handleShapeClick(shapeType)}
             >

@@ -149,26 +149,11 @@ export default function Notification() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th className="cursor"
-                          >
-                            Date
-                          </th>
-                          <th className="cursor"
-                          >
-                            Message
-                          </th>
-                          <th className="cursor"
-                          >
-                            Send By
-                          </th>
-                          <th className="cursor"
-                          >
-                            Type
-                          </th>
-                          <th className="cursor"
-                          >
-                            Deliver Count
-                          </th>
+                          <th className="cursor">Date</th>
+                          <th className="cursor"> Message</th>
+                          <th className="cursor">Send By</th>
+                          <th className="cursor">Type</th>
+                          <th className="cursor">Deliver Count</th>
                         </tr>
                       </thead>
                       <tbody className="table_body">

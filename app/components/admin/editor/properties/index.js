@@ -403,7 +403,7 @@ function Properties() {
         <div className="overflow-auto p-4">
           <h3 className="fs-6 fw-bold">Size & Position</h3>
           {/* Width & Height */}
-          <div className="d-flex gap-3 pt-2 cursor-pointer">
+          <div className="height-and-width d-flex gap-3 pt-2 cursor-pointer">
             {/* Width */}
             <div className="w-50 d-flex flex-column gap-1">
               <Label>
@@ -605,11 +605,11 @@ function Properties() {
                 </div>
               </div>
               <div className="pt-2">
-                <div className="styles d-flex flex-column gap-1 pb-2">
+                <div className="d-flex flex-column gap-1 pb-2">
                   <Label>
                     <small>Style</small>
                   </Label>
-                  <div className="d-flex gap-2">
+                  <div className="styles d-flex gap-2">
                     <Button
                       variant={fontWeight === "bold" ? "default" : "outline"}
                       size="icon"
@@ -638,7 +638,7 @@ function Properties() {
                 </div>
               </div>
 
-              <div className="d-flex justify-content-between mt-2">
+              <div className="textbg-color d-flex justify-content-between mt-2">
                 <div className="d-flex flex-column gap-1 pb-2">
                   <Label htmlFor="text-color">
                     <small>Text Color</small>
@@ -702,7 +702,7 @@ function Properties() {
           {objectType === "shape" && (
             <div className="mt-2">
               <h3 className="fs-6 fw-bold">Shape Properties</h3>
-              <div className="d-flex justify-content-between">
+              <div className="shape-properties d-flex justify-content-between">
                 <div className="d-flex flex-column gap-1 pb-2">
                   <Label htmlFor="fill-color">
                     <small>Fill Color</small>

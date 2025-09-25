@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import DeleteUser from "../../(adminSide)/model/DeleteRole";
-import EditRole from "../../(adminSide)/model/EditRole";
+import DeleteUser from "../../[locale]/(adminSide)/model/DeleteRole";
+import EditRole from "../../[locale]/(adminSide)/model/EditRole";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import CustomLink from "../CustomLink";

@@ -114,7 +114,9 @@ export default function Template() {
   };
 
   const handleTemplateSubmit = async () => {
+    
     try {
+      setLoader(true);
       const responseData = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template`,
         { name: "Untitle design", content: "", user: currentUser._id },
@@ -227,8 +229,8 @@ export default function Template() {
                 <div className="admin_table">
                   {/* Filters */}
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-4"></div>
-                    <div className="col-lg-8">
+                    <div className="col-lg-3"></div>
+                    <div className="col-lg-9">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative">
                           <input
@@ -257,7 +259,6 @@ export default function Template() {
                               setSearch("");
                               getTemplates(1, "");
                             }}
-                            style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -298,10 +299,10 @@ export default function Template() {
                         {!loading &&
                           templates.map((tpl) => (
                             <tr key={tpl._id}>
-                              <td>{tpl.name}</td>
+                              <td data-label="Name">{tpl.name}</td>
                               {/* <td>{tpl.category?.name || "-"}</td>
                               <td>{tpl.subCategory?.name || "-"}</td> */}
-                              <td>
+                              <td data-label="Status">
                                 <span
                                   className={`badge ${
                                     tpl.status === "approved"
@@ -312,16 +313,16 @@ export default function Template() {
                                   {tpl.status}
                                 </span>
                               </td>
-                              <td>
+                              <td data-label="Action">
+                                <div className="">
                                 <button
-                                  className="button mx-1"
+                                  className="button mx-1 mb-2"
                                   onClick={() => handleEdit(tpl._id)}
                                 >
                                   View/Edit
                                 </button>
                                 <button
-                                  className="button mx-1"
-                                  // style={{ backgroundColor: "#6c757d" }}
+                                  className="button mx-1 mb-2"
                                   onClick={() =>
                                     handleClone(tpl._id, tpl.name, tpl.content)
                                   }
@@ -329,8 +330,7 @@ export default function Template() {
                                   Clone
                                 </button>
                                 <button
-                                  className="button mx-1"
-                                  // style={{ backgroundColor: "#dc3545" }}
+                                  className="button mx-1 mb-2"
                                   onClick={() => handleDelete(tpl._id)}
                                 >
                                   Delete/Reject
@@ -338,13 +338,13 @@ export default function Template() {
                                 {currentUser.role.name === "Super Admin" &&
                                   tpl.status === "pending" && (
                                     <button
-                                      className="button mx-1"
-                                      style={{ backgroundColor: "6c757d" }}
+                                      className="button mx-1 mb-2"
                                       onClick={() => handleApprove(tpl._id)}
                                     >
                                       Approve
                                     </button>
                                   )}
+                                  </div>
                               </td>
                             </tr>
                           ))}
