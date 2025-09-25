@@ -122,8 +122,8 @@ export default function Tickets() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-4"></div>
-                    <div className="col-lg-8">
+                    <div className="col-lg-3"></div>
+                    <div className="col-lg-9">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative">
                           <input
@@ -215,7 +215,8 @@ export default function Tickets() {
                                     .message
                                   : ""}
                               </td>
-                              <td data-label="Action" className="d-flex">
+                              <td data-label="Action">
+                                 <div className="d-flex justify-content-start align-items-center">
                                 <button
                                   className={`resolvebtn button mx-1 ${ticket.status === "Resolved"
                                       ? "btn-resolved"
@@ -239,6 +240,7 @@ export default function Tickets() {
                                     ? "Resolved"
                                     : "Click to Resolve"}
                                 </button>
+                                </div>
                               </td>
                             </tr>
                           ))}
