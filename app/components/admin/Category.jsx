@@ -78,8 +78,8 @@ export default function Categories() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-4"></div>
-                    <div className="col-lg-8">
+                    <div className="col-lg-3"></div>
+                    <div className="col-lg-9">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative">
                           <input
@@ -94,12 +94,6 @@ export default function Categories() {
                           />
                           <i
                             className="fa-solid fa-magnifying-glass"
-                            // style={{
-                            //   right: "10px",
-                            //   top: "50%",
-                            //   transform: "translateY(-50%)",
-                            //   color: "#6c757d",
-                            // }}
                           ></i>
                         </div>
                         <button
@@ -116,7 +110,6 @@ export default function Categories() {
                               setSearch("");
                               getCategories(1, "");
                             }}
-                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
@@ -148,10 +141,9 @@ export default function Categories() {
                         {!loading &&
                           categories.map((category) => (
                             <tr key={category._id}>
-                              <td>{category.name}</td>
-                              <td>{category.description}</td>
-
-                              <td>
+                              <td data-label="Category name">{category.name}</td>
+                              <td data-label="Category description">{category.description}</td>
+                              <td data-label="Action">
                                 <div className="d-flex justify-content-start align-items-center gap-2">
                                   <button
                                     className={`admin_action_edit`}

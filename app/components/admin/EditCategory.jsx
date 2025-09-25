@@ -184,7 +184,7 @@ export default function EditCategory({ userId }) {
                     </div>
 
                     {/* Buttons */}
-                    <div className="d-flex gap-3">
+                    <div className="d-flex flex-wrap gap-3">
                       <button type="submit" className="button">
                         Update Category
                       </button>

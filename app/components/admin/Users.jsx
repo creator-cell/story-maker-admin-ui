@@ -278,11 +278,11 @@ export default function Users() {
                 </div>
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-4 col-md-4 col-12">
+                    <div className="col-lg-3 col-md-4 col-12">
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="col-lg-8 col-md-8  col-12">
+                    <div className="col-lg-9 col-md-8 col-12">
                       <div className="filter_field">
                         <div className="form_group position-relative">
                           <input
@@ -420,7 +420,6 @@ export default function Users() {
                                       <button
                                         className="admin_action_edit"
                                         onClick={() => handleEditUser(user._id)}
-                                        // title="Edit User"
                                       >
                                         <i className="fa-solid fa-pencil"></i>
                                       </button>
@@ -429,7 +428,6 @@ export default function Users() {
                                         onClick={() =>
                                           handleUserDelete(user._id)
                                         }
-                                        // title="Delete User"
                                       >
                                         <i className="fa fa-trash"></i>
                                       </button>
