@@ -209,13 +209,13 @@ export default function Tickets() {
                                     ))}
                                 </select>
                               </td>
-                              <td>
+                              <td data-label="Last Message">
                                 {ticket.messages?.length
                                   ? ticket.messages[ticket.messages.length - 1]
                                     .message
                                   : ""}
                               </td>
-                              <td>
+                              <td data-label="Action" className="d-flex">
                                 <button
                                   className={`resolvebtn button mx-1 ${ticket.status === "Resolved"
                                       ? "btn-resolved"
@@ -228,7 +228,7 @@ export default function Tickets() {
                                 </button>
 
                                 <button
-                                  className={`click-to-resolve button mx-4 ${ticket.status === "Resolved"
+                                  className={`click-to-resolve button ${ticket.status === "Resolved"
                                       ? "btn-resolved"
                                       : "btn-resolve"
                                     }`}

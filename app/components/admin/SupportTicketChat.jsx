@@ -186,7 +186,7 @@ const ChatHistory = ({ ticketId }) => {
                           </small>
 
                           <span> {msg.message}
-                            <div className="mt-4">
+                            <div className="mt-4 hide-show-image">
                               {msg.image && (
                                 <div>
                                   <img
