@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import DeleteCategory from "@/app/(adminSide)/model/DeleteCategory";
+import DeleteCategory from "../../[locale]/(adminSide)/model/DeleteCategory";
 import Loader from "../Loader";
 
 export default function Categories() {
