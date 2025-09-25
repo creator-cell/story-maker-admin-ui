@@ -1,13 +1,16 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css";
-import 'react-phone-number-input/style.css';
-import { UserProvider } from "../helper/UserProvider";
+import "../../globals.css";
+import "react-phone-number-input/style.css";
+import { UserProvider } from "../../helper/UserProvider";
 
 import { ToastContainer } from "react-toastify";
 
-import { LoaderProvider } from "../helper/LoaderContext";
-import LoaderManager from "../helper/LoaderManager";
+import { LoaderProvider } from "../../helper/LoaderContext";
+import LoaderManager from "../../helper/LoaderManager";
 import Script from "next/script";
+import initTranslations from "../../i18n";
+import TranslationProvider from "../../components/TranslationProvider";
+const i18nNamespaces = ["common"];
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +27,11 @@ export const metadata = {
   description: "Story maker",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children, params }) {
+  const { locale } = await params;
+  console.log(locale);
+  const { resources } = await initTranslations(locale, i18nNamespaces);
+
   return (
     <html lang="en">
       <head>
@@ -48,15 +55,20 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <UserProvider>
-         
-            <LoaderProvider>
-              <LoaderManager />
-            
-              {children}
-            
-              <ToastContainer />
-            </LoaderProvider>
-         
+          <LoaderProvider>
+            <LoaderManager />
+            <TranslationProvider
+              locale={locale}
+              namespaces={i18nNamespaces}
+              resources={resources}
+            >
+
+            {children}
+
+            </TranslationProvider>
+
+            <ToastContainer />
+          </LoaderProvider>
         </UserProvider>
 
         <Script

@@ -2,13 +2,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import DeleteUser from "../../(adminSide)/model/DeleteUser";
+
+import DeleteUser from "@/app/[locale]/(adminSide)/model/DeleteRole";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "../Loader";
+import { useTranslation } from "react-i18next";
 
 export default function Users() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
@@ -272,7 +275,7 @@ export default function Users() {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h1>User List</h1>
+                      <h1>{t("User List")}</h1>
                     </div>
                   </div>
                 </div>

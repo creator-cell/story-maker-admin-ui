@@ -36,6 +36,7 @@ function Header() {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
   const fetchCategories = async () => {
+    console.log("fetch cat");
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY}category`,
@@ -44,10 +45,13 @@ function Header() {
         }
       );
       const categoriesData = res.data.categories || [];
+      console.log("cat data", categoriesData);
       setAllCategories(categoriesData);
-
-      const parentCats = categoriesData.filter((cat) => !cat.parentCategory);
-      setParentCategories(parentCats);
+      const parentCategories = res.data?.categories.filter(
+        (cat) => !cat.parentCategory
+      );
+      console.log(parentCategories);
+      setParentCategories(parentCategories || []);
       console.log(categoriesData);
       console.log(parentCategories);
     } catch {

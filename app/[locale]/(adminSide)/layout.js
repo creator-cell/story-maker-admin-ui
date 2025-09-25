@@ -1,15 +1,16 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css";
+import "../../globals.css";
 import "react-phone-number-input/style.css";
-import AdminSidebar from "../layout/sidebar/AdminSidebar";
+import AdminSidebar from "../../layout/sidebar/AdminSidebar";
 import { ToastContainer } from "react-toastify";
-import { LoaderProvider } from "../helper/LoaderContext";
-import LoaderManager from "../helper/LoaderManager";
+import { LoaderProvider } from "../../helper/LoaderContext";
+import LoaderManager from "../../helper/LoaderManager";
 import Script from "next/script";
-import { UserProvider } from "../helper/UserProvider";
-import { ThemeProvider } from 'next-themes';
-
-
+import { UserProvider } from "../../helper/UserProvider";
+import { ThemeProvider } from "next-themes";
+import initTranslations from "../../i18n";
+import TranslationProvider from "../../components/TranslationProvider";
+const i18nNamespaces = ["common"];
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,7 +26,11 @@ export const metadata = {
   description: "Story Maker",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children, params }) {
+  const { locale } = await params;
+  console.log(locale);
+  const { resources } = await initTranslations(locale, i18nNamespaces);
+
   return (
     <html lang="en">
       <head>
@@ -48,16 +53,24 @@ export default function RootLayout({ children }) {
           referrerPolicy="no-referrer"
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`} data-bs-theme="light">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable}`}
+        data-bs-theme="light"
+      >
         <ThemeProvider attribute="data-bs-theme" defaultTheme="light">
           <UserProvider>
             {" "}
-            {/* ✅ wrap with provider */}
             <LoaderProvider>
               <LoaderManager />
-              <AdminSidebar />
-              {children}
-              <ToastContainer />
+              <TranslationProvider
+                locale={locale}
+                namespaces={i18nNamespaces}
+                resources={resources}
+              >
+                <AdminSidebar locale={locale} />
+                {children}
+                <ToastContainer />
+              </TranslationProvider>
             </LoaderProvider>
           </UserProvider>
         </ThemeProvider>

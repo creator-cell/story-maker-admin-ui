@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import DeleteAsset from "../../(adminSide)/model/DeleteAssets";
+// import DeleteAsset from "../../../(adminSide)/model/DeleteAssets";
+import DeleteAsset from "@/app/[locale]/(adminSide)/model/DeleteAssets";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { FileIcon, defaultStyles } from "react-file-icon";

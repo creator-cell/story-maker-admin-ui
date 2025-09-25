@@ -4,8 +4,15 @@ const nextConfig = {
     domains: ["localhost"],
   },
   experimental: {
-    turbo: false, // <--- disable Turbopack
+    turbo: {
+      enabled: true
+    }
   },
+  // i18n: {
+  //   locales: ["en", "ar"],
+  //   defaultLocale: "en",
+  //   localeDetection: true,
+  // },
 };
 
 export default nextConfig;
