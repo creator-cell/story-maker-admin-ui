@@ -295,12 +295,6 @@ export default function Users() {
                           />
                           <i
                             className="fa-solid fa-magnifying-glass"
-                            // style={{
-                            //   right: "10px",
-                            //   top: "50%",
-                            //   transform: "translateY(-50%)",
-                            //   color: "#6c757d",
-                            // }}
                           ></i>
                         </div>
 
@@ -316,7 +310,6 @@ export default function Users() {
                           <button
                             className="button ms-2"
                             onClick={handleClearSearch}
-                            // style={{ backgroundColor: "#6c757d" }}
                             disabled={loading}
                           >
                             Clear
