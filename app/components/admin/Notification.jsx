@@ -95,12 +95,12 @@ export default function Notification() {
 
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-4 col-md-6 col-12">
+                    <div className="col-lg-3 col-md-4 col-12">
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="notification col-lg-8 col-md-6 col-12">
-                      <div className="filter_field d-flex gap-2 justify-content-end">
+                    <div className="notification col-lg-9 col-md-8 col-12">
+                      <div className="filter_field">
                         <div className="form_group position-relative">
                           <input
                             type="text"
@@ -201,7 +201,7 @@ export default function Notification() {
                   </div>
 
                   {totalPages > 1 && (
-                    <div className="pagination-container d-flex justify-content-between align-items-center">
+                    <div className="pagination-container d-flex justify-content-between align-items-center flex-wrap">
                       <div className="pagination-info">
                         <small className="text-muted">
                           Page {currentPage + 1} of {totalPages}({totalItems}{" "}
