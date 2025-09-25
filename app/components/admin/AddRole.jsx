@@ -202,7 +202,6 @@ const AddRole = () => {
                       <div className="form_group">
                         <label htmlFor="role-name">
                           Role Name <span className="text-denger"> *</span>
-                          {/* <span className="text-danger">*</span> */}
                         </label>
                         <input
                           type="text"
@@ -224,35 +223,19 @@ const AddRole = () => {
                     </div>
 
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
-                      <div className="form_group">
+                      <div className="role-table form_group">
                         <label>
                           Menu Access & Permissions{" "} <span className="text-denger"> *</span>
-                          {/* <span className="text-danger">*</span> */}
                         </label>
                         <div className="menu-permissions-table mt-3">
                           <div className="table-responsive">
                             <table className="table table-bordered">
                               <thead className="table-light">
                                 <tr>
-                                  <th style={{ width: "200px" }}>Menu</th>
-                                  <th
-                                    // style={{ width: "150px" }}
-                                    className="text-center"
-                                  >
-                                    Read
-                                  </th>
-                                  <th
-                                    // style={{ width: "150px" }}
-                                    className="text-center"
-                                  >
-                                    Write
-                                  </th>
-                                  <th
-                                    // style={{ width: "150px" }}
-                                    className="text-center"
-                                  >
-                                    Both
-                                  </th>
+                                  <th>Menu</th>
+                                  <th className="text-center" >Read</th>
+                                  <th className="text-center"> Write </th>
+                                  <th className="text-center">Both</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -339,9 +322,9 @@ const AddRole = () => {
                       <button
                         type="button"
                         className="button"
-                        onClick={() =>{ setLoader(true);   router.push("/admin/role")}}
+                        onClick={() => { setLoader(true); router.push("/admin/role") }}
                         disabled={loader}
-                    
+
                       >
                         Cancel
                       </button>
