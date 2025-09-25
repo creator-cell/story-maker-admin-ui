@@ -274,7 +274,7 @@ const AssetsManage = () => {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h3>Assets List</h3>
+                      <h1>Assets List</h1>
                     </div>
                   </div>
                 </div>
@@ -283,39 +283,13 @@ const AssetsManage = () => {
                     <div className="col-lg-6 col-md-6 col-12">
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
-
                     <div className="col-lg-6 col-md-6 col-12">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        {/* <div className="form_group position-relative">
-                          <input
-                            type="text"
-                            placeholder="Search by name, email, or phone..."
-                            className="form-control"
-                          />
-                          <i className="fa-solid fa-magnifying-glass position-absolute"
-                            style={{ right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#6c757d' }}>
-                          </i>
-                        </div> */}
-
-                        {/* <button className="button" onClick={handleSearch} disabled={loading}>
-                          {loading ? "Searching..." : "Search"}
-                        </button> */}
-
-                        {/* {searchUser && (
-                          <button 
-                            className="button ms-2" 
-                            onClick={handleClearSearch} 
-                            style={{ backgroundColor: '#6c757d' }}
-                            disabled={loading}
-                          >
-                            Clear
-                          </button>
-                        )} */}
-
                         {hasWritePermission() && (
                           <button
                             className="button"
                             onClick={() => {
+                              setLoader(true);
                               router.push("/admin/assets/addassets");
                             }}
                           >
@@ -338,36 +312,36 @@ const AssetsManage = () => {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th style={{ cursor: "pointer", width: "10%" }}>
+                          <th className="cursor">
                             Date
                           </th>
-                          <th style={{ cursor: "pointer", width: "12%" }}>
+                          <th className="cursor">
                             Name
                           </th>
-                          <th style={{ cursor: "pointer", width: "10%" }}>
+                          <th className="cursor">
                             Document
                           </th>
-                          <th style={{ cursor: "pointer", width: "7%" }}>
+                          <th className="cursor">
                             Type
                           </th>
-                          <th style={{ cursor: "pointer", width: "7%" }}>
+                          <th className="cursor">
                             Format
                           </th>
-                          <th style={{ cursor: "pointer", width: "20%" }}>
+                          <th className="cursor">
                             Description
                           </th>
-                          <th style={{ cursor: "pointer", width: "15%" }}>
+                          <th className="cursor">
                             Tags
                           </th>
-                          <th style={{ cursor: "pointer", width: "15%" }}>
+                          <th className="cursor">
                             Status
                           </th>
-                          <th style={{ cursor: "pointer", width: "10%" }}>
+                          <th className="cursor">
                             Uploaded By
                           </th>
 
                           {hasWritePermission() && (
-                            <th style={{ width: "10%" }}>Action</th>
+                            <th >Action</th>
                           )}
                         </tr>
                       </thead>
@@ -389,7 +363,7 @@ const AssetsManage = () => {
                                       <small className="d-flex align-items-center gap-2">
                                         <div
                                           className="doc-file"
-                                          style={{ width: 50, height: 50 }}
+
                                         >
                                           <FileIcon
                                             extension={
@@ -398,9 +372,9 @@ const AssetsManage = () => {
                                                 ?.split(".")[1]
                                             }
                                             {...defaultStyles[
-                                              asset?.url
-                                                ?.split("/assets/")[1]
-                                                ?.split(".")[1]
+                                            asset?.url
+                                              ?.split("/assets/")[1]
+                                              ?.split(".")[1]
                                             ]}
                                           />
                                         </div>
@@ -418,7 +392,7 @@ const AssetsManage = () => {
                                       </small>
                                     </>
                                   ) : null}
-                                  {}
+                                  { }
                                 </td>
                                 <td data-label="Type">{asset?.type}</td>
                                 <td data-label="Format">{asset?.format}</td>
@@ -426,22 +400,18 @@ const AssetsManage = () => {
                                   {asset?.description}
                                 </td>
                                 <td data-label="Tags">
-                                  <div className="flex flex-wrap gap-3">
+                                  <div className="d-flex flex-wrap gap-3">
                                     {asset?.tags?.map((p) => (
-                                      <span className="badge bg-info text-dark m-1">
+                                      <span className="badge text-white m-1">
                                         {p}
                                       </span>
                                     ))}
                                   </div>
                                 </td>
-                                <td data-label="Status">
+                                <td data-label="Status" >
                                   {hasWritePermission() ? (
                                     <FormSelect
-                                      style={{
-                                        width: "80%",
-                                        fontSize: 10,
-                                        margin: 1,
-                                      }}
+                                      className="status-dropdown"
                                       onChange={(t) => {
                                         const currentValue = t.target.value;
                                         if (currentValue == "Pending") {

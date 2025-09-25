@@ -1,4 +1,4 @@
-import Template from "../../../components/admin/Templates";
+import Template from "../../../../components/admin/Templates";
 export default function Page() {
   return (
     <>

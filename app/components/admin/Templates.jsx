@@ -4,10 +4,10 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import DeleteTemplate from "@/app/(adminSide)/model/DeleteTemplate";
+import DeleteTemplate from "../../[locale]/(adminSide)/model/DeleteTemplate";
 import Loader from "../Loader";
 import { jsPDF } from "jspdf";
-import ApproveTemplate from "@/app/(adminSide)/model/ApproveTemplate";
+import ApproveTemplate from "../../[locale]/(adminSide)/model/ApproveTemplate";
 export default function Template() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
   const [templates, setTemplates] = useState([]);

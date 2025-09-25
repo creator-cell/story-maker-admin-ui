@@ -10044,6 +10044,25 @@ html {
   cursor: not-allowed !important;
 }
 
+.admin_table .table-responsive table .table_body td .status-dropdown {
+  width: 80%;
+  font-size: 10px;
+  margin: 1px;
+}
+
+.admin_table .table-responsive table .table_body tr td small .doc-file {
+  height: 30px;
+  width: 25px;
+}
+
+.comman_admin_layout .admin_form_panel form .doc-file {
+  height: 50px;
+  width: 40px;
+}
+
+.comman_admin_layout .admin_form_panel form .eye a svg {
+  padding-bottom: 3px;
+}
 
 /* story  maker css start  */
 
@@ -11209,6 +11228,48 @@ html {
   background-color: #000;
 }
 
+/* badge start  */
+.ReactTags__tags .ReactTags__selected span {
+  background: var(--vibrant-blue);
+  color: var(--white);
+  border-radius: 5px;
+  padding: 5px 20px 5px 10px;
+}
+
+.ReactTags__tags .ReactTags__selected span button {
+  position: absolute;
+  border-radius: 10px;
+  margin-top: -11px;
+  padding-right: 10px;
+  padding-top: 3px;
+  border: none;
+  background: var(--badge_failed) !important;
+  opacity: 1 !important;
+}
+
+.ReactTags__tags .ReactTags__selected span button:hover {
+  background: var(--badge_failed) !important;
+}
+
+.ReactTags__tags .ReactTags__selected span button svg {
+  padding-left: 7px;
+  display: flex;
+  height: 17px;
+  width: 17px;
+  color: var(--white);
+}
+
+.ReactTags__tags .ReactTags__selected {
+  flex-wrap: wrap;
+  gap: 20px;
+  display: flex;
+}
+
+.ReactTags__tagInput {
+  width: 100%;
+}
+
+/* badge end  */
 
 @media (max-width: 1280px) {
   .chat-container .chat .box .type-messages textarea {
@@ -11233,6 +11294,17 @@ html {
   .chat-container .chat .box .type-messages {
     flex-wrap: wrap;
   }
+
+  .admin_table .table-responsive table .table_body tr td small .doc-file {
+    height: 25px;
+    width: 25px;
+  }
+
+  .comman_admin_layout .admin_form_panel form .doc-file {
+    height: 30px;
+    width: 25px;
+  }
+
 }
 
 @media (max-width: 767px) {
@@ -11283,3 +11355,4 @@ html {
 
   }
 }
+
