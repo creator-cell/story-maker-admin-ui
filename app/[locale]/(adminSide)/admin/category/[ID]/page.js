@@ -1,4 +1,4 @@
-import EditUser from "../../../../components/admin/EditCategory";
+import EditUser from "../../../../../components/admin/EditCategory";
 
 export default function Page({ params }) {
   const roleId = params.ID;
