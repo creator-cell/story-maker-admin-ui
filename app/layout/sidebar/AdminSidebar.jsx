@@ -135,24 +135,63 @@ const AdminSidebar = ({ locale }) => {
     <>
       <div id="admin_header">
         <div className="container-fluid">
-          <div className="row align-items-center">
-            {/* <div className="col-lg-10 col-md-10 col-10">
-              <Image src={'/images/logo-white.png'} width={250} height={250} alt="Raivaro Roaming" />
-            </div> */}
-            <div className="col-lg-2 col-md-2 col-2">
-              <button
-                className="navbar-toggler admin_menuToggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon">
-                  <i className="fa-solid fa-bars-staggered"></i>
-                </span>
-              </button>
+          <div className="row">
+            <div className="logo-img col-7">
+              <img
+                className=""
+                src="/frontCloud.png"
+                alt="Raivaro Roaming"
+              />
+            </div>
+            <div className="dark-mode col-5">
+              <div className="toggle_theme">
+                <input
+                  type="checkbox"
+                  id="toggle_checkbox"
+                  checked={theme === "dark"}
+                  onChange={(e) =>
+                    setTheme(e.target.checked ? "dark" : "light")
+                  }
+                />
+                <label htmlFor="toggle_checkbox">
+                  <div id="star"></div>
+                  <div id="moon"></div>
+                </label>
+              </div>
+              <div className="">
+                <select
+                  value={lang}
+                  onChange={(e) => changeLanguage(e.target.value)}
+                >
+                  <option
+                    value="en"
+                    checked={locale === "en" ? true : false}
+                  >
+                    English
+                  </option>
+                  <option
+                    value="ar"
+                    checked={locale === "ar" ? true : false}
+                  >
+                    Arabic
+                  </option>
+                </select>
+              </div>
+              <div className="toggle-btn">
+                <button
+                  className="navbar-toggler admin_menuToggler d-lg-none"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation"
+                >
+                  <span className="navbar-toggler-icon">
+                    <i className="fa-solid fa-bars-staggered"></i>
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -163,9 +202,22 @@ const AdminSidebar = ({ locale }) => {
           id="navbarSupportedContent"
         >
           <div id="sidebar">
-            <nav className="navbar navbar-expand-lg">
+            <nav className="navbar navbar-expand-xl">
               <div className="container-fluid h-100">
                 <div className="side_bar_content">
+                  {/* <div className="close-btn">
+                    <button
+                      className="btn justify-content-end w-100 my-2 d-lg-none"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#navbarSupportedContent"
+                      aria-controls="navbarSupportedContent"
+                      aria-expanded="false"
+                      aria-label="Close sidebar"
+                    >
+                      <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                  </div> */}
                   <div className="d-flex flex-column w-100 h-100" id="">
                     <img
                       className="mx-auto d-grid"
@@ -175,7 +227,7 @@ const AdminSidebar = ({ locale }) => {
                     />
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
-                        <li className="">
+                        {/* <li className="">
                           <div className="toggle_theme">
                             <input
                               type="checkbox"
@@ -209,13 +261,12 @@ const AdminSidebar = ({ locale }) => {
                               Arabic
                             </option>
                           </select>
-                        </li>
+                        </li> */}
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/users" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/users" ? "active" : ""
+                                }`}
                               href={`/admin/users`}
                             >
                               <i className="fa-solid fa-users"></i>
@@ -227,9 +278,8 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/tickets" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/tickets" ? "active" : ""
+                                }`}
                               href={`/admin/tickets`}
                             >
                               <i className="fa-solid fa-ticket"></i>
@@ -241,9 +291,8 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Roles") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/role" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/role" ? "active" : ""
+                                }`}
                               href={`/admin/role`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
@@ -260,9 +309,8 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Category") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/category" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/category" ? "active" : ""
+                                }`}
                               href={`/admin/category`}
                             >
                               <i className="fa-solid fa-camera"></i>
@@ -279,9 +327,8 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Template") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/template" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/template" ? "active" : ""
+                                }`}
                               href={`/admin/template`}
                             >
                               <i className="fas fa-file"></i>
@@ -298,9 +345,8 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Assets") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/assets" ? "active" : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/assets" ? "active" : ""
+                                }`}
                               href={`/admin/assets`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
@@ -317,11 +363,10 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Notification") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${
-                                activeLink === "/admin/notification"
-                                  ? "active"
-                                  : ""
-                              }`}
+                              className={`nav-link ${activeLink === "/admin/notification"
+                                ? "active"
+                                : ""
+                                }`}
                               href={`/admin/notification`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
