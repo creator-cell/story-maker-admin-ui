@@ -6,9 +6,11 @@ import { addTextToCanvas } from "./../../../fabric/fabric-utils";
 import { useEditorStore } from "../../../../../redux/UserStore";
 import { Type } from "lucide-react";
 import { Label } from "@radix-ui/react-dropdown-menu";
+import { useTranslation } from "react-i18next";
 
 function TextPanel() {
   const { canvas } = useEditorStore();
+  const { t } = useTranslation();
 
   const handleAddCustomTextBox = () => {
     if (!canvas) return;
@@ -30,17 +32,17 @@ function TextPanel() {
           className="w-100 py-2 text-white rounded d-flex align-items-center justify-content-center border-0 gap-3"
         >
           <Type/>
-          <span>Add a text box</span>
+          <span>{t("Add a text box")}</span>
         </Button>
         </div>
         <div className="pt-3">
           <h3 className="fs-6 fw-bold">
-            Default Text Styles
+            {t("Default Text Styles")}
           </h3>
           <div className="mt-3 d-flex flex-column gap-3">
             {textPresets.map((preset, index) => (
               <button
-                className="shivam w-100 p-3 d-flex bg-white border rounded"
+                className="w-100 p-3 d-flex bg-white border rounded"
                 key={index}
                 onClick={() => handleAddPresetText(preset)}
                 style={{

@@ -7,11 +7,13 @@ import Loader from "../../components/Loader";
 import { WithContext as ReactTags, SEPARATORS } from "react-tag-input";
 
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 const AddAssets = () => {
   const [loader, setLoader] = useState(false);
   const [roles, setRoles] = useState([]);
   const router = useRouter();
+  const { t } = useTranslation();
 
   const {
     control,
@@ -31,7 +33,7 @@ const AddAssets = () => {
     },
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleAddAssets = (data) => {
     setLoader(true);
@@ -73,8 +75,8 @@ const AddAssets = () => {
       .catch((err) => {
         toast(
           err?.response?.data?.errors?.[0]?.message ??
-            err?.response?.data?.message ??
-            "Failed to add assets",
+          err?.response?.data?.message ??
+          "Failed to add assets",
           {
             type: "error",
             theme: "light",
@@ -96,7 +98,7 @@ const AddAssets = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h1>Add New Assets</h1>
+                    <h1>{("Add New Assets")}</h1>
                   </div>
                 </div>
               </div>
@@ -107,7 +109,7 @@ const AddAssets = () => {
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="full-name">
-                          Name <span className="text-danger">*</span>
+                          {t("Name")} <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -131,7 +133,7 @@ const AddAssets = () => {
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="full-name">
-                          Document <span className="text-danger">*</span>
+                          {t("Document")} <span className="text-danger">*</span>
                         </label>
                         <input
                           type="file"
@@ -157,7 +159,7 @@ const AddAssets = () => {
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="full-name">
-                          Type <span className="text-danger">*</span>
+                          {t("Type")} <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -180,7 +182,7 @@ const AddAssets = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Format</label>
+                        <label htmlFor="full-name">{t("Format")}</label>
                         <input
                           type="text"
                           className="form-control"
@@ -197,7 +199,7 @@ const AddAssets = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Description</label>
+                        <label htmlFor="full-name">{t("Description")}</label>
                         <input
                           type="text"
                           className="form-control"
@@ -216,7 +218,7 @@ const AddAssets = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Tags</label>
+                        <label htmlFor="full-name">{t("Tags")}</label>
                         <Controller
                           control={control}
                           name="tags"
@@ -251,14 +253,14 @@ const AddAssets = () => {
 
                     <div className="col-12 mt-3 d-flex gap-3">
                       <button type="submit" className="button">
-                        Submit
+                        {t("Submit")}
                       </button>
                       <button
                         type="button"
                         className="button"
                         onClick={() => router.push("/admin/assets")}
                       >
-                        Cancel
+                        {t("Cancel")}
                       </button>
                     </div>
                   </div>

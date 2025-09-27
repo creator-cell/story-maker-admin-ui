@@ -10,8 +10,10 @@ import { useRouter, useParams } from "next/navigation";
 import { FileIcon, defaultStyles } from "react-file-icon";
 import { IconDownload, IconEye } from "@tabler/icons-react";
 import useDownload from "react-use-downloader";
+import { useTranslation } from "react-i18next";
 
 const UpdateAssets = () => {
+      const { t } = useTranslation();
     const { download } = useDownload();
     const [loader, setLoader] = useState(false);
     const [roles, setRoles] = useState([]);
@@ -128,7 +130,7 @@ const UpdateAssets = () => {
                             <div className="row mb-4">
                                 <div className="col-lg-12 col-md-12 col-sm-12">
                                     <div className="title_head">
-                                        <h1>Update Assets</h1>
+                                        <h1>{t("Update Assets")}</h1>
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +141,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Name</label>
+                                                <label htmlFor="full-name">{t("Name")}</label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
@@ -155,7 +157,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Document</label>
+                                                <label htmlFor="full-name">{t("Document")}</label>
                                                 <div className="d-flex align-items-center gap-2 flex-wrap">
                                                     {oldDocument ?
                                                         <div className="d-flex align-items-center gap-2">
@@ -184,7 +186,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Type</label>
+                                                <label htmlFor="full-name">{t("Type")}</label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
@@ -200,7 +202,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Format</label>
+                                                <label htmlFor="full-name">{t("Format")}</label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
@@ -214,7 +216,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Description</label>
+                                                <label htmlFor="full-name">{t("Description")}</label>
                                                 <input
                                                     type="text"
                                                     className="form-control"
@@ -228,7 +230,7 @@ const UpdateAssets = () => {
 
                                         <div className="col-lg-6 col-md-6 col-12 mb-3">
                                             <div className="form_group">
-                                                <label htmlFor="full-name">Tags</label>
+                                                <label htmlFor="full-name">{t("Tags")}</label>
                                                 <Controller
                                                     control={control}
                                                     name="tags"
@@ -255,14 +257,14 @@ const UpdateAssets = () => {
 
                                         <div className="col-12 mt-3 d-flex gap-3">
                                             <button type="submit" className="button">
-                                                Submit
+                                                {t("Submit")}
                                             </button>
                                             <button
                                                 type="button"
                                                 className="button"
                                                 onClick={() => router.push("/admin/assets")}
                                             >
-                                                Cancel
+                                                {t("Cancel")}
                                             </button>
                                         </div>
 

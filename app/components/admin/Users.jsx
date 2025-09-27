@@ -315,13 +315,13 @@ export default function Users() {
                             onClick={handleClearSearch}
                             disabled={loading}
                           >
-                            Clear
+                           {t("Clear")} 
                           </button>
                         )}
 
                         {hasWritePermission() && (
                           <button className="button" onClick={handleNewUser}>
-                            Add User
+                           {t("Add User")} 
                           </button>
                         )}
                       </div>
@@ -331,7 +331,7 @@ export default function Users() {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">{t("Loading...")}</span>
                       </div>
                     </div>
                   )}
@@ -344,30 +344,30 @@ export default function Users() {
                             className="cursor"
                             onClick={() => handleSort("name")}
                           >
-                            First Name
+                            {t("First Name")}
                             <i className={`fa ${getSortIcon("name")} ms-1`}></i>
                           </th>
                           <th
                             className="cursor"
                             onClick={() => handleSort("email")}
                           >
-                            Email Address
+                           {t("Email Address")} 
                             <i
                               className={`fa ${getSortIcon("email")} ms-1`}
                             ></i>
                           </th>
-                          <th>Phone Number</th>
+                          <th>{t("Phone Number")}</th>
                           <th
                             className="cursor"
                             onClick={() => handleSort("isActive")}
                           >
-                            Status
+                           {t("Status")} 
                             <i
                               className={`fa ${getSortIcon("isActive")} ms-1`}
                             ></i>
                           </th>
 
-                          {hasWritePermission() && <th>Action</th>}
+                          {hasWritePermission() && <th>{t("Action")}</th>}
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -399,18 +399,18 @@ export default function Users() {
                                         className="form-check-label"
                                         for="flexSwitchCheckChecked"
                                       >
-                                        Active
+                                       {t("Active")} 
                                       </label>
                                     </div>
                                   ) : (
                                     <>
                                       {user?.isActive ? (
                                         <span className="badge bg-primary">
-                                          Active
+                                          {t("Active")} 
                                         </span>
                                       ) : (
                                         <span className="badge bg-secondary">
-                                          Deactivate
+                                         {t("Deactivate")} 
                                         </span>
                                       )}
                                     </>
@@ -461,8 +461,8 @@ export default function Users() {
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          Page {currentPage + 1} of {totalPages}({totalItems}{" "}
-                          total items)
+                         {t("Page")}  {currentPage + 1} {t("of")} {totalPages}({totalItems}{" "}
+                          {t("total items")})
                         </small>
                       </div>
                       <ReactPaginate

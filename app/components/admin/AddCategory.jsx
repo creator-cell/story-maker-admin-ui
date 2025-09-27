@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 const AddCategoryPage = () => {
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);
   const router = useRouter();
+  const { t } = useTranslation();
 
   const { handleSubmit, register, reset, watch, setValue } = useForm({
     defaultValues: {
@@ -97,7 +99,7 @@ const AddCategoryPage = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h1>Add Category</h1>
+                    <h1>{t("Add Category")}</h1>
                   </div>
                 </div>
               </div>
@@ -108,7 +110,7 @@ const AddCategoryPage = () => {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <label className="form-label">
-                        Name <span className="text-danger"> *</span>
+                        {t("Name")} <span className="text-danger"> *</span>
                       </label>
                       <input
                         type="text"
@@ -116,32 +118,32 @@ const AddCategoryPage = () => {
                         {...register("name")}
                       />
                       <small className="text-muted">
-                        The name is how it appears on your site.
+                        {t("The name is how it appears on your site.")}
                       </small>
                     </div>
 
                     {/* Slug */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <label className="form-label">Slug</label>
+                      <label className="form-label">{t("Slug")}</label>
                       <input
                         type="text"
                         className="form-control"
                         {...register("slug")}
                       />
                       <small className="text-muted">
-                        The “slug” is the URL-friendly version of the name.
+                        {t("The “slug” is the URL-friendly version of the name.")}
                       </small>
                     </div>
 
                     {/* Parent Category */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <label className="form-label">Parent Category</label>
+                      <label className="form-label">{t("Parent Category")}</label>
                       <select
                         className="form-control"
                         {...register("parentId")}
                         defaultValue=""
                       >
-                        <option value="">None</option>
+                        <option value="">{t("None")}</option>
                         {categories &&
                           categories.map((cat) => (
                             <option key={cat._id} value={cat._id}>
@@ -150,13 +152,13 @@ const AddCategoryPage = () => {
                           ))}
                       </select>
                       <small className="text-muted">
-                        Categories can have a hierarchy. Totally optional.
+                        {t("Categories can have a hierarchy. Totally optional.")}
                       </small>
                     </div>
 
                     {/* Description */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <label className="form-label">Description</label>
+                      <label className="form-label">{t("Description")}</label>
                       <textarea
                         className="form-control"
                         rows="1"
@@ -167,7 +169,7 @@ const AddCategoryPage = () => {
                     {/* Buttons */}
                     <div className="d-flex gap-3">
                       <button type="submit" className="button">
-                        Add Category
+                        {t("Add Category")}
                       </button>
                       <button
                         type="button"
@@ -177,7 +179,7 @@ const AddCategoryPage = () => {
                           router.push("/admin/category");
                         }}
                       >
-                        Cancel
+                        {t("Cancel")}
                       </button>
                     </div>
                   </div>

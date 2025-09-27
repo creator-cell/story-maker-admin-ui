@@ -17,6 +17,7 @@ import { onUploadImage } from "./canvas/ImageTools";
 import FabricTextEditorToolbar from "./canvas/FabricTextEditorToolbar";
 import axios from "axios";
 import Categories from "./Category";
+import { useTranslation } from "react-i18next";
 
 export default function AddTemplatePage() {
   const [loader, setLoader] = useState(false);
@@ -24,6 +25,7 @@ export default function AddTemplatePage() {
   const [subCategories, setSubCategories] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedObject, setSelectedObject] = useState(null);
+  const { t } = useTranslation();
 
   const fRef = useRef(null);
   const canvasRef = useRef(null);

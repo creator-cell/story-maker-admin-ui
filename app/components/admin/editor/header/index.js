@@ -10,6 +10,7 @@ import ExportModal from "../export";
 import { toast } from "sonner";
 import { cn } from "../../lib/utils";
 import { Dropdown } from "bootstrap";
+import { useTranslation } from "react-i18next";
 
 function Header() {
   const {
@@ -34,6 +35,7 @@ function Header() {
   const [subCategories, setSubCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+  const { t } = useTranslation();
 
   const fetchCategories = async () => {
     console.log("fetch cat");
@@ -108,7 +110,7 @@ function Header() {
           {saveStatus === "Saving..." ? (
             <div className="relative flex items-center">
               <Loader2 className="h-5 w-5 animate-spin text-white" />
-              <span className="sr-only">Saving...</span>
+              <span className="sr-only">{t("Saving...")}</span>
             </div>
           ) : (
             <Save

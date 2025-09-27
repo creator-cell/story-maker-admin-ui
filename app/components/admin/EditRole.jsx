@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Loader from "../Loader";
+import { useTranslation } from "react-i18next";
 
 export default function EditRole({ roleId }) {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const router = useRouter();
   const [loader, setLoader] = useState(false);
+  const { t } = useTranslation();
 
   const [menuPermissions, setMenuPermissions] = useState({
     Users: {
@@ -224,7 +226,7 @@ export default function EditRole({ roleId }) {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h1>Edit Role</h1>
+                      <h1>{t("Edit Role")}</h1>
                     </div>
                   </div>
                 </div>
@@ -234,7 +236,7 @@ export default function EditRole({ roleId }) {
                       <div className="col-lg-12 col-md-12 col-12 mb-3">
                         <div className="form_group">
                           <label htmlFor="role-name">
-                            Role Name <span className="text-denger"> *</span>
+                            {t("Role Name")} <span className="text-denger"> *</span>
                           </label>
                           <input
                             type="text"
@@ -257,7 +259,7 @@ export default function EditRole({ roleId }) {
                       <div className="col-lg-12 col-md-12 col-12 mb-3">
                         <div className="role-table form_group">
                           <label>
-                            Menu Access & Permissions{" "}
+                            {t("Menu Access & Permissions")}{" "}
                             <span className="text-denger"> *</span>
                           </label>
                           <div className="menu-permissions-table mt-3">
@@ -265,22 +267,10 @@ export default function EditRole({ roleId }) {
                               <table className="table table-bordered">
                                 <thead className="table-light">
                                   <tr>
-                                    <th>Menu</th>
-                                    <th
-                                      className="text-center"
-                                    >
-                                      Read
-                                    </th>
-                                    <th
-                                      className="text-center"
-                                    >
-                                      Write
-                                    </th>
-                                    <th
-                                      className="text-center"
-                                    >
-                                      Both
-                                    </th>
+                                    <th>{t("Menu")}</th>
+                                    <th className="text-center">{t("Read")}</th>
+                                    <th className="text-center">{t("Write")}</th>
+                                    <th className="text-center">{t("Both")}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -353,8 +343,7 @@ export default function EditRole({ roleId }) {
                             </div>
                           </div>
                           <small className="text-muted">
-                            Select permissions for each menu. 'Both'
-                            automatically selects Read and Write.
+                            {t("Select permissions for each menu. 'Both' automatically selects Read and Write.")}
                           </small>
                         </div>
                       </div>

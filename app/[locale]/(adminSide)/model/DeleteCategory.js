@@ -1,9 +1,11 @@
 "use client";
 import { Modal, Container, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function DeleteCategory({ show, onHide, data, props }) {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
+  const { t } = useTranslation();
 
   const handleUserDelete = async () => {
     try {
@@ -40,25 +42,25 @@ export default function DeleteCategory({ show, onHide, data, props }) {
     <>
       <Modal show={show} onHide={onHide} className="user_delete">
         <Modal.Header closeButton>
-          <Modal.Title>Delete Category</Modal.Title>
+          <Modal.Title>{t("Delete Category")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
             <Row>
               <div className="col-lg-12 col-md-12 col-12">
-                <p>Are you sure? You want to delete this category?</p>
+                <p>{t("Are you sure? You want to delete this category?")}</p>
                 <div className="btns">
                   <button
                     onClick={handleUserDelete}
                     className="button"
                   >
-                    Delete
+                    {t("Delete")}
                   </button>
                   <button
                     onClick={onHide}
                     className="button"
                   >
-                    Cancel
+                    {t("Cancel")}
                   </button>
                 </div>
               </div>

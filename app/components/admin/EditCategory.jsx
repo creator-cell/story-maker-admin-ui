@@ -5,12 +5,14 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
+import { useTranslation } from "react-i18next";
 
 export default function EditCategory({ userId }) {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);
+  const { t } = useTranslation();
 
   const {
     handleSubmit,
@@ -116,7 +118,7 @@ export default function EditCategory({ userId }) {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h1>Edit Category</h1>
+                    <h1>{t("Edit Category")}</h1>
                   </div>
                 </div>
               </div>
@@ -127,7 +129,7 @@ export default function EditCategory({ userId }) {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <label className="form-label">
-                        Name
+                        {t("Name")}
                         <span className="text-danger"> *</span>
                       </label>
                       <input
@@ -136,32 +138,32 @@ export default function EditCategory({ userId }) {
                         {...register("name")}
                       />
                       <small className="text-muted">
-                        The name is how it appears on your site.
+                        {t("The name is how it appears on your site.")}
                       </small>
                     </div>
 
                     {/* Slug */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <label className="form-label">Slug</label>
+                      <label className="form-label">{t("Slug")}</label>
                       <input
                         type="text"
                         className="form-control"
                         {...register("slug")}
                       />
                       <small className="text-muted">
-                        The “slug” is the URL-friendly version of the name.
+                        {t("The “slug” is the URL-friendly version of the name.")}
                       </small>
                     </div>
 
                     {/* Parent Category */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <label className="form-label">Parent Category</label>
+                      <label className="form-label">{t("Parent Category")}</label>
                       <select
                         className="form-control"
                         {...register("parentId")}
                         defaultValue=""
                       >
-                        <option value="">None</option>
+                        <option value="">{t("None")}</option>
                         {categories.map((cat) => (
                           <option key={cat._id} value={cat._id}>
                             {cat.name}
@@ -169,13 +171,13 @@ export default function EditCategory({ userId }) {
                         ))}
                       </select>
                       <small className="text-muted">
-                        Categories can have a hierarchy. Totally optional.
+                        {t("Categories can have a hierarchy. Totally optional.")}
                       </small>
                     </div>
 
                     {/* Description */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <label className="form-label">Description</label>
+                      <label className="form-label">{t("Description")}</label>
                       <textarea
                         className="form-control"
                         rows="1"
@@ -186,7 +188,7 @@ export default function EditCategory({ userId }) {
                     {/* Buttons */}
                     <div className="d-flex flex-wrap gap-3">
                       <button type="submit" className="button">
-                        Update Category
+                        {t("Update Category")}
                       </button>
                       <button
                         type="button"
@@ -196,7 +198,7 @@ export default function EditCategory({ userId }) {
                           router.push("/admin/category");
                         }}
                       >
-                        Cancel
+                        {t("Cancel")}
                       </button>
                     </div>
                   </div>

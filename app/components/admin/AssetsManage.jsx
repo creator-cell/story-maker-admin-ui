@@ -11,8 +11,10 @@ import { IconDownload, IconEye, IconView360 } from "@tabler/icons-react";
 import useDownloader from "react-use-downloader";
 import { FormSelect } from "react-bootstrap";
 import Loader from "../Loader";
+import { useTranslation } from "react-i18next";
 
 const AssetsManage = () => {
+  const { t } = useTranslation();
   const { download, isInProgress } = useDownloader();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSETS;
   const USER_API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
@@ -274,7 +276,7 @@ const AssetsManage = () => {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h1>Assets List</h1>
+                      <h1>{t("Assets List")}</h1>
                     </div>
                   </div>
                 </div>
@@ -293,7 +295,7 @@ const AssetsManage = () => {
                               router.push("/admin/assets/addassets");
                             }}
                           >
-                            Add Assets
+                            {t("Add Assets")}
                           </button>
                         )}
                       </div>
@@ -303,7 +305,7 @@ const AssetsManage = () => {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">{t("Loading...")}</span>
                       </div>
                     </div>
                   )}
@@ -313,35 +315,35 @@ const AssetsManage = () => {
                       <thead>
                         <tr>
                           <th className="cursor">
-                            Date
+                            {t("Date")}
                           </th>
                           <th className="cursor">
-                            Name
+                            {t("Name")}
                           </th>
                           <th className="cursor">
-                            Document
+                            {t("Document")}
                           </th>
                           <th className="cursor">
-                            Type
+                            t{("Type")}
                           </th>
                           <th className="cursor">
-                            Format
+                            t{("Format")}
                           </th>
                           <th className="cursor">
-                            Description
+                            {t("Description")}
                           </th>
                           <th className="cursor">
-                            Tags
+                            {t("Tags")}
                           </th>
                           <th className="cursor">
-                            Status
+                            {t("Status")}
                           </th>
                           <th className="cursor">
-                            Uploaded By
+                            {t("Uploaded By")}
                           </th>
 
                           {hasWritePermission() && (
-                            <th >Action</th>
+                            <th >{t("Action")}</th>
                           )}
                         </tr>
                       </thead>
@@ -363,7 +365,6 @@ const AssetsManage = () => {
                                       <small className="d-flex align-items-center gap-2">
                                         <div
                                           className="doc-file"
-
                                         >
                                           <FileIcon
                                             extension={
@@ -428,19 +429,19 @@ const AssetsManage = () => {
                                         value="Pending"
                                         selected={asset?.status == "Pending"}
                                       >
-                                        <small>Pending</small>
+                                        <small>{t("Pending")}</small>
                                       </option>
                                       <option
                                         value="Approve"
                                         selected={asset?.status == "Approve"}
                                       >
-                                        <small>Approve</small>
+                                        <small>{t("Approve")}</small>
                                       </option>
                                       <option
                                         value="Reject"
                                         selected={asset?.status == "Reject"}
                                       >
-                                        <small>Reject</small>
+                                        <small>{t("Reject")}</small>
                                       </option>
                                     </FormSelect>
                                   ) : (
@@ -496,7 +497,7 @@ const AssetsManage = () => {
                             >
                               {/* { ? 
                                 `No users found matching "${searchUser}"` :  */}
-                              No assets found
+                              {t("No assets found")}
                               {/* } */}
                             </td>
                           </tr>
@@ -509,8 +510,8 @@ const AssetsManage = () => {
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          Page {currentPage + 1} of {totalPages}({totalItems}{" "}
-                          total items)
+                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}({totalItems}{" "}
+                          {t("total items")})
                         </small>
                       </div>
                       <ReactPaginate

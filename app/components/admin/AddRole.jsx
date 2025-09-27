@@ -6,8 +6,10 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 const AddRole = () => {
+  const { t } = useTranslation();
   const [loader, setLoader] = useState(false);
   const [menuPermissions, setMenuPermissions] = useState({
     Users: {
@@ -190,7 +192,7 @@ const AddRole = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h1>Add New Role</h1>
+                    <h1>{t("Add New Role")}</h1>
                   </div>
                 </div>
               </div>
@@ -201,7 +203,7 @@ const AddRole = () => {
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="role-name">
-                          Role Name <span className="text-denger"> *</span>
+                          {t("Role Name")} <span className="text-denger"> *</span>
                         </label>
                         <input
                           type="text"
@@ -225,17 +227,17 @@ const AddRole = () => {
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="role-table form_group">
                         <label>
-                          Menu Access & Permissions{" "} <span className="text-denger"> *</span>
+                          {t("Menu Access & Permissions")}{" "} <span className="text-denger"> *</span>
                         </label>
                         <div className="menu-permissions-table mt-3">
                           <div className="table-responsive">
                             <table className="table table-bordered">
                               <thead className="table-light">
                                 <tr>
-                                  <th>Menu</th>
-                                  <th className="text-center" >Read</th>
-                                  <th className="text-center"> Write </th>
-                                  <th className="text-center">Both</th>
+                                  <th>{t("Menu")}</th>
+                                  <th className="text-center" >{t("Read")}</th>
+                                  <th className="text-center"> {t("Write")} </th>
+                                  <th className="text-center">{t("Both")}</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -305,8 +307,7 @@ const AddRole = () => {
                           </div>
                         </div>
                         <small className="text-muted">
-                          Select permissions for each menu. 'Both' automatically
-                          selects Read and Write.
+                          {t("Select permissions for each menu. 'Both' automatically selects Read and Write.")}
                         </small>
                       </div>
                     </div>
@@ -326,7 +327,7 @@ const AddRole = () => {
                         disabled={loader}
 
                       >
-                        Cancel
+                        {t("Cancel")}
                       </button>
                     </div>
                   </div>

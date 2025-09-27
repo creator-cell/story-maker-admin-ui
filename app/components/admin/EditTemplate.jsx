@@ -10,6 +10,7 @@ import ApproveTemplate from "@/app/(adminSide)/model/ApproveTemplate";
 import { fabric } from "fabric";
 import FabricTextEditorToolbar from "./canvas/FabricTextEditorToolbar";
 import FabricToolbar from "./FabricToolBar";
+import { useTranslation } from "react-i18next";
 
 export default function EditTemplatePage({ id, isClone }) {
   const [loader, setLoader] = useState(false);
@@ -19,6 +20,7 @@ export default function EditTemplatePage({ id, isClone }) {
   const [showRejectModal, setShowRejectModal] = useState(false);
   const router = useRouter();
   const userStr = localStorage.getItem("user");
+  const { t } = useTranslation();
 
   const userObj = userStr ? JSON.parse(userStr) : null;
 

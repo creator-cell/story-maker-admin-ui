@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 // import Modal from "react-modal"; // For chat modal
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
+import { useTranslation } from "react-i18next";
 export default function Tickets() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
   const [tickets, setTickets] = useState([]);
@@ -14,7 +15,7 @@ export default function Tickets() {
   const [totalPages, setTotalPages] = useState(0);
   const [search, setSearch] = useState("");
   const [loader, setLoader] = useState(false);
-
+  const { t } = useTranslation();
   const [moderator, setAllModerator] = useState();
   const itemsPerPage = 20;
   const router = useRouter();
@@ -116,7 +117,7 @@ export default function Tickets() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h1>Ticket List</h1>
+                      <h1>{t("Ticket List")}</h1>
                     </div>
                   </div>
                 </div>
@@ -157,11 +158,11 @@ export default function Tickets() {
                             }}
                             disabled={loading}
                           >
-                            Clear
+                            {t("Clear")}
                           </button>
                         )}
                         <button className="button" onClick={handleNewChat}>
-                          Add New Ticket
+                          {t("Add New Ticket")}
                         </button>
                       </div>
                     </div>
@@ -169,7 +170,7 @@ export default function Tickets() {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">{t("Loading...")}</span>
                       </div>
                     </div>
                   )}
@@ -177,11 +178,11 @@ export default function Tickets() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th>User</th>
-                          <th>Status</th>
-                          <th>Moderator</th>
-                          <th className="w-25">Last Message</th>
-                          <th>Action</th>
+                          <th>{t("User")}</th>
+                          <th>{t("Status")}</th>
+                          <th>{t("Moderator")}</th>
+                          <th className="w-25">{t("Last Message")}</th>
+                          <th>{t("Action")}</th>
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -200,7 +201,7 @@ export default function Tickets() {
                                     )
                                   }
                                 >
-                                  <option value="">Assign Moderator</option>
+                                  <option value="">{t("Assign Moderator")}</option>
                                   {moderator &&
                                     moderator.map((item) => (
                                       <option value={item._id}>
@@ -225,7 +226,7 @@ export default function Tickets() {
                                   onClick={() => handleUserUpdate(ticket._id)}
                                   disabled={ticket.status === "Resolved"}
                                 >
-                                  View
+                                  {t("View")}
                                 </button>
 
                                 <button
@@ -260,7 +261,7 @@ export default function Tickets() {
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          Page {currentPage + 1} of {totalPages}
+                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}
                         </small>
                       </div>
                       <ReactPaginate

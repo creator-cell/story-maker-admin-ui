@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { drawingPanelColorPresets, brushSizes } from "./../../../config/index";
+import { useTranslation } from "react-i18next";
 
 function DrawingPanel() {
   const { canvas } = useEditorStore();
@@ -37,6 +38,7 @@ function DrawingPanel() {
   const [brushWidth, setBrushWidth] = useState(5);
   const [drawingOpacity, setDrawingOpacity] = useState(100);
   const [activeTab, setActiveTab] = useState("colors");
+  const { t } = useTranslation();
 
   const handleToggleDrawingMode = () => {
     if (!canvas) return;
@@ -112,24 +114,24 @@ function DrawingPanel() {
               <TabsList className="tablist d-flex flex-col gap-2 w-100 mt-3">
                 <TabsTrigger value="colors" className="rounded gap-1">
                   <Palette />
-                  Colors
+                  {t("Colors")}
                 </TabsTrigger>
                 <TabsTrigger value="brush" className="rounded gap-1">
                   <Paintbrush className="" />
-                  Brush
+                  {t("Brush")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="tools"
                   className="rounded not-last-of-type:gap-1"
                 >
                   <EraserIcon className="" />
-                  Tools
+                  {t("Tools")}
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="colors">
                 <div className="mt-3">
                   <div className="d-flex justify-content-between align-items-center">
-                    <Label>Color Palette</Label>
+                    <Label>{t("Color Palette")}</Label>
                     <div
                       className="rounded border"
                       style={{ backgroundColor: drawingColor }}
@@ -177,7 +179,7 @@ function DrawingPanel() {
               <TabsContent value="brush" className={"mt-2"}>
                 <div className="">
                   <Label className={"block text-sm font-semibold"}>
-                    Brush Size
+                    {t("Brush Size")}
                   </Label>
                   <div className="d-flex align-items-center gap-2">
                     <Minus />
@@ -246,7 +248,7 @@ function DrawingPanel() {
                     <div className="d-flex justify-content-between">
                       <Label className={"font-medium"}>
                         <Droplets className="mr-2 h-4 w-4" />
-                        Opacity
+                        {t("Opacity")}
                       </Label>
                       <span className="text-sm font-medium">
                         {drawingOpacity}%

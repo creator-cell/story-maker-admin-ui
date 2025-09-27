@@ -1,9 +1,11 @@
 'use client';
 import {Modal,Container,Row} from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function DeleteUser({ show, onHide, data, props }) {
     const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+      const { t } = useTranslation();
     
     const handleUserDelete = async () => {
      
@@ -41,16 +43,16 @@ export default function DeleteUser({ show, onHide, data, props }) {
         <>
         <Modal show={show} onHide={onHide} className="user_delete">
                 <Modal.Header closeButton>
-                  <Modal.Title>Delete Role</Modal.Title>
+                  <Modal.Title>{t("Delete Role")}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
                         <Row>
                             <div className="col-lg-12 col-md-12 col-12">
-                                <p>Are you sure? You want to delete this role?</p>
+                                <p>{t("Are you sure? You want to delete this role?")}</p>
                                 <div className="btns">
-                                    <button onClick={handleUserDelete} className="button">Delete</button>
-                                    <button onClick={onHide} className="button">Cancel</button>
+                                    <button onClick={handleUserDelete} className="button">{t("Delete")}</button>
+                                    <button onClick={onHide} className="button">{t("Cancel")}</button>
                                 </div>
                             </div>
                         </Row>

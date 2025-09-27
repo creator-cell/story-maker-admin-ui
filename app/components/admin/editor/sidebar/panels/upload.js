@@ -11,9 +11,11 @@ import { Loader2, Upload } from "lucide-react";
 import { toast } from "react-toastify";
 // import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function UploadPanel() {
   const { canvas } = useEditorStore();
+  const { t } = useTranslation();
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const [isUploading, setIsUploading] = useState(false);
@@ -78,8 +80,8 @@ function UploadPanel() {
     } catch (err) {
       toast(
         err?.response?.data?.errors?.[0]?.message ??
-          err?.response?.data?.message ??
-          "Failed to upload image",
+        err?.response?.data?.message ??
+        "Failed to upload image",
         {
           type: "error",
           theme: "light",
@@ -139,13 +141,13 @@ function UploadPanel() {
         </div>
         <div className="mt-3">
           <h4 className="fs-6 fw-bold mb-3">
-            <small>Your Uploads</small>
+            <small>{t("Your Uploads")}</small>
           </h4>
           {isLoading ? (
             <div className="border p-6 d-flex rounded align-items-center justify-content-center gap-3">
               <Loader2 />
               <p className="fw-bold">
-                <small>Loading your uploads...</small>
+                <small>{t("Loading your uploads...")}</small>
               </p>
             </div>
           ) : userUploads.length > 0 ? (
@@ -165,7 +167,7 @@ function UploadPanel() {
               ))}
             </div>
           ) : (
-            <div>No Uploads yet</div>
+            <div>{t("No Uploads yet")}</div>
           )}
         </div>
       </div>
