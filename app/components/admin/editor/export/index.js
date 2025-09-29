@@ -27,12 +27,14 @@ import {
   Loader2,
 } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function ExportModal({ isOpen, onClose }) {
   const { canvas } = useEditorStore();
 
   const [selectedFormat, setSelectedFormat] = useState("pdf");
   const [isExporting, setIsExporting] = useState(false);
+  const { t } = useTranslation();
 
   const exportFormats = [
     {
@@ -181,13 +183,13 @@ function ExportModal({ isOpen, onClose }) {
       <DialogContent>
         <DialogHeader className="border-0">
           <DialogTitle>
-            <small>Export Design</small>
+            <small>{t("Export Design")}</small>
           </DialogTitle>
         </DialogHeader>
 
         <div className="mx-3">
           <h3 className="fs-6 fw-bold mb-3">
-            <small>Choose Format</small>
+            <small>{t("Choose Format")}</small>
           </h3>
           <div className="d-flex gap-3">
             {exportFormats.map((exportFormat) => (
@@ -231,12 +233,12 @@ function ExportModal({ isOpen, onClose }) {
             {isExporting ? (
               <>
                 <Loader2 className="" />
-                Exporting...
+                {t("Exporting...")}
               </>
             ) : (
               <>
                 <Download className="" />
-                Export {selectedFormat.toUpperCase()}
+                {t("Export")} {selectedFormat.toUpperCase()}
               </>
             )}
           </Button>

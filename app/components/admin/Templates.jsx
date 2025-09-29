@@ -8,7 +8,9 @@ import DeleteTemplate from "../../[locale]/(adminSide)/model/DeleteTemplate";
 import Loader from "../Loader";
 import { jsPDF } from "jspdf";
 import ApproveTemplate from "../../[locale]/(adminSide)/model/ApproveTemplate";
+import { useTranslation } from "react-i18next";
 export default function Template() {
+    const { t } = useTranslation();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -222,7 +224,7 @@ export default function Template() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h1>Template List</h1>
+                      <h1>{t("Template List")}</h1>
                     </div>
                   </div>
                 </div>
@@ -261,14 +263,14 @@ export default function Template() {
                             }}
                             disabled={loading}
                           >
-                            Clear
+                            {t("Clear")}
                           </button>
                         )}
                         <button
                           className="button"
                           onClick={handleTemplateSubmit}
                         >
-                          Add New Template
+                          {t("Add New Template")}
                         </button>
                       </div>
                     </div>
@@ -278,7 +280,7 @@ export default function Template() {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">{t("Loading...")}</span>
                       </div>
                     </div>
                   )}
@@ -288,11 +290,11 @@ export default function Template() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th>Name</th>
+                          <th>{t("Name")}</th>
                           {/* <th>Category</th>
                           <th>Subcategory</th> */}
-                          <th>Status</th>
-                          <th>Action</th>
+                          <th>{t("Status")}</th>
+                          <th>{t("Action")}</th>
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -319,7 +321,7 @@ export default function Template() {
                                   className="button mx-1 mb-2"
                                   onClick={() => handleEdit(tpl._id)}
                                 >
-                                  View/Edit
+                                  {t("View/Edit")}
                                 </button>
                                 <button
                                   className="button mx-1 mb-2"
@@ -327,13 +329,13 @@ export default function Template() {
                                     handleClone(tpl._id, tpl.name, tpl.content)
                                   }
                                 >
-                                  Clone
+                                  {t("Clone")}
                                 </button>
                                 <button
                                   className="button mx-1 mb-2"
                                   onClick={() => handleDelete(tpl._id)}
                                 >
-                                  Delete/Reject
+                                  {t("Delete/Reject")}
                                 </button>
                                 {currentUser.role.name === "Super Admin" &&
                                   tpl.status === "pending" && (
@@ -341,7 +343,7 @@ export default function Template() {
                                       className="button mx-1 mb-2"
                                       onClick={() => handleApprove(tpl._id)}
                                     >
-                                      Approve
+                                      {t("Approve")}
                                     </button>
                                   )}
                                   </div>
@@ -366,7 +368,7 @@ export default function Template() {
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          Page {currentPage + 1} of {totalPages}
+                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}
                         </small>
                       </div>
                       <ReactPaginate

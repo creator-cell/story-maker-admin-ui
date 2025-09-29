@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import DeleteCategory from "../../[locale]/(adminSide)/model/DeleteCategory";
 import Loader from "../Loader";
+import { useTranslation } from "react-i18next";
 
 export default function Categories() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
@@ -20,6 +21,8 @@ export default function Categories() {
   const [loader, setLoader] = useState(false);
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
+  const { t } = useTranslation();
+  
 
   const getCategories = async (page = 1, searchTerm = "") => {
     setLoader(true);
@@ -72,7 +75,7 @@ export default function Categories() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="title_head">
-                      <h1>Category List</h1>
+                      <h1>{t("Category List")}</h1>
                     </div>
                   </div>
                 </div>
@@ -112,11 +115,11 @@ export default function Categories() {
                             }}
                             disabled={loading}
                           >
-                            Clear
+                            {t("Clear")}
                           </button>
                         )}
                         <button className="button" onClick={handleAddCategory}>
-                          Add New Category
+                          {t("Add New Category")}
                         </button>
                       </div>
                     </div>
@@ -124,7 +127,7 @@ export default function Categories() {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">{t("Loading...")}</span>
                       </div>
                     </div>
                   )}
@@ -132,9 +135,9 @@ export default function Categories() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th>Category name</th>
-                          <th>Category description</th>
-                          <th>Action</th>
+                          <th>{t("Category name")}</th>
+                          <th>{t("Category description")}</th>
+                          <th>{t("Action")}</th>
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -182,7 +185,7 @@ export default function Categories() {
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          Page {currentPage + 1} of {totalPages}
+                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}
                         </small>
                       </div>
                       <ReactPaginate

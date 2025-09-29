@@ -1,9 +1,11 @@
 "use client";
 import { Modal, Container, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function ApproveTemplate({ show, onHide, data, props }) {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
+  const { t } = useTranslation();
 
   const handleUserDelete = async () => {
     try {
@@ -44,25 +46,25 @@ export default function ApproveTemplate({ show, onHide, data, props }) {
     <>
       <Modal show={show} onHide={onHide} className="user_delete">
         <Modal.Header closeButton>
-          <Modal.Title>Approve Template</Modal.Title>
+          <Modal.Title>{t("Approve Template")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
             <Row>
               <div className="col-lg-12 col-md-12 col-12">
-                <p>Are you sure? You want to approve this template?</p>
+                <p>{t("Are you sure? You want to approve this template?")}</p>
                 <div className="btns">
                   <button
                     onClick={handleUserDelete}
                     className="button"
                   >
-                    Approve
+                    {t("Approve")}
                   </button>
                   <button
                     onClick={onHide}
                     className="button"
                   >
-                    Cancel
+                    {t("Cancel")}
                   </button>
                 </div>
               </div>

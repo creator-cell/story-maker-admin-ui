@@ -4,12 +4,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
+import { useTranslation } from "react-i18next";
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
 
 const AddChatHistory = () => {
   const currentUser = localStorage.getItem("user");
   const [loader, setLoader] = useState(false);
-
+  const { t } = useTranslation();
   const [ticket, setTicket] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -48,9 +49,9 @@ const AddChatHistory = () => {
   return (
     <div className="chat-container">
       <div className="title_head">
-        <h1>Support Ticket Chat</h1>
+        <h1>{t("Support Ticket Chat")}</h1>
       </div>
-      {loading && <div>Loading...</div>}
+      {loading && <div>{t("Loading...")}</div>}
 
       <div className="send-chat d-flex gap-2 mt-4">
         <input
@@ -65,7 +66,7 @@ const AddChatHistory = () => {
           onClick={sendChatMessage}
           disabled={loading || !chatMessage.trim()}
         >
-          Send
+          {t("Send")}
         </button>
       </div>
     </div>

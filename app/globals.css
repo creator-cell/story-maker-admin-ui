@@ -11520,4 +11520,10 @@ html {
   .comman_admin_layout .admin_forms form .role-table {
     font-size: small;
   }
+  #admin_header{
+    padding: 5px;
+  }
+  .logo-img img{
+    padding: 0;
+  }
 }

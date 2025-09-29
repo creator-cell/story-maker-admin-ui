@@ -7,9 +7,10 @@ import axios from "axios";
 import Loader from "../../components/Loader";
 
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 const AddUserPage = () => {
-
+  const { t } = useTranslation();
   const [loader, setLoader] = useState(false);
   const [roles, setRoles] = useState([]);
   const router = useRouter();
@@ -131,7 +132,7 @@ const AddUserPage = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h1>Add New User</h1>
+                    <h1>{t("Add New User")}</h1>
                   </div>
                 </div>
               </div>
@@ -141,7 +142,7 @@ const AddUserPage = () => {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Full Name  <span className="text-danger"> *</span></label>
+                        <label htmlFor="full-name">{t("Full Name")}  <span className="text-danger"> *</span></label>
                         <input
                           type="text"
                           className="form-control"
@@ -156,7 +157,7 @@ const AddUserPage = () => {
                    
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="role">Role  <span className="text-danger"> *</span></label>
+                        <label htmlFor="role">{t("Role")}  <span className="text-danger"> *</span></label>
                         <select
                           className="form-control"
                           name="role"
@@ -164,7 +165,7 @@ const AddUserPage = () => {
                           value={watch("role") || ""}
                           {...register("role")}
                         >
-                          <option value="">Select a role</option>
+                          <option value="">{t("Select a role")}</option>
                           {roles.map((role) => (
                             <option key={role._id} value={role._id}>
                               {role.name}
@@ -175,7 +176,7 @@ const AddUserPage = () => {
                     </div>
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="email">Email  <span className="text-danger"> *</span></label>
+                        <label htmlFor="email">{t("Email")}  <span className="text-danger"> *</span></label>
                         <input
                           type="email"
                           className="form-control"
@@ -190,7 +191,7 @@ const AddUserPage = () => {
 
                        <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="email">Mobile Number  <span className="text-danger"> *</span></label>
+                        <label htmlFor="email">{t("Mobile Number")}  <span className="text-danger"> *</span></label>
                         <input
                           type="text"
                           className="form-control"
@@ -205,7 +206,7 @@ const AddUserPage = () => {
                   
                     <div className="col-12 mt-3 d-flex gap-3">
                       <button type="submit" className="button">
-                        Submit
+                       {t("Submit")} 
                       </button>
                       <button 
                         type="button" 
@@ -213,7 +214,7 @@ const AddUserPage = () => {
                         onClick={() =>  {setLoader(true); 
                            router.push("/admin/users")}}
                       >
-                        Cancel
+                        {t("Cancel")} 
                       </button>
                     </div>
                   </div>

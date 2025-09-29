@@ -30,6 +30,7 @@ import {
   Underline,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 //all states one by one -> reason for tutorial ->
 
@@ -54,7 +55,7 @@ function Properties() {
   const [textColor, setTextColor] = useState("#000000");
   const [textBackgroundColor, setTextBackgroundColor] = useState("");
   const [letterSpacing, setLetterSpacing] = useState(0);
-
+  const { t } = useTranslation();
   const [fillColor, setFillColor] = useState("#ffffff");
   const [borderColor, setBorderColor] = useState("#000000");
   const [borderWidth, setBorderWidth] = useState(0);
@@ -397,17 +398,17 @@ function Properties() {
       <div className="properties">
         <div className="d-flex align-items-center justify-content-between p-3 border-bottom">
           <div className="d-flex align-items-center gap-2">
-            <span className="font-medium">Properties</span>
+            <span className="font-medium">{t("Properties")}</span>
           </div>
         </div>
         <div className="overflow-auto p-4">
-          <h3 className="fs-6 fw-bold">Size & Position</h3>
+          <h3 className="fs-6 fw-bold">{t("Size & Position")}</h3>
           {/* Width & Height */}
           <div className="height-and-width d-flex gap-3 pt-2 cursor-pointer">
             {/* Width */}
             <div className="w-50 d-flex flex-column gap-1">
               <Label>
-                <small>Width</small>
+                <small>{t("Width")}</small>
               </Label>
               <Input
                 type="number"
@@ -431,7 +432,7 @@ function Properties() {
             {/* Height */}
             <div className="w-50 d-flex flex-column gap-1">
               <Label>
-                <small>Height</small>
+                <small>{t("Height")}</small>
               </Label>
               <Input
                 type="number"
@@ -458,7 +459,7 @@ function Properties() {
             {/* Top row: Opacity label + percentage */}
             <div className="d-flex justify-content-between align-items-center pb-1">
               <label htmlFor="opacity" className="mb-0">
-                <small>Opacity</small>
+                <small>{t("Opacity")}</small>
               </label>
               <span>{opacity}%</span>
             </div>
@@ -481,13 +482,13 @@ function Properties() {
             <Button onClick={handleFlipHorizontal} variant={"outline"}>
               <FlipHorizontal />
               <Label>
-                <small className="d-flex">Flip H</small>
+                <small className="d-flex">{t("Flip H")}</small>
               </Label>
             </Button>
             <Button variant={"outline"} onClick={handleFlipVertical}>
               <FlipVertical />
               <Label>
-                <small className="d-flex">Flip V</small>
+                <small className="d-flex">{t("Flip V")}</small>
               </Label>
             </Button>
           </div>
@@ -495,13 +496,13 @@ function Properties() {
 
           {/* Arrangement */}
           <div className="pt-2 pb-2">
-            <h3 className="fs-6 fw-bold">Layer Position</h3>
+            <h3 className="fs-6 fw-bold">{t("Layer Position")}</h3>
             <div className="arrangement d-flex gap-2 pt-3">
               <Button onClick={handleBringToFront} variant={"outline"}>
                 <Label>
                   <small className="d-flex">
                     <MoveUp />
-                    Bring to front
+                    {t("Bring to front")}
                   </small>
                 </Label>
               </Button>
@@ -509,7 +510,7 @@ function Properties() {
                 <Label>
                   <small className="d-flex">
                     <MoveDown />
-                    Send to back
+                    {t("Send to back")}
                   </small>
                 </Label>
               </Button>
@@ -519,7 +520,7 @@ function Properties() {
 
           {/* Duplicate and delete */}
           <div className="pt-2 pb-2">
-            <h3 className="fs-6 fw-bold">Duplicate and Delete</h3>
+            <h3 className="fs-6 fw-bold">{t("Duplicate and Delete")}</h3>
             <div className="delete-update d-flex gap-2 pt-3">
               <Button
                 className={"duplicate"}
@@ -529,7 +530,7 @@ function Properties() {
                 <Label>
                   <small className="d-flex gap-2">
                     <Copy />
-                    Duplicate
+                    {t("Duplicate")}
                   </small>
                 </Label>
               </Button>
@@ -541,7 +542,7 @@ function Properties() {
                 <Label>
                   <small className="d-flex gap-2">
                     <Trash />
-                    Delete
+                    {t("Delete")}
                   </small>
                 </Label>
               </Button>
@@ -552,10 +553,10 @@ function Properties() {
           {/* Text related properties */}
           {objectType === "text" && (
             <div className="pt-2 pb-2">
-              <h3 className="fs-6 fw-bold">Text Properties</h3>
+              <h3 className="fs-6 fw-bold">{t("Text Properties")}</h3>
               <div className="d-flex flex-column gap-1 pt-2 pb-2">
                 <Label htmlFor="text-content">
-                  <small>Text Content</small>
+                  <small>{t("Text Content")}</small>
                 </Label>
                 <Textarea
                   id="text-content"
@@ -567,7 +568,7 @@ function Properties() {
               <div className="pt-2 pb-2">
                 <div className="d-flex flex-column gap-1">
                   <Label htmlFor="font-size">
-                    <small>Font Size</small>
+                    <small>{t("Font Size")}</small>
                   </Label>
                   <Input
                     id="font-size"
@@ -581,7 +582,7 @@ function Properties() {
               <div className="pt-2">
                 <div className="font-family d-flex flex-column gap-1 pb-2">
                   <label htmlFor="font-family" className="form-label">
-                    <small>Font family</small>
+                    <small>{t("Font family")}</small>
                   </label>
                   <select
                     id="font-family"
@@ -590,7 +591,7 @@ function Properties() {
                     onChange={(e) => handleFontFamilyChange(e.target.value)}
                   >
                     <option disabled value="">
-                      Select Font
+                      {t("Select Font")}
                     </option>
                     {fontFamilies.map((fontItem) => (
                       <option
@@ -607,7 +608,7 @@ function Properties() {
               <div className="pt-2">
                 <div className="d-flex flex-column gap-1 pb-2">
                   <Label>
-                    <small>Style</small>
+                    <small>{t("Style")}</small>
                   </Label>
                   <div className="styles d-flex gap-2">
                     <Button
@@ -641,7 +642,7 @@ function Properties() {
               <div className="textbg-color d-flex justify-content-between mt-2">
                 <div className="d-flex flex-column gap-1 pb-2">
                   <Label htmlFor="text-color">
-                    <small>Text Color</small>
+                    <small>{t("Text Color")}</small>
                   </Label>
                   <div className="text-color position-relative overflow-hidden rounded border">
                     <div
@@ -659,7 +660,7 @@ function Properties() {
                 </div>
                 <div className="d-flex flex-column gap-1 pb-2">
                   <Label htmlFor="text-bg-color">
-                    <small>Text BG Color</small>
+                    <small>{t("Text BG Color")}</small>
                   </Label>
                   <div className="bg-color position-relative overflow-hidden rounded border">
                     <div
@@ -679,7 +680,7 @@ function Properties() {
               <div className="mt-2">
                 <div className="d-flex justify-content-between">
                   <label htmlFor="letter-spacing">
-                    <small>Letter Spacing</small>
+                    <small>{t("Letter Spacing")}</small>
                   </label>
                   <small>{letterSpacing}</small>
                 </div>
@@ -701,11 +702,11 @@ function Properties() {
 
           {objectType === "shape" && (
             <div className="mt-2">
-              <h3 className="fs-6 fw-bold">Shape Properties</h3>
+              <h3 className="fs-6 fw-bold">{t("Shape Properties")}</h3>
               <div className="shape-properties d-flex justify-content-between">
                 <div className="d-flex flex-column gap-1 pb-2">
                   <Label htmlFor="fill-color">
-                    <small>Fill Color</small>
+                    <small>{t("Fill Color")}</small>
                   </Label>
                   <div className="fill-color position-relative overflow-hidden rounded border">
                     <div
@@ -744,7 +745,7 @@ function Properties() {
               <div className="mt-2">
                 <div className="d-flex justify-content-between mb-1">
                   <Label htmlFor="border-width">
-                    <small>Border Width</small>
+                    <small>{t("Border Width")}</small>
                   </Label>
                   <span>{borderWidth}</span>
                 </div>
@@ -765,7 +766,7 @@ function Properties() {
               <div className="mt-4">
                 <div className="border-style d-flex flex-column gap-1 pb-2">
                   <label htmlFor="border-style" className="form-label">
-                    <small>Border Style</small>
+                    <small>{t("Border Style")}</small>
                   </label>
                   <select
                     id="border-style"
@@ -773,9 +774,9 @@ function Properties() {
                     value={borderStyle}
                     onChange={(e) => handleBorderStyleChange(e.target.value)}
                   >
-                    <option value="solid">Solid</option>
-                    <option value="dashed">Dashed</option>
-                    <option value="dotted">Dotted</option>
+                    <option value="solid">{t("Solid")}</option>
+                    <option value="dashed">{t("Dashed")}</option>
+                    <option value="dotted">{t("Dotted")}</option>
                   </select>
                 </div>
               </div>
@@ -784,10 +785,10 @@ function Properties() {
 
           {objectType === "image" && (
             <div className="space-y-4 p-4 border-t">
-              <h3 className="text-sm font-medium">Image Properties</h3>
+              <h3 className="text-sm font-medium">{t("Image Properties")}</h3>
               <div className="space-y-2">
                 <label htmlFor="border-color" className="text-xs">
-                  Border Color
+                  {t("Border Color")}
                 </label>
                 <div className="relative w-8 h-8 overflow-hidden rounded-md border">
                   <div
@@ -806,7 +807,7 @@ function Properties() {
               <div className="space-y-2">
                 <div className="d-flex justify-content-between mb-1">
                   <label htmlFor="border-width" className="text-xs">
-                    Border Width
+                    {t("Border Width")}
                   </label>
                   <span>{borderWidth}%</span>
                 </div>
@@ -825,7 +826,7 @@ function Properties() {
               </div>
               <div className="mt-2">
                 <label htmlFor="border-style" className="form-label">
-                  <small>Border Style</small>
+                  <small>{t("Border Style")}</small>
                 </label>
                 <select
                   id="border-style"
@@ -833,14 +834,14 @@ function Properties() {
                   value={borderStyle}
                   onChange={(e) => handleBorderStyleChange(e.target.value)}
                 >
-                  <option value="solid">Solid</option>
-                  <option value="dashed">Dashed</option>
-                  <option value="dotted">Dotted</option>
+                  <option value="solid">{t("Solid")}</option>
+                  <option value="dashed">{t("Dashed")}</option>
+                  <option value="dotted">{t("Dotted")}</option>
                 </select>
               </div>
               <div className="space-y-2">
                 <label htmlFor="filter" className="text-xs">
-                  Filter
+                  {t("Filter")}
                 </label>
                 <select
                   id="filter"
@@ -848,18 +849,18 @@ function Properties() {
                   value={filter}
                   onChange={(e) => handleImageFilterChange(e.target.value)}
                 >
-                  <option value="none">None</option>
-                  <option value="grayscale">Grayscale</option>
-                  <option value="sepia">Sepia</option>
-                  <option value="invert">Invert</option>
-                  <option value="blur">Blur</option>
+                  <option value="none">{t("None")}</option>
+                  <option value="grayscale">{t("Grayscale")}</option>
+                  <option value="sepia">{t("Sepia")}</option>
+                  <option value="invert">{t("Invert")}</option>
+                  <option value="blur">{t("Blur")}</option>
                 </select>
               </div>
               {filter === "blur" && (
                 <div className="mt-2">
                   <div className="flex justify-between mb-4">
                     <label htmlFor="blur" className="text-xs">
-                      Blur Amount
+                      {t("Blur Amount")}
                     </label>
                     <span>{blur}%</span>
                   </div>
@@ -883,7 +884,7 @@ function Properties() {
               <h3 className="fs-6 fw-bold">Path Properties</h3>
               <div className="space-y-2">
                 <label htmlFor="border-color" className="form-label">
-                  <small>Border Color</small>
+                  <small>{t("Border Color")}</small>
                 </label>
                 <div className="path-border-color position-relative overflow-hidden rounded border">
                   <div
@@ -902,7 +903,7 @@ function Properties() {
               <div className="mt-3">
                 <div className="d-flex justify-content-between mb-1">
                   <label htmlFor="border-width" className="form-label">
-                    <small>Border Width</small>
+                    <small>{t("Border Width")}</small>
                   </label>
                   <span>{borderWidth}</span>
                 </div>
@@ -922,7 +923,7 @@ function Properties() {
               <div className="mt-4">
                 <div className="border-style d-flex flex-column gap-1 pb-2">
                   <label htmlFor="border-style" className="form-label">
-                    <small>Border Style</small>
+                    <small>{t("Border Style")}</small>
                   </label>
                   <select
                     id="border-style"
@@ -930,9 +931,9 @@ function Properties() {
                     value={borderStyle}
                     onChange={(e) => handleBorderStyleChange(e.target.value)}
                   >
-                    <option value="solid">Solid</option>
-                    <option value="dashed">Dashed</option>
-                    <option value="dotted">Dotted</option>
+                    <option value="solid">{t("Solid")}</option>
+                    <option value="dashed">{t("Dashed")}</option>
+                    <option value="dotted">{t("Dotted")}</option>
                   </select>
                 </div>
               </div>

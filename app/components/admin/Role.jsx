@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import CustomLink from "../CustomLink";
 import Loader from "../Loader";
+import { useTranslation } from "react-i18next";
 
 export default function Roles() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
@@ -18,6 +19,7 @@ export default function Roles() {
   const [updateUser, setUpdateUser] = useState(false);
   const [updateUserId, setUpdateUserId] = useState();
   const [loader, setLoader] = useState(false);
+  const { t } = useTranslation();
 
   const [userPermissions, setUserPermissions] = useState({
     read: false,
@@ -187,7 +189,7 @@ export default function Roles() {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h1>Role list</h1>
+                      <h1>{t("Role list")}</h1>
                     </div>
                   </div>
                 </div>
@@ -197,7 +199,7 @@ export default function Roles() {
                       <div className="form_group position-relative align-items-end">
                         {hasWritePermission() && (
                           <button className="button" onClick={handleNewUser}>
-                            Add Role
+                            {t("Add Role")}
                           </button>
                         )}
                       </div>
@@ -207,12 +209,12 @@ export default function Roles() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th>Menus & Permissions</th>
-                          <th>Read</th>
-                          <th>Write</th>
-                          <th>Both</th>
-                          {hasWritePermission() && <th>Action</th>}
+                          <th>{t("Name")}</th>
+                          <th>{t("Menus & Permissions")}</th>
+                          <th>{t("Read")}</th>
+                          <th>{t("Write")}</th>
+                          <th>{t("Both")}</th>
+                          {hasWritePermission() && <th>{t("Action")}</th>}
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -224,21 +226,21 @@ export default function Roles() {
                                   {idx === 0 && <td data-label="Name" className="checkbox" rowSpan={user.menu.length}>{user.name}</td>}
 
                                   <td className="checkbox" data-label="Menus & Permissions" >{menuItem.menuName}</td>
-                                  
+
                                   <td data-label="Read" className="checkbox border-1">
                                     <div className="form-check">
-                                    <input type="checkbox"   className="form-check-input"  checked={menuItem.read} readOnly />
-                                  </div>
+                                      <input type="checkbox" className="form-check-input" checked={menuItem.read} readOnly />
+                                    </div>
                                   </td>
                                   <td className="checkbox" data-label="Write">
                                     <div className="form-check">
-                                    <input type="checkbox"    className="form-check-input" checked={menuItem.write} readOnly />
-                                  </div>
+                                      <input type="checkbox" className="form-check-input" checked={menuItem.write} readOnly />
+                                    </div>
                                   </td>
                                   <td className="checkbox" data-label="Both">
                                     <div className="form-check">
-                                    <input type="checkbox"    className="form-check-input" checked={menuItem.both} readOnly />
-                                 </div>
+                                      <input type="checkbox" className="form-check-input" checked={menuItem.both} readOnly />
+                                    </div>
                                   </td>
 
                                   {hasWritePermission() && idx === 0 && (
@@ -267,7 +269,7 @@ export default function Roles() {
                               <tr key={user._id}>
                                 <td>{user.name}</td>
                                 <td colSpan="4" className="text-muted">
-                                  No permissions assigned
+                                  {t("No permissions assigned")}
                                 </td>
                                 {hasWritePermission() && (
                                   <td>
@@ -293,7 +295,7 @@ export default function Roles() {
                         {users.length === 0 && (
                           <tr>
                             <td colSpan="6" className="text-center">
-                              No role found
+                             {t("No role found")}
                             </td>
                           </tr>
                         )}

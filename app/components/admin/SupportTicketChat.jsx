@@ -2,11 +2,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
 
 const ChatHistory = ({ ticketId }) => {
-  
+  const { t } = useTranslation();
   const currentUser = localStorage.getItem("user");
   const [ticket, setTicket] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
@@ -94,11 +95,11 @@ const ChatHistory = ({ ticketId }) => {
     <>
       <div className="chat-container">
         <div className="chat">
-          <p className="title">Reply</p>
+          <p className="title">{t("Reply")}</p>
           <div className="box">
             <div className="type-messages gap-2 w-100">
               <div className="d-flex flex-column">
-                <span>Your message</span>
+                <span>{t("Your message")}</span>
 
                 <textarea
                   type="text"
@@ -110,7 +111,7 @@ const ChatHistory = ({ ticketId }) => {
 
                 <div className="upload-file mt-4 gap-4 d-flex">
                   <label htmlFor="file-upload" className="upload-text">
-                    <i className="fa-solid fa-file-arrow-up"></i> <span> Upload a file </span>
+                    <i className="fa-solid fa-file-arrow-up"></i> <span> {t("Upload a file")} </span>
                   </label>
                   <input type="file" id="file-upload" accept="image/*" onChange={handleFileChange} className="mt-4 d-none" />
                 </div>
@@ -119,7 +120,7 @@ const ChatHistory = ({ ticketId }) => {
                   onClick={sendChatMessage}
                   disabled={loading || !chatMessage.trim() && !imageFile}
                 >
-                  Reply
+                  {t("Reply")}
                 </button>
               </div>
               <div className="show-file mt-2">
@@ -136,7 +137,7 @@ const ChatHistory = ({ ticketId }) => {
         </div>
         <br />
         <div className="chat">
-          <p className="title">Support Ticket Chat</p>
+          <p className="title">{t("Support Ticket Chat")}</p>
 
           <div className="box">
             {ticket?.messages?.length ? (
@@ -203,7 +204,7 @@ const ChatHistory = ({ ticketId }) => {
                 </div>
               ))
             ) : (
-              <div>No messages yet.</div>
+              <div>{t("No messages yet.")}</div>
             )}
             <div ref={messagesEndRef} />
           </div>

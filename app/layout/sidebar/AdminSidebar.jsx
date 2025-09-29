@@ -167,13 +167,13 @@ const AdminSidebar = ({ locale }) => {
                     value="en"
                     checked={locale === "en" ? true : false}
                   >
-                    English
+                    {t("English")}
                   </option>
                   <option
                     value="ar"
                     checked={locale === "ar" ? true : false}
                   >
-                    Arabic
+                    {t("Arabic")}
                   </option>
                 </select>
               </div>
@@ -283,7 +283,7 @@ const AdminSidebar = ({ locale }) => {
                               href={`/admin/tickets`}
                             >
                               <i className="fa-solid fa-ticket"></i>
-                              Ticket
+                              {t("Ticket")}
                             </CustomLink>
                           </li>
                         )}
@@ -296,10 +296,10 @@ const AdminSidebar = ({ locale }) => {
                               href={`/admin/role`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
-                              Role
+                              {t("Role")}
                               {!hasWriteAccess("Roles") && (
                                 <small className="text-muted ms-1">
-                                  (Read Only)
+                                  ({t("Read Only")})
                                 </small>
                               )}
                             </CustomLink>
@@ -314,10 +314,10 @@ const AdminSidebar = ({ locale }) => {
                               href={`/admin/category`}
                             >
                               <i className="fa-solid fa-camera"></i>
-                              Category
+                              {t("Category")}
                               {!hasWriteAccess("Category") && (
                                 <small className="text-muted ms-1">
-                                  (Read Only)
+                                  ({t("Read Only")})
                                 </small>
                               )}
                             </CustomLink>
@@ -332,10 +332,10 @@ const AdminSidebar = ({ locale }) => {
                               href={`/admin/template`}
                             >
                               <i className="fas fa-file"></i>
-                              Template
+                              {t("Template")}
                               {!hasWriteAccess("Template") && (
                                 <small className="text-muted ms-1">
-                                  (Read Only)
+                                  ({t("Read Only")})
                                 </small>
                               )}
                             </CustomLink>
@@ -350,10 +350,10 @@ const AdminSidebar = ({ locale }) => {
                               href={`/admin/assets`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
-                              Assets
+                              {t("Assets")}
                               {!hasWriteAccess("Assets") && (
                                 <small className="text-muted ms-1">
-                                  (Read Only)
+                                  ({t("Read Only")})
                                 </small>
                               )}
                             </CustomLink>
@@ -370,7 +370,7 @@ const AdminSidebar = ({ locale }) => {
                               href={`/admin/notification`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
-                              Notification
+                              {t("Notification")}
                               {!hasWriteAccess("Notification") && (
                                 <small className="text-muted ms-1">
                                   (Read Only)
@@ -390,7 +390,7 @@ const AdminSidebar = ({ locale }) => {
                             }}
                           >
                             <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                            Log out
+                            {t("Log out")}
                           </button>
                         </li>
                       </ul>

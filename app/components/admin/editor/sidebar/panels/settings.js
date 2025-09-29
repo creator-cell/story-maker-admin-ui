@@ -14,10 +14,12 @@ import { centerCanvas } from "./../../../fabric/fabric-utils";
 import { useEditorStore } from "../../../../../redux/UserStore";
 import { Check, Palette } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function SettingsPanel() {
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const { canvas, markAsModified } = useEditorStore();
+  const { t } = useTranslation();
 
   const handleColorChange = (event) => {
     setBackgroundColor(event.target.value);
@@ -40,7 +42,7 @@ function SettingsPanel() {
     <div className="p-4">
       <div className="d-flex align-item-center gap-1">
         <Palette className="pellete-icon"/>
-        <h3 className="fs-6 fw-bold p-1">Choose Background Color</h3>
+        <h3 className="fs-6 fw-bold p-1">{t("Choose Background Color")}</h3>
       </div>
       <div className="mt-2">
         <div className="choose-color">
@@ -89,7 +91,7 @@ function SettingsPanel() {
         <hr></hr>
         <Separator className="my-3" />
         <Button className="apply-btn w-100 text-white border-0 rounded" onClick={handleApplyChanges}>
-          Apply Changes
+          {t("Apply Changes")}
         </Button>
       </div>
     </div>

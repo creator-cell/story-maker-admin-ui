@@ -4,8 +4,10 @@ import Loader from "../Loader";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
+import { useTranslation } from "react-i18next";
 
 export default function Notification() {
+    const { t } = useTranslation();
   const [message, setMessage] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -88,7 +90,7 @@ export default function Notification() {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h1>Notifications</h1>
+                      <h1>{t("Notifications")}</h1>
                     </div>
                   </div>
                 </div>
@@ -117,14 +119,14 @@ export default function Notification() {
                           title="Send By Email"
                           onClick={() => handleSend("mail")}
                         >
-                          Send by <i className="fa-solid fa-envelope"></i>
+                          {t("Send by")} <i className="fa-solid fa-envelope"></i>
                         </button>
                         <button
                           className="button"
                           title="Send By SMS"
                           onClick={() => handleSend("sms")}
                         >
-                          Send by <i className="fa-solid fa-comment-sms"></i>
+                          {t("Send by")} <i className="fa-solid fa-comment-sms"></i>
                         </button>
                       </div>
                     </div>
@@ -140,7 +142,7 @@ export default function Notification() {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">{t("Loading...")}</span>
                       </div>
                     </div>
                   )}
@@ -149,11 +151,11 @@ export default function Notification() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th className="cursor">Date</th>
-                          <th className="cursor"> Message</th>
-                          <th className="cursor">Send By</th>
-                          <th className="cursor">Type</th>
-                          <th className="cursor">Deliver Count</th>
+                          <th className="cursor">{t("Date")}</th>
+                          <th className="cursor"> {t("Message")}</th>
+                          <th className="cursor">{t("Send By")}</th>
+                          <th className="cursor">{t("Type")}</th>
+                          <th className="cursor">{t("Deliver Count")}</th>
                         </tr>
                       </thead>
                       <tbody className="table_body">
@@ -177,7 +179,7 @@ export default function Notification() {
                               colSpan={"4"}
                               className="text-center py-4"
                             >
-                              No notification found
+                              {t("No notification found")}
                             </td>
                           </tr>
                         )}
@@ -189,8 +191,8 @@ export default function Notification() {
                     <div className="pagination-container d-flex justify-content-between align-items-center flex-wrap">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          Page {currentPage + 1} of {totalPages}({totalItems}{" "}
-                          total items)
+                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}({totalItems}{" "}
+                          {t("total items")})
                         </small>
                       </div>
                       <ReactPaginate

@@ -1,10 +1,12 @@
 "use client";
 import axios from "axios";
 import { Modal, Container, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function DeleteAssets({ show, onHide, data, setLoader, props }) {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSETS;
+  const { t } = useTranslation();
 
   const handleAssetsDelete = async () => {
     setLoader(true);
@@ -44,25 +46,25 @@ export default function DeleteAssets({ show, onHide, data, setLoader, props }) {
     <>
       <Modal show={show} onHide={onHide} className="user_delete">
         <Modal.Header closeButton>
-          <Modal.Title>Delete Assets</Modal.Title>
+          <Modal.Title>{t("Delete Assets")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
             <Row>
               <div className="col-lg-12 col-md-12 col-12">
-                <p>Are you sure? You want to delete this assets?</p>
+                <p>{t("Are you sure? You want to delete this assets?")}</p>
                 <div className="btns">
                   <button
                     onClick={handleAssetsDelete}
                     className="button"
                   >
-                    Delete
+                    {t("Delete")}
                   </button>
                   <button
                     onClick={onHide}
                     className="button"
                   >
-                    Cancel
+                    {t("Cancel")}
                   </button>
                 </div>
               </div>

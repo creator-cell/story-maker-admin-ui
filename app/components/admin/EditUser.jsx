@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import Loader from "../Loader";
+import { useTranslation } from "react-i18next";
 
 export default function EditUser({ userId }) {
   const {
@@ -26,6 +27,7 @@ export default function EditUser({ userId }) {
   const [dob, setDob] = useState(null);
   const [roles, setRoles] = useState([]);
   const [loader, setLoader] = useState(false);
+  const { t } = useTranslation();
   const getUserDetails = async () => {
     try {
       const response = await axios({
@@ -117,7 +119,7 @@ export default function EditUser({ userId }) {
                 <div className="row">
                   <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="title_head">
-                      <h1>Edit User</h1>
+                      <h1>{t("Edit User")}</h1>
                     </div>
                   </div>
                 </div>
@@ -127,7 +129,7 @@ export default function EditUser({ userId }) {
                       <div className="col-lg-6 col-md-6 col-12">
                         <div className="form_group">
                           <label htmlFor="firstName">
-                            First Name <span className="text-danger"> *</span>
+                            {t("First Name")} <span className="text-danger"> *</span>
                           </label>
                           <input
                             type="text"
@@ -148,7 +150,7 @@ export default function EditUser({ userId }) {
                       <div className="col-lg-6 col-md-6 col-12">
                         <div className="form_group">
                           <label htmlFor="role">
-                            Role <span className="text-danger"> *</span>
+                            {t("Role")} <span className="text-danger"> *</span>
                           </label>
                           <select
                             className="form-control"
@@ -158,7 +160,7 @@ export default function EditUser({ userId }) {
                               required: "Role is required",
                             })}
                           >
-                            <option value="">Select a role</option>
+                            <option value="">{t("Select a role")}</option>
                             {roles.map((role) => (
                               <option key={role._id} value={role._id}>
                                 {role.name}
@@ -175,7 +177,7 @@ export default function EditUser({ userId }) {
                       <div className="col-lg-6 col-md-6 col-12">
                         <div className="form_group">
                           <label htmlFor="email">
-                            Email <span className="text-danger"> *</span>
+                            {t("Email")} <span className="text-danger"> *</span>
                           </label>
                           <input
                             type="email"
@@ -192,7 +194,7 @@ export default function EditUser({ userId }) {
 
                       <div className="col-lg-6 col-md-6 col-12 mb-3">
                         <div className="form_group">
-                          <label htmlFor="email">Mobile Number</label>
+                          <label htmlFor="email">{t("Mobile Number")}</label>
                           <input
                             type="text"
                             className="form-control"
@@ -206,7 +208,7 @@ export default function EditUser({ userId }) {
                       </div>
                       <div className="d-flex gap-3">
                         <button type="submit" className="button">
-                          Update User
+                         {t("Update User")}
                         </button>
                         <button
                           type="button"
@@ -216,7 +218,7 @@ export default function EditUser({ userId }) {
                             router.push("/admin/users");
                           }}
                         >
-                          Cancel
+                          {t("Cancel")}
                         </button>
                       </div>
                     </div>
