@@ -28,7 +28,7 @@ export const metadata = {
 
 export default async function RootLayout({ children, params }) {
   const { locale } = await params;
-  console.log(locale);
+
   const { resources } = await initTranslations(locale, i18nNamespaces);
 
   return (

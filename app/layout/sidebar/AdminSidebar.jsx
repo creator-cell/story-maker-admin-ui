@@ -15,13 +15,7 @@ const AdminSidebar = ({ locale }) => {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   console.log("locale", locale);
-  const [lang, setLang] = useState("");
-  // useEffect(() => {
-  //   const savedLang = localStorage.getItem("i18nextLng") || "en";
-  //   i18next.changeLanguage(savedLang);
-  //   setLang(savedLang);
-  // }, []);
-
+  const [lang, setLang] = useState(locale || "en");
   const handleNavigation = (path) => {
     if (path === "/") {
       router.push(path);
@@ -36,7 +30,6 @@ const AdminSidebar = ({ locale }) => {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
 
   useEffect(() => {
-    // Check if we should render the sidebar
     const isAdminRoute = pathname?.includes("/admin");
     const isAuthPage =
       pathname === "/login" ||
@@ -44,15 +37,12 @@ const AdminSidebar = ({ locale }) => {
       pathname === "/forgot-password";
     setShouldRender(!(isAuthPage || !isAdminRoute));
 
-    // Get role from localStorage in useEffect to avoid SSR issues
     const userRole = localStorage.getItem("role") || "";
     setRole(userRole);
     setActiveLink(pathname);
   }, [pathname]);
 
-  // Use useEffect to watch for pathname changes
   useEffect(() => {
-    // Update active link
     setActiveLink(pathname);
   }, [pathname]);
 
@@ -82,7 +72,6 @@ const AdminSidebar = ({ locale }) => {
     getUser();
   }, []);
 
-  // Function to check if user has access to a specific menu
   const hasMenuAccess = (menuName) => {
     if (!userRolePermissions?.menu) {
       return false;
@@ -114,34 +103,32 @@ const AdminSidebar = ({ locale }) => {
     return menuPermission.write || menuPermission.both;
   };
 
-  const changeLanguage = (lang) => {
-    console.log("selected lang", lang);
-    if (!pathname) return;
+  const handleChangeLanguage = (newLang) => {
+    setLang(newLang);
 
-    let parts = pathname.split("/").filter(Boolean); // remove empty items
+    const localePrefix = `/${locale}`;
 
-    // Replace first segment with the language
-    if (parts.length > 0) {
-      parts[0] = lang;
-    } else {
-      parts = [lang];
+    let basePath = pathname.startsWith(localePrefix)
+      ? pathname.substring(localePrefix.length)
+      : pathname;
+
+    if (basePath === "") {
+      basePath = "/";
     }
 
-    const newPath = "/" + parts.join("/");
+    let newPath = `/${newLang}${basePath}`;
+
+    newPath = newPath.replace(/\/\//g, "/");
+
     router.replace(newPath);
   };
-
   return (
     <>
       <div id="admin_header">
         <div className="container-fluid">
           <div className="row">
             <div className="logo-img col-7">
-              <img
-                className=""
-                src="/frontCloud.png"
-                alt="Raivaro Roaming"
-              />
+              <img className="" src="/frontCloud.png" alt="Raivaro Roaming" />
             </div>
             <div className="dark-mode col-5">
               <div className="toggle_theme">
@@ -161,19 +148,13 @@ const AdminSidebar = ({ locale }) => {
               <div className="">
                 <select
                   value={lang}
-                  onChange={(e) => changeLanguage(e.target.value)}
+                  onChange={(e) => handleChangeLanguage(e.target.value)}
                 >
-                  <option
-                    value="en"
-                    checked={locale === "en" ? true : false}
-                  >
-                    {t("English")}
+                  <option value="en" checked={lang === "en" ? true : false}>
+                    English
                   </option>
-                  <option
-                    value="ar"
-                    checked={locale === "ar" ? true : false}
-                  >
-                    {t("Arabic")}
+                  <option value="ar" checked={lang === "ar" ? true : false}>
+                    Arabic
                   </option>
                 </select>
               </div>
@@ -205,19 +186,6 @@ const AdminSidebar = ({ locale }) => {
             <nav className="navbar navbar-expand-xl">
               <div className="container-fluid h-100">
                 <div className="side_bar_content">
-                  {/* <div className="close-btn">
-                    <button
-                      className="btn justify-content-end w-100 my-2 d-lg-none"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#navbarSupportedContent"
-                      aria-controls="navbarSupportedContent"
-                      aria-expanded="false"
-                      aria-label="Close sidebar"
-                    >
-                      <i class="fa-solid fa-circle-xmark"></i>
-                    </button>
-                  </div> */}
                   <div className="d-flex flex-column w-100 h-100" id="">
                     <img
                       className="mx-auto d-grid"
@@ -227,46 +195,12 @@ const AdminSidebar = ({ locale }) => {
                     />
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
-                        {/* <li className="">
-                          <div className="toggle_theme">
-                            <input
-                              type="checkbox"
-                              id="toggle_checkbox"
-                              checked={theme === "dark"}
-                              onChange={(e) =>
-                                setTheme(e.target.checked ? "dark" : "light")
-                              }
-                            />
-                            <label htmlFor="toggle_checkbox">
-                              <div id="star"></div>
-                              <div id="moon"></div>
-                            </label>
-                          </div>
-                        </li>
-                        <li className="nav-item">
-                          <select
-                            value={lang}
-                            onChange={(e) => changeLanguage(e.target.value)}
-                          >
-                            <option
-                              value="en"
-                              checked={locale === "en" ? true : false}
-                            >
-                              English
-                            </option>
-                            <option
-                              value="ar"
-                              checked={locale === "ar" ? true : false}
-                            >
-                              Arabic
-                            </option>
-                          </select>
-                        </li> */}
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/users" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/users" ? "active" : ""
+                              }`}
                               href={`/admin/users`}
                             >
                               <i className="fa-solid fa-users"></i>
@@ -278,8 +212,9 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/tickets" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/tickets" ? "active" : ""
+                              }`}
                               href={`/admin/tickets`}
                             >
                               <i className="fa-solid fa-ticket"></i>
@@ -291,8 +226,9 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Roles") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/role" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/role" ? "active" : ""
+                              }`}
                               href={`/admin/role`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
@@ -309,8 +245,9 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Category") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/category" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/category" ? "active" : ""
+                              }`}
                               href={`/admin/category`}
                             >
                               <i className="fa-solid fa-camera"></i>
@@ -327,8 +264,9 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Template") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/template" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/template" ? "active" : ""
+                              }`}
                               href={`/admin/template`}
                             >
                               <i className="fas fa-file"></i>
@@ -345,8 +283,9 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Assets") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/assets" ? "active" : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/assets" ? "active" : ""
+                              }`}
                               href={`/admin/assets`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
@@ -363,10 +302,11 @@ const AdminSidebar = ({ locale }) => {
                         {hasMenuAccess("Notification") && (
                           <li className="nav-item">
                             <CustomLink
-                              className={`nav-link ${activeLink === "/admin/notification"
-                                ? "active"
-                                : ""
-                                }`}
+                              className={`nav-link ${
+                                activeLink === "/admin/notification"
+                                  ? "active"
+                                  : ""
+                              }`}
                               href={`/admin/notification`}
                             >
                               <i className="fa-solid fa-newspaper"></i>
