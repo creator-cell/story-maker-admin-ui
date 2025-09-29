@@ -137,7 +137,7 @@ export default function EditCategory({ userId }) {
                         className="form-control"
                         {...register("name")}
                       />
-                      <small className="text-muted">
+                      <small className="">
                         {t("The name is how it appears on your site.")}
                       </small>
                     </div>
@@ -150,7 +150,7 @@ export default function EditCategory({ userId }) {
                         className="form-control"
                         {...register("slug")}
                       />
-                      <small className="text-muted">
+                      <small className="">
                         {t("The “slug” is the URL-friendly version of the name.")}
                       </small>
                     </div>
@@ -170,7 +170,7 @@ export default function EditCategory({ userId }) {
                           </option>
                         ))}
                       </select>
-                      <small className="text-muted">
+                      <small className="">
                         {t("Categories can have a hierarchy. Totally optional.")}
                       </small>
                     </div>

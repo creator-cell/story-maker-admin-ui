@@ -98,7 +98,7 @@ const AddAssets = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h1>{("Add New Assets")}</h1>
+                    <h1>{t("Add New Assets")}</h1>
                   </div>
                 </div>
               </div>
@@ -119,7 +119,7 @@ const AddAssets = () => {
                           aria-describedby="helpId"
                           {...register("name", {
                             required: {
-                              message: "Name is required.",
+                              message: t("Name is required."),
                               value: true,
                             },
                           })}
@@ -143,7 +143,7 @@ const AddAssets = () => {
                           aria-describedby="helpId"
                           {...register("document", {
                             required: {
-                              message: "Document is require",
+                              message: t("Document is require"),
                               value: true,
                             },
                           })}
@@ -169,7 +169,7 @@ const AddAssets = () => {
                           aria-describedby="helpId"
                           {...register("type", {
                             required: {
-                              message: "Type is require",
+                              message: t("Type is require"),
                               value: true,
                             },
                           })}

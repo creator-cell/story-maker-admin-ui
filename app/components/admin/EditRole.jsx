@@ -243,9 +243,9 @@ export default function EditRole({ roleId }) {
                             className="form-control"
                             name="role-name"
                             id="role-name"
-                            placeholder="Enter role name"
+                            placeholder={t("Enter role name")}
                             {...register("name", {
-                              required: "Role name is required",
+                              required: t("Role name is required"),
                             })}
                           />
                           {errors.name && (
@@ -351,7 +351,7 @@ export default function EditRole({ roleId }) {
                       <div className="col-lg-12 col-md-12 col-12">
                         <input
                           type="submit"
-                          value="Update"
+                          value={t("Update")}
                           className="button"
                         />
                       </div>

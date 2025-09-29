@@ -290,7 +290,7 @@ export default function Users() {
                         <div className="form_group position-relative">
                           <input
                             type="text"
-                            placeholder="Search by name, email, or phone..."
+                            placeholder={t("Search by name, email, or phone...")}
                             className="form-control"
                             value={searchUser}
                             onChange={handleSearchInputChange}
@@ -306,7 +306,7 @@ export default function Users() {
                           onClick={handleSearch}
                           disabled={loading}
                         >
-                          {loading ? "Searching..." : "Search"}
+                          {loading ? "Searching..." : t("Search")}
                         </button>
 
                         {searchUser && (

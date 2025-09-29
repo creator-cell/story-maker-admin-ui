@@ -171,7 +171,6 @@ body {
   --Avenir-font-family: "Avenir LT 55 Roman";
   --Avenir-Bold-font-family: "Avenir LT 55 Roman Bold";
   --s: 2s;
-
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -204,6 +203,15 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --table-color: #ffffff;
+  --table-textcolor: #000;
+  --table-head: #808080;
+  --form-color: #ffffff;
+  --form-textcolor: #000;
+  --form-check: #ffffff;
+  --template-header: #2383AA;
+  --template-sidebar-hover: #e6e6e6;
+  --template-collapse-btn: #f5f5f5;
 }
 
 :root[data-bs-theme=dark] {
@@ -231,6 +239,15 @@ body {
   --badge_success: #00cd78;
   --badge_pending: #ffc107;
   --badge_failed: #dc3545;
+  --table-color: #343434;
+  --table-head: #343434;
+  --table-textcolor: #ffffff;
+  --form-textcolor: #ffffff;
+  --form-color: #343434;
+  --form-check: #000;
+  --template-header: #343434;
+  --template-sidebar-hover: #343434;
+  --template-collapse-btn: #343434;
 
   --color-success: #3db17d;
   --color-hover-success: #2e825d;
@@ -357,6 +374,10 @@ input,
 option,
 button {
   outline: none;
+}
+
+.form-check-input {
+  --bs-form-check-bg: var(--form-check) !important;
 }
 
 .form-check-input:checked {
@@ -3521,9 +3542,10 @@ h6 {
 }
 
 .admin_table .table-responsive table thead th {
-  background-color: #808080 !important;
+  background-color: var(--table-head) !important;
   color: var(--white) !important;
 }
+
 
 .admin_table .table-responsive table thead th,
 .admin_table .table-responsive table tbody tr td {
@@ -3532,7 +3554,8 @@ h6 {
   font-size: 14px;
   line-height: 1.2;
   vertical-align: middle;
-  color: var(--dark);
+  color: var(--table-textcolor);
+  background: var(--table-color);
 }
 
 .admin_table .table-responsive table tbody tr td img {
@@ -3624,17 +3647,18 @@ h6 {
   font-size: 14px;
   padding: 4px 10px;
   cursor: pointer;
-  color: var(--alpha);
+  color: var(--form-textcolor);
   font-weight: 500;
+  background-color: var(--form-color);
 }
 
 .admin_table .pagination li.active a {
-  background-color: var(--alpha);
-  color: var(--white);
+  background-color: var(--form-color);
+  color: var(--form-textcolor);
 }
 
 .admin_table .pagination li.disabled a {
-  background-color: #e9ecef;
+  background-color: var(--form-color);
   color: var(--black);
   cursor: not-allowed;
 }
@@ -3666,7 +3690,7 @@ h6 {
   display: block;
   font-size: 16px;
   font-weight: 600;
-  color: var(--dark);
+  color: var(--form-textcolor);
   margin-bottom: 6px;
 }
 
@@ -8794,7 +8818,7 @@ html {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #495057;
+  color: var(--form-textcolor);
 }
 
 .form-control {
@@ -10042,6 +10066,19 @@ html {
   width: 25px;
 }
 
+.comman_admin_layout .admin_form_panel {
+  background-color: var(--form-color);
+
+}
+
+.comman_admin_layout .admin_form_panel form .form-label {
+  color: var(--form-textcolor);
+}
+
+.comman_admin_layout .admin_form_panel form small {
+  color: var(--form-textcolor);
+}
+
 .comman_admin_layout .admin_form_panel form .doc-file {
   height: 50px;
   width: 40px;
@@ -10074,10 +10111,10 @@ html {
 
 .comman_admin_layout .admin_form_panel,
 .comman_admin_layout .admin_forms {
-  background: var(--white);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
   padding: 24px;
+  background-color: var(--form-color);
 }
 
 .comman_admin_layout .admin_form_panel button:hover,
@@ -10114,6 +10151,7 @@ html {
   display: flex;
   flex-direction: column;
   max-width: 100%;
+  background-color: var(--form-color);
 }
 
 
@@ -10207,14 +10245,14 @@ html {
 
 .chat-container .chat .title {
   border-bottom: 2px solid var(--gray);
-  background-color: var(--white);
+  background-color: var(--form-color);
   padding: 15px;
-  color: var(--dark);
+  color: var(--form-textcolor);
   margin-bottom: 0;
   line-height: 32px;
   font-weight: 500;
   font-size: 24px;
-  color: rgb(39, 47, 54);
+  /* color: rgb(39, 47, 54); */
 }
 
 
@@ -10239,14 +10277,14 @@ html {
 }
 
 .chat-container .chat .box .user-chat p .icon-name .name small {
-  color: var(--dark);
+  color: var(--form-textcolor);
   font-weight: 600;
   font-size: 13px;
 }
 
 .chat-container .chat .box .user-chat p .icon-name .name span {
   padding-top: 10px;
-  color: var(--dark);
+  color: var(--form-textcolor);
 }
 
 .chat-container .chat .box .user-chat p small {
@@ -10293,7 +10331,8 @@ html {
 }
 
 .chat-container .chat .box .type-messages {
-  color: var(--dark);
+  color: var(--form-textcolor);
+  background-color: var(--form-color);
   padding: 30px;
   font-size: 17px;
   font-weight: 600;
@@ -10502,14 +10541,15 @@ html {
 
 /* Header gradient background */
 .header-gradient {
-  background: #2383AA;
+  background: var(--template-header);
   opacity: 0.9;
+  border: 1px solid #d1d1d1;
 }
 
 /* Sidebar styles */
 .sidebar {
   width: 64px;
-  background-color: #f5f5f5;
+  background-color: var(--form-color);
   border-right: 1px solid #e6e6e6;
   height: 100%;
   display: flex;
@@ -10527,17 +10567,15 @@ html {
   justify-content: center;
   padding: 8px;
   position: relative;
-  color: #303030;
+  color: var(--form-textcolor);
   cursor: pointer;
 }
 
-.sidebar-item:hover {
-  background-color: #e6e6e6;
+.sidebar-item:hover,
+.sidebar-item.active {
+  background-color: var(--template-sidebar-hover);
 }
 
-.sidebar-item.active {
-  background-color: #e6e6e6;
-}
 
 .sidebar-item-icon {
   margin-bottom: 4px;
@@ -10551,7 +10589,7 @@ html {
 /* Secondary panel */
 .secondary-panel {
   height: 100%;
-  background-color: white;
+  background-color: var(--form-color);
   border-right: 1px solid #e6e6e6;
   position: relative;
   transition: width 0.3s ease, opacity 0.3s ease;
@@ -10570,6 +10608,7 @@ html {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #e6e6e6;
+  background-color: var(--form-color);
 }
 
 .back-button {
@@ -10581,13 +10620,13 @@ html {
   cursor: pointer;
   padding: 4px;
   margin-right: 8px;
-  color: #303030;
+  color: var(--form-textcolor);
 }
 
 .panel-title {
   font-size: 16px;
   font-weight: 500;
-  color: #303030;
+  color: var(--form-textcolor);
 }
 
 /* Search container */
@@ -10650,7 +10689,7 @@ html {
   transform: translateY(-50%);
   width: 24px;
   height: 24px;
-  background-color: white;
+  background-color: var(--form-color);
   border: 1px solid #e6e6e6;
   border-radius: 50%;
   display: flex;
@@ -10662,7 +10701,7 @@ html {
 }
 
 .collapse-button:hover {
-  background-color: #f5f5f5;
+  background-color: var(--template-collapse-btn);
 }
 
 /* Hover panel - keeping for compatibility with other files */
@@ -10802,13 +10841,20 @@ html {
 }
 
 .admin_table .table-responsive table .table_body tr .checkbox {
-  border: 1px solid;
+  border: 1px solid gray;
 }
+
+/* pagination css start  */
+.pagination-container .pagination-info small {
+  color: var(--form-textcolor);
+}
+
+/* pagination css end  */
 
 /* template css start  */
 .properties {
   z-index: 10;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--form-color);
   border-left: 1px solid rgb(229, 231, 235);
   width: 315px;
   position: absolute;
@@ -10816,6 +10862,7 @@ html {
   right: 10px;
   height: 100vh;
   overflow: auto;
+  color: var(--form-textcolor);
 }
 
 .properties .flip-h button {
@@ -10955,6 +11002,14 @@ html {
   background-color: #2383aa !important;
 }
 
+.inner_container .editor-main .secondary-panel .panel-content h3 {
+  color: var(--form-textcolor);
+}
+
+.inner_container .editor-main .secondary-panel .panel-content h4 small {
+  color: var(--form-textcolor);
+}
+
 .inner_container .editor-main .secondary-panel .panel-content .add-text-btn button:hover {
   opacity: 0.8;
 }
@@ -11016,6 +11071,13 @@ html {
 
 .modal-dialog .modal-content .modal-header {
   border-bottom: none;
+  background-color: var(--form-color);
+  color: var(--form-textcolor);
+}
+
+.modal-dialog .modal-content .modal-body {
+  background-color: var(--form-color);
+  color: var(--form-textcolor);
 }
 
 .modal-dialog .modal-content .modal-footer {
@@ -11113,6 +11175,22 @@ html {
 .inner_container .editor-main {
   height: 100vh;
   border: 1px solid #d1d1d1;
+}
+
+.editor-main .secondary-panel .panel-content .draw-button .color-pelet label {
+  color: var(--form-textcolor);
+}
+
+.editor-main .secondary-panel .panel-content .draw-button .brush label {
+  color: var(--form-textcolor);
+}
+
+.editor-main .secondary-panel .panel-content .draw-button .brush svg {
+  color: var(--form-textcolor);
+}
+
+.editor-main .secondary-panel .panel-content .draw-button .brush span {
+  color: var(--form-textcolor);
 }
 
 /* template css end  */
@@ -11269,7 +11347,9 @@ html {
 .ReactTags__tagInput {
   width: 100%;
 }
-
+.admin_table .table-responsive table .table_body tr td .badge{
+min-width: 100px;
+}
 /* badge end  */
 @media (max-width: 1366px) {
   .inner_container .design-box .canvas-container {
@@ -11520,10 +11600,27 @@ html {
   .comman_admin_layout .admin_forms form .role-table {
     font-size: small;
   }
-  #admin_header{
+
+  #admin_header {
     padding: 5px;
   }
-  .logo-img img{
+
+  .logo-img img {
     padding: 0;
   }
+}
+
+.role-table .menu-permissions-table .table-responsive table thead th {
+  background-color: var(--form-color);
+  color: var(--form-textcolor);
+}
+
+.role-table .menu-permissions-table .table-responsive table tbody td {
+  background-color: var(--form-color);
+  color: var(--form-textcolor);
+}
+
+.role-table small {
+  color: var(--form-textcolor) !important;
+
 }

@@ -59,7 +59,7 @@ const AddChatHistory = () => {
           className="form-control"
           value={chatMessage}
           onChange={(e) => setChatMessage(e.target.value)}
-          placeholder="Type a message..."
+          placeholder={t("Type a message...")}
         />
         <button
           className="button"

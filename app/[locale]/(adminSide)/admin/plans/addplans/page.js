@@ -1,13 +1,23 @@
 import AddAssets from "@/app/components/admin/AddAssets";
 import AddPlans from "@/app/components/admin/AddPlans";
+import TranslationProvider from "@/app/components/TranslationProvider";
+import initTranslations from "@/app/i18n";
 
-const page = () => {
+const i18nNamespaces = ["common"];
+const Page = async ({ params }) => {
+  const { locale } = await params;
+  console.log("params", locale);
+  const { t, resources } = await initTranslations(locale, i18nNamespaces);
 
     return (
-        <>
-            <AddPlans/>
-        </>
+        <TranslationProvider
+            locale={locale}
+            namespaces={i18nNamespaces}
+            resources={resources}
+        >
+            <AddPlans />
+        </TranslationProvider>
     );
 };
 
-export default page;
+export default Page;

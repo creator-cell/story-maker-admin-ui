@@ -210,10 +210,10 @@ const AddRole = () => {
                           className="form-control"
                           name="role-name"
                           id="role-name"
-                          placeholder="Enter role name"
+                          placeholder={t("Enter role name")}
                           value={watch("name") || ""}
                           {...register("name", {
-                            required: "Role name is required",
+                            required: t("Role name is required"),
                           })}
                         />
                         {errors.name && (
@@ -232,7 +232,7 @@ const AddRole = () => {
                         <div className="menu-permissions-table mt-3">
                           <div className="table-responsive">
                             <table className="table table-bordered">
-                              <thead className="table-light">
+                              <thead>
                                 <tr>
                                   <th>{t("Menu")}</th>
                                   <th className="text-center" >{t("Read")}</th>
@@ -318,7 +318,7 @@ const AddRole = () => {
                         className="button"
                         disabled={loader}
                       >
-                        {loader ? "Creating..." : "Create Role"}
+                        {loader ? "Creating..." : t("Create Role")}
                       </button>
                       <button
                         type="button"

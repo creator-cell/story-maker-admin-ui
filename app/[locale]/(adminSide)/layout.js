@@ -32,7 +32,7 @@ export default async function RootLayout({ children, params }) {
   const { resources } = await initTranslations(locale, i18nNamespaces);
 
   return (
-    <html lang="en">
+    <html lang="en" dir={locale === "ar" ? "rtl" : "ltr"}>
       <head>
         <link rel="icon" type="image/png" href="/images/fevicon.png" />
         <link

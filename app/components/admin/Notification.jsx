@@ -107,7 +107,7 @@ export default function Notification() {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Write your notification..."
+                            placeholder={t("Write your notification...")}
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                           />
@@ -190,7 +190,7 @@ export default function Notification() {
                   {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center flex-wrap">
                       <div className="pagination-info">
-                        <small className="text-muted">
+                        <small>
                           {t("Page")} {currentPage + 1} {t("of")} {totalPages}({totalItems}{" "}
                           {t("total items")})
                         </small>

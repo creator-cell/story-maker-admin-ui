@@ -237,7 +237,7 @@ export default function Template() {
                         <div className="form_group position-relative">
                           <input
                             type="text"
-                            placeholder="Search by name..."
+                            placeholder={t("Search by name...")}
                             className="form-control"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -252,7 +252,7 @@ export default function Template() {
                           onClick={() => getTemplates(1, search)}
                           disabled={loading}
                         >
-                          {loading ? "Searching..." : "Search"}
+                          {loading ? "Searching..." : t("Search")}
                         </button>
                         {search && (
                           <button

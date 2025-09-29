@@ -87,7 +87,7 @@ export default function Categories() {
                         <div className="form_group position-relative">
                           <input
                             type="text"
-                            placeholder="Search by user or status..."
+                            placeholder={t("Search by user or status...")}
                             className="form-control"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -104,7 +104,7 @@ export default function Categories() {
                           onClick={() => getCategories(1, search)}
                           disabled={loading}
                         >
-                          {loading ? "Searching..." : "Search"}
+                          {loading ? "Searching..." : t("Search")}
                         </button>
                         {search && (
                           <button

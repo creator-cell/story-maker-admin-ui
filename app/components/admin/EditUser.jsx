@@ -137,7 +137,7 @@ export default function EditUser({ userId }) {
                             id="firstName"
                             className="form-control"
                             {...register("firstName", {
-                              required: "First name is required",
+                              required: t("First name is required"),
                             })}
                           />
                           {errors.firstName && (
@@ -157,7 +157,7 @@ export default function EditUser({ userId }) {
                             name="role"
                             id="role"
                             {...register("role", {
-                              required: "Role is required",
+                              required: t("Role is required"),
                             })}
                           >
                             <option value="">{t("Select a role")}</option>

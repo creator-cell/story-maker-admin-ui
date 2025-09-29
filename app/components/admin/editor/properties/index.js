@@ -724,7 +724,7 @@ function Properties() {
                 </div>
                 <div className="d-flex flex-column gap-1 pb-2">
                   <Label htmlFor="border-color">
-                    <small>Border Color</small>
+                    <small>{t("Border Color")}</small>
                   </Label>
                   <div className="border-color position-relative overflow-hidden rounded border">
                     <div

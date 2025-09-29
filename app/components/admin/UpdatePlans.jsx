@@ -7,8 +7,10 @@ import Loader from "../../components/Loader";
 import { WithContext as ReactTags, SEPARATORS } from "react-tag-input";
 
 import { useParams, useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 const UpdatePlans = () => {
+    const { t } = useTranslation();
   const [loader, setLoader] = useState(false);
   const [roles, setRoles] = useState([]);
   const router = useRouter();
@@ -91,8 +93,8 @@ const UpdatePlans = () => {
         features:
           data?.features?.length > 0
             ? data?.features?.map((p) => {
-                return p.id;
-              })
+              return p.id;
+            })
             : [],
       }),
     })
@@ -107,8 +109,8 @@ const UpdatePlans = () => {
       .catch((err) => {
         toast(
           err?.response?.data?.errors?.[0]?.message ??
-            err?.response?.data?.message ??
-            "Failed to update plans",
+          err?.response?.data?.message ??
+          "Failed to update plans",
           {
             type: "error",
             theme: "light",
@@ -134,7 +136,7 @@ const UpdatePlans = () => {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h3>Update Plan</h3>
+                    <h1>{t("Update Plan")}</h1>
                   </div>
                 </div>
               </div>
@@ -145,7 +147,7 @@ const UpdatePlans = () => {
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="full-name">
-                          Name <span className="text-danger">*</span>
+                          {t("Name")} <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -155,7 +157,7 @@ const UpdatePlans = () => {
                           aria-describedby="helpId"
                           {...register("name", {
                             required: {
-                              message: "Name is required.",
+                              message: t("Name is required."),
                               value: true,
                             },
                           })}
@@ -169,7 +171,7 @@ const UpdatePlans = () => {
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="full-name">
-                          Title <span className="text-danger">*</span>
+                          {t("Title")} <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
@@ -179,7 +181,7 @@ const UpdatePlans = () => {
                           aria-describedby="helpId"
                           {...register("title", {
                             required: {
-                              message: "Document is require",
+                              message: t("Document is require"),
                               value: true,
                             },
                           })}
@@ -192,13 +194,13 @@ const UpdatePlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Description</label>
+                        <label htmlFor="full-name">{t("Description")}</label>
                         <textarea
                           className="form-control"
                           {...register("description", {
                             required: {
                               value: true,
-                              message: "Description is required",
+                              message: t("Description is required"),
                             },
                           })}
                         ></textarea>
@@ -212,12 +214,13 @@ const UpdatePlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Price</label>
+                        <label htmlFor="full-name">{t("Price")}</label>
                         <input
+                        className="form-control"
                           type="number"
                           name=""
                           id=""
-                          {...register("price", { required:{ value:true, message:"Price is required" }, min: { value:0, message: "Price is invalid" } })}/>
+                          {...register("price", { required: { value: true, message: t("Price is required") }, min: { value: 0, message: "Price is invalid" } })} />
                       </div>
                       {errors?.price ? (
                         <p className="text-danger">
@@ -229,19 +232,19 @@ const UpdatePlans = () => {
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="full-name">
-                          Duration <span className="text-danger">*</span>
+                          {t("Duration")} <span className="text-danger">*</span>
                         </label>
                         <Controller
                           control={control}
                           name="duration"
                           render={({ field: { onChange, value } }) => {
                             return (
-                              <select value={value} onChange={onChange}>
+                              <select className="form-control" value={value} onChange={onChange}>
                                 <option value="" selected>
-                                  Please select
+                                  {t("Please select")}
                                 </option>
-                                <option value="monthly">Monthly</option>
-                                <option value="yearly">Yearly</option>
+                                <option value="monthly">{t("Monthly")}</option>
+                                <option value="yearly">{t("Yearly")}</option>
                               </select>
                             );
                           }}
@@ -260,7 +263,7 @@ const UpdatePlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">Features</label>
+                        <label htmlFor="full-name">{t("Features")}</label>
                         <Controller
                           control={control}
                           name="features"
@@ -281,6 +284,9 @@ const UpdatePlans = () => {
                                   onChange([...value, tag]);
                                 }
                               }}
+                              classNames={{
+                                tagInputField: "form-control"
+                              }}
                             />
                           )}
                         />
@@ -294,15 +300,14 @@ const UpdatePlans = () => {
 
                     <div className="col-12 mt-3 d-flex gap-3">
                       <button type="submit" className="button">
-                        Submit
+                        {t("Submit")}
                       </button>
                       <button
                         type="button"
                         className="button"
-                        style={{ backgroundColor: "#6c757d" }}
-                        onClick={() => router.push("/admin/assets")}
+                        onClick={() => router.push("/admin/plans")}
                       >
-                        Cancel
+                        {t("Cancel")}
                       </button>
                     </div>
                   </div>
