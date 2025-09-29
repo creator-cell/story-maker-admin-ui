@@ -151,10 +151,10 @@ const AdminSidebar = ({ locale }) => {
                   onChange={(e) => handleChangeLanguage(e.target.value)}
                 >
                   <option value="en" checked={lang === "en" ? true : false}>
-                    English
+                    {t("English")}
                   </option>
                   <option value="ar" checked={lang === "ar" ? true : false}>
-                    Arabic
+                    {t("Arabic")}
                   </option>
                 </select>
               </div>
