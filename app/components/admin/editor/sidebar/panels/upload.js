@@ -129,7 +129,7 @@ function UploadPanel() {
           `}
           >
             <Upload />
-            <span>{isUploading ? "Uploading..." : "Upload Files"}</span>
+            <span>{isUploading ? "Uploading..." : t("Upload Files")}</span>
             <Input
               type="file"
               className="d-none"

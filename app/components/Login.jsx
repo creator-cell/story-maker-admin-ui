@@ -136,12 +136,12 @@ export default function Login() {
                             id="email"
                             type="email"
                             className="form-control"
-                            placeholder="Enter your email"
+                            placeholder={t("Enter your email")}
                             value={watch("email") || ""}
                             {...register("email", {
                               required: {
                                 value: true,
-                                message: "Email Address Required.",
+                                message: t("Email Address Required."),
                               },
                               pattern: {
                                 value:
@@ -166,12 +166,12 @@ export default function Login() {
                               id="password"
                               type={showPassword ? "text" : "password"}
                               className="form-control"
-                              placeholder="Enter your password"
+                              placeholder={t("Enter your password")}
                               value={watch("password") || ""}
                               {...register("password", {
                                 required: {
                                   value: true,
-                                  message: "Password Required",
+                                  message: t("Password Required"),
                                 },
                                 pattern: {
                                   value:
@@ -202,7 +202,7 @@ export default function Login() {
                         <div className="d-flex justify-content-center">
                           <input
                             type="submit"
-                            value="Log in"
+                            value={t("Log in")}
                             className="login-btn"
                           />
                         </div>

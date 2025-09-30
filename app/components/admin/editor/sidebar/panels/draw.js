@@ -130,7 +130,7 @@ function DrawingPanel() {
               </TabsList>
               <TabsContent value="colors">
                 <div className="mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="color-pelet d-flex justify-content-between align-items-center">
                     <Label>{t("Color Palette")}</Label>
                     <div
                       className="rounded border"
@@ -177,7 +177,7 @@ function DrawingPanel() {
                 </div>
               </TabsContent>
               <TabsContent value="brush" className={"mt-2"}>
-                <div className="">
+                <div className="brush">
                   <Label className={"block text-sm font-semibold"}>
                     {t("Brush Size")}
                   </Label>

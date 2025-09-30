@@ -129,7 +129,7 @@ export default function Tickets() {
                         <div className="form_group position-relative">
                           <input
                             type="text"
-                            placeholder="Search by user or status..."
+                            placeholder={t("Search by user or status...")}
                             className="form-control"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -146,7 +146,7 @@ export default function Tickets() {
                           onClick={() => getTickets(1, search)}
                           disabled={loading}
                         >
-                          {loading ? "Searching..." : "Search"}
+                          {loading ? "Searching..." : t("Search")}
                         </button>
                         {search && (
                           <button
@@ -238,8 +238,8 @@ export default function Tickets() {
                                   disabled={ticket.status === "Resolved"}
                                 >
                                   {ticket.status === "Resolved"
-                                    ? "Resolved"
-                                    : "Click to Resolve"}
+                                    ? t("Resolved")
+                                    : t("Click to Resolve")}
                                 </button>
                                 </div>
                               </td>

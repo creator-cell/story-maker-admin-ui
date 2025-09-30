@@ -42,7 +42,7 @@ function TextPanel() {
           <div className="mt-3 d-flex flex-column gap-3">
             {textPresets.map((preset, index) => (
               <button
-                className="w-100 p-3 d-flex bg-white border rounded"
+                className="w-100 p-3 d-flex border rounded"
                 key={index}
                 onClick={() => handleAddPresetText(preset)}
                 style={{

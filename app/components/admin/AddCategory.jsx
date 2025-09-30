@@ -117,7 +117,7 @@ const AddCategoryPage = () => {
                         className="form-control"
                         {...register("name")}
                       />
-                      <small className="text-muted">
+                      <small className="">
                         {t("The name is how it appears on your site.")}
                       </small>
                     </div>
@@ -130,7 +130,7 @@ const AddCategoryPage = () => {
                         className="form-control"
                         {...register("slug")}
                       />
-                      <small className="text-muted">
+                      <small className="">
                         {t("The “slug” is the URL-friendly version of the name.")}
                       </small>
                     </div>
@@ -151,7 +151,7 @@ const AddCategoryPage = () => {
                             </option>
                           ))}
                       </select>
-                      <small className="text-muted">
+                      <small className="">
                         {t("Categories can have a hierarchy. Totally optional.")}
                       </small>
                     </div>
