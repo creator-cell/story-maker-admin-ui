@@ -5,7 +5,6 @@ import TranslationProvider from "@/app/components/TranslationProvider";
 const i18nNamespaces = ["common"];
 const Page = async ({ params }) => {
   const { locale } = await params;
-  console.log("params", locale);
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
   return (
     <TranslationProvider

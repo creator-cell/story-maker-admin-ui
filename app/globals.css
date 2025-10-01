@@ -3118,7 +3118,7 @@ h6 {
   font-size: 14px;
 }
 
-.admin_action_delete {
+.admin_action_delete{
   border-radius: 5px;
   display: block;
   width: auto;
@@ -3127,10 +3127,10 @@ h6 {
   outline: none;
   border: 0;
   background: none;
-  /* background-color: darkred; */
-  color: var(--white);
+  color: var(--black);
   line-height: 1.2;
-  font-size: 14px;
+  font-size:16px;
+  font-weight:600;
 }
 
 .admin_action_edit {
@@ -3138,13 +3138,14 @@ h6 {
   border-radius: 5px;
   display: block;
   width: auto;
-  padding: 6px 0px;
+  padding: 6px 10px;
   text-decoration: none;
   outline: none;
   border: 0;
-  color: var(--white);
+  color: var(--black);
   line-height: 1.2;
-  font-size: 14px;
+  font-size:16px;
+  font-weight:600;
 }
 
 .admin_action_edit i {
@@ -3157,12 +3158,12 @@ h6 {
   font-size: 19px;
 }
 
-.admin_action_edit i:hover {
-  opacity: 0.6;
+.admin_action_edit:hover {
+  opacity: 0.8;
 }
 
-.admin_action_delete i:hover {
-  opacity: 0.6;
+.admin_action_delete:hover {
+  opacity: 0.8;
 }
 
 .admin_action_btn:hover,

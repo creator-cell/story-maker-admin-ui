@@ -419,7 +419,36 @@ export default function Users() {
 
                                 {hasWritePermission() && (
                                   <td data-label="Action">
-                                    <div className="d-flex justify-content-start align-items-center">
+                                    <div className="dropdown">
+                                      <button
+                                        className="border-0 bg-transparent"
+                                        type="button"
+                                        id={`dropdownMenuButton-${user._id}`}
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                      >
+                                        <i class="fa fa-ellipsis-vertical"></i>
+                                      </button>
+                                      <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${user._id}`}>
+                                        <li>
+                                          <button
+                                            className="admin_action_edit"
+                                            onClick={() => handleEditUser(user._id)}
+                                          >
+                                            <i className="fa-solid fa-pencil me-2"></i> Edit
+                                          </button>
+                                        </li>
+                                        <li>
+                                          <button
+                                            className="admin_action_delete"
+                                            onClick={() => handleUserDelete(user._id)}
+                                          >
+                                            <i className="fa fa-trash me-2"></i> Delete
+                                          </button>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                    {/* <div className="d-flex justify-content-start align-items-center">
                                       <button
                                         className="admin_action_edit"
                                         onClick={() => handleEditUser(user._id)}
@@ -433,8 +462,8 @@ export default function Users() {
                                         }
                                       >
                                         <i className="fa fa-trash"></i>
-                                      </button>
-                                    </div>
+                                      </button> 
+                                    </div>*/}
                                   </td>
                                 )}
                               </tr>
