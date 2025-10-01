@@ -397,7 +397,7 @@ export default function Users() {
                                       />
                                       <label
                                         className="form-check-label"
-                                        for="flexSwitchCheckChecked"
+                                        htmlFor="flexSwitchCheckChecked"
                                       >
                                        {t("Active")} 
                                       </label>

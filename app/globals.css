@@ -3218,6 +3218,8 @@ h6 {
   border-radius: 0;
 }
 
+#sidebar.sidebar_right{left:unset;right:0;}
+
 #sidebar .navbar {
   justify-content: flex-start;
   height: 100%;
@@ -3362,6 +3364,8 @@ h6 {
 }
 
 /* Sidebar End */
+
+.right_text #main_container {margin: 0 auto 0 0;}
 
 /* main_container */
 #main_container {
@@ -3907,7 +3911,7 @@ h6 {
   #main_container {
     width: 100%;
     padding: 20px 20px;
-    min-height: auto;
+    /* min-height: auto; */
   }
 
   #main_container .inner_container {
@@ -11351,6 +11355,17 @@ html {
 min-width: 100px;
 }
 /* badge end  */
+
+
+#languageswitcher{display: inline-block;}
+#languageswitcher .cust-check-group{display: flex;align-items: center;justify-content: flex-start;flex-wrap: wrap;gap: 10px;line-height: 1;background-color:transparent;padding: 9px 10px 6px;border-radius: 10px;}
+#languageswitcher .cust-check label {line-height: 1;cursor: pointer;}
+#languageswitcher .cust-check label:hover img{opacity: 1;}
+#languageswitcher .cust-check label img {width: 30px;height: 30px;border-radius: 50%;object-fit: cover;object-position: center;opacity: 0.5;}
+#languageswitcher .cust-check label input {position: absolute;display: none;color: var(--light);}
+#languageswitcher .cust-check label input + img{color: var(--light);}
+#languageswitcher .cust-check input:checked + img {opacity: 1;}
+
 @media (max-width: 1366px) {
   .inner_container .design-box .canvas-container {
     user-select: none !important;

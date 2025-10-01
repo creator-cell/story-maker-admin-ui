@@ -54,7 +54,7 @@ export default async function RootLayout({ children, params }) {
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable}`}
+        className={`${geistSans.variable} ${geistMono.variable} ${locale === "ar" ? "right_text" : ""}`}
         data-bs-theme="light"
       >
         <ThemeProvider attribute="data-bs-theme" defaultTheme="light">

@@ -8,13 +8,13 @@ import axios from "axios";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import Loader from "../../components/Loader";
 
 const AdminSidebar = ({ locale }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
-  console.log("locale", locale);
   const [lang, setLang] = useState(locale || "en");
   const handleNavigation = (path) => {
     if (path === "/") {
@@ -22,7 +22,7 @@ const AdminSidebar = ({ locale }) => {
       return;
     }
   };
-
+  const [loader, setLoader] = useState(false);
   const [role, setRole] = useState("");
   const [activeLink, setActiveLink] = useState("");
   const [shouldRender, setShouldRender] = useState(true);
@@ -105,25 +105,20 @@ const AdminSidebar = ({ locale }) => {
 
   const handleChangeLanguage = (newLang) => {
     setLang(newLang);
-
     const localePrefix = `/${locale}`;
-
-    let basePath = pathname.startsWith(localePrefix)
-      ? pathname.substring(localePrefix.length)
-      : pathname;
-
+    let basePath = pathname.startsWith(localePrefix) ? pathname.substring(localePrefix.length) : pathname;
     if (basePath === "") {
       basePath = "/";
     }
 
     let newPath = `/${newLang}${basePath}`;
-
     newPath = newPath.replace(/\/\//g, "/");
-
     router.replace(newPath);
+    setLoader(false);
   };
   return (
     <>
+      {loader && <Loader />}
       <div id="admin_header">
         <div className="container-fluid">
           <div className="row">
@@ -145,19 +140,39 @@ const AdminSidebar = ({ locale }) => {
                   <div id="moon"></div>
                 </label>
               </div>
-              <div className="">
-                <select
-                  value={lang}
-                  onChange={(e) => handleChangeLanguage(e.target.value)}
-                >
-                  <option value="en" checked={lang === "en" ? true : false}>
-                    {t("English")}
-                  </option>
-                  <option value="ar" checked={lang === "ar" ? true : false}>
-                    {t("Arabic")}
-                  </option>
-                </select>
+              <div id="languageswitcher">
+                <div className="cust-check-group">
+                  <div className="cust-check">
+                    <label className="form-check-label" htmlFor="English">
+                      <input className="form-check-input" type="radio" name="language" id="English" value="en"
+                        onChange={(t) => {setLoader(true); handleChangeLanguage(t.target.value)}}
+                        checked={lang === 'en' ? true : false}
+                      />
+                      <Image src="/flags/gb.svg" alt="english"  width={20} height={20} />
+                    </label>
+                  </div>
+                  <div className="cust-check">
+                    <label className="form-check-label" htmlFor="Arabic">
+                      <input className="form-check-input" type="radio" name="language" id="Arabic" value="ar"
+                        onChange={(t) => {setLoader(true); handleChangeLanguage(t.target.value)}}
+                        checked={lang === 'ar' ? true : false}
+                      />
+                      <Image src="/flags/ar.svg" alt="arabic" width={20} height={20} />
+                    </label>
+                  </div>
+                </div>
               </div>
+              {/* <select
+                value={lang}
+                onChange={(e) => handleChangeLanguage(e.target.value)}
+              >
+                <option value="en" checked={lang === "en" ? true : false}>
+                  <span>{t("English")}</span>
+                </option>
+                <option value="ar" checked={lang === "ar" ? true : false}>
+                  <span>{t("Arabic")}</span>
+                </option>
+              </select> */}
               <div className="toggle-btn">
                 <button
                   className="navbar-toggler admin_menuToggler d-lg-none"
@@ -182,7 +197,7 @@ const AdminSidebar = ({ locale }) => {
           className="toggle_sideBar collapse navbar-collapse"
           id="navbarSupportedContent"
         >
-          <div id="sidebar">
+          <div id="sidebar" className={lang === "ar" ? "sidebar_right" : ""}>
             <nav className="navbar navbar-expand-xl">
               <div className="container-fluid h-100">
                 <div className="side_bar_content">
