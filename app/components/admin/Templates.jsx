@@ -10,7 +10,7 @@ import { jsPDF } from "jspdf";
 import ApproveTemplate from "../../[locale]/(adminSide)/model/ApproveTemplate";
 import { useTranslation } from "react-i18next";
 export default function Template() {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -116,7 +116,7 @@ export default function Template() {
   };
 
   const handleTemplateSubmit = async () => {
-    
+
     try {
       setLoader(true);
       const responseData = await axios.post(
@@ -291,8 +291,6 @@ export default function Template() {
                       <thead>
                         <tr>
                           <th>{t("Name")}</th>
-                          {/* <th>Category</th>
-                          <th>Subcategory</th> */}
                           <th>{t("Status")}</th>
                           <th>{t("Action")}</th>
                         </tr>
@@ -302,51 +300,49 @@ export default function Template() {
                           templates.map((tpl) => (
                             <tr key={tpl._id}>
                               <td data-label="Name">{tpl.name}</td>
-                              {/* <td>{tpl.category?.name || "-"}</td>
-                              <td>{tpl.subCategory?.name || "-"}</td> */}
                               <td data-label="Status">
                                 <span
-                                  className={`badge ${
-                                    tpl.status === "approved"
+                                  className={`badge ${tpl.status === "approved"
                                       ? "bg-success"
                                       : "bg-warning"
-                                  }`}
+                                    }`}
                                 >
-                                  {tpl.status}
+                                  {tpl.status.charAt(0).toUpperCase() + tpl.status.slice(1)}
+
                                 </span>
                               </td>
                               <td data-label="Action">
-                                <div className="">
-                                <button
-                                  className="button mx-1 mb-2"
-                                  onClick={() => handleEdit(tpl._id)}
-                                >
-                                  {t("View/Edit")}
-                                </button>
-                                <button
-                                  className="button mx-1 mb-2"
-                                  onClick={() =>
-                                    handleClone(tpl._id, tpl.name, tpl.content)
-                                  }
-                                >
-                                  {t("Clone")}
-                                </button>
-                                <button
-                                  className="button mx-1 mb-2"
-                                  onClick={() => handleDelete(tpl._id)}
-                                >
-                                  {t("Delete/Reject")}
-                                </button>
-                                {currentUser.role.name === "Super Admin" &&
-                                  tpl.status === "pending" && (
-                                    <button
-                                      className="button mx-1 mb-2"
-                                      onClick={() => handleApprove(tpl._id)}
-                                    >
-                                      {t("Approve")}
-                                    </button>
-                                  )}
-                                  </div>
+                                <div className="template-button">
+                                  <button
+                                    className="button mx-1 mb-2"
+                                    onClick={() => handleEdit(tpl._id)}
+                                  >
+                                    {t("View/Edit")}
+                                  </button>
+                                  <button
+                                    className="button mx-1 mb-2"
+                                    onClick={() =>
+                                      handleClone(tpl._id, tpl.name, tpl.content)
+                                    }
+                                  >
+                                    {t("Clone")}
+                                  </button>
+                                  <button
+                                    className="button mx-1 mb-2"
+                                    onClick={() => handleDelete(tpl._id)}
+                                  >
+                                    {t("Delete/Reject")}
+                                  </button>
+                                  {currentUser.role.name === "Super Admin" &&
+                                    tpl.status === "pending" && (
+                                      <button
+                                        className="button mx-1 mb-2"
+                                        onClick={() => handleApprove(tpl._id)}
+                                      >
+                                        {t("Approve")}
+                                      </button>
+                                    )}
+                                </div>
                               </td>
                             </tr>
                           ))}

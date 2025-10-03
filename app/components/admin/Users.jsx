@@ -427,7 +427,7 @@ export default function Users() {
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
                                       >
-                                        <i class="fa fa-ellipsis-vertical"></i>
+                                        <i class="fa fa-ellipsis"></i>
                                       </button>
                                       <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${user._id}`}>
                                         <li>

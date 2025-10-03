@@ -245,21 +245,34 @@ export default function Roles() {
 
                                   {hasWritePermission() && idx === 0 && (
                                     <td rowSpan={user.menu.length} data-label="Action">
-                                      <div className="d-flex justify-content-start align-items-center gap-2">
+                                      <div className="dropdown">
                                         <button
-                                          className="admin_action_edit"
-                                          onClick={() => handleUserUpdate(user._id)}
+                                          className="border-0 bg-transparent"
+                                          type="button"
+                                          id={`dropdownMenuButton-${user._id}`}
+                                          data-bs-toggle="dropdown"
+                                          aria-expanded="false"
                                         >
-                                          <i className="fa fa-edit"></i>
+                                          <i class="fa fa-ellipsis"></i>
                                         </button>
-                                        {!user?.isSuperAdmin ? (
-                                          <button
-                                            className="admin_action_delete"
-                                            onClick={() => handleUserDelete(user._id)}
+                                        <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${user._id}`}>
+                                          <li><button
+                                            className="admin_action_edit"
+                                            onClick={() => handleUserUpdate(user._id)}
                                           >
-                                            <i className="fa fa-trash"></i>
-                                          </button>
-                                        ) : null}
+                                            <i className="fa fa-edit me-2"></i>Edit
+                                          </button></li>
+                                          <li> {!user?.isSuperAdmin ? (
+                                            <button
+                                              className="admin_action_delete"
+                                              onClick={() => handleUserDelete(user._id)}
+                                            >
+                                              <i className="fa fa-trash me-2"></i>Delete
+                                            </button>
+                                          ) : null}</li>
+                                        </ul>
+
+
                                       </div>
                                     </td>
                                   )}
@@ -295,7 +308,7 @@ export default function Roles() {
                         {users.length === 0 && (
                           <tr>
                             <td colSpan="6" className="text-center">
-                             {t("No role found")}
+                              {t("No role found")}
                             </td>
                           </tr>
                         )}

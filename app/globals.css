@@ -212,6 +212,7 @@ body {
   --template-header: #2383AA;
   --template-sidebar-hover: #e6e6e6;
   --template-collapse-btn: #f5f5f5;
+  --table-border: #808080;
 }
 
 :root[data-bs-theme=dark] {
@@ -290,6 +291,7 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --table-border: #fff;
 }
 
 
@@ -3118,7 +3120,7 @@ h6 {
   font-size: 14px;
 }
 
-.admin_action_delete{
+.admin_action_delete {
   border-radius: 5px;
   display: block;
   width: auto;
@@ -3129,8 +3131,8 @@ h6 {
   background: none;
   color: var(--black);
   line-height: 1.2;
-  font-size:16px;
-  font-weight:600;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .admin_action_edit {
@@ -3144,8 +3146,8 @@ h6 {
   border: 0;
   color: var(--black);
   line-height: 1.2;
-  font-size:16px;
-  font-weight:600;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .admin_action_edit i {
@@ -3219,7 +3221,10 @@ h6 {
   border-radius: 0;
 }
 
-#sidebar.sidebar_right{left:unset;right:0;}
+#sidebar.sidebar_right {
+  left: unset;
+  right: 0;
+}
 
 #sidebar .navbar {
   justify-content: flex-start;
@@ -3366,7 +3371,9 @@ h6 {
 
 /* Sidebar End */
 
-.right_text #main_container {margin: 0 auto 0 0;}
+.right_text #main_container {
+  margin: 0 auto 0 0;
+}
 
 /* main_container */
 #main_container {
@@ -3538,7 +3545,7 @@ h6 {
 .admin_table .table-responsive table {
   margin: 0;
   padding: 0;
-  border: 1px solid #808080 !important;
+  border: 1px solid var(--table-border) !important;
 }
 
 .admin_table .table-responsive table thead {
@@ -3554,13 +3561,17 @@ h6 {
 
 .admin_table .table-responsive table thead th,
 .admin_table .table-responsive table tbody tr td {
-  border-bottom: 1px solid #808080 !important;
+  border-bottom: 1px solid var(--table-border) !important;
   padding: 6px 6px;
   font-size: 14px;
   line-height: 1.2;
   vertical-align: middle;
   color: var(--table-textcolor);
   background: var(--table-color);
+}
+.admin_table .table-responsive table .table_body tr td .dropdown .dropdown-menu{
+  background-color: var(--form-color);
+  border: 1px solid var(--table-border);
 }
 
 .admin_table .table-responsive table tbody tr td img {
@@ -3572,6 +3583,7 @@ h6 {
 
 .toggle-btn button span {
   color: white;
+  display: contents;
 }
 
 .admin_table .table-responsive table .toggle {
@@ -3867,7 +3879,7 @@ h6 {
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    border: 1px solid #00967d !important;
+    border: 1px solid var(--table-border) !important;
     margin-bottom: 10px;
     background-color: #fffafa;
   }
@@ -10846,7 +10858,7 @@ html {
 }
 
 .admin_table .table-responsive table .table_body tr .checkbox {
-  border: 1px solid gray;
+  border: 1px solid var(--table-border);
 }
 
 /* pagination css start  */
@@ -11352,20 +11364,62 @@ html {
 .ReactTags__tagInput {
   width: 100%;
 }
-.admin_table .table-responsive table .table_body tr td .badge{
-min-width: 100px;
+
+.admin_table .table-responsive table .table_body tr td .badge {
+  min-width: 100px;
+  font-size: 16px;
 }
+
 /* badge end  */
 
 
-#languageswitcher{display: inline-block;}
-#languageswitcher .cust-check-group{display: flex;align-items: center;justify-content: flex-start;flex-wrap: wrap;gap: 10px;line-height: 1;background-color:transparent;padding: 9px 10px 6px;border-radius: 10px;}
-#languageswitcher .cust-check label {line-height: 1;cursor: pointer;}
-#languageswitcher .cust-check label:hover img{opacity: 1;}
-#languageswitcher .cust-check label img {width: 30px;height: 30px;border-radius: 50%;object-fit: cover;object-position: center;opacity: 0.5;}
-#languageswitcher .cust-check label input {position: absolute;display: none;color: var(--light);}
-#languageswitcher .cust-check label input + img{color: var(--light);}
-#languageswitcher .cust-check input:checked + img {opacity: 1;}
+#languageswitcher {
+  display: inline-block;
+}
+
+#languageswitcher .cust-check-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  line-height: 1;
+  background-color: transparent;
+  padding: 9px 10px 6px;
+  border-radius: 10px;
+}
+
+#languageswitcher .cust-check label {
+  line-height: 1;
+  cursor: pointer;
+}
+
+#languageswitcher .cust-check label:hover img {
+  opacity: 1;
+}
+
+#languageswitcher .cust-check label img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.5;
+}
+
+#languageswitcher .cust-check label input {
+  position: absolute;
+  display: none;
+  color: var(--light);
+}
+
+#languageswitcher .cust-check label input+img {
+  color: var(--light);
+}
+
+#languageswitcher .cust-check input:checked+img {
+  opacity: 1;
+}
 
 @media (max-width: 1366px) {
   .inner_container .design-box .canvas-container {
@@ -11534,6 +11588,13 @@ min-width: 100px;
     justify-content: start !important;
     flex-wrap: wrap;
   }
+
+  .admin_table .table-responsive table .table_body tr td .template-button{
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 3;
+  }
 }
 
 @media (max-width: 480px) {
@@ -11598,11 +11659,11 @@ min-width: 100px;
 
   .admin_table .table-responsive table tbody tr td {
     vertical-align: middle;
-    color: var(--dark);
+    color: var(--table-textcolor);
     padding: 6px;
     font-size: 12px !important;
     line-height: 1.2;
-    border-bottom: 1px solid gray !important;
+    border-bottom: 1px solid var(--table-border) !important;
   }
 
   .comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
@@ -11629,6 +11690,11 @@ min-width: 100px;
 .role-table .menu-permissions-table .table-responsive table thead th {
   background-color: var(--form-color);
   color: var(--form-textcolor);
+}
+
+.role-table .menu-permissions-table .table-responsive table tbody tr,
+.role-table .menu-permissions-table .table-responsive table thead tr {
+  border: 1px solid var(--table-border);
 }
 
 .role-table .menu-permissions-table .table-responsive table tbody td {
