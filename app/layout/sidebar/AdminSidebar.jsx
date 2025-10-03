@@ -125,7 +125,7 @@ const AdminSidebar = ({ locale }) => {
             <div className="logo-img col-7">
               <img className="" src="/frontCloud.png" alt="Raivaro Roaming" />
             </div>
-            <div className="dark-mode col-5">
+            <div className="dark-mode d-flex gap-2 col-5">
               <div className="toggle_theme">
                 <input
                   type="checkbox"

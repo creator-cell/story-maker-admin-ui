@@ -22,7 +22,7 @@ export default function Categories() {
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const { t } = useTranslation();
-  
+
 
   const getCategories = async (page = 1, searchTerm = "") => {
     setLoader(true);
@@ -147,24 +147,34 @@ export default function Categories() {
                               <td data-label="Category name">{category.name}</td>
                               <td data-label="Category description">{category.description}</td>
                               <td data-label="Action">
-                                <div className="d-flex justify-content-start align-items-center gap-2">
+                                <div className="dropdown">
                                   <button
-                                    className={`admin_action_edit`}
-                                    onClick={() =>
-                                      handleEditCategory(category._id)
-                                    }
+                                    className="border-0 bg-transparent"
+                                    type="button"
+                                    id={`dropdownMenuButton-${category._id}`}
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
                                   >
-                                    <i className="fa-solid fa-pencil"></i>
+                                    <i class="fa fa-ellipsis"></i>
                                   </button>
-
-                                  <button
-                                    className={`admin_action_delete`}
-                                    onClick={() =>
-                                      handleDeleteCategory(category._id)
-                                    }
-                                  >
-                                    <i className="fa fa-trash"></i>
-                                  </button>
+                                  <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${category._id}`}>
+                                    <li>   <button
+                                      className={`admin_action_edit`}
+                                      onClick={() =>
+                                        handleEditCategory(category._id)
+                                      }
+                                    >
+                                      <i className="fa-solid fa-pencil me-2"></i> Edit
+                                    </button></li>
+                                    <li>    <button
+                                      className={`admin_action_delete`}
+                                      onClick={() =>
+                                        handleDeleteCategory(category._id)
+                                      }
+                                    >
+                                      <i className="fa fa-trash me-2"></i> Delete
+                                    </button></li>
+                                  </ul>
                                 </div>
                               </td>
                             </tr>

@@ -229,7 +229,7 @@ const PlansManage = () => {
                               <td data-label="Price">{plan?.price ? parseFloat(plan?.price).toFixed(2) : ""}</td>
                               <td data-label="Duration">{plan?.duration ? <span class="badge bg-success text-light m-1">{plan?.duration}</span> : ""}</td>
                               <td data-label="Features">
-                                <div class="flex flex-wrap gap-3">
+                                <div className="d-flex flex-wrap gap-3 justify-content-end">
                                   {plan?.features?.map(p => (
                                     <span class="badge bg-Secondary text-light m-1">{p}</span>
                                   ))}
@@ -239,19 +239,30 @@ const PlansManage = () => {
 
                               {hasWritePermission() && (
                                 <td data-label="Action">
-                                  <div className="d-flex justify-content-start align-items-center gap-2">
+                                  <div className="dropdown">
                                     <button
+                                      className="border-0 bg-transparent"
+                                      type="button"
+                                      id={`dropdownMenuButton-${plan._id}`}
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false"
+                                    >
+                                      <i class="fa fa-ellipsis"></i>
+                                    </button>
+                                    <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${plan._id}`}>
+                                      <li> <button
                                       className="admin_action_edit"
                                       onClick={() => handleEditPlans(plan._id)}
                                     >
-                                      <i className="fa fa-edit"></i>
-                                    </button>
-                                    <button
+                                      <i className="fa fa-edit me-2"></i> Edit
+                                    </button></li>
+                                      <li><button
                                       className="admin_action_delete"
                                       onClick={() => handlePlanDelete(plan._id)}
                                     >
-                                      <i className="fa fa-trash"></i>
-                                    </button>
+                                      <i className="fa fa-trash me-2"></i> Delete
+                                    </button></li>
+                                    </ul>
                                   </div>
                                 </td>
                               )}

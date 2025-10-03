@@ -401,15 +401,15 @@ const AssetsManage = () => {
                                   {asset?.description}
                                 </td>
                                 <td data-label="Tags">
-                                  <div className="d-flex flex-wrap gap-3">
+                                  <div className="d-flex flex-wrap gap-3 justify-content-end">
                                     {asset?.tags?.map((p) => (
                                       <span className="badge text-white m-1">
-                                        {p}
+                                        {p.charAt(0).toUpperCase() + p.slice(1)}
                                       </span>
                                     ))}
                                   </div>
                                 </td>
-                                <td data-label="Status" >
+                                <td data-label="Status">
                                   {hasWritePermission() ? (
                                     <FormSelect
                                       className="status-dropdown"
@@ -454,34 +454,45 @@ const AssetsManage = () => {
 
                                 {hasWritePermission() && (
                                   <td data-label="Action">
-                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                    <div className="dropdown">
                                       <button
-                                        className="admin_action_edit"
-                                        onClick={() =>
-                                          handleEditAssets(asset._id)
-                                        }
-                                        title="Edit Asset"
+                                        className="border-0 bg-transparent"
+                                        type="button"
+                                        id={`dropdownMenuButton-${asset._id}`}
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
                                       >
-                                        <i className="fa fa-edit"></i>
+                                        <i class="fa fa-ellipsis"></i>
                                       </button>
-                                      <button
-                                        className="admin_action_edit"
-                                        onClick={() =>
-                                          handleCloneAssets(asset._id)
-                                        }
-                                        title="Clone Asset"
-                                      >
-                                        <i className="fa fa-clone"></i>
-                                      </button>
-                                      <button
-                                        className="admin_action_delete"
-                                        onClick={() =>
-                                          handleAssetDelete(asset._id)
-                                        }
-                                        title="Delete User"
-                                      >
-                                        <i className="fa fa-trash"></i>
-                                      </button>
+                                      <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${asset._id}`}>
+                                        <li>   <button
+                                          className="admin_action_edit"
+                                          onClick={() =>
+                                            handleEditAssets(asset._id)
+                                          }
+                                          title="Edit Asset"
+                                        >
+                                          <i className="fa fa-edit me-2"></i> Edit
+                                        </button></li>
+                                        <li>  <button
+                                          className="admin_action_edit"
+                                          onClick={() =>
+                                            handleCloneAssets(asset._id)
+                                          }
+                                          title="Clone Asset"
+                                        >
+                                          <i className="fa fa-clone me-2"></i> Clone
+                                        </button></li>
+                                        <li> <button
+                                          className="admin_action_delete"
+                                          onClick={() =>
+                                            handleAssetDelete(asset._id)
+                                          }
+                                          title="Delete User"
+                                        >
+                                          <i className="fa fa-trash me-2"></i> Delete
+                                        </button></li>
+                                      </ul>
                                     </div>
                                   </td>
                                 )}
