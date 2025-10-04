@@ -11706,3 +11706,12 @@ html {
   color: var(--form-textcolor) !important;
 
 }
+/* data table  */
+.rdt_TableCol_Sortable span {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.sc-ggWZvA{
+  background-color: var(--form-color);
+  color: var(--form-textcolor);
+}
