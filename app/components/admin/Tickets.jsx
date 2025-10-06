@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
+import DataTable from 'react-data-table-component';
+
 export default function Tickets() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
   const [tickets, setTickets] = useState([]);
@@ -106,6 +108,101 @@ export default function Tickets() {
     setLoader(true);
     router.push(`/admin/tickets/add`);
   };
+  const columns = [
+    {
+      name: t('User'),
+      selector: row => row.userId.name,
+      wrap: true,
+      width: "150px",
+    },
+    {
+      name: t('Status'),
+      selector: row => row.status,
+      width: "100px",
+    },
+    {
+      name: t('Moderator'),
+      cell: row => (
+        <select
+          value={row?.moderator?._id || ""}
+          onChange={(e) =>
+            handleAssignModerator(
+              row._id,
+              e.target.value
+            )
+          }
+        >
+          <option value="">{t("Assign Moderator")}</option>
+          {moderator &&
+            moderator.map((item) => (
+              <option value={item._id}>
+                {item.name}
+              </option>
+            ))}
+        </select>
+      ),
+      minWidth: "160px",
+      wrap: true,
+    },
+    {
+      name: t('Last Message'),
+      cell: row => (
+        <div>
+          {row.messages?.length
+            ? row.messages[row.messages.length - 1]
+              .message
+            : ""}
+        </div>
+      ),
+      grow: 2,
+      wrap: true,
+    },
+    {
+      name: t('Action'),
+      cell: row => (
+        <div className="d-flex" data-label="Action">
+          <div className="dropdown">
+            <button
+              className="border-0 bg-transparent"
+              type="button"
+              id={`ticketDropdownButton-${row._id}`}
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i className="fa fa-ellipsis"></i>
+            </button>
+            <ul className="dropdown-menu" aria-labelledby={`ticketDropdownButton-${row._id}`}>
+              <li>
+                <button
+                  className="admin_action_edit dropdown-item d-flex align-items-center gap-2 "
+                  onClick={() => handleUserUpdate(row._id)}
+                  disabled={row.status === "Resolved"}
+                >
+                  <div className="eye-icon"><i className="fa-solid fa-eye"></i></div>
+                 <span> {t("View")}</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`admin_action_resolve dropdown-item d-flex align-items-center gap-2 `}
+                  onClick={() => handleResolve(row._id)}
+                  disabled={row.status === "Resolved"}
+                >
+                  <i className="fa-solid fa-check"></i>
+                  <span>
+                    {row.status === "Resolved"
+                      ? t("Resolved")
+                      : t("Click to Resolve")}
+                  </span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      ),
+      width: "100px",
+    },
+  ]
 
   return (
     <>
@@ -175,7 +272,12 @@ export default function Tickets() {
                     </div>
                   )}
                   <div className="table-responsive">
-                    <table className="table">
+                    <DataTable
+                      columns={columns}
+                      data={tickets}
+                      responsive
+                    />
+                    {/* <table className="table">
                       <thead>
                         <tr>
                           <th>{t("User")}</th>
@@ -217,30 +319,30 @@ export default function Tickets() {
                                   : ""}
                               </td>
                               <td data-label="Action">
-                                 <div className="d-flex justify-content-start align-items-center">
-                                <button
-                                  className={`resolvebtn button mx-1 ${ticket.status === "Resolved"
+                                <div className="d-flex justify-content-start align-items-center">
+                                  <button
+                                    className={`resolvebtn button mx-1 ${ticket.status === "Resolved"
                                       ? "btn-resolved"
                                       : "btn-resolve"
-                                    }`}
-                                  onClick={() => handleUserUpdate(ticket._id)}
-                                  disabled={ticket.status === "Resolved"}
-                                >
-                                  {t("View")}
-                                </button>
+                                      }`}
+                                    onClick={() => handleUserUpdate(ticket._id)}
+                                    disabled={ticket.status === "Resolved"}
+                                  >
+                                    {t("View")}
+                                  </button>
 
-                                <button
-                                  className={`click-to-resolve button ${ticket.status === "Resolved"
+                                  <button
+                                    className={`click-to-resolve button ${ticket.status === "Resolved"
                                       ? "btn-resolved"
                                       : "btn-resolve"
-                                    }`}
-                                  onClick={() => handleResolve(ticket._id)}
-                                  disabled={ticket.status === "Resolved"}
-                                >
-                                  {ticket.status === "Resolved"
-                                    ? t("Resolved")
-                                    : t("Click to Resolve")}
-                                </button>
+                                      }`}
+                                    onClick={() => handleResolve(ticket._id)}
+                                    disabled={ticket.status === "Resolved"}
+                                  >
+                                    {ticket.status === "Resolved"
+                                      ? t("Resolved")
+                                      : t("Click to Resolve")}
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -255,7 +357,7 @@ export default function Tickets() {
                           </tr>
                         )}
                       </tbody>
-                    </table>
+                    </table> */}
                   </div>
                   {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">

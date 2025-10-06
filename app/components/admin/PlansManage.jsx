@@ -11,6 +11,7 @@ import { FormSelect } from "react-bootstrap";
 import Loader from "../Loader";
 import DeletePlan from "@/app/[locale]/(adminSide)/model/DeletePlan";
 import { useTranslation } from "react-i18next";
+import DataTable from 'react-data-table-component';
 
 const PlansManage = () => {
   const { t } = useTranslation();
@@ -101,6 +102,7 @@ const PlansManage = () => {
     getPlans();
   }
 
+
   useEffect(() => {
     const initializeUserPermissions = async () => {
       try {
@@ -162,6 +164,35 @@ const PlansManage = () => {
     initializeUserPermissions();
   }, []); // Only run on component mount
 
+  const columns = [
+    {
+      name : t('Date'),
+    },
+     {
+      name : t('Name'),
+    },
+     {
+      name : t('Title'),
+    },
+     {
+      name : t('Description'),
+    },
+     {
+      name : t('Price'),
+    },
+     {
+      name : t('Duration'),
+    },
+     {
+      name : t('Features'),
+    },
+     {
+      name : t('Uploaded By	'),
+    },
+     {
+      name : t('Action'),
+    }
+  ]
   return (
     <>
       <div id="main_container">
@@ -204,6 +235,11 @@ const PlansManage = () => {
                   )}
 
                   <div className="table-responsive">
+                    <DataTable
+                      columns={columns}
+                      data={plans}
+                      pointerOnHover
+                    />
                     <table className="table">
                       <thead>
                         <tr>
@@ -251,17 +287,17 @@ const PlansManage = () => {
                                     </button>
                                     <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${plan._id}`}>
                                       <li> <button
-                                      className="admin_action_edit"
-                                      onClick={() => handleEditPlans(plan._id)}
-                                    >
-                                      <i className="fa fa-edit me-2"></i> Edit
-                                    </button></li>
+                                        className="admin_action_edit"
+                                        onClick={() => handleEditPlans(plan._id)}
+                                      >
+                                        <i className="fa fa-edit me-2"></i> Edit
+                                      </button></li>
                                       <li><button
-                                      className="admin_action_delete"
-                                      onClick={() => handlePlanDelete(plan._id)}
-                                    >
-                                      <i className="fa fa-trash me-2"></i> Delete
-                                    </button></li>
+                                        className="admin_action_delete"
+                                        onClick={() => handlePlanDelete(plan._id)}
+                                      >
+                                        <i className="fa fa-trash me-2"></i> Delete
+                                      </button></li>
                                     </ul>
                                   </div>
                                 </td>

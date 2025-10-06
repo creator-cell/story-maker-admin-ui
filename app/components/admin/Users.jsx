@@ -183,26 +183,25 @@ export default function Users() {
     if (sortByValue !== field) return "fa-sort";
     return sortOrder === "asc" ? "fa-sort-up" : "fa-sort-down";
   };
+
   const columns = [
     {
       name: (
         <div onClick={() => handleSort("name")} className="cursor">
           {t("First Name")}
-          {/* <i className={`fa ${getSortIcon("name")} ms-1`}></i> */}
+          <i className={`fa ${getSortIcon("name")} ms-1`}></i>
         </div>
       ),
       selector: row => row.name,
-      sortable: true,
     },
     {
       name: (
         <div onClick={() => handleSort("email")} className="cursor d-flex align-items-center">
           {t("Email Address")}
-          {/* <i className={`fa ${getSortIcon("email")} ms-1`}></i> */}
+          <i className={`fa ${getSortIcon("email")} ms-1`}></i>
         </div>
       ),
       selector: row => row.email,
-      sortable: true,
     },
     {
       name: t('Phone Number'),
@@ -212,11 +211,10 @@ export default function Users() {
       name: (
         <div onClick={() => handleSort("isActive")} className="cursor d-flex align-items-center">
           {t("Status")}
-          {/* <i className={`fa ${getSortIcon("isActive")} ms-1`}></i> */}
+          <i className={`fa ${getSortIcon("isActive")} ms-1`}></i>
         </div>
       ),
       selector: row => row.isActive ? 'Active' : 'Deactivate',
-      sortable: true,
       cell: row => (
         hasWritePermission() ? (
           <div className="form-check form-switch">
@@ -228,19 +226,17 @@ export default function Users() {
               checked={row.isActive}
               onChange={() => updateUserStatus(row._id)}
             />
-            <label className="form-check-label">
-              {row.isActive ? 'Active' : 'Deactivate'}
-            </label>
           </div>
-        ) : (
-          <>
-            {row.isActive ? (
-              <span className="badge bg-primary">Active</span>
-            ) : (
-              <span className="badge bg-secondary">Deactivate</span>
-            )}
-          </>
         )
+          : (
+            <>
+              {row.isActive ? (
+                <span className="badge bg-primary">Active</span>
+              ) : (
+                <span className="badge bg-secondary">Deactivate</span>
+              )}
+            </>
+          )
       )
     },
     {
@@ -252,28 +248,28 @@ export default function Users() {
               <button
                 className="border-0 bg-transparent"
                 type="button"
-                id={`dropdownMenuButton-${user._id}`}
+                id={`dropdownMenuButton-${row._id}`}
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 <i class="fa fa-ellipsis"></i>
               </button>
-              <ul  className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${user._id}`}>
-                <li>       
+              <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${row._id}`}>
+                <li>
                   <button
-                  className="admin_action_edit"
-                  onClick={() => handleEditUser(row._id)}
-                >
-                  <i className="fa-solid fa-pencil me-1"></i> {t("Edit")} 
-                </button>
+                    className="admin_action_edit"
+                    onClick={() => handleEditUser(row._id)}
+                  >
+                    <i className="fa-solid fa-pencil me-1"></i> {t("Edit")}
+                  </button>
                 </li>
-                <li>        
+                <li>
                   <button
-                  className="admin_action_delete"
-                  onClick={() => handleUserDelete(row._id)}
-                >
-                  <i className="fa fa-trash me-1"></i> {t("Delete")}
-                </button>
+                    className="admin_action_delete"
+                    onClick={() => handleUserDelete(row._id)}
+                  >
+                    <i className="fa fa-trash me-1"></i> {t("Delete")}
+                  </button>
                 </li>
               </ul>
             </div>
@@ -440,8 +436,10 @@ export default function Users() {
                     <DataTable
                       columns={columns}
                       data={users}
+                      pointerOnHover
                     />
-                    <table className="table">
+
+                    {/* <table className="table">
                       <thead>
                         <tr>
                           <th
@@ -571,7 +569,7 @@ export default function Users() {
                           </tr>
                         )}
                       </tbody>
-                    </table>
+                    </table> */}
                   </div>
 
                   {totalPages > 1 && (

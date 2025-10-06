@@ -5,9 +5,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { useTranslation } from "react-i18next";
+import DataTable from 'react-data-table-component';
 
 export default function Notification() {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const [message, setMessage] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -79,7 +80,34 @@ export default function Notification() {
   useEffect(() => {
     getNotifications();
   }, []);
+  const columns = [
+    {
+      name: t('Date'),
+      selector: (row) => new Date(row.updatedAt).toLocaleDateString()
+    },
+    {
+      name: t('Message'),
+      selector: (row) => row.message,
+      wrap: true,
+      minWidth: "200px",
 
+    },
+    {
+      name: t('Send By'),
+      selector: (row) => row.sendedBy?.name,
+      width: "150px",
+    },
+    {
+      name: t('Type'),
+      selector: (row) => row.type?.toUpperCase(),
+      width: "120px",
+    },
+    {
+      name: t('Deliver Count'),
+      selector: (row) => row.deliverCount,
+      width: "150px",
+    },
+  ]
   return (
     <>
       <div id="main_container">
@@ -148,7 +176,12 @@ export default function Notification() {
                   )}
 
                   <div className="table-responsive">
-                    <table className="table">
+                    <DataTable
+                      columns={columns}
+                      data={notifications}
+                      pointerOnHover
+                    />
+                    {/* <table className="table">
                       <thead>
                         <tr>
                           <th className="cursor">{t("Date")}</th>
@@ -184,7 +217,7 @@ export default function Notification() {
                           </tr>
                         )}
                       </tbody>
-                    </table>
+                    </table> */}
                   </div>
 
                   {totalPages > 1 && (

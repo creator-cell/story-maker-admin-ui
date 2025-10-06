@@ -9,6 +9,8 @@ import Loader from "../Loader";
 import { jsPDF } from "jspdf";
 import ApproveTemplate from "../../[locale]/(adminSide)/model/ApproveTemplate";
 import { useTranslation } from "react-i18next";
+import DataTable from 'react-data-table-component';
+
 export default function Template() {
   const { t } = useTranslation();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
@@ -213,6 +215,83 @@ export default function Template() {
     setApproveModel(true);
     setDeleteId(id);
   };
+  const columns = [
+    {
+      name: t('Name'),
+      selector: row => row.name
+    },
+    {
+      name: t('Status'),
+      selector: (row) => row.status,
+      cell: (row) => (
+        <span
+          className={`badge ${row.status === "approved" ? "bg-success" : "bg-warning"
+            }`}
+        >
+          {row.status.charAt(0).toUpperCase() + row.status.slice(1)}
+        </span>
+      ),
+    },
+    {
+      name: t('Action'),
+      cell: row => (
+        <div className="d-flex" data-label="Action">
+          <div className="dropdown">
+            <button
+              className="border-0 bg-transparent"
+              type="button"
+              id={`dropdownMenuButton-${row._id}`}
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fa fa-ellipsis"></i>
+            </button>
+
+            <ul className="dropdown-menu" aria-labelledby={`ticketDropdownButton-${row._id}`}>
+              <li>
+                <button
+                  className="admin_action_edit"
+                  onClick={() => handleEdit(row._id)}
+                >
+                  {/* {t("View/Edit")} */}
+                  <i className="fa-solid fa-pencil me-2"></i> {t("Edit")}
+                </button>
+              </li>
+              <li>
+                <button
+                  className="admin_action_clone"
+                  onClick={() =>
+                    handleClone(row._id, row.name, row.content)
+                  }
+                >
+                  <i class="fa-solid fa-clone"></i> {t("Clone")}
+                </button>
+              </li>
+              <li>
+                <button
+                  className="admin_action_delete"
+                  onClick={() => handleDelete(row._id)}
+                >
+                  <i className="fa fa-trash me-2"></i> {t("Delete")}
+                </button>
+              </li>
+              <li>
+                {currentUser.role.name === "Super Admin" &&
+                  row.status === "pending" && (
+                    <button
+                      className="admin_action_approve"
+                      onClick={() => handleApprove(row._id)}
+                    >
+                      <i class="fa-solid fa-thumbs-up"></i> {t("Approve")}
+                    </button>
+                  )}
+              </li>
+            </ul>
+          </div>
+        </div>
+      )
+    }
+  ]
 
   return (
     <>
@@ -287,6 +366,11 @@ export default function Template() {
 
                   {/* Table */}
                   <div className="table-responsive">
+                    <DataTable
+                      columns={columns}
+                      data={templates}
+                      pointerOnHover
+                    />
                     <table className="table">
                       <thead>
                         <tr>
@@ -303,8 +387,8 @@ export default function Template() {
                               <td data-label="Status">
                                 <span
                                   className={`badge ${tpl.status === "approved"
-                                      ? "bg-success"
-                                      : "bg-warning"
+                                    ? "bg-success"
+                                    : "bg-warning"
                                     }`}
                                 >
                                   {tpl.status.charAt(0).toUpperCase() + tpl.status.slice(1)}
