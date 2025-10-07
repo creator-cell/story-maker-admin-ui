@@ -47,27 +47,41 @@ const AddChatHistory = () => {
   };
 
   return (
-    <div className="chat-container">
-      <div className="title_head">
-        <h1>{t("Support Ticket Chat")}</h1>
-      </div>
-      {loading && <div>{t("Loading...")}</div>}
+    <div id="main_container">
+      <div className="inner_container">
+        <div className="container-lg container-fluid p-0">
+          <div className="comman_admin_layout flex-column p-0">
+            <div className="container-lg container-fluid p-0">
+              <div className="row mb-4">
 
-      <div className="send-chat d-flex gap-2 mt-4">
-        <input
-          type="text"
-          className="form-control"
-          value={chatMessage}
-          onChange={(e) => setChatMessage(e.target.value)}
-          placeholder={t("Type a message...")}
-        />
-        <button
-          className="button"
-          onClick={sendChatMessage}
-          disabled={loading || !chatMessage.trim()}
-        >
-          {t("Send")}
-        </button>
+
+                <div className="chat-container">
+                  <div className="title_head">
+                    <h1>{t("Support Ticket Chat")}</h1>
+                  </div>
+                  {loading && <div>{t("Loading...")}</div>}
+
+                  <div className="send-chat d-flex gap-2 mt-4">
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={chatMessage}
+                      onChange={(e) => setChatMessage(e.target.value)}
+                      placeholder={t("Type a message...")}
+                    />
+                    <button
+                      className="button"
+                      onClick={sendChatMessage}
+                      disabled={loading || !chatMessage.trim()}
+                    >
+                      {t("Send")}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
