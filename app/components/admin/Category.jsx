@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import DeleteCategory from "../../[locale]/(adminSide)/model/DeleteCategory";
 import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
+import DataTable from 'react-data-table-component';
 
 export default function Categories() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
@@ -64,7 +65,56 @@ export default function Categories() {
     setDeleteUser(true);
     setCategoryId(id);
   };
-
+  const columns = [
+    {
+      name: t('Category name'),
+      selector: row => row.name,
+    },
+    {
+      name: t('Category description'),
+      selector: row => row.description,
+    },
+    {
+      name: t("Action"),
+      cell: row => (
+        <div className="d-flex" data-label="Action">
+          <div className="dropdown">
+            <button
+              className="border-0 bg-transparent"
+              type="button"
+              id={`dropdownMenuButton-${row._id}`}
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fa fa-ellipsis"></i>
+            </button>
+            <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${row._id}`}>
+              <li>
+                <button
+                  className={`admin_action_edit`}
+                  onClick={() =>
+                    handleEditCategory(row._id)
+                  }
+                >
+                  <i className="fa-solid fa-pencil me-2"></i> {t("Edit")}
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`admin_action_delete`}
+                  onClick={() =>
+                    handleDeleteCategory(row._id)
+                  }
+                >
+                  <i className="fa fa-trash me-2"></i> {t("Delete")}
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )
+    }
+  ]
   return (
     <>
       <div id="main_container">
@@ -84,7 +134,7 @@ export default function Categories() {
                     <div className="col-lg-3"></div>
                     <div className="col-lg-9">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        <div className="form_group position-relative">
+                        <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             placeholder={t("Search by user or status...")}
@@ -132,7 +182,11 @@ export default function Categories() {
                     </div>
                   )}
                   <div className="table-responsive">
-                    <table className="table">
+                    <DataTable
+                      columns={columns}
+                      data={categories}
+                    />
+                    {/* <table className="table">
                       <thead>
                         <tr>
                           <th>{t("Category name")}</th>
@@ -189,7 +243,7 @@ export default function Categories() {
                           </tr>
                         )}
                       </tbody>
-                    </table>
+                    </table> */}
                   </div>
                   {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">

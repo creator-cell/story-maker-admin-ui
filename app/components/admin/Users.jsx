@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 
-import DeleteUser from "@/app/[locale]/(adminSide)/model/DeleteRole";
+import DeleteUser from "@/app/[locale]/(adminSide)/model/DeleteUser";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
+import DataTable from 'react-data-table-component';
 
 export default function Users() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
@@ -182,6 +183,101 @@ export default function Users() {
     if (sortByValue !== field) return "fa-sort";
     return sortOrder === "asc" ? "fa-sort-up" : "fa-sort-down";
   };
+
+  const columns = [
+    {
+      name: (
+        <div onClick={() => handleSort("name")} className="cursor">
+          {t("First Name")}
+          <i className={`fa ${getSortIcon("name")} ms-1`}></i>
+        </div>
+      ),
+      selector: row => row.name,
+    },
+    {
+      name: (
+        <div onClick={() => handleSort("email")} className="cursor d-flex align-items-center">
+          {t("Email Address")}
+          <i className={`fa ${getSortIcon("email")} ms-1`}></i>
+        </div>
+      ),
+      selector: row => row.email,
+    },
+    {
+      name: t('Phone Number'),
+      selector: row => row.phone
+    },
+    {
+      name: (
+        <div onClick={() => handleSort("isActive")} className="cursor d-flex align-items-center">
+          {t("Status")}
+          <i className={`fa ${getSortIcon("isActive")} ms-1`}></i>
+        </div>
+      ),
+      selector: row => row.isActive ? 'Active' : 'Deactivate',
+      cell: row => (
+        hasWritePermission() ? (
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              id={`flexSwitchCheckChecked-${row._id}`}
+              checked={row.isActive}
+              onChange={() => updateUserStatus(row._id)}
+            />
+          </div>
+        )
+          : (
+            <>
+              {row.isActive ? (
+                <span className="badge bg-primary">Active</span>
+              ) : (
+                <span className="badge bg-secondary">Deactivate</span>
+              )}
+            </>
+          )
+      )
+    },
+    {
+      name: t('Action'),
+      cell: row => (
+        hasWritePermission() && (
+          <div className="d-flex" data-label="Action">
+            <div className="dropdown">
+              <button
+                className="border-0 bg-transparent"
+                type="button"
+                id={`dropdownMenuButton-${row._id}`}
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fa fa-ellipsis"></i>
+              </button>
+              <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${row._id}`}>
+                <li>
+                  <button
+                    className="admin_action_edit"
+                    onClick={() => handleEditUser(row._id)}
+                  >
+                    <i className="fa-solid fa-pencil me-1"></i> {t("Edit")}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="admin_action_delete"
+                    onClick={() => handleUserDelete(row._id)}
+                  >
+                    <i className="fa fa-trash me-1"></i> {t("Delete")}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )
+      )
+    }
+  ];
   useEffect(() => {
     const initializeUserPermissions = async () => {
       try {
@@ -260,9 +356,8 @@ export default function Users() {
 
   const handleDeleteSuccess = () => {
     setDeleteUser(false);
-
     getUsers(currentPage + 1, sortByValue, searchUser, sortOrder);
-    //toast.success("User deleted successfully");
+    // toast.success("User deleted successfully");
   };
 
   return (
@@ -287,7 +382,7 @@ export default function Users() {
 
                     <div className="col-lg-9 col-md-8 col-12">
                       <div className="filter_field">
-                        <div className="form_group position-relative">
+                        <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             placeholder={t("Search by name, email, or phone...")}
@@ -315,13 +410,13 @@ export default function Users() {
                             onClick={handleClearSearch}
                             disabled={loading}
                           >
-                           {t("Clear")} 
+                            {t("Clear")}
                           </button>
                         )}
 
                         {hasWritePermission() && (
                           <button className="button" onClick={handleNewUser}>
-                           {t("Add User")} 
+                            {t("Add User")}
                           </button>
                         )}
                       </div>
@@ -337,7 +432,12 @@ export default function Users() {
                   )}
 
                   <div className="table-responsive">
-                    <table className="table">
+                    <DataTable
+                      columns={columns}
+                      data={users}
+                    />
+
+                    {/* <table className="table">
                       <thead>
                         <tr>
                           <th
@@ -351,7 +451,7 @@ export default function Users() {
                             className="cursor"
                             onClick={() => handleSort("email")}
                           >
-                           {t("Email Address")} 
+                            {t("Email Address")}
                             <i
                               className={`fa ${getSortIcon("email")} ms-1`}
                             ></i>
@@ -361,7 +461,7 @@ export default function Users() {
                             className="cursor"
                             onClick={() => handleSort("isActive")}
                           >
-                           {t("Status")} 
+                            {t("Status")}
                             <i
                               className={`fa ${getSortIcon("isActive")} ms-1`}
                             ></i>
@@ -381,7 +481,7 @@ export default function Users() {
                                 <td data-label="Phone Number">
                                   {user.phone || user.phone || ""}
                                 </td>
-                                
+
                                 <td data-label="status">
                                   {hasWritePermission() ? (
                                     <div className="form-check form-switch">
@@ -399,18 +499,18 @@ export default function Users() {
                                         className="form-check-label"
                                         htmlFor="flexSwitchCheckChecked"
                                       >
-                                       {t("Active")} 
+                                        {t("Active")}
                                       </label>
                                     </div>
                                   ) : (
                                     <>
                                       {user?.isActive ? (
                                         <span className="badge bg-primary">
-                                          {t("Active")} 
+                                          {t("Active")}
                                         </span>
                                       ) : (
                                         <span className="badge bg-secondary">
-                                         {t("Deactivate")} 
+                                          {t("Deactivate")}
                                         </span>
                                       )}
                                     </>
@@ -448,22 +548,6 @@ export default function Users() {
                                         </li>
                                       </ul>
                                     </div>
-                                    {/* <div className="d-flex justify-content-start align-items-center">
-                                      <button
-                                        className="admin_action_edit"
-                                        onClick={() => handleEditUser(user._id)}
-                                      >
-                                        <i className="fa-solid fa-pencil"></i>
-                                      </button>
-                                      <button
-                                        className="admin_action_delete"
-                                        onClick={() =>
-                                          handleUserDelete(user._id)
-                                        }
-                                      >
-                                        <i className="fa fa-trash"></i>
-                                      </button> 
-                                    </div>*/}
                                   </td>
                                 )}
                               </tr>
@@ -483,14 +567,14 @@ export default function Users() {
                           </tr>
                         )}
                       </tbody>
-                    </table>
+                    </table> */}
                   </div>
 
                   {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                         {t("Page")}  {currentPage + 1} {t("of")} {totalPages}({totalItems}{" "}
+                          {t("Page")}  {currentPage + 1} {t("of")} {totalPages}({totalItems}{" "}
                           {t("total items")})
                         </small>
                       </div>

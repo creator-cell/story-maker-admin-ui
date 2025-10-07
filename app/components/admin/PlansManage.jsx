@@ -11,6 +11,7 @@ import { FormSelect } from "react-bootstrap";
 import Loader from "../Loader";
 import DeletePlan from "@/app/[locale]/(adminSide)/model/DeletePlan";
 import { useTranslation } from "react-i18next";
+import DataTable from 'react-data-table-component';
 
 const PlansManage = () => {
   const { t } = useTranslation();
@@ -101,6 +102,7 @@ const PlansManage = () => {
     getPlans();
   }
 
+
   useEffect(() => {
     const initializeUserPermissions = async () => {
       try {
@@ -162,170 +164,264 @@ const PlansManage = () => {
     initializeUserPermissions();
   }, []); // Only run on component mount
 
-  return (
-    <>
-      <div id="main_container">
-        <div className="inner_container">
-          <div className="container p-0">
-            <div id="user" className="comman_admin_layout">
-              <div className="container p-0">
-                <div className="row">
-                  <div className="col-lg-12 col-md-12 col-sm-12">
-                    <div className="title_head">
-                      <h1>{t("Plans List")}</h1>
+  const columns = [
+    {
+      name: t('Date'),
+      selector: (row) => new Date(row.createdAt).toLocaleDateString(),
+    },
+    {
+      name: t('Name'),
+      selector: row => row.name
+    },
+    {
+      name: t('Title'),
+      selector: row => row.title
+    },
+    {
+      name: t('Description'),
+      selector: row => row.description,
+      wrap: true,
+      minWidth: "250px",
+    },
+    {
+      name: t('Price'),
+      selector: (row) =>
+        row.price ? parseFloat(row.price).toFixed(2) : "",
+    },
+    {
+      name: t('Duration'),
+      cell: (row) =>
+        row.duration ? (
+          <span className="badge bg-success text-light m-1">
+            {row.duration}
+          </span>
+        ) : (
+          ""
+        ),
+      width: "120px",
+    },
+    {
+      name: t('Features'),
+      cell: (row) => (
+        <div
+          className="d-flex flex-wrap gap-2"
+          style={{ whiteSpace: "normal", wordBreak: "break-word" }}
+        >
+          {row.features?.map((f, i) => (
+            <span key={i} className="badge bg-secondary text-light m-1">
+              {f}
+            </span>
+          ))}
+        </div>
+      ),
+    },
+    {
+      name: t('Uploaded By'),
+      selector: (row) => row.uploadedBy?.email,
+      minWidth: "200px",
+    },
+    {
+      name: t('Action'),
+      cell: row => (
+         hasWritePermission() && (
+          <td className="d-flex" data-label="Action">
+            <div className="dropdown">
+              <button
+                className="border-0 bg-transparent"
+                type="button"
+                id={`dropdownMenuButton-${row._id}`}
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fa fa-ellipsis"></i>
+              </button>
+              <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${row._id}`}>
+                <li> <button
+                  className="admin_action_edit"
+                  onClick={() => handleEditPlans(row._id)}
+                >
+                  <i className="fa fa-edit me-2"></i> {t("Edit")}
+                </button></li>
+                <li><button
+                  className="admin_action_delete"
+                  onClick={() => handlePlanDelete(row._id)}
+                >
+                  <i className="fa fa-trash me-2"></i> {t("Delete")}
+                </button></li>
+              </ul>
+            </div>
+          </td>
+        )
+      )
+    }
+  ]
+return (
+  <>
+    <div id="main_container">
+      <div className="inner_container">
+        <div className="container p-0">
+          <div id="user" className="comman_admin_layout">
+            <div className="container p-0">
+              <div className="row">
+                <div className="col-lg-12 col-md-12 col-sm-12">
+                  <div className="title_head">
+                    <h1>{t("Plans List")}</h1>
+                  </div>
+                </div>
+              </div>
+              <div className="admin_table">
+                <div className="row table_filter justify-content-between align-items-center mb-3">
+                  <div className="col-lg-6 col-md-6 col-12">
+                    <div className="d-flex gap-2 align-items-center">
+
+                    </div>
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-12">
+                    <div className="filter_field d-flex gap-2 justify-content-end">
+                      {hasWritePermission() && (
+                        <button className="button" onClick={() => { setLoader(true); router.push('/admin/plans/addplans') }}>
+                          {t("Add Plan")}
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
-                <div className="admin_table">
-                  <div className="row table_filter justify-content-between align-items-center mb-3">
-                    <div className="col-lg-6 col-md-6 col-12">
-                      <div className="d-flex gap-2 align-items-center">
 
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6 col-md-6 col-12">
-                      <div className="filter_field d-flex gap-2 justify-content-end">
-                        {hasWritePermission() && (
-                          <button className="button" onClick={() => { setLoader(true); router.push('/admin/plans/addplans') }}>
-                            {t("Add Plan")}
-                          </button>
-                        )}
-                      </div>
+                {loading && (
+                  <div className="text-center py-4">
+                    <div className="spinner-border" role="status">
+                      <span className="visually-hidden">{t("Loading...")}</span>
                     </div>
                   </div>
+                )}
 
-                  {loading && (
-                    <div className="text-center py-4">
-                      <div className="spinner-border" role="status">
-                        <span className="visually-hidden">{t("Loading...")}</span>
-                      </div>
-                    </div>
-                  )}
+                <div className="table-responsive">
+                  <DataTable
+                    columns={columns}
+                    data={plans}
+                  />
+                  {/* <table className="table">
+                    <thead>
+                      <tr>
+                        <th>{t("Date")}</th>
+                        <th>{t("Name")}</th>
+                        <th>{t("Title")}</th>
+                        <th className="w-25">{t("Description")}</th>
+                        <th>{t("Price")}</th>
+                        <th>{t("Duration")} </th>
+                        <th>{t("Features")}</th>
+                        <th>{t("Uploaded By")}</th>
+                        {hasWritePermission() && <th>{t("Action")}</th>}
+                      </tr>
+                    </thead>
+                    <tbody className="table_body">
+                      {!loading && plans && plans?.map((plan, index) => {
+                        return (
+                          <tr key={plan._id}>
+                            <td data-label="Date">{new Date(plan?.createdAt)?.toLocaleDateString()}</td>
+                            <td data-label="Name">{plan?.name}</td>
+                            <td data-label="Title">{plan?.title}</td>
+                            <td data-label="Description">{plan?.description}</td>
+                            <td data-label="Price">{plan?.price ? parseFloat(plan?.price).toFixed(2) : ""}</td>
+                            <td data-label="Duration">{plan?.duration ? <span class="badge bg-success text-light m-1">{plan?.duration}</span> : ""}</td>
+                            <td data-label="Features">
+                              <div className="d-flex flex-wrap gap-3 justify-content-end">
+                                {plan?.features?.map(p => (
+                                  <span class="badge bg-Secondary text-light m-1">{p}</span>
+                                ))}
+                              </div>
+                            </td>
+                            <td data-label="Uploaded By">{plan?.uploadedBy?.email}</td>
 
-                  <div className="table-responsive">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>{t("Date")}</th>
-                          <th>{t("Name")}</th>
-                          <th>{t("Title")}</th>
-                          <th className="w-25">{t("Description")}</th>
-                          <th>{t("Price")}</th>
-                          <th>{t("Duration")} </th>
-                          <th>{t("Features")}</th>
-                          <th>{t("Uploaded By")}</th>
-                          {hasWritePermission() && <th>{t("Action")}</th>}
-                        </tr>
-                      </thead>
-                      <tbody className="table_body">
-                        {!loading && plans && plans?.map((plan, index) => {
-                          return (
-                            <tr key={plan._id}>
-                              <td data-label="Date">{new Date(plan?.createdAt)?.toLocaleDateString()}</td>
-                              <td data-label="Name">{plan?.name}</td>
-                              <td data-label="Title">{plan?.title}</td>
-                              <td data-label="Description">{plan?.description}</td>
-                              <td data-label="Price">{plan?.price ? parseFloat(plan?.price).toFixed(2) : ""}</td>
-                              <td data-label="Duration">{plan?.duration ? <span class="badge bg-success text-light m-1">{plan?.duration}</span> : ""}</td>
-                              <td data-label="Features">
-                                <div className="d-flex flex-wrap gap-3 justify-content-end">
-                                  {plan?.features?.map(p => (
-                                    <span class="badge bg-Secondary text-light m-1">{p}</span>
-                                  ))}
-                                </div>
-                              </td>
-                              <td data-label="Uploaded By">{plan?.uploadedBy?.email}</td>
-
-                              {hasWritePermission() && (
-                                <td data-label="Action">
-                                  <div className="dropdown">
-                                    <button
-                                      className="border-0 bg-transparent"
-                                      type="button"
-                                      id={`dropdownMenuButton-${plan._id}`}
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false"
-                                    >
-                                      <i class="fa fa-ellipsis"></i>
-                                    </button>
-                                    <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${plan._id}`}>
-                                      <li> <button
+                            {hasWritePermission() && (
+                              <td data-label="Action">
+                                <div className="dropdown">
+                                  <button
+                                    className="border-0 bg-transparent"
+                                    type="button"
+                                    id={`dropdownMenuButton-${plan._id}`}
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                  >
+                                    <i class="fa fa-ellipsis"></i>
+                                  </button>
+                                  <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${plan._id}`}>
+                                    <li> <button
                                       className="admin_action_edit"
                                       onClick={() => handleEditPlans(plan._id)}
                                     >
                                       <i className="fa fa-edit me-2"></i> Edit
                                     </button></li>
-                                      <li><button
+                                    <li><button
                                       className="admin_action_delete"
                                       onClick={() => handlePlanDelete(plan._id)}
                                     >
                                       <i className="fa fa-trash me-2"></i> Delete
                                     </button></li>
-                                    </ul>
-                                  </div>
-                                </td>
-                              )}
-                            </tr>
-                          );
-                        })}
-
-                        {!loading && plans?.length === 0 && (
-                          <tr>
-                            <td colSpan={hasWritePermission() ? "4" : "3"} className="text-center py-4">
-                              {/* { ? 
-                                `No users found matching "${searchUser}"` :  */}
-                              No plans found
-                              {/* } */}
-                            </td>
+                                  </ul>
+                                </div>
+                              </td>
+                            )}
                           </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
+                        );
+                      })}
 
-                  {totalPages > 1 && (
-                    <div className="pagination-container d-flex justify-content-between align-items-center">
-                      <div className="pagination-info">
-                        <small className="text-muted">
-                          Page {currentPage + 1} of {totalPages}
-                          ({totalItems} total items)
-                        </small>
-                      </div>
-                      <ReactPaginate
-                        pageCount={totalPages}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={1}
-                        onPageChange={handlePageClick}
-                        containerClassName="pagination"
-                        activeClassName="active"
-                        previousLabel="Previous"
-                        nextLabel="Next"
-                        breakLabel="..."
-                        forcePage={currentPage}
-                        disabledClassName="disabled"
-                      />
-                    </div>
-                  )}
+                      {!loading && plans?.length === 0 && (
+                        <tr>
+                          <td colSpan={hasWritePermission() ? "4" : "3"} className="text-center py-4">
+                            {}
+                            No plans found
+                            {}
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table> */}
                 </div>
+
+                {totalPages > 1 && (
+                  <div className="pagination-container d-flex justify-content-between align-items-center">
+                    <div className="pagination-info">
+                      <small className="text-muted">
+                        Page {currentPage + 1} of {totalPages}
+                        ({totalItems} total items)
+                      </small>
+                    </div>
+                    <ReactPaginate
+                      pageCount={totalPages}
+                      pageRangeDisplayed={3}
+                      marginPagesDisplayed={1}
+                      onPageChange={handlePageClick}
+                      containerClassName="pagination"
+                      activeClassName="active"
+                      previousLabel="Previous"
+                      nextLabel="Next"
+                      breakLabel="..."
+                      forcePage={currentPage}
+                      disabledClassName="disabled"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
-        {loader && <Loader />}
       </div>
+      {loader && <Loader />}
+    </div>
 
 
-      {hasWritePermission() && (
-        <DeletePlan
-          show={deletePlans}
-          data={plansId}
-          onHide={handleDeleteSuccess}
-        />
-      )}
+    {hasWritePermission() && (
+      <DeletePlan
+        show={deletePlans}
+        data={plansId}
+        onHide={handleDeleteSuccess}
+      />
+    )}
 
-    </>
-  );
+  </>
+);
 }
 
 export default PlansManage;
