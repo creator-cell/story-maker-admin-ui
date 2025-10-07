@@ -53,8 +53,6 @@ const AddChatHistory = () => {
           <div className="comman_admin_layout flex-column p-0">
             <div className="container-lg container-fluid p-0">
               <div className="row mb-4">
-
-
                 <div className="chat-container">
                   <div className="title_head">
                     <h1>{t("Support Ticket Chat")}</h1>
