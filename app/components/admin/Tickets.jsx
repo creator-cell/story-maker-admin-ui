@@ -94,7 +94,6 @@ export default function Tickets() {
     try {
       const response = await axios.get(
         `${API_URL}tickets/moderator`,
-
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -111,7 +110,7 @@ export default function Tickets() {
   const columns = [
     {
       name: t('User'),
-      selector: row => row.userId.name,
+      selector: (row) => row?.userId?.name, 
       wrap: true,
       width: "150px",
     },
@@ -179,7 +178,7 @@ export default function Tickets() {
                   disabled={row.status === "Resolved"}
                 >
                   <div className="eye-icon"><i className="fa-solid fa-eye"></i></div>
-                 <span> {t("View")}</span>
+                  <span> {t("View")}</span>
                 </button>
               </li>
               <li>
@@ -188,7 +187,7 @@ export default function Tickets() {
                   onClick={() => handleResolve(row._id)}
                   disabled={row.status === "Resolved"}
                 >
-                  <i className="fa-solid fa-check"></i>
+                  <i className="fa-solid fa-circle-check"></i>
                   <span>
                     {row.status === "Resolved"
                       ? t("Resolved")
@@ -223,7 +222,7 @@ export default function Tickets() {
                     <div className="col-lg-3"></div>
                     <div className="col-lg-9">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        <div className="form_group position-relative">
+                        <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             placeholder={t("Search by user or status...")}

@@ -134,7 +134,7 @@ export default function Categories() {
                     <div className="col-lg-3"></div>
                     <div className="col-lg-9">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        <div className="form_group position-relative">
+                        <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             placeholder={t("Search by user or status...")}
@@ -185,7 +185,6 @@ export default function Categories() {
                     <DataTable
                       columns={columns}
                       data={categories}
-                      pointerOnHover
                     />
                     {/* <table className="table">
                       <thead>

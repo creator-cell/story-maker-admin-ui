@@ -145,6 +145,7 @@ const AssetsManage = () => {
   };
 
   const handleEditAssets = (updateAssetId) => {
+    setLoader(true);
     router.push(`/admin/assets/${updateAssetId}`);
   };
 
@@ -294,7 +295,7 @@ const AssetsManage = () => {
               rel="noopener noreferrer"
               href={row.url}
               disabled={isInProgress}
-              className="button align-self-end yellow p-1 rounded-pill"
+              className="button"
             >
               <IconEye size={20} stroke={2} />
             </a>
@@ -317,8 +318,8 @@ const AssetsManage = () => {
     {
       name: t("Description"),
       selector: (row) => row.description,
-      width : "200px",
-       wrap: true,
+      width: "200px",
+      wrap: true,
     },
     {
       name: t("Tags"),
@@ -382,7 +383,7 @@ const AssetsManage = () => {
                   }
                   title="Edit Asset"
                 >
-                  <i className="fa fa-edit me-2"></i> Edit
+                  <i className="fa fa-edit me-2"></i> {t("Edit")}
                 </button></li>
                 <li>  <button
                   className="admin_action_clone"
@@ -391,7 +392,7 @@ const AssetsManage = () => {
                   }
                   title="Clone Asset"
                 >
-                  <i className="fa fa-clone me-2"></i> Clone
+                  <i className="fa fa-clone me-2"></i> {t("Clone")}
                 </button></li>
                 <li> <button
                   className="admin_action_delete"
@@ -400,7 +401,7 @@ const AssetsManage = () => {
                   }
                   title="Delete User"
                 >
-                  <i className="fa fa-trash me-2"></i> Delete
+                  <i className="fa fa-trash me-2"></i> {t("Delete")}
                 </button></li>
               </ul>
             </div>
@@ -457,7 +458,6 @@ const AssetsManage = () => {
                     <DataTable
                       columns={columns}
                       data={assets}
-                      pointerOnHover
                     />
                     {/* <table className="table">
                       <thead>

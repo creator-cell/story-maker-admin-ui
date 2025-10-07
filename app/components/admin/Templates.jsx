@@ -313,7 +313,7 @@ export default function Template() {
                     <div className="col-lg-3"></div>
                     <div className="col-lg-9">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        <div className="form_group position-relative">
+                        <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             placeholder={t("Search by name...")}
@@ -369,9 +369,8 @@ export default function Template() {
                     <DataTable
                       columns={columns}
                       data={templates}
-                      pointerOnHover
                     />
-                    <table className="table">
+                    {/* <table className="table">
                       <thead>
                         <tr>
                           <th>{t("Name")}</th>
@@ -440,7 +439,7 @@ export default function Template() {
                           </tr>
                         )}
                       </tbody>
-                    </table>
+                    </table> */}
                   </div>
 
                   {/* Pagination */}

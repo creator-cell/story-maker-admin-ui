@@ -131,7 +131,7 @@ export default function Notification() {
 
                     <div className="notification col-lg-9 col-md-8 col-12">
                       <div className="filter_field">
-                        <div className="form_group position-relative">
+                        <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             className="form-control"
@@ -179,7 +179,6 @@ export default function Notification() {
                     <DataTable
                       columns={columns}
                       data={notifications}
-                      pointerOnHover
                     />
                     {/* <table className="table">
                       <thead>

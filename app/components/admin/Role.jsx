@@ -317,10 +317,8 @@ export default function Roles() {
                     <DataTable
                       columns={columns}
                       data={users}
-                      pointerOnHover
                       noDataComponent={t("No role found")}
                     />
-
                     {/* <table className="table">
                       <thead>
                         <tr>

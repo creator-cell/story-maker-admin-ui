@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 
-import DeleteUser from "@/app/[locale]/(adminSide)/model/DeleteRole";
+import DeleteUser from "@/app/[locale]/(adminSide)/model/DeleteUser";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "../Loader";
@@ -356,9 +356,8 @@ export default function Users() {
 
   const handleDeleteSuccess = () => {
     setDeleteUser(false);
-
     getUsers(currentPage + 1, sortByValue, searchUser, sortOrder);
-    //toast.success("User deleted successfully");
+    // toast.success("User deleted successfully");
   };
 
   return (
@@ -383,7 +382,7 @@ export default function Users() {
 
                     <div className="col-lg-9 col-md-8 col-12">
                       <div className="filter_field">
-                        <div className="form_group position-relative">
+                        <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             placeholder={t("Search by name, email, or phone...")}
@@ -436,7 +435,6 @@ export default function Users() {
                     <DataTable
                       columns={columns}
                       data={users}
-                      pointerOnHover
                     />
 
                     {/* <table className="table">

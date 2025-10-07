@@ -379,9 +379,11 @@ option,
 button {
   outline: none;
 }
-.form-select:focus{
+
+.form-select:focus {
   border-color: var(--table-border) !important;
 }
+
 .form-check-input {
   --bs-form-check-bg: var(--form-check) !important;
 }
@@ -3128,7 +3130,7 @@ h6 {
   border-radius: 5px;
   display: block;
   width: auto;
-  padding: 6px 10px;
+  padding: 6px 6px;
   text-decoration: none;
   outline: none;
   border: 0;
@@ -3143,7 +3145,7 @@ h6 {
   border-radius: 5px;
   display: block;
   width: auto;
-  padding: 6px 10px;
+  padding: 6px 6px;
   text-decoration: none;
   outline: none;
   border: 0;
@@ -3184,7 +3186,6 @@ h6 {
   border-radius: 5px;
   display: block;
   width: auto;
-  padding: 6px 10px;
   text-decoration: none;
   outline: none;
   border: 0;
@@ -3195,6 +3196,7 @@ h6 {
 }
 
 .admin_action_resolve i {
+  font-size: 20px;
   color: var(--form-textcolor);
 }
 
@@ -3438,6 +3440,15 @@ h6 {
 
 .right_text #main_container {
   margin: 0 auto 0 0;
+}
+
+.right_text .admin_table .filter_field .search-bar i {
+  left: 14px;
+  right: unset;
+}
+.right_text .modal-content .modal-header button{
+  position: absolute;
+  left: 14px;
 }
 
 /* main_container */
@@ -10076,7 +10087,7 @@ html {
 }
 
 .badge {
-  font-size: 9px;
+  min-width: 90px;
   padding: 10px !important;
 }
 
@@ -10135,6 +10146,11 @@ html {
 .admin_table .table-responsive .rdt_TableBody .rdt_TableRow .rdt_TableCell small .doc-file {
   height: 30px;
   width: 25px;
+}
+
+.admin_table .table-responsive .rdt_TableBody .rdt_TableRow .rdt_TableCell small a {
+  border-radius: 50%;
+  padding: 5px 7px;
 }
 
 .comman_admin_layout .admin_form_panel {
@@ -11459,12 +11475,11 @@ html {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  flex-wrap: wrap;
   gap: 10px;
   line-height: 1;
   background-color: transparent;
-  padding: 9px 10px 6px;
   border-radius: 10px;
+  width: max-content;
 }
 
 #languageswitcher .cust-check label {
