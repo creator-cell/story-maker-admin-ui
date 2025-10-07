@@ -3446,9 +3446,14 @@ h6 {
   left: 14px;
   right: unset;
 }
-.right_text .modal-content .modal-header button{
+
+.right_text .modal-content .modal-header button {
   position: absolute;
   left: 14px;
+}
+
+.right_text .chat-container .chat .box .user-chat p .icon-name .name {
+  padding-right: 20px;
 }
 
 /* main_container */
@@ -11164,6 +11169,10 @@ html {
   height: 80% !important;
 }
 
+.right_text .inner_container .design-box .canvas-container {
+  left: 3% !important;
+}
+
 .inner_container .design-box .lower-canvas,
 .inner_container .design-box .upper-canvas {
   height: 100% !important;
@@ -11455,6 +11464,10 @@ html {
   display: flex;
 }
 
+.right_text .ReactTags__tags .ReactTags__selected {
+  gap: 30px;
+}
+
 .ReactTags__tagInput {
   width: 100%;
 }
@@ -11524,6 +11537,10 @@ html {
     transform: translate(0) !important;
     height: 80% !important;
   }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 2% !important;
+  }
 }
 
 @media (max-width: 1280px) {
@@ -11535,6 +11552,10 @@ html {
     left: 9% !important;
     transform: translate(0) !important;
     height: 80% !important;
+  }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 3% !important;
   }
 
   .chat-container .chat .box .type-messages textarea {
@@ -11552,6 +11573,10 @@ html {
     transform: translate(0) !important;
     height: 80% !important;
   }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 5% !important;
+  }
 }
 
 @media (max-width: 992px) {
@@ -11563,6 +11588,10 @@ html {
     left: 11% !important;
     transform: translate(0) !important;
     height: 80% !important;
+  }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 5% !important;
   }
 
   .chat-container {
@@ -11665,6 +11694,10 @@ html {
     height: 80% !important;
   }
 
+  .right_text .inner_container .design-box .canvas-container {
+    left: 5% !important;
+  }
+
   .chat-container .chat .box .type-messages textarea {
     width: 350px;
   }
@@ -11722,6 +11755,10 @@ html {
     height: 80% !important;
   }
 
+  .right_text .inner_container .design-box .canvas-container {
+    left: 12% !important;
+  }
+
   .chat-container .chat .box .type-messages textarea {
     width: 100%;
   }
@@ -11748,6 +11785,11 @@ html {
     top: 15% !important;
     left: 33% !important;
     transform: translate(0) !important;
+  }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 12% !important;
+    width: calc(100% - 190px) !important;
   }
 
   .admin_table .table-responsive table tbody tr td {
