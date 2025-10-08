@@ -9,7 +9,7 @@ import Loader from "../Loader";
 import { jsPDF } from "jspdf";
 import ApproveTemplate from "../../[locale]/(adminSide)/model/ApproveTemplate";
 import { useTranslation } from "react-i18next";
-import DataTable from 'react-data-table-component';
+import DataTable from "react-data-table-component";
 
 export default function Template() {
   const { t } = useTranslation();
@@ -28,7 +28,8 @@ export default function Template() {
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const [approveModel, setApproveModel] = useState(false);
-
+  const [category, setCategory] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
   const [showRejectModal, setShowRejectModal] = useState(false);
   const getTemplates = async (page = 1, searchTerm = "") => {
     setLoader(true);
@@ -71,8 +72,83 @@ export default function Template() {
     }
   };
 
+  const fetchCategory = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY}category`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+
+      const cats = res.data?.categories || [];
+      const parents = cats.filter((c) => !c.parentCategory);
+      const subs = cats.filter((c) => c.parentCategory);
+      console.log("parents", parents);
+      console.log("subs", subs);
+      setCategory(parents);
+      setSubCategory(subs);
+    } catch (err) {
+      toast.error("Failed to fetch categories");
+    }
+  };
+  const handleCategoryChange = async (templateId, categoryId) => {
+    try {
+      // Optionally, you can call API to update category
+      await axios.put(
+        `${API_URL}template/${templateId}`,
+        { category: categoryId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Update state locally
+      setTemplates((prev) =>
+        prev.map((tpl) =>
+          tpl._id === templateId
+            ? { ...tpl, category: { _id: categoryId } }
+            : tpl
+        )
+      );
+
+      toast.success("Category updated");
+    } catch (err) {
+      toast.error("Failed to update category");
+    }
+  };
+
+  const handleSubCategoryChange = async (templateId, subCategoryId) => {
+    try {
+      await axios.put(
+        `${API_URL}template/${templateId}`,
+        { subCategory: subCategoryId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setTemplates((prev) =>
+        prev.map((tpl) =>
+          tpl._id === templateId
+            ? { ...tpl, subCategory: { _id: subCategoryId } }
+            : tpl
+        )
+      );
+
+      toast.success("Subcategory updated");
+    } catch (err) {
+      toast.error("Failed to update subcategory");
+    }
+  };
+
   useEffect(() => {
     getTemplates(1);
+    fetchCategory();
   }, []);
 
   const handleEdit = (id) => {
@@ -118,7 +194,6 @@ export default function Template() {
   };
 
   const handleTemplateSubmit = async () => {
-
     try {
       setLoader(true);
       const responseData = await axios.post(
@@ -139,102 +214,74 @@ export default function Template() {
     }
   };
 
-  const handleDownloadPDF = (tpl) => {
-    if (!tpl.content) {
-      toast.error("No template data found");
-      return;
-    }
-
-    const canvas = new fabric.StaticCanvas(null, { width: 800, height: 600 });
-
-    try {
-      const jsonData =
-        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
-
-      canvas.loadFromJSON(jsonData, () => {
-        const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
-
-        const pdf = new jsPDF("l", "pt", [canvas.width, canvas.height]);
-        pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height);
-        pdf.save(`${tpl.name || "template"}.pdf`);
-      });
-    } catch (err) {
-      toast.error("Error exporting PDF");
-    }
-  };
-  const handleDownloadCSV = (tpl) => {
-    if (!tpl.content) {
-      toast.error("No template data found");
-      return;
-    }
-
-    try {
-      const jsonData =
-        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
-
-      // flatten objects
-      const rows = [];
-      jsonData.objects.forEach((obj) => {
-        rows.push({
-          type: obj.type,
-          text: obj.text || "",
-          left: obj.left,
-          top: obj.top,
-          width: obj.width,
-          height: obj.height,
-          fill: obj.fill,
-          stroke: obj.stroke,
-          fontSize: obj.fontSize,
-          fontFamily: obj.fontFamily,
-        });
-      });
-
-      // convert to CSV
-      const headers = Object.keys(rows[0]).join(",");
-      const csv = [
-        headers,
-        ...rows.map((r) => Object.values(r).join(",")),
-      ].join("\n");
-
-      const blob = new Blob([csv], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${tpl.name || "template"}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      toast.error("Error exporting CSV");
-    }
-  };
-
   const handleApprove = (id) => {
     setApproveModel(true);
     setDeleteId(id);
   };
   const columns = [
     {
-      name: t('Name'),
-      selector: row => row.name
+      name: t("Name"),
+      selector: (row) => row.name,
     },
     {
-      name: t('Status'),
+      name: t("Status"),
       selector: (row) => row.status,
       cell: (row) => (
         <span
-          className={`badge ${row.status === "approved" ? "bg-success" : "bg-warning"
-            }`}
+          className={`badge ${
+            row.status === "approved" ? "bg-success" : "bg-warning"
+          }`}
         >
           {row.status.charAt(0).toUpperCase() + row.status.slice(1)}
         </span>
       ),
     },
     {
-      name: t('Action'),
-      cell: row => (
+      name: t("Category"),
+      cell: (row) => (
+        <select
+          className="form-select"
+          value={row.category?._id || ""}
+          onChange={(e) => handleCategoryChange(row._id, e.target.value)}
+        >
+          <option value="">{t("Select Category")}</option>
+          {category?.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+      ),
+      minWidth: "160px",
+      wrap: true,
+    },
+    {
+      name: t("Sub Category"),
+      cell: (row) => {
+        const relatedSubs = subCategory.filter(
+          (sub) => sub.parentCategory === row.category?._id
+        );
+        return (
+          <select
+            className="form-select"
+            value={row.subCategory?._id || ""}
+            onChange={(e) => handleSubCategoryChange(row._id, e.target.value)}
+          >
+            <option value="">{t("Select Sub Category")}</option>
+            {relatedSubs.map((sub) => (
+              <option key={sub._id} value={sub._id}>
+                {sub.name}
+              </option>
+            ))}
+          </select>
+        );
+      },
+      minWidth: "160px",
+      wrap: true,
+    },
+    {
+      name: t("Action"),
+      cell: (row) => (
         <div className="d-flex" data-label="Action">
           <div className="dropdown">
             <button
@@ -244,27 +291,27 @@ export default function Template() {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <i class="fa fa-ellipsis"></i>
+              <i className="fa fa-ellipsis"></i>
             </button>
 
-            <ul className="dropdown-menu" aria-labelledby={`ticketDropdownButton-${row._id}`}>
+            <ul
+              className="dropdown-menu"
+              aria-labelledby={`ticketDropdownButton-${row._id}`}
+            >
               <li>
                 <button
                   className="admin_action_edit"
                   onClick={() => handleEdit(row._id)}
                 >
-                  {/* {t("View/Edit")} */}
                   <i className="fa-solid fa-pencil me-2"></i> {t("Edit")}
                 </button>
               </li>
               <li>
                 <button
                   className="admin_action_clone"
-                  onClick={() =>
-                    handleClone(row._id, row.name, row.content)
-                  }
+                  onClick={() => handleClone(row._id, row.name, row.content)}
                 >
-                  <i class="fa-solid fa-clone"></i> {t("Clone")}
+                  <i className="fa-solid fa-clone"></i> {t("Clone")}
                 </button>
               </li>
               <li>
@@ -282,16 +329,16 @@ export default function Template() {
                       className="admin_action_approve"
                       onClick={() => handleApprove(row._id)}
                     >
-                      <i class="fa-solid fa-thumbs-up"></i> {t("Approve")}
+                      <i className="fa-solid fa-thumbs-up"></i> {t("Approve")}
                     </button>
                   )}
               </li>
             </ul>
           </div>
         </div>
-      )
-    }
-  ]
+      ),
+    },
+  ];
 
   return (
     <>
@@ -359,17 +406,16 @@ export default function Template() {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">{t("Loading...")}</span>
+                        <span className="visually-hidden">
+                          {t("Loading...")}
+                        </span>
                       </div>
                     </div>
                   )}
 
                   {/* Table */}
                   <div className="table-responsive">
-                    <DataTable
-                      columns={columns}
-                      data={templates}
-                    />
+                    <DataTable columns={columns} data={templates} />
                     {/* <table className="table">
                       <thead>
                         <tr>
