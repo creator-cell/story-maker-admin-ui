@@ -44,7 +44,7 @@ export default function EditCategory({ userId }) {
       setCategories(parentCategories || []);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to load categories");
+      toast.error(t("Failed to load categories"));
     }
   };
 
@@ -66,7 +66,7 @@ export default function EditCategory({ userId }) {
       });
     } catch (error) {
       console.error(error);
-      toast.error("Failed to load category");
+      toast.error(t("Failed to load category"));
     }
   };
 
@@ -151,13 +151,17 @@ export default function EditCategory({ userId }) {
                         {...register("slug")}
                       />
                       <small className="">
-                        {t("The “slug” is the URL-friendly version of the name.")}
+                        {t(
+                          "The “slug” is the URL-friendly version of the name."
+                        )}
                       </small>
                     </div>
 
                     {/* Parent Category */}
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
-                      <label className="form-label">{t("Parent Category")}</label>
+                      <label className="form-label">
+                        {t("Parent Category")}
+                      </label>
                       <select
                         className="form-control"
                         {...register("parentId")}
@@ -171,7 +175,9 @@ export default function EditCategory({ userId }) {
                         ))}
                       </select>
                       <small className="">
-                        {t("Categories can have a hierarchy. Totally optional.")}
+                        {t(
+                          "Categories can have a hierarchy. Totally optional."
+                        )}
                       </small>
                     </div>
 

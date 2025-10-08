@@ -44,6 +44,11 @@ export default function EditRole({ roleId }) {
       write: false,
       both: false,
     },
+    Plans: {
+      read: false,
+      write: false,
+      both: false,
+    },
     Notification: {
       read: false,
       write: false,
@@ -60,6 +65,7 @@ export default function EditRole({ roleId }) {
     { key: "Category", label: "Category" },
     { key: "Template", label: "Template" },
     { key: "Notification", label: "Notification" },
+    { key: "Plans", label: "Plans" },
   ];
 
   const {
@@ -95,6 +101,7 @@ export default function EditRole({ roleId }) {
         Assets: { read: false, write: false, both: false },
         Template: { read: false, write: false, both: false },
         Notification: { read: false, write: false, both: false },
+        Plans: { read: false, write: false, both: false },
       };
       if (role.menuPermissions) {
         setMenuPermissions({
@@ -236,7 +243,8 @@ export default function EditRole({ roleId }) {
                       <div className="col-lg-12 col-md-12 col-12 mb-3">
                         <div className="form_group">
                           <label htmlFor="role-name">
-                            {t("Role Name")} <span className="text-denger"> *</span>
+                            {t("Role Name")}{" "}
+                            <span className="text-denger"> *</span>
                           </label>
                           <input
                             type="text"
@@ -269,7 +277,9 @@ export default function EditRole({ roleId }) {
                                   <tr>
                                     <th>{t("Menu")}</th>
                                     <th className="text-center">{t("Read")}</th>
-                                    <th className="text-center">{t("Write")}</th>
+                                    <th className="text-center">
+                                      {t("Write")}
+                                    </th>
                                     <th className="text-center">{t("Both")}</th>
                                   </tr>
                                 </thead>
@@ -343,7 +353,9 @@ export default function EditRole({ roleId }) {
                             </div>
                           </div>
                           <small className="text-muted">
-                            {t("Select permissions for each menu. 'Both' automatically selects Read and Write.")}
+                            {t(
+                              "Select permissions for each menu. 'Both' automatically selects Read and Write."
+                            )}
                           </small>
                         </div>
                       </div>

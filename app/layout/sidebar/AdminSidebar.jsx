@@ -106,7 +106,9 @@ const AdminSidebar = ({ locale }) => {
   const handleChangeLanguage = (newLang) => {
     setLang(newLang);
     const localePrefix = `/${locale}`;
-    let basePath = pathname.startsWith(localePrefix) ? pathname.substring(localePrefix.length) : pathname;
+    let basePath = pathname.startsWith(localePrefix)
+      ? pathname.substring(localePrefix.length)
+      : pathname;
     if (basePath === "") {
       basePath = "/";
     }
@@ -144,20 +146,46 @@ const AdminSidebar = ({ locale }) => {
                 <div className="cust-check-group">
                   <div className="cust-check">
                     <label className="form-check-label" htmlFor="English">
-                      <input className="form-check-input" type="radio" name="language" id="English" value="en"
-                        onChange={(t) => {setLoader(true); handleChangeLanguage(t.target.value)}}
-                        checked={lang === 'en' ? true : false}
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="language"
+                        id="English"
+                        value="en"
+                        onChange={(t) => {
+                          setLoader(true);
+                          handleChangeLanguage(t.target.value);
+                        }}
+                        checked={lang === "en" ? true : false}
                       />
-                      <Image src="/flags/gb.svg" alt="english"  width={20} height={20} />
+                      <Image
+                        src="/flags/gb.svg"
+                        alt="english"
+                        width={20}
+                        height={20}
+                      />
                     </label>
                   </div>
                   <div className="cust-check">
                     <label className="form-check-label" htmlFor="Arabic">
-                      <input className="form-check-input" type="radio" name="language" id="Arabic" value="ar"
-                        onChange={(t) => {setLoader(true); handleChangeLanguage(t.target.value)}}
-                        checked={lang === 'ar' ? true : false}
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="language"
+                        id="Arabic"
+                        value="ar"
+                        onChange={(t) => {
+                          setLoader(true);
+                          handleChangeLanguage(t.target.value);
+                        }}
+                        checked={lang === "ar" ? true : false}
                       />
-                      <Image src="/flags/ar.svg" alt="arabic" width={20} height={20} />
+                      <Image
+                        src="/flags/ar.svg"
+                        alt="arabic"
+                        width={20}
+                        height={20}
+                      />
                     </label>
                   </div>
                 </div>
@@ -327,6 +355,24 @@ const AdminSidebar = ({ locale }) => {
                               <i className="fa-solid fa-newspaper"></i>
                               {t("Notification")}
                               {!hasWriteAccess("Notification") && (
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
+                              )}
+                            </CustomLink>
+                          </li>
+                        )}
+                        {hasMenuAccess("Plans") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${
+                                activeLink === "/admin/plans" ? "active" : ""
+                              }`}
+                              href={`/admin/plans`}
+                            >
+                              <i className="fa-solid fa-newspaper"></i>
+                              {t("Plans")}
+                              {!hasWriteAccess("Plans") && (
                                 <small className="text-muted ms-1">
                                   (Read Only)
                                 </small>
