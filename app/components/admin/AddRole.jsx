@@ -20,12 +20,12 @@ const AddRole = () => {
     Roles: {
       read: false,
       write: false,
-      both: false
+      both: false,
     },
     Assets: {
       read: false,
       write: false,
-      both: false
+      both: false,
     },
     Tickets: {
       read: false,
@@ -45,8 +45,13 @@ const AddRole = () => {
     Notification: {
       read: false,
       write: false,
-      both: false
-    }
+      both: false,
+    },
+    Plans: {
+      read: false,
+      write: false,
+      both: false,
+    },
   });
   const router = useRouter();
 
@@ -58,7 +63,8 @@ const AddRole = () => {
     { key: "Tickets", label: "Tickets" },
     { key: "Category", label: "Category" },
     { key: "Template", label: "Template" },
-    { key: "Notification", label: "Notification" }
+    { key: "Notification", label: "Notification" },
+    { key: "Plans", label: "Plans" },
   ];
 
   const {
@@ -168,7 +174,8 @@ const AddRole = () => {
           Tickets: { read: false, write: false, both: false },
           Category: { read: false, write: false, both: false },
           Template: { read: false, write: false, both: false },
-          Notification: { read: false, write: false, both: false }
+          Notification: { read: false, write: false, both: false },
+          Plans: { read: false, write: false, both: false },
         });
         router.push("/admin/category");
       })
@@ -203,7 +210,8 @@ const AddRole = () => {
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="form_group">
                         <label htmlFor="role-name">
-                          {t("Role Name")} <span className="text-denger"> *</span>
+                          {t("Role Name")}{" "}
+                          <span className="text-denger"> *</span>
                         </label>
                         <input
                           type="text"
@@ -227,7 +235,8 @@ const AddRole = () => {
                     <div className="col-lg-12 col-md-12 col-12 mb-3">
                       <div className="role-table form_group">
                         <label>
-                          {t("Menu Access & Permissions")}{" "} <span className="text-denger"> *</span>
+                          {t("Menu Access & Permissions")}{" "}
+                          <span className="text-denger"> *</span>
                         </label>
                         <div className="menu-permissions-table mt-3">
                           <div className="table-responsive">
@@ -235,8 +244,11 @@ const AddRole = () => {
                               <thead>
                                 <tr>
                                   <th>{t("Menu")}</th>
-                                  <th className="text-center" >{t("Read")}</th>
-                                  <th className="text-center"> {t("Write")} </th>
+                                  <th className="text-center">{t("Read")}</th>
+                                  <th className="text-center">
+                                    {" "}
+                                    {t("Write")}{" "}
+                                  </th>
                                   <th className="text-center">{t("Both")}</th>
                                 </tr>
                               </thead>
@@ -307,7 +319,9 @@ const AddRole = () => {
                           </div>
                         </div>
                         <small className="text-muted">
-                          {t("Select permissions for each menu. 'Both' automatically selects Read and Write.")}
+                          {t(
+                            "Select permissions for each menu. 'Both' automatically selects Read and Write."
+                          )}
                         </small>
                       </div>
                     </div>
@@ -323,9 +337,11 @@ const AddRole = () => {
                       <button
                         type="button"
                         className="button"
-                        onClick={() => { setLoader(true); router.push("/admin/role") }}
+                        onClick={() => {
+                          setLoader(true);
+                          router.push("/admin/role");
+                        }}
                         disabled={loader}
-
                       >
                         {t("Cancel")}
                       </button>
