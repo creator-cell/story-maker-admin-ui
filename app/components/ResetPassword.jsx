@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ResetPassword() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;

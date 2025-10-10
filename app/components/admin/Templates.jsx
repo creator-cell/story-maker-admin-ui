@@ -90,6 +90,7 @@ export default function Template() {
       setSubCategory(subs);
     } catch (err) {
       toast.error(t("Failed to fetch categories"));
+      toast.error(t("Failed to fetch categories"));
     }
   };
   const handleCategoryChange = async (templateId, categoryId) => {
@@ -178,6 +179,7 @@ export default function Template() {
           },
         }
       );
+      toast.success(t("Template clone successfully"));
       toast.success(t("Template clone successfully"));
       getTemplates();
       router.push("/admin/template");

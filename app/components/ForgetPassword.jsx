@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import Loader from "./Loader";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ForgetPassword() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;

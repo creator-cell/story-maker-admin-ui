@@ -74,7 +74,9 @@ const AssetsManage = () => {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
         toast.error(t("You don't have permission to view users 9999"));
+        toast.error(t("You don't have permission to view users 9999"));
       } else {
+        toast.error(t("Failed to fetch users"));
         toast.error(t("Failed to fetch users"));
       }
     } finally {

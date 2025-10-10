@@ -85,6 +85,7 @@ export default function EditCategory({ userId }) {
   const handleUpdate = async (data) => {
     if (!data.name) {
       toast.error(t("Category name is required"));
+      toast.error(t("Category name is required"));
       return;
     }
 
