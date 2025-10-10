@@ -68,7 +68,7 @@ const UpdatePlans = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast(err?.response?.data?.message || "Failed to get plan data", {
+        toast(err?.response?.data?.message || t("Failed to get plan data"), {
           type: "error",
           theme: "light",
           position: "top-right",
@@ -99,7 +99,7 @@ const UpdatePlans = () => {
       }),
     })
       .then((res) => {
-        toast(res?.data?.message || "plan updated successfully", {
+        toast(res?.data?.message || t("plan updated successfully"), {
           type: "success",
           theme: "light",
           position: "top-right",
@@ -110,7 +110,7 @@ const UpdatePlans = () => {
         toast(
           err?.response?.data?.errors?.[0]?.message ??
           err?.response?.data?.message ??
-          "Failed to update plans",
+          t("Failed to update plans"),
           {
             type: "error",
             theme: "light",

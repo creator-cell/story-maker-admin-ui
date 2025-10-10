@@ -16,21 +16,21 @@ export default function DeleteUser({ show, onHide, data, props }) {
             });
             
             if (response.ok) {
-                toast("User deleted successfully.", {
+                toast(t("User deleted successfully"), {
                     theme: "dark",
                     position: "top-right",
                     type: "success"
                 });
                 onHide();
             } else {
-                toast('Failed to delete user.', {
+                toast(t('Failed to delete user'), {
                     theme: "dark",
                     position: "top-right",
                     type: "error"
                 });
             }
         } catch (error) {
-            toast('Error deleting user.', {
+            toast(t('Error deleting user'), {
                 theme: "dark",
                 position: "top-right",
                 type: "error"

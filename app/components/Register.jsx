@@ -7,12 +7,14 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import PhoneNumber from "react-phone-number-input";
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
+  const { t } = useTranslation();
 
   const {
     formState: { errors },
@@ -50,7 +52,7 @@ export default function Register() {
       if (response) {
         setShowLoader(false);
         toast(
-          "Registration successfull, please check your email to verify your account.",
+          t("Registration successfull, please check your email to verify your account."),
           {
             theme: "light",
             position: "top-right",
@@ -76,7 +78,7 @@ export default function Register() {
     } catch (error) {
       setShowLoader(false);
 
-      toast(error.response.data?.message || "Somthing went wrong", {
+      toast(error.response.data?.message || t("Somthing went wrong"), {
         theme: "dark",
         position: "top-right",
         type: "error",

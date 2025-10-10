@@ -73,9 +73,9 @@ const AssetsManage = () => {
     } catch (error) {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
-        toast.error("You don't have permission to view users 9999");
+        toast.error(t("You don't have permission to view users 9999"));
       } else {
-        toast.error("Failed to fetch users");
+        toast.error(t("Failed to fetch users"));
       }
     } finally {
       setLoader(false);
@@ -100,7 +100,7 @@ const AssetsManage = () => {
       }),
     })
       .then((res) => {
-        toast(res?.data?.message || "Status updated successfully", {
+        toast(res?.data?.message || t("Status updated successfully"), {
           type: "success",
           theme: "light",
           position: "top-right",
@@ -116,7 +116,7 @@ const AssetsManage = () => {
         );
       })
       .catch((err) => {
-        toast("Failed to update status", {
+        toast(t("Failed to update status"), {
           type: "error",
           theme: "light",
           position: "top-right",
@@ -163,7 +163,7 @@ const AssetsManage = () => {
       },
     })
       .then((res) => {
-        toast(res.data?.message || "Assets clone successfully", {
+        toast(res.data?.message || t("Assets clone successfully"), {
           type: "success",
           position: "top-right",
           theme: "light",
@@ -171,7 +171,7 @@ const AssetsManage = () => {
         router.push(`/admin/assets/${res?.data?.data?.cloneId}`);
       })
       .catch((err) => {
-        toast(err?.response?.data?.message || "Failed to clone assets", {
+        toast(err?.response?.data?.message || t("Failed to clone assets"), {
           type: "error",
           position: "top-right",
           theme: "light",
@@ -231,7 +231,7 @@ const AssetsManage = () => {
               // getAssets(1);
               getAssets(1);
             } else {
-              toast.error("You don't have permission to access this page");
+              toast.error(t("You don't have permission to access this page"));
             }
           } else {
             // User doesn't have Users menu access
@@ -241,7 +241,7 @@ const AssetsManage = () => {
               both: false,
               hasUsersMenu: false,
             });
-            toast.error("You don't have permission to access this page");
+            toast.error(t("You don't have permission to access this page"));
           }
         } else {
           // No role permissions found
@@ -251,7 +251,7 @@ const AssetsManage = () => {
             both: false,
             hasUsersMenu: false,
           });
-          toast.error("You don't have permission to access this page");
+          toast.error(t("You don't have permission to access this page"));
         }
       } catch (error) {
         console.error("Error initializing user permissions:", error);
@@ -261,7 +261,7 @@ const AssetsManage = () => {
           both: false,
           hasUsersMenu: false,
         });
-        toast.error("Error loading user permissions");
+        toast.error(t("Error loading user permissions"));
       }
     };
 

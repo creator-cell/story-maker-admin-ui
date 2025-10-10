@@ -42,7 +42,7 @@ function UploadPanel() {
       setUserUploads(myItems);
     } catch (error) {
       console.error("Error fetching assets:", error);
-      toast.error("Failed to fetch assets");
+      toast.error(t("Failed to fetch assets"));
       setUserUploads([]);
     } finally {
       setIsLoading(false);
@@ -56,7 +56,7 @@ function UploadPanel() {
     setIsLoading(true);
 
     if (!file) {
-      toast("Please select an image", { type: "error" });
+      toast(t("Please select an image"), { type: "error" });
       setIsLoading(false);
       return null;
     }
@@ -81,7 +81,7 @@ function UploadPanel() {
       toast(
         err?.response?.data?.errors?.[0]?.message ??
         err?.response?.data?.message ??
-        "Failed to upload image",
+        t("Failed to upload image"),
         {
           type: "error",
           theme: "light",

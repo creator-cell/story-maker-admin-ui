@@ -47,7 +47,7 @@ const AddUserPage = () => {
       setRoles(response.data?.roles || []);
     } catch (error) {
       console.error("Error fetching roles:", error);
-      toast("Failed to fetch roles", {
+      toast(t("Failed to fetch roles"), {
         theme: "dark",
         position: "top-right",
         type: "error",
@@ -103,7 +103,7 @@ const AddUserPage = () => {
       .then((res) => {
         setLoader(false);
       
-        toast("Registration successful", {
+        toast(t("Registration successful"), {
           theme: "dark",
           position: "top-right",
           type: "success",
@@ -115,7 +115,7 @@ const AddUserPage = () => {
       .catch((err) => {
         setLoader(false);
         console.log("error", err);
-        toast(err?.response?.data?.message || "Registration failed", {
+        toast(err?.response?.data?.message || t("Registration failed"), {
           type: "error",
           theme: "dark",
           position: "top-right",

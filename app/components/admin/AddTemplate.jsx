@@ -59,7 +59,7 @@ export default function AddTemplatePage() {
       );
       setCategories(res.data.categories || []);
     } catch {
-      toast.error("Failed to fetch categories");
+      toast.error(t("Failed to fetch categories"));
     }
   };
 
@@ -92,12 +92,12 @@ export default function AddTemplatePage() {
         }
       )
       .then(() => {
-        toast.success("Template added successfully");
+        toast.success(t("Template added successfully"));
         reset();
         router.push("/admin/template");
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message || "Failed to add template");
+        toast.error(err?.response?.data?.message || t("Failed to add template"));
       })
       .finally(() => setLoader(false));
   };

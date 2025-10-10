@@ -5,12 +5,15 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ResetPassword() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
   const searchParams = useSearchParams();
   const router = useRouter();
   const resetToken = searchParams.get("token");
+  const { t } = useTranslation();
 
   const {
     formState: { errors },
@@ -43,7 +46,7 @@ export default function ResetPassword() {
       if (response.data) {
         toast(
           response.data?.message ||
-            "Your password has been successfully reset.",
+            t("Your password has been successfully reset."),
           {
             theme: "dark",
             position: "top-right",
@@ -55,7 +58,7 @@ export default function ResetPassword() {
     } catch (error) {
       console.log("error => ", error);
 
-      toast(error.response.data?.message || "Try Again", {
+      toast(error.response.data?.message || t("Try Again"), {
         theme: "dark",
         position: "top-right",
         type: "error",

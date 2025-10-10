@@ -161,7 +161,7 @@ const AddRole = () => {
     })
       .then((res) => {
         setLoader(false);
-        toast("Role created successfully", {
+        toast(t("Role created successfully"), {
           theme: "dark",
           position: "top-right",
           type: "success",
@@ -182,7 +182,7 @@ const AddRole = () => {
       .catch((err) => {
         setLoader(false);
         console.log("error", err);
-        toast(err?.response?.data?.message || "Role creation failed", {
+        toast(err?.response?.data?.message || t("Role creation failed"), {
           type: "error",
           theme: "dark",
           position: "top-right",

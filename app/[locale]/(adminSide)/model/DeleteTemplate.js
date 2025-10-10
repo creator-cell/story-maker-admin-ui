@@ -16,7 +16,7 @@ export default function DeleteTemplate({ show, onHide, data, props }) {
       });
 
       if (response.ok) {
-        toast("Template deleted successfully.", {
+        toast(t("Template deleted successfully"), {
           theme: "dark",
           position: "top-right",
           type: "success",
@@ -24,14 +24,14 @@ export default function DeleteTemplate({ show, onHide, data, props }) {
         onHide();
         router.push("/admin/template");
       } else {
-        toast("Failed to delete template.", {
+        toast(t("Failed to delete template"), {
           theme: "dark",
           position: "top-right",
           type: "error",
         });
       }
     } catch (error) {
-      toast("Error deleting template.", {
+      toast(t("Error deleting template"), {
         theme: "dark",
         position: "top-right",
         type: "error",

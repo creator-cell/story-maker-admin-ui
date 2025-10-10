@@ -34,7 +34,7 @@ export default function Notification() {
       })
     }).then(res => {
       setMessage("");
-      toast(res.data?.message || "Notification sended successfully", {
+      toast(res.data?.message || t("Notification sended successfully"), {
         theme: "light",
         type: "success",
         position: "top-right"
@@ -42,7 +42,7 @@ export default function Notification() {
       getNotifications();
     }).catch(err => {
       console.log(err);
-      toast("Something want wrong", {
+      toast(t("Something want wrong"), {
         theme: "light",
         type: "error",
         position: "top-right"

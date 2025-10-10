@@ -6,11 +6,12 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { setCookie } from "cookies-next/client";
 import { login, userStore } from "../redux/UserStore";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import { useTranslation } from "react-i18next";
-export default function Login() {
+
+const Login = ({ locale }) =>{
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
   const {
     formState: { errors },
@@ -26,6 +27,9 @@ export default function Login() {
   const router = useRouter();
   const [showLoader, setShowLoader] = useState(false);
   const [showVerifyLink, setShowVerifyLink] = useState(false);
+  const pathname = usePathname();
+  const [lang, setLang] = useState(locale || "en");
+  const [loader, setLoader] = useState(false);
 
   const handleLogin = async (data) => {
     setShowLoader(true);
@@ -43,7 +47,7 @@ export default function Login() {
       });
       if (response.data) {
         setUser(response.data);
-        toast(response.data?.message || "Login Successfully", {
+        toast(response.data?.message || t("Login Successfully"), {
           theme: "dark",
           position: "top-right",
           type: "success",
@@ -99,6 +103,25 @@ export default function Login() {
       }
     }
   };
+const handleChangeLanguage = async (newLang) => {
+
+  const pathSegments = pathname.split("/").filter(Boolean);
+  if (["en", "ar"].includes(pathSegments[0])) pathSegments.shift();
+
+  const newPath = "/" + newLang + (pathSegments.length ? "/" + pathSegments.join("/") : "");
+
+  setLang(newLang);
+  router.replace(newPath);
+};
+
+useEffect(() => {
+  const segments = pathname.split("/").filter(Boolean);
+  if (segments[0] === "ar" || segments[0] === "en") {
+    setLang(segments[0]);
+  } else {
+    setLang("en");
+  }
+}, [pathname]);
 
   return (
     <>
@@ -115,6 +138,54 @@ export default function Login() {
             background: "linear-gradient(to bottom right, #ffffff, #d9d9d9)",
           }}
         >
+           <div id="languageswitcher" className="languageswitcher-login">
+                <div className="cust-check-group">
+                  <div className="cust-check">
+                    <label className="form-check-label" htmlFor="English">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="language"
+                        id="English"
+                        value="en"
+                        onChange={(t) => {
+                          setLoader(true);
+                          handleChangeLanguage(t.target.value);
+                        }}
+                        checked={lang === "en" ? true : false}
+                      />
+                      <Image
+                        src="/flags/gb.svg"
+                        alt="english"
+                        width={20}
+                        height={20}
+                      />
+                    </label>
+                  </div>
+                  <div className="cust-check">
+                    <label className="form-check-label" htmlFor="Arabic">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="language"
+                        id="Arabic"
+                        value="ar"
+                        onChange={(t) => {
+                          setLoader(true);
+                          handleChangeLanguage(t.target.value);
+                        }}
+                        checked={lang === "ar" ? true : false}
+                      />
+                      <Image
+                        src="/flags/ar.svg"
+                        alt="arabic"
+                        width={20}
+                        height={20}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
           <div className="container">
             <div className="row justify-content-center align-items-center">
               <div className="col-lg-5 col-md-7 col-12 mt-10">
@@ -218,3 +289,4 @@ export default function Login() {
     </>
   );
 }
+export default Login
