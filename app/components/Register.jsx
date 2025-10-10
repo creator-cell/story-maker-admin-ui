@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Loader from "./Loader";
 import PhoneNumber from "react-phone-number-input";
 import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
@@ -78,7 +79,7 @@ export default function Register() {
     } catch (error) {
       setShowLoader(false);
 
-      toast(error.response.data?.message || t("Somthing went wrong"), {
+      toast(t("Somthing went wrong"), {
         theme: "dark",
         position: "top-right",
         type: "error",
@@ -103,7 +104,7 @@ export default function Register() {
             <div className="col-lg-5 col-md-6 col-12">
               <div className="auth_form">
                 <div className="title-dark">
-                  <h2>Register Now</h2>
+                  <h2>{t("Register Now")}</h2>
                 </div>
                 <div className="boxwrap">
                   <form
@@ -120,7 +121,7 @@ export default function Register() {
                           {...register("firstName", {
                             required: {
                               value: true,
-                              message: "Full name required.",
+                              message: t("Full name required."),
                             },
                             pattern: {
                               value: /^[A-Za-z\s]+$/,
@@ -167,7 +168,7 @@ export default function Register() {
                           {...register("email", {
                             required: {
                               value: true,
-                              message: "Email Address Required.",
+                              message: t("Email Address Required."),
                             },
                             pattern: {
                               value:
@@ -193,7 +194,7 @@ export default function Register() {
                             {...register("password", {
                               required: {
                                 value: true,
-                                message: "Password Required",
+                                message: t("Password Required"),
                               },
                               pattern: {
                                 value:
@@ -232,7 +233,7 @@ export default function Register() {
                             {...register("confirmPassword", {
                               required: {
                                 value: true,
-                                message: "Confirm Password Required",
+                                message: t("Confirm Password Required"),
                               },
                               validate: (value) => {
                                 return (
@@ -271,7 +272,7 @@ export default function Register() {
                           {...register("termsCondition", {
                             required: {
                               value: true,
-                              message: "Please accept the terms and condition.",
+                              message: t("Please accept the terms and condition."),
                             },
                           })}
                         />
@@ -279,9 +280,9 @@ export default function Register() {
                           className="form-check-label"
                           htmlFor="acceptTerms"
                         >
-                          I agree to the{" "}
+                          {t("I agree to the")}{" "}
                           <CustomLink href={"/terms-conditions"}>
-                            Terms & Conditions{" "}
+                            {t("Terms & Conditions")}{" "}
                           </CustomLink>
                           *.
                         </label>
@@ -295,20 +296,20 @@ export default function Register() {
                     <div className="col-lg-12 col-md-12 col-12">
                       <input
                         type="submit"
-                        value="Sign up"
+                        value={t("Sign up")}
                         className="button w-100"
                       />
                     </div>
                     <div className="col-md-12 col-12">
                       <span className="form_text">
-                        * Signifies a compulsory field
+                        {t("* Signifies a compulsory field")}
                       </span>
                     </div>
                     <div className="col-md-12 col-12">
                       <div className="back_link">
-                        <span>Already have an account?</span>
+                        <span>{t("Already have an account?")}</span>
                         <CustomLink href="/login" className="">
-                          Login <i className="fa fa-arrow-right"></i>
+                          {t("Login")} <i className="fa fa-arrow-right"></i>
                         </CustomLink>
                       </div>
                     </div>

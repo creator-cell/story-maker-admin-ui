@@ -48,6 +48,7 @@ const AddUserPage = () => {
     } catch (error) {
       console.error("Error fetching roles:", error);
       toast(t("Failed to fetch roles"), {
+      toast(t("Failed to fetch roles"), {
         theme: "dark",
         position: "top-right",
         type: "error",
@@ -68,15 +69,15 @@ const AddUserPage = () => {
     const missingFields = [];
 
     // Check all required fields
-    if (!data.name) missingFields.push("Full Name");
-    if (!data.email) missingFields.push("Email");
+    if (!data.name) missingFields.push(t("Full Name"));
+    if (!data.email) missingFields.push(t("Email"));
     
-    if (!data.role) missingFields.push("Role");
-  if (!data.phone) missingFields.push("Phone number");
+    if (!data.role) missingFields.push(t("Role"));
+  if (!data.phone) missingFields.push(t("Phone number"));
 
    
     if (missingFields.length > 0) {
-      toast(`${missingFields.join(", ")} is required`, {
+      toast(`${missingFields.join(", ")} ${t("is required")}`, {
         theme: "dark",
         position: "top-right",
         type: "error",
@@ -103,7 +104,7 @@ const AddUserPage = () => {
       .then((res) => {
         setLoader(false);
       
-        toast(t("Registration successful"), {
+        toast(t("Registration successfully"), {
           theme: "dark",
           position: "top-right",
           type: "success",

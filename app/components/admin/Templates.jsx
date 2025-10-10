@@ -90,6 +90,7 @@ export default function Template() {
       setSubCategory(subs);
     } catch (err) {
       toast.error(t("Failed to fetch categories"));
+      toast.error(t("Failed to fetch categories"));
     }
   };
   const handleCategoryChange = async (templateId, categoryId) => {
@@ -179,10 +180,11 @@ export default function Template() {
         }
       );
       toast.success(t("Template clone successfully"));
+      toast.success(t("Template clone successfully"));
       getTemplates();
       router.push("/admin/template");
     } catch (err) {
-      toast.error(err?.response?.data?.message || t("Failed to update template"));
+      toast.error(t("Failed to update template"));
     } finally {
       setLoader(false);
     }
@@ -210,7 +212,7 @@ export default function Template() {
       router.push(`/admin/template/${responseData.data.template._id}`);
     } catch (err) {
       setLoader(false);
-      toast.error(err?.response?.data?.message || t("Failed to add template"));
+      toast.error(t("Failed to add template"));
     }
   };
 

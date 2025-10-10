@@ -19,8 +19,11 @@ import SettingsPanel from "./panels/settings";
 import AiPanel from "./panels/ai";
 import { useEditorStore } from "../../../../redux/UserStore";
 import { toggleDrawingMode } from "../../fabric/fabric-utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 function Sidebar() {
+  const { t } = useTranslation();
   const { canvas } = useEditorStore();
   const [isDrawingMode, setIsDrawingMode] = useState(false);
   const [isErasing, setIsErasing] = useState(false);
@@ -33,25 +36,25 @@ function Sidebar() {
     {
       id: "elements",
       icon: Grid,
-      label: "Elements",
+      label: t("Elements"),
       panel: () => <ElementsPanel />,
     },
     {
       id: "text",
       icon: Type,
-      label: "Text",
+      label: t("Text"),
       panel: () => <TextPanel />,
     },
     {
       id: "uploads",
       icon: Upload,
-      label: "Uploads",
+      label: t("Uploads"),
       panel: () => <UploadPanel />,
     },
     {
       id: "draw",
       icon: Pencil,
-      label: "Draw",
+      label: t("Draw"),
       panel: () => <DrawingPanel />,
     },
     // {
@@ -63,7 +66,7 @@ function Sidebar() {
     {
       id: "settings",
       icon: Settings,
-      label: "Settings",
+      label: t("Settings"),
       panel: () => <SettingsPanel />,
     },
   ];

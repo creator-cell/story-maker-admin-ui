@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { setCookie } from "cookies-next/client";
 import { login, userStore } from "../redux/UserStore";
 import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import { useTranslation } from "react-i18next";
@@ -47,7 +48,7 @@ const Login = ({ locale }) =>{
       });
       if (response.data) {
         setUser(response.data);
-        toast(response.data?.message || t("Login Successfully"), {
+        toast(t("Login Successfully"), {
           theme: "dark",
           position: "top-right",
           type: "success",
@@ -79,7 +80,7 @@ const Login = ({ locale }) =>{
         setShowLoader(false);
       } else {
         setShowLoader(false);
-        toast("Please verify your account.", {
+        toast(t("Please verify your account."), {
           theme: "dark",
           position: "top-right",
           type: "error",
@@ -89,13 +90,13 @@ const Login = ({ locale }) =>{
     } catch (error) {
       setShowLoader(false);
       if (error.response.data?.code === 500) {
-        toast("Email not found.", {
+        toast(t("Email not found."), {
           theme: "dark",
           position: "top-right",
           type: "error",
         });
       } else {
-        toast(error.response.data?.message || "Invalid Credentials", {
+        toast(t("Invalid Credentials"), {
           theme: "dark",
           position: "top-right",
           type: "error",

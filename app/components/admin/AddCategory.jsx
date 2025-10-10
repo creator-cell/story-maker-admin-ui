@@ -44,6 +44,7 @@ const AddCategoryPage = () => {
     } catch (error) {
       console.error("Error fetching categories:", error);
       toast.error(t("Failed to fetch categories"), { theme: "dark" });
+      toast.error(t("Failed to fetch categories"), { theme: "dark" });
     }
   };
 
@@ -78,13 +79,14 @@ const AddCategoryPage = () => {
       .then(() => {
         setLoader(false);
         toast.success(t("Category added"), { theme: "dark" });
+        toast.success(t("Category added"), { theme: "dark" });
         reset();
         router.push("/admin/category");
       })
       .catch((err) => {
         setLoader(false);
         console.log("error", err);
-        toast.error(err?.response?.data?.message || t("Failed to add category"), {
+        toast.error(t("Failed to add category"), {
           theme: "dark",
         });
       });
