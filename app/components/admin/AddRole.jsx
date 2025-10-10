@@ -52,6 +52,11 @@ const AddRole = () => {
       write: false,
       both: false,
     },
+    Dashboard: {
+      read: false,
+      write: false,
+      both: false,
+    },
   });
   const router = useRouter();
 
@@ -65,6 +70,7 @@ const AddRole = () => {
     { key: "Template", label: "Template" },
     { key: "Notification", label: "Notification" },
     { key: "Plans", label: "Plans" },
+    { key: "Dashboard", label: "Dashboard" },
   ];
 
   const {
@@ -176,6 +182,7 @@ const AddRole = () => {
           Template: { read: false, write: false, both: false },
           Notification: { read: false, write: false, both: false },
           Plans: { read: false, write: false, both: false },
+          Dashboard: { read: false, write: false, both: false },
         });
         router.push("/admin/category");
       })

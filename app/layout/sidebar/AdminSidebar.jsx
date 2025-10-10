@@ -380,6 +380,26 @@ const AdminSidebar = ({ locale }) => {
                             </CustomLink>
                           </li>
                         )}
+                        {hasMenuAccess("Dashboard") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${
+                                activeLink === "/admin/dashboard"
+                                  ? "active"
+                                  : ""
+                              }`}
+                              href={`/admin/dashboard`}
+                            >
+                              <i className="fa-solid fa-newspaper"></i>
+                              {t("Dashboard")}
+                              {!hasWriteAccess("Dashboard") && (
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
+                              )}
+                            </CustomLink>
+                          </li>
+                        )}
 
                         <li className="nav-item">
                           <button
