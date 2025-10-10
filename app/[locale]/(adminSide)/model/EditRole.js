@@ -2,9 +2,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Container, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function EditRole({ show, onHide, data, onUpdate }) {
+      const { t } = useTranslation();
     const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
     const [menuPermissions, setMenuPermissions] = useState({
         Users: {
@@ -135,7 +137,7 @@ export default function EditRole({ show, onHide, data, onUpdate }) {
             });
             
             if (response.ok) {
-                toast("Role updated successfully.", {
+                toast(t("Role updated successfully"), {
                     theme: "dark",
                     position: "top-right",
                     type: "success"
@@ -144,14 +146,14 @@ export default function EditRole({ show, onHide, data, onUpdate }) {
                 if (onUpdate) onUpdate();
             } else {
                 const errorData = await response.json();
-                toast(errorData?.message || 'Failed to update role.', {
+                toast(errorData?.message || t('Failed to update role'), {
                     theme: "dark",
                     position: "top-right",
                     type: "error"
                 });
             }
         } catch (error) {
-            toast('Error updating role.', {
+            toast(t('Error updating role'), {
                 theme: "dark",
                 position: "top-right",
                 type: "error"
@@ -177,7 +179,7 @@ export default function EditRole({ show, onHide, data, onUpdate }) {
               
             }
         } catch (error) {
-            toast('Error getting role.', {
+            toast(t('Error getting role'), {
                 theme: "dark",
                 position: "top-right",
                 type: "error"

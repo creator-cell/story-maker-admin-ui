@@ -128,7 +128,7 @@ export default function Roles() {
             if (usersMenu.read || usersMenu.both) {
               getRole(1);
             } else {
-              toast.error("You don't have permission to access this page");
+              toast.error(t("You don't have permission to access this page"));
             }
           } else {
             // User doesn't have Users menu access
@@ -138,7 +138,7 @@ export default function Roles() {
               both: false,
               hasUsersMenu: false,
             });
-            toast.error("You don't have permission to access this page");
+            toast.error(t("You don't have permission to access this page"));
           }
         } else {
           // No role permissions found
@@ -148,7 +148,7 @@ export default function Roles() {
             both: false,
             hasUsersMenu: false,
           });
-          toast.error("You don't have permission to access this page");
+          toast.error(t("You don't have permission to access this page"));
         }
       } catch (error) {
         console.error("Error initializing user permissions:", error);
@@ -158,7 +158,7 @@ export default function Roles() {
           both: false,
           hasUsersMenu: false,
         });
-        toast.error("Error loading user permissions");
+        toast.error(t("Error loading user permissions"));
       }
     };
 

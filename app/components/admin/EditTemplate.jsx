@@ -90,7 +90,7 @@ export default function EditTemplatePage({ id, isClone }) {
       );
       setCategories(response.data.categories || []);
     } catch (error) {
-      toast.error("Failed to fetch categories");
+      toast.error(t("Failed to fetch categories"));
     }
   };
 
@@ -127,7 +127,7 @@ export default function EditTemplatePage({ id, isClone }) {
         });
       }
     } catch (err) {
-      toast.error("Failed to load template");
+      toast.error(t("Failed to load template"));
     } finally {
       setLoader(false);
     }
@@ -155,7 +155,7 @@ export default function EditTemplatePage({ id, isClone }) {
     const userId = userObj?._id;
 
     if (!data.name || !data.category || !data.subCategory || !userId) {
-      toast.error("All fields are required");
+      toast.error(t("All fields are required"));
       return;
     }
 
@@ -179,11 +179,11 @@ export default function EditTemplatePage({ id, isClone }) {
             },
           }
         );
-        toast.success("Template clone successfully");
+        toast.success(t("Template clone successfully"));
         router.push("/admin/template");
       } catch (err) {
         toast.error(
-          err?.response?.data?.message || "Failed to update template"
+          err?.response?.data?.message || t("Failed to update template")
         );
       } finally {
         setLoader(false);
@@ -206,11 +206,11 @@ export default function EditTemplatePage({ id, isClone }) {
             },
           }
         );
-        toast.success("Template updated successfully");
+        toast.success(t("Template updated successfully"));
         router.push("/admin/template");
       } catch (err) {
         toast.error(
-          err?.response?.data?.message || "Failed to update template"
+          err?.response?.data?.message || t("Failed to update template")
         );
       } finally {
         setLoader(false);

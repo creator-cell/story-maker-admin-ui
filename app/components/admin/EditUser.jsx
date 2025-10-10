@@ -61,7 +61,7 @@ export default function EditUser({ userId }) {
       setRoles(response.data.roles || []);
     } catch (error) {
       console.error("Error fetching roles:", error);
-      toast("Failed to fetch roles", {
+      toast(t("Failed to fetch roles"), {
         theme: "dark",
         position: "top-right",
         type: "error",
@@ -90,7 +90,7 @@ export default function EditUser({ userId }) {
         });
 
         if (response.status === 200) {
-          toast("User updated successfully.", {
+          toast(t("User updated successfully."), {
             theme: "dark",
             position: "top-right",
             type: "success",
@@ -99,7 +99,7 @@ export default function EditUser({ userId }) {
           route.push("/admin/users");
         }
       } catch (error) {
-        toast("Error while updating user.", {
+        toast(t("Error while updating user."), {
           theme: "dark",
           position: "top-right",
           type: "error",

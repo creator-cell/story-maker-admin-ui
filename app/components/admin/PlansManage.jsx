@@ -60,9 +60,9 @@ const PlansManage = () => {
     } catch (error) {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
-        toast.error("You don't have permission to view users 9999");
+        toast.error(t("You don't have permission to view users 9999"));
       } else {
-        toast.error("Failed to fetch users");
+        toast.error(t("Failed to fetch users"));
       }
     } finally {
       setLoader(false);
@@ -127,7 +127,7 @@ const PlansManage = () => {
             if (usersMenu.read || usersMenu.both) {
               getPlans(1);
             } else {
-              toast.error("You don't have permission to access this page");
+              toast.error(t("You don't have permission to access this page"));
             }
           } else {
             // User doesn't have Users menu access
@@ -137,7 +137,7 @@ const PlansManage = () => {
               both: false,
               hasUsersMenu: false
             });
-            toast.error("You don't have permission to access this page");
+            toast.error(t("You don't have permission to access this page"));
           }
         } else {
           // No role permissions found
@@ -147,7 +147,7 @@ const PlansManage = () => {
             both: false,
             hasUsersMenu: false
           });
-          toast.error("You don't have permission to access this page");
+          toast.error(t("You don't have permission to access this page"));
         }
       } catch (error) {
         console.error("Error initializing user permissions:", error);
@@ -157,7 +157,7 @@ const PlansManage = () => {
           both: false,
           hasUsersMenu: false
         });
-        toast.error("Error loading user permissions");
+        toast.error(t("Error loading user permissions"));
       }
     };
 

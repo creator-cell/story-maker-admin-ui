@@ -57,7 +57,7 @@ function Header() {
       console.log(categoriesData);
       console.log(parentCategories);
     } catch {
-      toast.error("Failed to fetch categories");
+      toast.error(t("Failed to fetch categories"));
     }
   };
 

@@ -1,7 +1,9 @@
 "use client";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
+import React from "react";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function VerifyEmail() {
@@ -9,6 +11,7 @@ export default function VerifyEmail() {
   const router = useRouter();
   const verifyToken = searchParams.get("token");
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const { t } = useTranslation();
 
   useEffect(() => {
     const verifyEmail = async () => {
@@ -24,7 +27,7 @@ export default function VerifyEmail() {
         if (response.data) {
           toast(
             response.data?.message ||
-              "Your email has been successfully verified.",
+              t("Your email has been successfully verified."),
             {
               theme: "dark",
               position: "top-right",
@@ -34,7 +37,7 @@ export default function VerifyEmail() {
           router.push("/login");
         }
       } catch (error) {
-        toast(error.response.data?.message || "Try Again", {
+        toast(error.response.data?.message || t("Try Again"), {
           theme: "dark",
           position: "top-right",
           type: "error",

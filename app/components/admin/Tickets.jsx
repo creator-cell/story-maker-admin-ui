@@ -36,7 +36,7 @@ export default function Tickets() {
       setTotalPages(res.data.pagination?.totalPages || 1);
       setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
     } catch (err) {
-      toast.error("Failed to fetch tickets");
+      toast.error(t("Failed to fetch tickets"));
       setTickets([]);
       setTotalPages(0);
     } finally {
@@ -66,11 +66,11 @@ export default function Tickets() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      toast.success("Ticket Resolved");
+      toast.success(t("Ticket Resolved"));
       getTickets(currentPage + 1, search);
       setLoader(false);
     } catch (err) {
-      toast.error("Failed to assign moderator");
+      toast.error(t("Failed to assign moderator"));
     }
   };
 
@@ -83,10 +83,10 @@ export default function Tickets() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      toast.success("Moderator assigned");
+      toast.success(t("Moderator assigned"));
       getTickets(currentPage + 1, search);
     } catch (err) {
-      toast.error("Failed to assign moderator");
+      toast.error(t("Failed to assign moderator"));
     }
   };
 

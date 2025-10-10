@@ -89,7 +89,7 @@ export default function Template() {
       setCategory(parents);
       setSubCategory(subs);
     } catch (err) {
-      toast.error("Failed to fetch categories");
+      toast.error(t("Failed to fetch categories"));
     }
   };
   const handleCategoryChange = async (templateId, categoryId) => {
@@ -114,9 +114,9 @@ export default function Template() {
         )
       );
 
-      toast.success("Category updated");
+      toast.success(t("Category updated"));
     } catch (err) {
-      toast.error("Failed to update category");
+      toast.error(t("Failed to update category"));
     }
   };
 
@@ -140,9 +140,9 @@ export default function Template() {
         )
       );
 
-      toast.success("Subcategory updated");
+      toast.success(t("Subcategory updated"));
     } catch (err) {
-      toast.error("Failed to update subcategory");
+      toast.error(t("Failed to update subcategory"));
     }
   };
 
@@ -178,11 +178,11 @@ export default function Template() {
           },
         }
       );
-      toast.success("Template clone successfully");
+      toast.success(t("Template clone successfully"));
       getTemplates();
       router.push("/admin/template");
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Failed to update template");
+      toast.error(err?.response?.data?.message || t("Failed to update template"));
     } finally {
       setLoader(false);
     }
@@ -210,7 +210,7 @@ export default function Template() {
       router.push(`/admin/template/${responseData.data.template._id}`);
     } catch (err) {
       setLoader(false);
-      toast.error(err?.response?.data?.message || "Failed to add template");
+      toast.error(err?.response?.data?.message || t("Failed to add template"));
     }
   };
 

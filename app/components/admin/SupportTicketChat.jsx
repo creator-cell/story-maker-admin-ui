@@ -36,7 +36,7 @@ const ChatHistory = ({ ticketId }) => {
       });
       setTicket(response.data.ticket);
     } catch (err) {
-      toast.error("Failed to load ticket");
+      toast.error(t("Failed to load ticket"));
     } finally {
       setLoading(false);
     }
@@ -65,12 +65,12 @@ const ChatHistory = ({ ticketId }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      toast.success("Message sent");
+      toast.success(t("Message sent"));
       setChatMessage("");
       setImageFile(null);
       getTicket();
     } catch (err) {
-      toast.error("Failed to send message");
+      toast.error(t("Failed to send message"));
     }
   };
 

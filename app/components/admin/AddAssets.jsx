@@ -65,7 +65,7 @@ const AddAssets = () => {
           tags: [],
           type: null,
         });
-        toast(res?.data?.message || "assets added successfully", {
+        toast(res?.data?.message || t("assets added successfully."), {
           type: "success",
           theme: "light",
           position: "top-right",
@@ -76,7 +76,7 @@ const AddAssets = () => {
         toast(
           err?.response?.data?.errors?.[0]?.message ??
           err?.response?.data?.message ??
-          "Failed to add assets",
+          t("Failed to add assets"),
           {
             type: "error",
             theme: "light",

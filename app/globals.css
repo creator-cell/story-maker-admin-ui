@@ -11479,6 +11479,15 @@ html {
 
 /* badge end  */
 
+.languageswitcher-login {
+  display: inline-block;
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  background-color: white;
+  padding: 10px 10px;
+  border-radius: 15px;
+}
 
 #languageswitcher {
   display: inline-block;

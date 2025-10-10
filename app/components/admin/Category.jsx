@@ -39,7 +39,7 @@ export default function Categories() {
       setTotalPages(res.data.pagination?.totalPages || 1);
       setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
     } catch (err) {
-      toast.error("Failed to fetch categories");
+      toast.error(t("Failed to fetch categories"));
       setCategories([]);
       setTotalPages(0);
     } finally {

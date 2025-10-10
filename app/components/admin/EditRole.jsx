@@ -113,7 +113,7 @@ export default function EditRole({ roleId }) {
       }
     } catch (error) {
       console.error(error);
-      toast("Failed to fetch role details", {
+      toast(t("Failed to fetch role details"), {
         theme: "dark",
         position: "top-right",
         type: "error",
@@ -204,7 +204,7 @@ export default function EditRole({ roleId }) {
         });
 
         if (response.status === 200) {
-          toast("Role updated successfully.", {
+          toast(t("Role updated successfully"), {
             theme: "dark",
             position: "top-right",
             type: "success",
@@ -213,7 +213,7 @@ export default function EditRole({ roleId }) {
           router.push("/admin/role");
         }
       } catch (error) {
-        toast("Error while updating role.", {
+        toast(t("Error while updating role"), {
           theme: "dark",
           position: "top-right",
           type: "error",

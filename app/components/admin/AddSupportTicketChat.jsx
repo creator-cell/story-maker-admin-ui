@@ -38,7 +38,7 @@ const AddChatHistory = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      toast.success("Message sent");
+      toast.success(t("Message sent"));
       setChatMessage("");
 
       router.push("/admin/tickets");

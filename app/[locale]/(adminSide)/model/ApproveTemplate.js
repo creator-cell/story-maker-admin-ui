@@ -19,21 +19,21 @@ export default function ApproveTemplate({ show, onHide, data, props }) {
       });
 
       if (response.ok) {
-        toast("Template approved", {
+        toast(t("Template approved"), {
           theme: "dark",
           position: "top-right",
           type: "success",
         });
         onHide();
       } else {
-        toast("Failed to approve template.", {
+        toast(t("Failed to approve template"), {
           theme: "dark",
           position: "top-right",
           type: "error",
         });
       }
     } catch (error) {
-      toast("Error approving template.", {
+      toast(t("Error approving template"), {
         theme: "dark",
         position: "top-right",
         type: "error",

@@ -84,7 +84,7 @@ export default function EditCategory({ userId }) {
 
   const handleUpdate = async (data) => {
     if (!data.name) {
-      toast.error("Category name is required");
+      toast.error(t("Category name is required"));
       return;
     }
 
@@ -97,12 +97,12 @@ export default function EditCategory({ userId }) {
         data,
       });
 
-      toast.success("Category updated successfully");
+      toast.success(t("Category updated successfully"));
       router.push("/admin/category");
     } catch (error) {
       console.error(error);
       toast.error(
-        error?.response?.data?.message || "Failed to update category"
+        error?.response?.data?.message || t("Failed to update category")
       );
     } finally {
       setLoader(false);

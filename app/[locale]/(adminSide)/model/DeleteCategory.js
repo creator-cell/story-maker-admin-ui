@@ -15,21 +15,21 @@ export default function DeleteCategory({ show, onHide, data, props }) {
       });
 
       if (response.ok) {
-        toast("Category deleted successfully.", {
+        toast(t("Category deleted successfully"), {
           theme: "dark",
           position: "top-right",
           type: "success",
         });
         onHide();
       } else {
-        toast("Failed to delete role.", {
+        toast(t("Failed to delete role"), {
           theme: "dark",
           position: "top-right",
           type: "error",
         });
       }
     } catch (error) {
-      toast("Error deleting role.", {
+      toast(t("Error deleting role"), {
         theme: "dark",
         position: "top-right",
         type: "error",
