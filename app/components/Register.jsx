@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import Loader from "./Loader";
 import PhoneNumber from "react-phone-number-input";
 import { useTranslation } from "react-i18next";
-import { useTranslation } from "react-i18next";
 
 export default function Register() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;

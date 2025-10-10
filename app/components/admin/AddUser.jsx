@@ -48,7 +48,6 @@ const AddUserPage = () => {
     } catch (error) {
       console.error("Error fetching roles:", error);
       toast(t("Failed to fetch roles"), {
-      toast(t("Failed to fetch roles"), {
         theme: "dark",
         position: "top-right",
         type: "error",
