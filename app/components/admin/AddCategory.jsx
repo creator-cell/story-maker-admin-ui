@@ -79,7 +79,6 @@ const AddCategoryPage = () => {
       .then(() => {
         setLoader(false);
         toast.success(t("Category added"), { theme: "dark" });
-        toast.success(t("Category added"), { theme: "dark" });
         reset();
         router.push("/admin/category");
       })

@@ -180,7 +180,6 @@ export default function Template() {
         }
       );
       toast.success(t("Template clone successfully"));
-      toast.success(t("Template clone successfully"));
       getTemplates();
       router.push("/admin/template");
     } catch (err) {
