@@ -44,9 +44,7 @@ export default function ResetPassword() {
         }),
       });
       if (response.data) {
-        toast(
-          response.data?.message ||
-            t("Your password has been successfully reset."),
+        toast(t("Your password has been successfully reset."),
           {
             theme: "dark",
             position: "top-right",
@@ -58,7 +56,7 @@ export default function ResetPassword() {
     } catch (error) {
       console.log("error => ", error);
 
-      toast(error.response.data?.message || t("Try Again"), {
+      toast(t("Try Again"), {
         theme: "dark",
         position: "top-right",
         type: "error",

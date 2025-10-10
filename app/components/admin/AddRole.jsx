@@ -177,7 +177,7 @@ const AddRole = () => {
           Notification: { read: false, write: false, both: false },
           Plans: { read: false, write: false, both: false },
         });
-        router.push("/admin/category");
+        router.push("/admin/role");
       })
       .catch((err) => {
         setLoader(false);

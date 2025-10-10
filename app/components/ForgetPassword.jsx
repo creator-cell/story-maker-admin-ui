@@ -40,9 +40,7 @@ export default function ForgetPassword() {
       if (response) {
         // router.push('/reset-password');
         setShowLoader(false);
-        toast(
-          response.data?.message ||
-            t("Reset password link has been sent to your email address."),
+        toast(t("Reset password link has been sent to your email address."),
           {
             theme: "dark",
             position: "top-right",
@@ -53,7 +51,7 @@ export default function ForgetPassword() {
     } catch (error) {
       setShowLoader(false);
       console.log(error);
-      toast(error.response.data?.message || t("No email found"), {
+      toast(t("No email found"), {
         theme: "dark",
         position: "top-right",
         type: "error",

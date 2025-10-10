@@ -25,9 +25,7 @@ export default function VerifyEmail() {
         });
 
         if (response.data) {
-          toast(
-            response.data?.message ||
-              t("Your email has been successfully verified."),
+          toast(t("Your email has been successfully verified."),
             {
               theme: "dark",
               position: "top-right",
@@ -37,7 +35,7 @@ export default function VerifyEmail() {
           router.push("/login");
         }
       } catch (error) {
-        toast(error.response.data?.message || t("Try Again"), {
+        toast(t("Try Again"), {
           theme: "dark",
           position: "top-right",
           type: "error",

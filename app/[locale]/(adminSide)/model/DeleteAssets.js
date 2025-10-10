@@ -18,7 +18,7 @@ export default function DeleteAssets({ show, onHide, data, setLoader, props }) {
       },
     })
       .then((res) => {
-        toast(res.data?.message || t("Assets deleted successfully"), {
+        toast(t("Assets deleted successfully"), {
           theme: "light",
           position: "top-right",
           type: "success",
@@ -26,10 +26,7 @@ export default function DeleteAssets({ show, onHide, data, setLoader, props }) {
         onHide();
       })
       .catch((err) => {
-        toast(
-          err?.response?.data?.errors?.[0]?.message ??
-            err?.response?.data?.message ??
-            t("Failed to delete assets"),
+        toast(t("Failed to delete assets"),
           {
             theme: "light",
             position: "top-right",

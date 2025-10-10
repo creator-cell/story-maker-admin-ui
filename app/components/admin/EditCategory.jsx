@@ -101,8 +101,7 @@ export default function EditCategory({ userId }) {
       router.push("/admin/category");
     } catch (error) {
       console.error(error);
-      toast.error(
-        error?.response?.data?.message || t("Failed to update category")
+      toast.error(t("Failed to update category")
       );
     } finally {
       setLoader(false);

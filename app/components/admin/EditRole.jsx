@@ -173,7 +173,7 @@ export default function EditRole({ roleId }) {
       }
 
       if (missingFields.length > 0) {
-        toast(`${missingFields.join(", ")} is required`, {
+        toast(`${missingFields.join(", ")} ${t("is required")}`, {
           theme: "dark",
           position: "top-right",
           type: "error",
