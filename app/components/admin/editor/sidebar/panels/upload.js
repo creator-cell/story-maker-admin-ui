@@ -40,6 +40,7 @@ function UploadPanel() {
       );
 
       setUserUploads(myItems);
+      console.log("my images", myItems);
     } catch (error) {
       console.error("Error fetching assets:", error);
       toast.error(t("Failed to fetch assets"));
@@ -51,7 +52,7 @@ function UploadPanel() {
 
   useEffect(() => {
     fetchUserUploads();
-  }, [fetchUserUploads]);
+  }, []);
   const handleAddAssets = async (file) => {
     setIsLoading(true);
 
@@ -68,7 +69,7 @@ function UploadPanel() {
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_ASSETS}assets`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_ASSETS}assets?isTemplateUpload=true`,
         newFormData,
         {
           headers: {
@@ -80,8 +81,8 @@ function UploadPanel() {
     } catch (err) {
       toast(
         err?.response?.data?.errors?.[0]?.message ??
-        err?.response?.data?.message ??
-        t("Failed to upload image"),
+          err?.response?.data?.message ??
+          t("Failed to upload image"),
         {
           type: "error",
           theme: "light",
