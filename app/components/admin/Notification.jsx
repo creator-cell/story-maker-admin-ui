@@ -34,7 +34,7 @@ export default function Notification() {
       })
     }).then(res => {
       setMessage("");
-      toast(res.data?.message || t("Notification sended successfully"), {
+      toast(t("Notification sended successfully"), {
         theme: "light",
         type: "success",
         position: "top-right"

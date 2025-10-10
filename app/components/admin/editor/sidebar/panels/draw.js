@@ -100,7 +100,7 @@ function DrawingPanel() {
             }`}
           />
           <span className="font-medium">
-            {isDrawingMode ? "Exit Drawing Mode" : "Enter Drawing Mode"}
+            {isDrawingMode ? t("Exit Drawing Mode") : t("Enter Drawing Mode")}
           </span>
         </Button>
         {isDrawingMode && (
@@ -279,7 +279,7 @@ function DrawingPanel() {
                   size="lg"
                 >
                   <EraserIcon />
-                  {isErasing ? "Stop Erasing" : "Eraser mode"}
+                  {isErasing ? t("Stop Erasing") : t("Eraser mode")}
                 </Button>
               </TabsContent>
             </Tabs>

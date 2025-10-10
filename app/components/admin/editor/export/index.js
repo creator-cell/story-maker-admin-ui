@@ -39,15 +39,15 @@ function ExportModal({ isOpen, onClose }) {
   const exportFormats = [
     {
       id: "pdf",
-      name: "PDF Document",
+      name: t("PDF Document"),
       icon: File,
-      description: "Best for printing",
+      description: t("Best for printing"),
     },
     {
       id: "json",
-      name: "JSON Template",
+      name: t("JSON Template"),
       icon: FileJson,
-      description: "Editable template format",
+      description: t("Editable template format"),
     },
   ];
 

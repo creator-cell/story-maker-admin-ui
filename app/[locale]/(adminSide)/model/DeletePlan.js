@@ -16,14 +16,14 @@ export default function DeletePlan({ show, onHide, data, setLoader, props }) {
                 "Authorization" : `Bearer ${localStorage.getItem("token")}`
             }
         }).then(res => {
-            toast(res.data?.message || t("Plan delete successfully"), {
+            toast(t("Plan delete successfully"), {
                 theme:"light",
                 position: "top-right",
                 type: "success"
             });
             onHide();
         }).catch(err => {
-            toast(err?.response?.data?.errors?.[0]?.message ?? err?.response?.data?.message ?? t("Failed to delete Plan"), {
+            toast(t("Failed to delete Plan"), {
                 theme:"light",
                 position: "top-right",
                 type: "error"

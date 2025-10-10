@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ResetPassword() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
@@ -44,9 +46,7 @@ export default function ResetPassword() {
         }),
       });
       if (response.data) {
-        toast(
-          response.data?.message ||
-            t("Your password has been successfully reset."),
+        toast(t("Your password has been successfully reset."),
           {
             theme: "dark",
             position: "top-right",
@@ -58,7 +58,7 @@ export default function ResetPassword() {
     } catch (error) {
       console.log("error => ", error);
 
-      toast(error.response.data?.message || t("Try Again"), {
+      toast(t("Try Again"), {
         theme: "dark",
         position: "top-right",
         type: "error",

@@ -74,7 +74,9 @@ const AssetsManage = () => {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
         toast.error(t("You don't have permission to view users 9999"));
+        toast.error(t("You don't have permission to view users 9999"));
       } else {
+        toast.error(t("Failed to fetch users"));
         toast.error(t("Failed to fetch users"));
       }
     } finally {
@@ -100,7 +102,7 @@ const AssetsManage = () => {
       }),
     })
       .then((res) => {
-        toast(res?.data?.message || t("Status updated successfully"), {
+        toast(t("Status updated successfully"), {
           type: "success",
           theme: "light",
           position: "top-right",
@@ -163,7 +165,7 @@ const AssetsManage = () => {
       },
     })
       .then((res) => {
-        toast(res.data?.message || t("Assets clone successfully"), {
+        toast(t("Assets clone successfully"), {
           type: "success",
           position: "top-right",
           theme: "light",
@@ -171,7 +173,7 @@ const AssetsManage = () => {
         router.push(`/admin/assets/${res?.data?.data?.cloneId}`);
       })
       .catch((err) => {
-        toast(err?.response?.data?.message || t("Failed to clone assets"), {
+        toast(t("Failed to clone assets"), {
           type: "error",
           position: "top-right",
           theme: "light",
