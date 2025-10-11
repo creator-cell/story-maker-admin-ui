@@ -8684,6 +8684,37 @@ h6 {
 .banner-cta-button:focus:not(:focus-visible) {
   outline: none;
 }
+/* dashboard start  */
+.analytic-dashboard{
+  padding: 20px 0px;
+}
+.analytic-dashboard .box{
+  gap: 15px;
+  padding: 30px 30px 30px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15) !important;
+  border-radius: 40px;
+  background-color: var(--gray);
+}
+.analytic-dashboard .box img{
+  height: 50%;
+}
+.analytic-dashboard .box .icon img{
+  height: 100px;
+  width: 100%;
+  object-fit: contain;
+}
+.analytic-dashboard .box p{
+  color: white;
+  margin: 0;
+  font-weight: bold;
+}
+.analytic-dashboard .box span{
+  color: white;
+}
+/* dashboard end  */
 
 /* Responsive Styles */
 
@@ -10980,7 +11011,12 @@ html {
   overflow: auto;
   color: var(--form-textcolor);
 }
-
+.right_text .properties {
+  position: absolute;
+  top: 65px;
+  left: 10px;
+  right: unset;
+}
 .properties .flip-h button {
   padding: 6px 15px 5px !important;
   display: flex;
@@ -11797,7 +11833,7 @@ html {
   }
 
   .right_text .inner_container .design-box .canvas-container {
-    left: 12% !important;
+    left: 24% !important;
     width: calc(100% - 190px) !important;
   }
 
