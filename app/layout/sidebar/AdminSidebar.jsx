@@ -238,6 +238,20 @@ const AdminSidebar = ({ locale }) => {
                     />
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
+                         {hasMenuAccess("Dashboard") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${
+                                activeLink === "/admin/dashboard" ? "active" : ""
+                              }`}
+                              href={`/admin/dashboard`}
+                            >
+                              <i className="fa-solid fa-ticket"></i>
+                              {t("Analytic Dashboard")}
+                            </CustomLink>
+                          </li>
+                        )}
+
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
