@@ -110,7 +110,7 @@ export default function Tickets() {
   const columns = [
     {
       name: t('User'),
-      selector: (row) => row?.userId?.name, 
+      selector: (row) => row?.userId?.name || t("No User"),
       wrap: true,
       width: "150px",
     },

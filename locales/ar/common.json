@@ -323,5 +323,12 @@
   "Sign up": "إنشاء حساب",
   "* Signifies a compulsory field": "* يشير إلى حقل إلزامي",
   "Already have an account?": "هل لديك حساب بالفعل؟",
-  "Login": "تسجيل الدخول"
+  "Login": "تسجيل الدخول",
+   "approved": "تمت الموافقة",
+  "pending": "قيد الانتظار",
+  "rejected": "مرفوض",
+  "Select Sub Category": "اختر الفئة الفرعية",
+  "Select Category": "اختر الفئة",
+   "No User": "لا يوجد مستخدم",
+   "Analytic Dashboard": "لوحة التحليلات"
 }
