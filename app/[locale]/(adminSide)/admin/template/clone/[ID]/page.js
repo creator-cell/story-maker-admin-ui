@@ -4,7 +4,7 @@ import initTranslations from "@/app/i18n";
 const i18nNamespaces = ["common"];
 const Page = async ({ params }) => {
   const { locale } = await params;
-  console.log("params", locale);
+
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
   return (
     <TranslationProvider
@@ -15,5 +15,5 @@ const Page = async ({ params }) => {
       <MainEditor isClone={true} />
     </TranslationProvider>
   );
-}
-export default Page
+};
+export default Page;

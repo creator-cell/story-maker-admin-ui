@@ -10,6 +10,7 @@ import { jsPDF } from "jspdf";
 import ApproveTemplate from "../../[locale]/(adminSide)/model/ApproveTemplate";
 import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
+import { useEditorStore } from "@/app/redux/UserStore";
 
 export default function Template() {
   const { t } = useTranslation();
@@ -31,6 +32,7 @@ export default function Template() {
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [showRejectModal, setShowRejectModal] = useState(false);
+  const { designId } = useEditorStore();
   const getTemplates = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
@@ -180,6 +182,7 @@ export default function Template() {
         }
       );
       toast.success(t("Template clone successfully"));
+      await increaseTemplateUsage(id);
       getTemplates();
       router.push("/admin/template");
     } catch (err) {
@@ -192,6 +195,21 @@ export default function Template() {
   const handleDelete = async (id) => {
     setDeleteId(id);
     setShowDeletedId(true);
+  };
+
+  const increaseTemplateUsage = async (id) => {
+    try {
+      const res = await axios.post(
+        `${API_URL}template/getUsage`,
+        { templateId: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(res);
+    } catch (err) {}
   };
 
   const handleTemplateSubmit = async () => {
@@ -231,12 +249,13 @@ export default function Template() {
         const translatedStatus = t(row.status);
         return (
           <span
-            className={`badge ${row.status === "approved" ? "bg-success" : "bg-warning"
-              }`}
+            className={`badge ${
+              row.status === "approved" ? "bg-success" : "bg-warning"
+            }`}
           >
             {translatedStatus}
           </span>
-        )
+        );
       },
     },
     {
@@ -419,76 +438,6 @@ export default function Template() {
                   {/* Table */}
                   <div className="table-responsive">
                     <DataTable columns={columns} data={templates} />
-                    {/* <table className="table">
-                      <thead>
-                        <tr>
-                          <th>{t("Name")}</th>
-                          <th>{t("Status")}</th>
-                          <th>{t("Action")}</th>
-                        </tr>
-                      </thead>
-                      <tbody className="table_body">
-                        {!loading &&
-                          templates.map((tpl) => (
-                            <tr key={tpl._id}>
-                              <td data-label="Name">{tpl.name}</td>
-                              <td data-label="Status">
-                                <span
-                                  className={`badge ${tpl.status === "approved"
-                                    ? "bg-success"
-                                    : "bg-warning"
-                                    }`}
-                                >
-                                  {tpl.status.charAt(0).toUpperCase() + tpl.status.slice(1)}
-
-                                </span>
-                              </td>
-                              <td data-label="Action">
-                                <div className="template-button">
-                                  <button
-                                    className="button mx-1 mb-2"
-                                    onClick={() => handleEdit(tpl._id)}
-                                  >
-                                    {t("View/Edit")}
-                                  </button>
-                                  <button
-                                    className="button mx-1 mb-2"
-                                    onClick={() =>
-                                      handleClone(tpl._id, tpl.name, tpl.content)
-                                    }
-                                  >
-                                    {t("Clone")}
-                                  </button>
-                                  <button
-                                    className="button mx-1 mb-2"
-                                    onClick={() => handleDelete(tpl._id)}
-                                  >
-                                    {t("Delete/Reject")}
-                                  </button>
-                                  {currentUser.role.name === "Super Admin" &&
-                                    tpl.status === "pending" && (
-                                      <button
-                                        className="button mx-1 mb-2"
-                                        onClick={() => handleApprove(tpl._id)}
-                                      >
-                                        {t("Approve")}
-                                      </button>
-                                    )}
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        {!loading && templates.length === 0 && (
-                          <tr>
-                            <td colSpan="5" className="text-center py-4">
-                              {search
-                                ? `No templates found matching "${search}"`
-                                : "No templates found"}
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table> */}
                   </div>
 
                   {/* Pagination */}
