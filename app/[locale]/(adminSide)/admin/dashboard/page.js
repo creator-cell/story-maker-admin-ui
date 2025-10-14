@@ -11,7 +11,7 @@ const Page = async ({ params }) => {
       namespaces={i18nNamespaces}
       resources={resources}
     >
-      <AnalyticDashboard></AnalyticDashboard>
+      <AnalyticDashboard />
     </TranslationProvider>
   );
 };
