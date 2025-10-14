@@ -317,7 +317,6 @@ export default function Roles() {
                     <DataTable
                       columns={columns}
                       data={users}
-                      noDataComponent={t("No role found")}
                     />
                     {/* <table className="table">
                       <thead>

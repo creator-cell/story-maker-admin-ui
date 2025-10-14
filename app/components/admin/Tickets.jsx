@@ -275,8 +275,8 @@ export default function Tickets() {
                       columns={columns}
                       data={tickets}
                       responsive
-                    />
-                    {/* <table className="table">
+                        />
+                        {/* <table className="table">
                       <thead>
                         <tr>
                           <th>{t("User")}</th>
