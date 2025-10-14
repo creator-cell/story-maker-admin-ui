@@ -178,13 +178,13 @@ const PlansManage = () => {
       selector: row => row.title
     },
     {
-      name: t('Description'),
+      name: t('Description') || t("no Description"),
       selector: row => row.description,
       wrap: true,
       minWidth: "250px",
     },
     {
-      name: t('Price'),
+      name: t('Price') || t("no Price"),
       selector: (row) =>
         row.price ? parseFloat(row.price).toFixed(2) : "",
     },
@@ -201,7 +201,7 @@ const PlansManage = () => {
       width: "120px",
     },
     {
-      name: t('Features'),
+      name: t('Features') || t("no Features"),
       cell: (row) => (
         <div
           className="d-flex flex-wrap gap-2"
