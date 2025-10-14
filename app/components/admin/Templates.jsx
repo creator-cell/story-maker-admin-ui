@@ -227,15 +227,17 @@ export default function Template() {
     {
       name: t("Status"),
       selector: (row) => row.status,
-      cell: (row) => (
-        <span
-          className={`badge ${
-            row.status === "approved" ? "bg-success" : "bg-warning"
-          }`}
-        >
-          {row.status.charAt(0).toUpperCase() + row.status.slice(1)}
-        </span>
-      ),
+      cell: (row) => {
+        const translatedStatus = t(row.status);
+        return (
+          <span
+            className={`badge ${row.status === "approved" ? "bg-success" : "bg-warning"
+              }`}
+          >
+            {translatedStatus}
+          </span>
+        )
+      },
     },
     {
       name: t("Category"),

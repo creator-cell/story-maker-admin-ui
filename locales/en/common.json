@@ -323,5 +323,18 @@
   "Sign up": "Sign up",
   "* Signifies a compulsory field": "* Signifies a compulsory field",
   "Already have an account?": "Already have an account?",
-  "Login": "Login"
+  "Login": "Login",
+  "approved": "Approved",
+  "pending": "Pending",
+  "rejected": "Rejected",
+  "Select Sub Category": "Select Sub Category",
+  "Select Category": "Select Category",
+  "No User": "No User",
+  "Analytic Dashboard": "Analytic Dashboard",
+  "Send By": "Send By",
+  "no Format": "no Format",
+  "no Description": "no Description",
+  "no Tags": "no Tags",
+  "no Price": "no Price",
+  "no Features": "no Features"
 }

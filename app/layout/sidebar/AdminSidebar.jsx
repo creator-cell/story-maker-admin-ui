@@ -246,7 +246,7 @@ const AdminSidebar = ({ locale }) => {
                               }`}
                               href={`/admin/dashboard`}
                             >
-                              <i className="fa-solid fa-ticket"></i>
+                            <i class="fa-solid fa-grip"></i>
                               {t("Analytic Dashboard")}
                             </CustomLink>
                           </li>
@@ -366,7 +366,7 @@ const AdminSidebar = ({ locale }) => {
                               }`}
                               href={`/admin/notification`}
                             >
-                              <i className="fa-solid fa-newspaper"></i>
+                              <i class="fa-solid fa-bell"></i>
                               {t("Notification")}
                               {!hasWriteAccess("Notification") && (
                                 <small className="text-muted ms-1">
@@ -384,7 +384,7 @@ const AdminSidebar = ({ locale }) => {
                               }`}
                               href={`/admin/plans`}
                             >
-                              <i className="fa-solid fa-newspaper"></i>
+                              <i className="fa-solid fa-clipboard-list"></i>
                               {t("Plans")}
                               {!hasWriteAccess("Plans") && (
                                 <small className="text-muted ms-1">

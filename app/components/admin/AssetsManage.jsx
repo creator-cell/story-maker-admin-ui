@@ -312,19 +312,19 @@ const AssetsManage = () => {
 
     },
     {
-      name: t("Format"),
+      name: t("Format") || t("no Format"),
       selector: (row) => row.format,
       width: "100px",
 
     },
     {
-      name: t("Description"),
+      name: t("Description") || t("no Description"),
       selector: (row) => row.description,
       width: "200px",
       wrap: true,
     },
     {
-      name: t("Tags"),
+      name: t("Tags") || t("no Tags"),
       cell: (row) => (
         <div className="d-flex flex-wrap gap-3 justify-content-start">
           {row.tags?.map((p) => (
