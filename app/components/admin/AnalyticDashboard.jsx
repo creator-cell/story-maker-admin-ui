@@ -127,6 +127,20 @@ export default function AnalyticDashboard({ lang = "en" }) {
     }
   };
 
+  const getUserChart = async (pageNum = 1) => {
+    try {
+      const response = await axios.get(`${API_URL}dashboard/user-growth`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const newData = response.data || [];
+      console.log("newData", newData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const getTopTemplate = async (pageNum = 1) => {
     try {
       const response = await axios.get(
@@ -175,6 +189,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
     getTemplateCount();
     getTemplate();
     getTopTemplate();
+    getUserChart();
   }, []);
   return (
     <>
@@ -272,8 +287,8 @@ export default function AnalyticDashboard({ lang = "en" }) {
                       <div className="slider autoplay">
                         {topTemplate?.map((template) => (
                           <div key={template._id} className="boxes">
-                            <TemplatePreview content={template.content} />
                             <p>{template.name}</p>
+                            <p>{template.templateCount}</p>
                           </div>
                         ))}
                       </div>
