@@ -7,8 +7,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import TemplatePreview from "./TemplatePreview";
-import { Bar } from "react-chartjs-2";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,7 +26,11 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+import "react-datepicker/dist/react-datepicker.css";
+
 import TemplateChart from "./TemplateGraph";
+import UserGrowthChart from "./UserGraph";
 export default function AnalyticDashboard({ lang = "en" }) {
   const { t } = useTranslation();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_DASHBOARD;
@@ -39,6 +42,16 @@ export default function AnalyticDashboard({ lang = "en" }) {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [topTemplate, setTopTemplate] = useState();
+  // default last 30 days
+  const [startDate, setStartDate] = useState(
+    new Date(new Date().setDate(new Date().getDate() - 30))
+  );
+  const [endDate, setEndDate] = useState(new Date());
+  const [userChartData, setUserChartData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
   useEffect(() => {
     const slider = $(".autoplay");
     if (slider.hasClass("slick-initialized")) {
@@ -77,6 +90,11 @@ export default function AnalyticDashboard({ lang = "en" }) {
       ],
     });
   }, [lang]);
+
+  const formatDate = (d) => {
+    if (!d) return "";
+    return d.toISOString().split("T")[0];
+  };
 
   const getUserCount = async () => {
     try {
@@ -127,20 +145,42 @@ export default function AnalyticDashboard({ lang = "en" }) {
     }
   };
 
-  const getUserChart = async (pageNum = 1) => {
+  const getUserChart = async (sDate, eDate) => {
     try {
-      const response = await axios.get(`${API_URL}dashboard/user-growth`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const start = formatDate(sDate || startDate);
+      const end = formatDate(eDate || endDate);
 
-      const newData = response.data || [];
-      console.log("newData", newData);
+      const response = await axios.get(
+        `${API_URL}dashboard/user-growth?startDate=${start}&endDate=${end}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      const data = response.data?.data || [];
+      const labels = data.map((d) => d.date);
+      const counts = data.map((d) => d.count);
+
+      setUserChartData({
+        labels,
+        datasets: [
+          {
+            label: "New Users",
+            data: counts,
+            backgroundColor: "rgba(54, 162, 235, 0.6)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 1,
+          },
+        ],
+      });
     } catch (err) {
       console.log(err);
+      setUserChartData({ labels: [], datasets: [] });
     }
   };
+
   const getTopTemplate = async (pageNum = 1) => {
     try {
       const response = await axios.get(
@@ -178,19 +218,15 @@ export default function AnalyticDashboard({ lang = "en" }) {
     });
   };
 
-  const handleShowMore = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-    getTemplate(nextPage);
-  };
-
   useEffect(() => {
     getUserCount();
     getTemplateCount();
     getTemplate();
     getTopTemplate();
-    getUserChart();
+
+    getUserChart(startDate, endDate);
   }, []);
+
   return (
     <>
       <div id="main_container">
@@ -245,10 +281,6 @@ export default function AnalyticDashboard({ lang = "en" }) {
                             alt="active-user"
                           />
                         </div>
-                        {/* <div className="">
-                          <p>Templates Used</p>
-                          <span>Number of templates applied</span>
-                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -256,14 +288,15 @@ export default function AnalyticDashboard({ lang = "en" }) {
 
                 <div className="analytic-dashboard">
                   <div className="row dashboard-content">
-                    <div className="col-lg-6 col-md-6 col-12">
+                    <div className="col-lg-12 col-md-12 col-12">
                       <div className="box">
                         <p>User growth over time</p>
-                      </div>
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-12">
-                      <div className="box">
-                        <p>Template Used</p>
+                        <div
+                          className="d-flex align-items-center"
+                          style={{ gap: 8, flexWrap: "wrap" }}
+                        >
+                          <UserGrowthChart />
+                        </div>
                       </div>
                     </div>
                   </div>

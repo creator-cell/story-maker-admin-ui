@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import DeleteCategory from "../../[locale]/(adminSide)/model/DeleteCategory";
 import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
-import DataTable from 'react-data-table-component';
+import DataTable from "react-data-table-component";
 
 export default function Categories() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
@@ -23,7 +23,6 @@ export default function Categories() {
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const { t } = useTranslation();
-
 
   const getCategories = async (page = 1, searchTerm = "") => {
     setLoader(true);
@@ -67,16 +66,16 @@ export default function Categories() {
   };
   const columns = [
     {
-      name: t('Category name'),
-      selector: row => row.name,
+      name: t("Category name"),
+      selector: (row) => row.name,
     },
     {
-      name: t('Category description'),
-      selector: row => row.description,
+      name: t("Category description"),
+      selector: (row) => row.description,
     },
     {
       name: t("Action"),
-      cell: row => (
+      cell: (row) => (
         <div className="d-flex" data-label="Action">
           <div className="dropdown">
             <button
@@ -88,13 +87,14 @@ export default function Categories() {
             >
               <i class="fa fa-ellipsis"></i>
             </button>
-            <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${row._id}`}>
+            <ul
+              className="dropdown-menu"
+              aria-labelledby={`dropdownMenuButton-${row._id}`}
+            >
               <li>
                 <button
                   className={`admin_action_edit`}
-                  onClick={() =>
-                    handleEditCategory(row._id)
-                  }
+                  onClick={() => handleEditCategory(row._id)}
                 >
                   <i className="fa-solid fa-pencil me-2"></i> {t("Edit")}
                 </button>
@@ -102,9 +102,7 @@ export default function Categories() {
               <li>
                 <button
                   className={`admin_action_delete`}
-                  onClick={() =>
-                    handleDeleteCategory(row._id)
-                  }
+                  onClick={() => handleDeleteCategory(row._id)}
                 >
                   <i className="fa fa-trash me-2"></i> {t("Delete")}
                 </button>
@@ -112,9 +110,9 @@ export default function Categories() {
             </ul>
           </div>
         </div>
-      )
-    }
-  ]
+      ),
+    },
+  ];
   return (
     <>
       <div id="main_container">
@@ -134,7 +132,7 @@ export default function Categories() {
                     <div className="col-lg-3"></div>
                     <div className="col-lg-9">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        <div className="form_group position-relative search-bar">
+                        {/* <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             placeholder={t("Search by user or status...")}
@@ -167,7 +165,7 @@ export default function Categories() {
                           >
                             {t("Clear")}
                           </button>
-                        )}
+                        )} */}
                         <button className="button" onClick={handleAddCategory}>
                           {t("Add New Category")}
                         </button>
@@ -177,15 +175,14 @@ export default function Categories() {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">{t("Loading...")}</span>
+                        <span className="visually-hidden">
+                          {t("Loading...")}
+                        </span>
                       </div>
                     </div>
                   )}
                   <div className="table-responsive">
-                    <DataTable
-                      columns={columns}
-                      data={categories}
-                    />
+                    <DataTable columns={columns} data={categories} />
                     {/* <table className="table">
                       <thead>
                         <tr>

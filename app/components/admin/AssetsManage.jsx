@@ -12,7 +12,7 @@ import useDownloader from "react-use-downloader";
 import { FormSelect } from "react-bootstrap";
 import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
-import DataTable from 'react-data-table-component';
+import DataTable from "react-data-table-component";
 
 const AssetsManage = () => {
   const { t } = useTranslation();
@@ -272,7 +272,7 @@ const AssetsManage = () => {
 
   const columns = [
     {
-      name: t('Date'),
+      name: t("Date"),
       selector: (row) => new Date(row.createdAt).toLocaleDateString(),
       width: "120px",
     },
@@ -309,13 +309,11 @@ const AssetsManage = () => {
       name: t("Type"),
       selector: (row) => row.type,
       width: "100px",
-
     },
     {
       name: t("Format") || t("no Format"),
       selector: (row) => row.format,
       width: "100px",
-
     },
     {
       name: t("Description") || t("no Description"),
@@ -363,8 +361,8 @@ const AssetsManage = () => {
       width: "180px",
     },
     {
-      name: t('Action'),
-      cell: row => (
+      name: t("Action"),
+      cell: (row) =>
         hasWritePermission() && (
           <div className="d-flex" data-label="Action">
             <div className="dropdown">
@@ -377,41 +375,46 @@ const AssetsManage = () => {
               >
                 <i class="fa fa-ellipsis"></i>
               </button>
-              <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${row._id}`}>
-                <li>   <button
-                  className="admin_action_edit"
-                  onClick={() =>
-                    handleEditAssets(row._id)
-                  }
-                  title="Edit Asset"
-                >
-                  <i className="fa fa-edit me-2"></i> {t("Edit")}
-                </button></li>
-                <li>  <button
-                  className="admin_action_clone"
-                  onClick={() =>
-                    handleCloneAssets(row._id)
-                  }
-                  title="Clone Asset"
-                >
-                  <i className="fa fa-clone me-2"></i> {t("Clone")}
-                </button></li>
-                <li> <button
-                  className="admin_action_delete"
-                  onClick={() =>
-                    handleAssetDelete(row._id)
-                  }
-                  title="Delete User"
-                >
-                  <i className="fa fa-trash me-2"></i> {t("Delete")}
-                </button></li>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby={`dropdownMenuButton-${row._id}`}
+              >
+                <li>
+                  {" "}
+                  <button
+                    className="admin_action_edit"
+                    onClick={() => handleEditAssets(row._id)}
+                    title="Edit Asset"
+                  >
+                    <i className="fa fa-edit me-2"></i> {t("Edit")}
+                  </button>
+                </li>
+                <li>
+                  {" "}
+                  <button
+                    className="admin_action_clone"
+                    onClick={() => handleCloneAssets(row._id)}
+                    title="Clone Asset"
+                  >
+                    <i className="fa fa-clone me-2"></i> {t("Clone")}
+                  </button>
+                </li>
+                <li>
+                  {" "}
+                  <button
+                    className="admin_action_delete"
+                    onClick={() => handleAssetDelete(row._id)}
+                    title="Delete User"
+                  >
+                    <i className="fa fa-trash me-2"></i> {t("Delete")}
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
-        )
-      )
-    }
-  ]
+        ),
+    },
+  ];
   return (
     <>
       <div id="main_container">
@@ -451,224 +454,23 @@ const AssetsManage = () => {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">{t("Loading...")}</span>
+                        <span className="visually-hidden">
+                          {t("Loading...")}
+                        </span>
                       </div>
                     </div>
                   )}
 
                   <div className="table-responsive">
-                    <DataTable
-                      columns={columns}
-                      data={assets}
-                    />
-                    {/* <table className="table">
-                      <thead>
-                        <tr>
-                          <th className="cursor">
-                            {t("Date")}
-                          </th>
-                          <th className="cursor">
-                            {t("Name")}
-                          </th>
-                          <th className="cursor">
-                            {t("Document")}
-                          </th>
-                          <th className="cursor">
-                            {t("Type")}
-                          </th>
-                          <th className="cursor">
-                            {t("Format")}
-                          </th>
-                          <th className="cursor">
-                            {t("Description")}
-                          </th>
-                          <th className="cursor">
-                            {t("Tags")}
-                          </th>
-                          <th className="cursor">
-                            {t("Status")}
-                          </th>
-                          <th className="cursor">
-                            {t("Uploaded By")}
-                          </th>
-
-                          {hasWritePermission() && (
-                            <th >{t("Action")}</th>
-                          )}
-                        </tr>
-                      </thead>
-                      <tbody className="table_body">
-                        {!loading &&
-                          assets &&
-                          assets?.map((asset, index) => {
-                            return (
-                              <tr key={asset._id}>
-                                <td data-label="Date">
-                                  {new Date(
-                                    asset?.createdAt
-                                  )?.toLocaleDateString()}
-                                </td>
-                                <td data-label="Name">{asset?.name}</td>
-                                <td data-label="Document">
-                                  {asset?.url ? (
-                                    <>
-                                      <small className="d-flex align-items-center gap-2">
-                                        <div
-                                          className="doc-file"
-                                        >
-                                          <FileIcon
-                                            extension={
-                                              asset?.url
-                                                ?.split("/assets/")[1]
-                                                ?.split(".")[1]
-                                            }
-                                            {...defaultStyles[
-                                            asset?.url
-                                              ?.split("/assets/")[1]
-                                              ?.split(".")[1]
-                                            ]}
-                                          />
-                                        </div>
-                                        <a
-                                          target="_blank"
-                                          href={asset?.url}
-                                          disabled={isInProgress}
-                                          className="button align-self-end yellow p-1 rounded-pill"
-                                        >
-                                          <IconEye size={20} stroke={2} />
-                                        </a>
-                                      </small>
-                                    </>
-                                  ) : null}
-                                  { }
-                                </td>
-                                <td data-label="Type">{asset?.type}</td>
-                                <td data-label="Format">{asset?.format}</td>
-                                <td data-label="Description">
-                                  {asset?.description}
-                                </td>
-                                <td data-label="Tags">
-                                  <div className="d-flex flex-wrap gap-3 justify-content-end">
-                                    {asset?.tags?.map((p) => (
-                                      <span className="badge text-white m-1">
-                                        {p.charAt(0).toUpperCase() + p.slice(1)}
-                                      </span>
-                                    ))}
-                                  </div>
-                                </td>
-                                <td data-label="Status">
-                                  {hasWritePermission() ? (
-                                    <FormSelect
-                                      className="status-dropdown"
-                                      onChange={(t) => {
-                                        const currentValue = t.target.value;
-                                        if (currentValue == "Pending") {
-                                          return;
-                                        } else {
-                                          handleAssetStatus(
-                                            asset?._id,
-                                            currentValue
-                                          );
-                                        }
-                                      }}
-                                    >
-                                      <option
-                                        value="Pending"
-                                        selected={asset?.status == "Pending"}
-                                      >
-                                        <small>{t("Pending")}</small>
-                                      </option>
-                                      <option
-                                        value="Approve"
-                                        selected={asset?.status == "Approve"}
-                                      >
-                                        <small>{t("Approve")}</small>
-                                      </option>
-                                      <option
-                                        value="Reject"
-                                        selected={asset?.status == "Reject"}
-                                      >
-                                        <small>{t("Reject")}</small>
-                                      </option>
-                                    </FormSelect>
-                                  ) : (
-                                    showAssetsStatus()
-                                  )}
-                                </td>
-                                <td data-label="Uploaded By">
-                                  {asset?.uploadedBy?.email}
-                                </td>
-
-                                {hasWritePermission() && (
-                                  <td data-label="Action">
-                                    <div className="dropdown">
-                                      <button
-                                        className="border-0 bg-transparent"
-                                        type="button"
-                                        id={`dropdownMenuButton-${asset._id}`}
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                      >
-                                        <i class="fa fa-ellipsis"></i>
-                                      </button>
-                                      <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${asset._id}`}>
-                                        <li>   <button
-                                          className="admin_action_edit"
-                                          onClick={() =>
-                                            handleEditAssets(asset._id)
-                                          }
-                                          title="Edit Asset"
-                                        >
-                                          <i className="fa fa-edit me-2"></i> Edit
-                                        </button></li>
-                                        <li>  <button
-                                          className="admin_action_edit"
-                                          onClick={() =>
-                                            handleCloneAssets(asset._id)
-                                          }
-                                          title="Clone Asset"
-                                        >
-                                          <i className="fa fa-clone me-2"></i> Clone
-                                        </button></li>
-                                        <li> <button
-                                          className="admin_action_delete"
-                                          onClick={() =>
-                                            handleAssetDelete(asset._id)
-                                          }
-                                          title="Delete User"
-                                        >
-                                          <i className="fa fa-trash me-2"></i> Delete
-                                        </button></li>
-                                      </ul>
-                                    </div>
-                                  </td>
-                                )}
-                              </tr>
-                            );
-                          })}
-
-                        {!loading && assets?.length === 0 && (
-                          <tr>
-                            <td
-                              colSpan={hasWritePermission() ? "4" : "3"}
-                              className="text-center py-4"
-                            >
-                              {}
-                              {t("No assets found")}
-                              {}
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table> */}
+                    <DataTable columns={columns} data={assets} />
                   </div>
 
                   {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}({totalItems}{" "}
-                          {t("total items")})
+                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}(
+                          {totalItems} {t("total items")})
                         </small>
                       </div>
                       <ReactPaginate
