@@ -252,9 +252,9 @@ export default function AnalyticDashboard({ lang = "en" }) {
                           />
                         </div>
                         <div className="">
-                          <p>Active Users</p>
+                          <p>{t("Active Users")}</p>
                           <h3>{activeUser}</h3>
-                          <span>Total active users this month </span>
+                          <span>{t("Total active users this month")}</span>
                         </div>
                       </div>
                     </div>
@@ -267,9 +267,9 @@ export default function AnalyticDashboard({ lang = "en" }) {
                           />
                         </div>
                         <div className="">
-                          <p>Designs Created</p>
+                          <p>{t("Designs Created")}</p>
                           <h2>{templateCount}</h2>
-                          <span>Total designs made by users</span>
+                          <span>{t("Total designs made by users")}</span>
                         </div>
                       </div>
                     </div>
@@ -289,14 +289,8 @@ export default function AnalyticDashboard({ lang = "en" }) {
                 <div className="analytic-dashboard">
                   <div className="row dashboard-content">
                     <div className="col-lg-12 col-md-12 col-12">
-                      <div className="box">
-                        <p>User growth over time</p>
-                        <div
-                          className="d-flex align-items-center"
-                          style={{ gap: 8, flexWrap: "wrap" }}
-                        >
-                          <UserGrowthChart />
-                        </div>
+                      <div className="chart">
+                        <UserGrowthChart />
                       </div>
                     </div>
                   </div>
@@ -305,25 +299,30 @@ export default function AnalyticDashboard({ lang = "en" }) {
                 <div className="analytic-dashboard">
                   <div className="row dashboard-content">
                     <div className="col-lg-12 col-md-12 col-12">
-                      <p>Template Used</p>
-                      <TemplateChart />
+                      <div className="chart">
+                        <TemplateChart />
+                      </div>
                     </div>
                   </div>
                 </div>
+                
                 <div
-                  className="analytic-dashboard"
-                  dir={lang === "ar" ? "rtl" : "ltr"}
-                >
+                  className="analytic-dashboard">
                   <div className="row">
-                    <div className="col-lg-12 col-md-12 col-12 chart">
-                      <p>Top used templates and assets</p>
-                      <div className="slider autoplay">
-                        {topTemplate?.map((template) => (
-                          <div key={template._id} className="boxes">
-                            <p>{template.name}</p>
-                            <p>{template.templateCount}</p>
+                    <div className="col-lg-6 col-md-6 col-6">
+                      <div className="chart">
+                      <p>{t("Top used templates and assets")}</p>
+                      <div className="top-templates">
+                        {topTemplate?.map((template, index) => (
+                          <div className="template-items d-flex gap-2" key={template._id}>
+                            <div className="template-number">{index + 1}</div>
+                            <div className="template-details w-100">
+                            <p>{template.name.charAt(0).toUpperCase() + template.name.slice(1)}</p>
+                              <p>{template.templateCount}</p>
+                            </div>
                           </div>
                         ))}
+                      </div>
                       </div>
                     </div>
                   </div>

@@ -179,6 +179,7 @@ export default function Notification() {
                     <DataTable
                       columns={columns}
                       data={notifications}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
                     />
                     {/* <table className="table">
                       <thead>

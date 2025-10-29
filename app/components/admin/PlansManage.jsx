@@ -300,6 +300,7 @@ return (
                   <DataTable
                     columns={columns}
                     data={plans}
+                    noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
                   />
                   {/* <table className="table">
                     <thead>

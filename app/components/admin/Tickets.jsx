@@ -97,7 +97,7 @@ export default function Tickets() {
       });
 
       setAllModerator(response.data);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const handleNewChat = () => {
@@ -109,34 +109,34 @@ export default function Tickets() {
       name: t("User"),
       selector: (row) => row?.userId?.name || t("No User"),
       wrap: true,
-      width: "150px",
+      width: "200px",
     },
     {
       name: t("Status"),
       selector: (row) => row.status,
-      width: "100px",
+      width: "200px",
     },
     ...(currentUser?.role?.name === "Super Admin"
       ? [
-          {
-            name: t("Moderator"),
-            cell: (row) => (
-              <select
-                value={row?.moderator?._id || ""}
-                onChange={(e) => handleAssignModerator(row._id, e.target.value)}
-              >
-                <option value="">{t("Assign Moderator")}</option>
-                {moderator?.map((item) => (
-                  <option key={item._id} value={item._id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            ),
-            minWidth: "160px",
-            wrap: true,
-          },
-        ]
+        {
+          name: t("Moderator"),
+          cell: (row) => (
+            <select
+              value={row?.moderator?._id || ""}
+              onChange={(e) => handleAssignModerator(row._id, e.target.value)}
+            >
+              <option value="">{t("Assign Moderator")}</option>
+              {moderator?.map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          ),
+          minWidth: "160px",
+          wrap: true,
+        },
+      ]
       : []),
     {
       name: t("Last Message"),
@@ -147,7 +147,8 @@ export default function Tickets() {
             : ""}
         </div>
       ),
-      grow: 2,
+      minWidth: "200px",
+      maxWidth: "400px",
       wrap: true,
     },
     {
@@ -270,7 +271,7 @@ export default function Tickets() {
                     </div>
                   )}
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={tickets} responsive />
+                    <DataTable columns={columns} data={tickets} responsive noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
                   </div>
                   {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
