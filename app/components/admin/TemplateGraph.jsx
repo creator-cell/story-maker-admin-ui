@@ -10,6 +10,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +23,7 @@ ChartJS.register(
 );
 
 export default function TemplateChart() {
+      const { t } = useTranslation();
   const API_URL_TEMPLATE = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
   const [chartData, setChartData] = useState({});
   const [page, setPage] = useState(1);
@@ -76,59 +79,60 @@ export default function TemplateChart() {
 
   return (
     <div>
-      <div className="box text-center">
-        <p>Template Usage Statistics</p>
-
-        <div style={{ height: "300px", width: "95%", margin: "auto" }}>
-          {chartData.labels ? (
-            <Bar
-              data={chartData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: { position: "top" },
-                  title: { display: false },
-                },
-                scales: {
-                  x: {
-                    barPercentage: 0.5,
-                    categoryPercentage: 0.6,
-                    ticks: {
-                      autoSkip: false,
-                      maxRotation: 45,
-                      minRotation: 45,
-                    },
+      <p>{t("Template Usage Statistics")}</p>
+      <div className="view-chart">
+        {chartData.labels ? (
+          <Bar
+            data={chartData}
+            options={{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: "top" },
+                title: { display: false },
+              },
+              scales: {
+                x: {
+                  barPercentage: 0.5,
+                  categoryPercentage: 0.6,
+                  ticks: {
+                    autoSkip: false,
+                    maxRotation: 45,
+                    minRotation: 45,
                   },
-                  y: { beginAtZero: true },
                 },
-              }}
-            />
-          ) : (
-            <p>Loading chart...</p>
-          )}
-        </div>
-
-        {/* Pagination buttons */}
+                y: { beginAtZero: true },
+              },
+            }}
+          />
+        ) : (
+          <p>Loading chart...</p>
+        )}
       </div>
-      <div className="mt-3 flex justify-center items-center gap-3">
-        <button
-          className="btn btn-secondary"
-          onClick={handlePrev}
-          disabled={page === 1}
-        >
-          ◀ Prev
-        </button>
+
+      {/* Pagination buttons */}
+      <div className="pagination mt-4 d-flex justify-content-between align-items-center gap-3 pb-2">
         <span>
-          Page {page} of {totalPages}
+          {t("Page")} {page} {t("of")} {totalPages}
         </span>
-        <button
-          className="btn btn-primary"
-          onClick={handleNext}
-          disabled={page === totalPages}
-        >
-          Next ▶
-        </button>
+        <div className="d-flex gap-2">
+          <button
+            className="btn-previos"
+            onClick={handlePrev}
+            disabled={page === 1}
+          >
+            {t("Previous")}
+            {/* ◀ Prev */}
+          </button>
+          <button
+            className="btn-next"
+            onClick={handleNext}
+            disabled={page === totalPages}
+          >
+            {t("Next")}
+            {/* Next ▶ */}
+          </button>
+        </div>
       </div>
     </div>
   );

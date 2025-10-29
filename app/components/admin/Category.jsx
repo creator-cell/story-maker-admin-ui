@@ -182,7 +182,7 @@ export default function Categories() {
                     </div>
                   )}
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={categories} />
+                    <DataTable columns={columns} data={categories} noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
                     {/* <table className="table">
                       <thead>
                         <tr>

@@ -317,6 +317,7 @@ export default function Roles() {
                     <DataTable
                       columns={columns}
                       data={users}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
                     />
                     {/* <table className="table">
                       <thead>

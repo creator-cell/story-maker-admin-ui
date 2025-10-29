@@ -437,7 +437,7 @@ export default function Template() {
 
                   {/* Table */}
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={templates} />
+                    <DataTable columns={columns} data={templates} noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}/>
                   </div>
 
                   {/* Pagination */}

@@ -288,7 +288,7 @@ const AdminSidebar = ({ locale }) => {
                               }`}
                               href={`/admin/role`}
                             >
-                              <i className="fa-solid fa-newspaper"></i>
+                             <i class="fa-solid fa-users-gear"></i>
                               {t("Role")}
                               {!hasWriteAccess("Roles") && (
                                 <small className="text-muted ms-1">
@@ -404,7 +404,7 @@ const AdminSidebar = ({ locale }) => {
                               }`}
                               href={`/admin/dashboard`}
                             >
-                              <i className="fa-solid fa-newspaper"></i>
+                              <i class="fa-solid fa-grip"></i>
                               {t("Dashboard")}
                               {!hasWriteAccess("Dashboard") && (
                                 <small className="text-muted ms-1">

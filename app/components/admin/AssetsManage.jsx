@@ -462,7 +462,7 @@ const AssetsManage = () => {
                   )}
 
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={assets} />
+                    <DataTable columns={columns} data={assets} noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
                   </div>
 
                   {totalPages > 1 && (

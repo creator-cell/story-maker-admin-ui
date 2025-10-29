@@ -10,6 +10,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +23,7 @@ ChartJS.register(
 );
 
 export default function UserGrowthChart() {
+  const { t } = useTranslation();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_DASHBOARD;
   const [chartData, setChartData] = useState(null);
   const [startDate, setStartDate] = useState("");
@@ -65,41 +68,51 @@ export default function UserGrowthChart() {
   }, [startDate, endDate]);
 
   return (
-    <div className="p-4">
-      <h3 className="text-center mb-4 font-semibold text-lg">
-        User Growth Over Time
-      </h3>
+    <div>
+      <p>
+        {t("User Growth Over Time")}
+      </p>
+      
+        <form action="">
+          <div className="row">
+            {/* Date Filters */}
+            <div className="col-lg-6 col-md-6 col-12">
+              <div className="form_group">
+                <label className="d-block mb-2">{t("Start Date:")}</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="col-lg-6 col-md-6 col-12">
+              <div className="form_group">
+                <label className="d-block mb-2">{t("End Date:")}</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="comman-date d-flex align-items-end">
+              <button
+                onClick={getUserGrowth}
+                className="button"
+              >
+                {t("Show Chart")}
+              </button>
+            </div>
 
-      {/* Date Filters */}
-      <div className="flex justify-center gap-4 mb-6">
-        <div>
-          <label className="block mb-1 text-sm font-medium">Start Date</label>
-          <input
-            type="date"
-            className="border rounded px-3 py-1"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="block mb-1 text-sm font-medium">End Date</label>
-          <input
-            type="date"
-            className="border rounded px-3 py-1"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-        <button
-          onClick={getUserGrowth}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Show Chart
-        </button>
-      </div>
+          </div>
+        </form>
+     
 
       {/* Chart */}
-      <div style={{ height: "400px", width: "100%" }}>
+      <div className="view-chart mt-4">
         {chartData ? (
           <Bar
             data={chartData}
@@ -119,8 +132,8 @@ export default function UserGrowthChart() {
             }}
           />
         ) : (
-          <p className="text-center text-gray-500 mt-16">
-            Select a date range to view user growth.
+          <p className="text-center mt-4">
+            {t("Select a date range to view user growth.")}
           </p>
         )}
       </div>
