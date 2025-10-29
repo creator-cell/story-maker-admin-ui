@@ -23,6 +23,21 @@ export default function Tickets() {
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".custom-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
   const getTickets = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
@@ -104,6 +119,22 @@ export default function Tickets() {
     setLoader(true);
     router.push(`/admin/tickets/add`);
   };
+  useEffect(() => {
+      if (tickets.length > 0) {
+        setTimeout(() => {
+          const allRows = document.querySelectorAll(".rdt_TableRow");
+  
+          if (allRows.length > 5) {
+            allRows.forEach((row) => row.classList.remove("drop-up"));
+            const lastThree = Array.from(allRows).slice(-3);
+            lastThree.forEach((row) => row.classList.add("drop-up"));
+          } else {
+            allRows.forEach((row) => row.classList.remove("drop-up"));
+          }
+        }, 0);
+      }
+    }, [tickets]);
+  
   const columns = [
     {
       name: t("User"),
@@ -154,25 +185,25 @@ export default function Tickets() {
     {
       name: t("Action"),
       cell: (row) => (
-        <div className="d-flex" data-label="Action">
-          <div className="dropdown">
-            <button
-              className="border-0 bg-transparent"
-              type="button"
-              id={`ticketDropdownButton-${row._id}`}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i className="fa fa-ellipsis"></i>
-            </button>
+        <div className="d-flex position-relative custom-dropdown" data-label="Action">
+          <button
+            className="border-0 bg-transparent"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleDropdown(row._id);
+            }}
+          >
+            <i className="fa fa-ellipsis"></i>
+          </button>
+          {openDropdownId === row._id && (
             <ul
-              className="dropdown-menu"
-              aria-labelledby={`ticketDropdownButton-${row._id}`}
+              className="dropdown-menu show right-side"
             >
               <li>
                 <button
                   className="admin_action_edit dropdown-item d-flex align-items-center gap-2 "
-                  onClick={() => handleUserUpdate(row._id)}
+                  onClick={(e) => { e.stopPropagation(); handleUserUpdate(row._id); setOpenDropdownId(null); }}
                   disabled={row.status === "Resolved"}
                 >
                   <div className="eye-icon">
@@ -184,7 +215,7 @@ export default function Tickets() {
               <li>
                 <button
                   className={`admin_action_resolve dropdown-item d-flex align-items-center gap-2 `}
-                  onClick={() => handleResolve(row._id)}
+                  onClick={(e) =>{  e.stopPropagation();handleResolve(row._id);setOpenDropdownId(null);}}
                   disabled={row.status === "Resolved"}
                 >
                   <i className="fa-solid fa-circle-check"></i>
@@ -196,7 +227,7 @@ export default function Tickets() {
                 </button>
               </li>
             </ul>
-          </div>
+          )}
         </div>
       ),
       width: "100px",

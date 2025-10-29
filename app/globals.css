@@ -3183,7 +3183,7 @@ h6 {
   font-size: 19px;
 }
 
-.admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .dropdown ul li .admin_action_edit {
+.admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .custom-dropdown ul li .admin_action_edit {
   background: none;
   border-radius: 5px;
   display: block;
@@ -3229,19 +3229,7 @@ h6 {
   background-color: transparent !important;
 }
 
-/* .admin_action_edit:hover {
-  opacity: 0.8;
-}
 
-.admin_action_delete:hover {
-  opacity: 0.8;
-}
-
-.admin_action_btn:hover,
-.admin_action_btn:focus,
-.admin_action_btn:active {
-  background-color: var(--dark);
-} */
 
 .login-btn {
   background-color: #808080;
@@ -3254,6 +3242,9 @@ h6 {
   transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+
+
+
 
 .login-btn:hover {
   background-color: #43484d !important;
@@ -10429,6 +10420,15 @@ html {
 .comman_admin_layout .admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .dropdown ul {
   background-color: var(--form-color);
   border-color: var(--table-border);
+}
+
+.rdt_TableRow.drop-up .dropdown-menu {
+  top: auto !important;
+  bottom: 100% !important;
+}
+.right-side{
+  position: relative;
+  right: 0;
 }
 
 .chat-container .chat .box {

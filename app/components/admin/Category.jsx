@@ -23,7 +23,21 @@ export default function Categories() {
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const { t } = useTranslation();
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".custom-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
   const getCategories = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
@@ -64,6 +78,21 @@ export default function Categories() {
     setDeleteUser(true);
     setCategoryId(id);
   };
+  useEffect(() => {
+    if (categories.length > 0) {
+      setTimeout(() => {
+        const allRows = document.querySelectorAll(".rdt_TableRow");
+
+        if (allRows.length > 5) {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+          const lastThree = Array.from(allRows).slice(-3);
+          lastThree.forEach((row) => row.classList.add("drop-up"));
+        } else {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+        }
+      }, 0);
+    }
+  }, [categories]);
   const columns = [
     {
       name: t("Category name"),
@@ -76,25 +105,25 @@ export default function Categories() {
     {
       name: t("Action"),
       cell: (row) => (
-        <div className="d-flex" data-label="Action">
-          <div className="dropdown">
-            <button
-              className="border-0 bg-transparent"
-              type="button"
-              id={`dropdownMenuButton-${row._id}`}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="fa fa-ellipsis"></i>
-            </button>
+        <div className="d-flex position-relative custom-dropdown" data-label="Action">
+          <button
+            className="border-0 bg-transparent"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleDropdown(row._id);
+            }}
+          >
+            <i class="fa fa-ellipsis"></i>
+          </button>
+          {openDropdownId === row._id && (
             <ul
-              className="dropdown-menu"
-              aria-labelledby={`dropdownMenuButton-${row._id}`}
+              className="dropdown-menu show right-side"
             >
               <li>
                 <button
                   className={`admin_action_edit`}
-                  onClick={() => handleEditCategory(row._id)}
+                  onClick={(e) => { e.stopPropagation(); handleEditCategory(row._id); setOpenDropdownId(null); }}
                 >
                   <i className="fa-solid fa-pencil me-2"></i> {t("Edit")}
                 </button>
@@ -102,14 +131,15 @@ export default function Categories() {
               <li>
                 <button
                   className={`admin_action_delete`}
-                  onClick={() => handleDeleteCategory(row._id)}
+                  onClick={(e) => { e.stopPropagation(); handleDeleteCategory(row._id); setOpenDropdownId(null); }}
                 >
                   <i className="fa fa-trash me-2"></i> {t("Delete")}
                 </button>
               </li>
             </ul>
-          </div>
+          )}
         </div>
+
       ),
     },
   ];
