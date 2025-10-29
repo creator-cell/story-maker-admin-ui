@@ -68,7 +68,7 @@ const UpdateAssets = () => {
             });
         }).catch(err => {
             console.log(err);
-            toast(err?.response?.data?.message || "Failed to get asset data", {
+            toast(t("Failed to get asset data"), {
                 type: "error",
                 theme: "light",
                 position: "top-right"
@@ -100,14 +100,14 @@ const UpdateAssets = () => {
             data: newFormData
         }).then(res => {
             reset({ description: null, document: null, format: null, name: null, tags: [], type: null });
-            toast(res?.data?.message || "assets update successfully", {
+            toast(t("assets update successfully"), {
                 type: "success",
                 theme: "light",
                 position: "top-right"
             });
             router.push("/admin/assets");
         }).catch(err => {
-            toast(err?.response?.data?.errors?.[0]?.message ?? err?.response?.data?.message ?? "Failed to add assets", {
+            toast(t("Failed to add assets"), {
                 type: "error",
                 theme: "light",
                 position: "top-right"

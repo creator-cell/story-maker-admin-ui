@@ -65,7 +65,7 @@ const AddAssets = () => {
           tags: [],
           type: null,
         });
-        toast(res?.data?.message || "assets added successfully", {
+        toast(t("assets added successfully."), {
           type: "success",
           theme: "light",
           position: "top-right",
@@ -73,10 +73,7 @@ const AddAssets = () => {
         router.push("/admin/assets");
       })
       .catch((err) => {
-        toast(
-          err?.response?.data?.errors?.[0]?.message ??
-          err?.response?.data?.message ??
-          "Failed to add assets",
+        toast(t("Failed to add assets"),
           {
             type: "error",
             theme: "light",

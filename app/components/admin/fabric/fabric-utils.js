@@ -119,7 +119,7 @@ export const addImageToCanvas = async (canvas, imageUrl) => {
           cornorSize: 10,
         });
 
-        const maxDimension = 400;
+        const maxDimension = 100;
 
         if (image.width > maxDimension || image.height > maxDimension) {
           if (image.width > image.height) {
@@ -147,65 +147,6 @@ export const addImageToCanvas = async (canvas, imageUrl) => {
     return null;
   }
 };
-
-// export const addImageToCanvas = async (canvas, imageUrl) => {
-//   if (!canvas) return null;
-
-//   try {
-//     console.log("initialize canvas");
-//     const fabricMod = await import("fabric");
-//     const fabric = fabricMod.fabric || fabricMod;
-//     // handle default export cases
-//     const { Image: FabricImage } = await import("fabric");
-//     console.log("image", Image);
-//     let imgObj = new Image();
-//     imgObj.crossOrigin = "Anonymous";
-//     imgObj.src = imageUrl;
-
-//     console.log(fabric.Image);
-//     const safeUrl = encodeURI(imageUrl);
-
-//     return new Promise((resolve, reject) => {
-//       fabric.Image.fromURL(
-//         safeUrl,
-//         (image) => {
-//           if (!image) {
-//             reject(new Error("Image could not be loaded"));
-//             return;
-//           }
-//           console.log("inside the promise");
-
-//           image.set({
-//             id: `image-${Date.now()}`,
-//             top: 100,
-//             left: 100,
-//             padding: 10,
-//             cornerSize: 10,
-//           });
-//           console.log(image);
-//           const maxDimension = 400;
-//           if (image.width > maxDimension || image.height > maxDimension) {
-//             console.log("comes in this");
-//             if (image.width > image.height) {
-//               image.scaleToWidth(maxDimension);
-//             } else {
-//               image.scaleToHeight(maxDimension);
-//             }
-//           }
-
-//           canvas.add(image);
-//           canvas.setActiveObject(image);
-//           canvas.renderAll();
-//           resolve(image);
-//         },
-//         { crossOrigin: "anonymous" }
-//       );
-//     });
-//   } catch (error) {
-//     console.error("Error adding image:", error);
-//     return null;
-//   }
-// };
 
 export const toggleDrawingMode = (
   canvas,

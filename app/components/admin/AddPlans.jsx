@@ -68,7 +68,7 @@ const AddPlans = () => {
           duration: null,
           features: [],
         });
-        toast(res?.data?.message || "plan added successfully", {
+        toast(t("plan added successfully"), {
           type: "success",
           theme: "light",
           position: "top-right",
@@ -76,10 +76,7 @@ const AddPlans = () => {
         router.push("/admin/plans");
       })
       .catch((err) => {
-        toast(
-          err?.response?.data?.errors?.[0]?.message ??
-          err?.response?.data?.message ??
-          "Failed to add plans",
+        toast(t("Failed to add plans"),
           {
             type: "error",
             theme: "light",

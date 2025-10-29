@@ -145,7 +145,6 @@ body {
   --vibrant-blue: #0872ff;
   --light-gray: #f9f9f9;
   --black: #000;
-  --soft-blue: #86b7fe;
   --deep-blue: #1f4f8f;
   --teal-blue: #2383aa;
   --grayish-blue: #626773;
@@ -213,6 +212,9 @@ body {
   --template-sidebar-hover: #e6e6e6;
   --template-collapse-btn: #f5f5f5;
   --table-border: #808080;
+  --table-row: #f9fafb;
+  --table-bottom-border: #0000001f;
+  --dashboard-box: #ffffff;
 }
 
 :root[data-bs-theme=dark] {
@@ -223,7 +225,6 @@ body {
   --vibrant-blue: #0872ff;
   --light-gray: #f9f9f9;
   --black: #FFF;
-  --soft-blue: #86b7fe;
   --deep-blue: #1f4f8f;
   --teal-blue: #202226;
   --grayish-blue: #626773;
@@ -292,6 +293,9 @@ body {
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --table-border: #fff;
+  --table-row: #343434;
+  --table-bottom-border: #fff;
+  --dashboard-box: gray;
 }
 
 
@@ -376,6 +380,10 @@ input,
 option,
 button {
   outline: none;
+}
+
+.form-select:focus {
+  border-color: var(--table-border) !important;
 }
 
 .form-check-input {
@@ -3124,6 +3132,41 @@ h6 {
   border-radius: 5px;
   display: block;
   width: auto;
+  padding: 6px 6px;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  background: none;
+  color: var(--black);
+  line-height: 1.2;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.admin_action_clone {
+  border-radius: 5px;
+  display: block;
+  width: auto;
+  padding: 6px 6px;
+  text-decoration: none;
+  outline: none;
+  border: 0;
+  background: none;
+  color: var(--black);
+  line-height: 1.2;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.admin_action_clone i {
+  color: var(--gray);
+  font-size: 19px;
+}
+
+.admin_action_approve {
+  border-radius: 5px;
+  display: block;
+  width: auto;
   padding: 6px 10px;
   text-decoration: none;
   outline: none;
@@ -3135,12 +3178,16 @@ h6 {
   font-weight: 600;
 }
 
-.admin_action_edit {
+.admin_action_approve i {
+  color: var(--badge_success);
+  font-size: 19px;
+}
+
+.admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .dropdown ul li .admin_action_edit {
   background: none;
   border-radius: 5px;
   display: block;
   width: auto;
-  padding: 6px 10px;
   text-decoration: none;
   outline: none;
   border: 0;
@@ -3148,6 +3195,24 @@ h6 {
   line-height: 1.2;
   font-size: 16px;
   font-weight: 600;
+}
+
+.admin_action_resolve i {
+  font-size: 20px;
+  color: var(--form-textcolor);
+}
+
+.admin_action_resolve span {
+  color: var(--form-textcolor);
+  font-weight: 500;
+}
+
+.admin_action_edit span {
+  color: var(--form-textcolor);
+}
+
+.admin_action_edit .eye-icon i {
+  color: var(--form-textcolor);
 }
 
 .admin_action_edit i {
@@ -3160,7 +3225,11 @@ h6 {
   font-size: 19px;
 }
 
-.admin_action_edit:hover {
+.dropdown-item:hover {
+  background-color: transparent !important;
+}
+
+/* .admin_action_edit:hover {
   opacity: 0.8;
 }
 
@@ -3172,7 +3241,7 @@ h6 {
 .admin_action_btn:focus,
 .admin_action_btn:active {
   background-color: var(--dark);
-}
+} */
 
 .login-btn {
   background-color: #808080;
@@ -3375,6 +3444,20 @@ h6 {
   margin: 0 auto 0 0;
 }
 
+.right_text .admin_table .filter_field .search-bar i {
+  left: 14px;
+  right: unset;
+}
+
+.right_text .modal-content .modal-header button {
+  position: absolute;
+  left: 14px;
+}
+
+.right_text .chat-container .chat .box .user-chat p .icon-name .name {
+  padding-right: 20px;
+}
+
 /* main_container */
 #main_container {
   display: block;
@@ -3465,23 +3548,15 @@ h6 {
   padding: 0 0;
 }
 
-/* .comman_admin_layout .admin_table .table_filter .filter_field .button {
-  padding: 10px 10px;
-} */
-
 .comman_admin_layout .admin_table .form-control,
 .comman_admin_layout .admin_table .form-control:focus,
 .comman_admin_layout .admin_table .form-control:active,
 .comman_admin_layout .admin_table .form-control:hover {
-  border: 1px solid var(--alpha) !important;
+  border: 1px solid var(--table-border) !important;
   box-shadow: none !important;
-  padding: 6px 10px;
+  padding: 8px 17px;
   font-size: 14px;
-}
-
-.comman_admin_layout .admin_table .form-control:focus,
-.comman_admin_layout .admin_table .form-control:hover {
-  border: 1.3px var(--soft-blue) solid !important;
+  border-radius: 0px;
 }
 
 .comman_admin_layout .admin_table .form-check-input:checked {
@@ -3504,31 +3579,9 @@ h6 {
   transform: translateY(-50%);
   cursor: pointer;
   color: #81898f;
-  padding-left: 10px;
 }
 
-.comman_admin_layout .admin_table .table-responsive .table .table_body tr td .resolvebtn {
-  background-color: #808080;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
 
-.comman_admin_layout .admin_table .table-responsive .table .table_body tr td .click-to-resolve {
-  background-color: #808080;
-  color: #fff;
-  border: none;
-  padding: 10px 12px;
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
 
 /* Comman Admin Container End */
 
@@ -3569,7 +3622,8 @@ h6 {
   color: var(--table-textcolor);
   background: var(--table-color);
 }
-.admin_table .table-responsive table .table_body tr td .dropdown .dropdown-menu{
+
+.admin_table .table-responsive table .table_body tr td .dropdown .dropdown-menu {
   background-color: var(--form-color);
   border: 1px solid var(--table-border);
 }
@@ -8633,6 +8687,87 @@ h6 {
   outline: none;
 }
 
+/* dashboard start  */
+.analytic-dashboard {
+  padding: 20px 0px;
+}
+
+.analytic-dashboard .chart p {
+  color: var(--form-textcolor);
+  font-weight: bold;
+  padding-bottom: 15px;
+}
+
+.analytic-dashboard .box {
+  gap: 15px;
+  padding: 30px 30px 30px 20px;
+  display: flex;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 40px;
+  background-color: var(--dashboard-box);
+  min-height: 180px;
+}
+
+.analytic-dashboard .box img {
+  height: 50%;
+}
+
+.analytic-dashboard .box .icon img {
+  height: 100px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.analytic-dashboard .box p {
+  color: var(--form-textcolor);
+  margin: 0;
+  font-weight: bold;
+}
+
+.analytic-dashboard .box span {
+  color: var(--form-textcolor);
+}
+
+.analytic-dashboard .slider .slick-list {
+  padding-bottom: 50px;
+}
+
+.analytic-dashboard .slider .slick-list .slick-track {
+  display: flex;
+  gap: 20px;
+}
+
+.analytic-dashboard .slider .slick-list .slick-track .slick-slide {
+  height: 200px;
+}
+
+.analytic-dashboard .slider .slick-list .slick-track .slick-slide .boxes {
+  display: flex !important;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.analytic-dashboard .slider .slick-list .slick-track .slick-slide .boxes p {
+  font-weight: bold;
+  padding: 10px;
+  color: var(--form-textcolor);
+}
+
+.analytic-dashboard .slider .slick-list .slick-track .slick-slide .boxes img {
+  min-height: 200px;
+  object-fit: cover;
+}
+
+.analytic-dashboard .slider .slick-dots li.slick-active button:before {
+  color: var(--form-textcolor) !important;
+}
+
+.analytic-dashboard .slider .slick-dots li button:before {
+  color: var(--form-textcolor) !important;
+}
+
+/* dashboard end  */
+
 /* Responsive Styles */
 
 @media (max-width: 1400px) {
@@ -8851,7 +8986,6 @@ html {
 }
 
 .form-control:focus {
-  border-color: #00cd78;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 205, 120, 0.25);
 }
@@ -10041,7 +10175,7 @@ html {
 }
 
 .badge {
-  font-size: 9px;
+  min-width: 90px;
   padding: 10px !important;
 }
 
@@ -10063,11 +10197,30 @@ html {
   background-color: #6c757d !important;
 }
 
+.admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .resolvebtn {
+  background-color: #808080;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
 
+.admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .click-to-resolve {
+  background-color: #808080;
+  color: #fff;
+  border: none;
+  padding: 10px 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
 
-
-.admin_table .table-responsive table .table_body tr .btn-resolved {
-  background-color: #6c757d;
+.admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .btn-resolved {
   color: white;
   cursor: not-allowed !important;
 }
@@ -10078,9 +10231,14 @@ html {
   margin: 1px;
 }
 
-.admin_table .table-responsive table .table_body tr td small .doc-file {
+.admin_table .table-responsive .rdt_TableBody .rdt_TableRow .rdt_TableCell small .doc-file {
   height: 30px;
   width: 25px;
+}
+
+.admin_table .table-responsive .rdt_TableBody .rdt_TableRow .rdt_TableCell small a {
+  border-radius: 50%;
+  padding: 5px 7px;
 }
 
 .comman_admin_layout .admin_form_panel {
@@ -10156,7 +10314,39 @@ html {
   margin-right: 15px;
 }
 
+.comman_admin_layout .admin_table .table-responsive .rdt_Table {
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  background-color: var(--form-color);
 
+}
+
+.comman_admin_layout .admin_table .table-responsive .rdt_Table .rdt_TableHeadRow {
+  background-color: var(--form-color);
+  color: var(--form-textcolor);
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.comman_admin_layout .admin_table .table-responsive .rdt_Table .rdt_TableHeadRow .rdt_TableCol {
+  padding: 12px 16px;
+  /* cursor: pointer; */
+}
+
+.comman_admin_layout .admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow:nth-child(odd) {
+  background-color: var(--table-row);
+}
+
+.comman_admin_layout .admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow {
+  background-color: var(--form-color);
+  color: var(--form-textcolor);
+  border-bottom-color: var(--table-bottom-border);
+}
+
+.comman_admin_layout .admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .dropdown ul {
+  background-color: var(--form-color);
+  border-color: var(--table-border);
+}
 
 .chat-container .chat .box {
   background-color: var(--white) !important;
@@ -10188,18 +10378,12 @@ html {
 }
 
 .chat-container .send-chat .form-control {
-  border: 1px solid var(--alpha);
-}
-
-.chat-container .send-chat .form-control:hover {
-  border: 1.3px solid var(--soft-blue) !important;
+  border: 1px solid var(--table-border);
 }
 
 .chat-container .chat .type-message button:hover,
 .chat-container .chat .type-message button:visited {
-  /* background: var(--Blue) !important; */
   opacity: 0.7;
-  /* transition: background-color, box-shadow 1s ease; */
 }
 
 .admin_table .table-responsive table .table_body .permission-item .permission-badges .badge {
@@ -10362,9 +10546,7 @@ html {
   justify-content: center;
 }
 
-.form-control:hover {
-  border-color: var(--soft-blue);
-}
+
 
 .admin_table td[data-label="Status"] {
   min-width: 120px;
@@ -10882,6 +11064,13 @@ html {
   color: var(--form-textcolor);
 }
 
+.right_text .properties {
+  position: absolute;
+  top: 65px;
+  left: 10px;
+  right: unset;
+}
+
 .properties .flip-h button {
   padding: 6px 15px 5px !important;
   display: flex;
@@ -11068,6 +11257,10 @@ html {
   left: 8% !important;
   transform: translate(0) !important;
   height: 80% !important;
+}
+
+.right_text .inner_container .design-box .canvas-container {
+  left: 3% !important;
 }
 
 .inner_container .design-box .lower-canvas,
@@ -11361,17 +11554,34 @@ html {
   display: flex;
 }
 
+.right_text .ReactTags__tags .ReactTags__selected {
+  gap: 30px;
+}
+
 .ReactTags__tagInput {
   width: 100%;
 }
 
-.admin_table .table-responsive table .table_body tr td .badge {
+.admin_table .table-responsive .rdt_TableBody .rdt_TableRow .rdt_TableRow .rdt_TableCell .badge {
   min-width: 100px;
   font-size: 16px;
 }
 
+.admin_table .table-responsive .rdt_TableBody {
+  min-height: 350px;
+}
+
 /* badge end  */
 
+.languageswitcher-login {
+  display: inline-block;
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  background-color: white;
+  padding: 10px 10px;
+  border-radius: 15px;
+}
 
 #languageswitcher {
   display: inline-block;
@@ -11381,12 +11591,11 @@ html {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  flex-wrap: wrap;
   gap: 10px;
   line-height: 1;
   background-color: transparent;
-  padding: 9px 10px 6px;
   border-radius: 10px;
+  width: max-content;
 }
 
 #languageswitcher .cust-check label {
@@ -11431,6 +11640,10 @@ html {
     transform: translate(0) !important;
     height: 80% !important;
   }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 2% !important;
+  }
 }
 
 @media (max-width: 1280px) {
@@ -11442,6 +11655,10 @@ html {
     left: 9% !important;
     transform: translate(0) !important;
     height: 80% !important;
+  }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 3% !important;
   }
 
   .chat-container .chat .box .type-messages textarea {
@@ -11459,6 +11676,10 @@ html {
     transform: translate(0) !important;
     height: 80% !important;
   }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 5% !important;
+  }
 }
 
 @media (max-width: 992px) {
@@ -11470,6 +11691,10 @@ html {
     left: 11% !important;
     transform: translate(0) !important;
     height: 80% !important;
+  }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 5% !important;
   }
 
   .chat-container {
@@ -11572,6 +11797,10 @@ html {
     height: 80% !important;
   }
 
+  .right_text .inner_container .design-box .canvas-container {
+    left: 5% !important;
+  }
+
   .chat-container .chat .box .type-messages textarea {
     width: 350px;
   }
@@ -11589,11 +11818,17 @@ html {
     flex-wrap: wrap;
   }
 
-  .admin_table .table-responsive table .table_body tr td .template-button{
+  .admin_table .table-responsive table .table_body tr td .template-button {
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
     gap: 3;
+  }
+
+  .dashboard-content {
+    flex-wrap: wrap;
+    display: flex;
+    gap: 20px;
   }
 }
 
@@ -11629,6 +11864,10 @@ html {
     height: 80% !important;
   }
 
+  .right_text .inner_container .design-box .canvas-container {
+    left: 12% !important;
+  }
+
   .chat-container .chat .box .type-messages textarea {
     width: 100%;
   }
@@ -11655,6 +11894,11 @@ html {
     top: 15% !important;
     left: 33% !important;
     transform: translate(0) !important;
+  }
+
+  .right_text .inner_container .design-box .canvas-container {
+    left: 24% !important;
+    width: calc(100% - 190px) !important;
   }
 
   .admin_table .table-responsive table tbody tr td {

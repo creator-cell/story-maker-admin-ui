@@ -12,6 +12,7 @@ import useDownloader from "react-use-downloader";
 import { FormSelect } from "react-bootstrap";
 import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
+import DataTable from "react-data-table-component";
 
 const AssetsManage = () => {
   const { t } = useTranslation();
@@ -72,9 +73,11 @@ const AssetsManage = () => {
     } catch (error) {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
-        toast.error("You don't have permission to view users 9999");
+        toast.error(t("You don't have permission to view users 9999"));
+        toast.error(t("You don't have permission to view users 9999"));
       } else {
-        toast.error("Failed to fetch users");
+        toast.error(t("Failed to fetch users"));
+        toast.error(t("Failed to fetch users"));
       }
     } finally {
       setLoader(false);
@@ -99,7 +102,7 @@ const AssetsManage = () => {
       }),
     })
       .then((res) => {
-        toast(res?.data?.message || "Status updated successfully", {
+        toast(t("Status updated successfully"), {
           type: "success",
           theme: "light",
           position: "top-right",
@@ -115,7 +118,7 @@ const AssetsManage = () => {
         );
       })
       .catch((err) => {
-        toast("Failed to update status", {
+        toast(t("Failed to update status"), {
           type: "error",
           theme: "light",
           position: "top-right",
@@ -144,6 +147,7 @@ const AssetsManage = () => {
   };
 
   const handleEditAssets = (updateAssetId) => {
+    setLoader(true);
     router.push(`/admin/assets/${updateAssetId}`);
   };
 
@@ -161,7 +165,7 @@ const AssetsManage = () => {
       },
     })
       .then((res) => {
-        toast(res.data?.message || "Assets clone successfully", {
+        toast(t("Assets clone successfully"), {
           type: "success",
           position: "top-right",
           theme: "light",
@@ -169,7 +173,7 @@ const AssetsManage = () => {
         router.push(`/admin/assets/${res?.data?.data?.cloneId}`);
       })
       .catch((err) => {
-        toast(err?.response?.data?.message || "Failed to clone assets", {
+        toast(t("Failed to clone assets"), {
           type: "error",
           position: "top-right",
           theme: "light",
@@ -229,7 +233,7 @@ const AssetsManage = () => {
               // getAssets(1);
               getAssets(1);
             } else {
-              toast.error("You don't have permission to access this page");
+              toast.error(t("You don't have permission to access this page"));
             }
           } else {
             // User doesn't have Users menu access
@@ -239,7 +243,7 @@ const AssetsManage = () => {
               both: false,
               hasUsersMenu: false,
             });
-            toast.error("You don't have permission to access this page");
+            toast.error(t("You don't have permission to access this page"));
           }
         } else {
           // No role permissions found
@@ -249,7 +253,7 @@ const AssetsManage = () => {
             both: false,
             hasUsersMenu: false,
           });
-          toast.error("You don't have permission to access this page");
+          toast.error(t("You don't have permission to access this page"));
         }
       } catch (error) {
         console.error("Error initializing user permissions:", error);
@@ -259,13 +263,158 @@ const AssetsManage = () => {
           both: false,
           hasUsersMenu: false,
         });
-        toast.error("Error loading user permissions");
+        toast.error(t("Error loading user permissions"));
       }
     };
 
     initializeUserPermissions();
   }, []); // Only run on component mount
 
+  const columns = [
+    {
+      name: t("Date"),
+      selector: (row) => new Date(row.createdAt).toLocaleDateString(),
+      width: "120px",
+    },
+    {
+      name: t("Name"),
+      selector: (row) => row.name,
+      maxWidth: "180px",
+    },
+    {
+      name: t("Document"),
+      cell: (row) =>
+        row.url ? (
+          <small className="d-flex align-items-center gap-2">
+            <div className="doc-file">
+              <FileIcon
+                extension={row.url.split("/assets/")[1]?.split(".")[1]}
+                {...defaultStyles[row.url.split("/assets/")[1]?.split(".")[1]]}
+              />
+            </div>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={row.url}
+              disabled={isInProgress}
+              className="button"
+            >
+              <IconEye size={20} stroke={2} />
+            </a>
+          </small>
+        ) : null,
+      width: "100px",
+    },
+    {
+      name: t("Type"),
+      selector: (row) => row.type,
+      width: "100px",
+    },
+    {
+      name: t("Format") || t("no Format"),
+      selector: (row) => row.format,
+      width: "100px",
+    },
+    {
+      name: t("Description") || t("no Description"),
+      selector: (row) => row.description,
+      width: "200px",
+      wrap: true,
+    },
+    {
+      name: t("Tags") || t("no Tags"),
+      cell: (row) => (
+        <div className="d-flex flex-wrap gap-3 justify-content-start">
+          {row.tags?.map((p) => (
+            <span className="badge text-white m-1" key={p}>
+              {p.charAt(0).toUpperCase() + p.slice(1)}
+            </span>
+          ))}
+        </div>
+      ),
+      maxWidth: "180px",
+    },
+    {
+      name: t("Status"),
+      cell: (row) =>
+        hasWritePermission() ? (
+          <FormSelect
+            className="status-dropdown"
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value !== "Pending") handleAssetStatus(row._id, value);
+            }}
+            value={row.status}
+          >
+            <option value="Pending">{t("Pending")}</option>
+            <option value="Approve">{t("Approve")}</option>
+            <option value="Reject">{t("Reject")}</option>
+          </FormSelect>
+        ) : (
+          <span>{row.status}</span>
+        ),
+      width: "150px",
+    },
+    {
+      name: t("Uploaded By"),
+      selector: (row) => row.uploadedBy?.email,
+      width: "180px",
+    },
+    {
+      name: t("Action"),
+      cell: (row) =>
+        hasWritePermission() && (
+          <div className="d-flex" data-label="Action">
+            <div className="dropdown">
+              <button
+                className="border-0 bg-transparent"
+                type="button"
+                id={`dropdownMenuButton-${row._id}`}
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fa fa-ellipsis"></i>
+              </button>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby={`dropdownMenuButton-${row._id}`}
+              >
+                <li>
+                  {" "}
+                  <button
+                    className="admin_action_edit"
+                    onClick={() => handleEditAssets(row._id)}
+                    title="Edit Asset"
+                  >
+                    <i className="fa fa-edit me-2"></i> {t("Edit")}
+                  </button>
+                </li>
+                <li>
+                  {" "}
+                  <button
+                    className="admin_action_clone"
+                    onClick={() => handleCloneAssets(row._id)}
+                    title="Clone Asset"
+                  >
+                    <i className="fa fa-clone me-2"></i> {t("Clone")}
+                  </button>
+                </li>
+                <li>
+                  {" "}
+                  <button
+                    className="admin_action_delete"
+                    onClick={() => handleAssetDelete(row._id)}
+                    title="Delete User"
+                  >
+                    <i className="fa fa-trash me-2"></i> {t("Delete")}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        ),
+    },
+  ];
   return (
     <>
       <div id="main_container">
@@ -305,224 +454,23 @@ const AssetsManage = () => {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">{t("Loading...")}</span>
+                        <span className="visually-hidden">
+                          {t("Loading...")}
+                        </span>
                       </div>
                     </div>
                   )}
 
                   <div className="table-responsive">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th className="cursor">
-                            {t("Date")}
-                          </th>
-                          <th className="cursor">
-                            {t("Name")}
-                          </th>
-                          <th className="cursor">
-                            {t("Document")}
-                          </th>
-                          <th className="cursor">
-                            t{("Type")}
-                          </th>
-                          <th className="cursor">
-                            t{("Format")}
-                          </th>
-                          <th className="cursor">
-                            {t("Description")}
-                          </th>
-                          <th className="cursor">
-                            {t("Tags")}
-                          </th>
-                          <th className="cursor">
-                            {t("Status")}
-                          </th>
-                          <th className="cursor">
-                            {t("Uploaded By")}
-                          </th>
-
-                          {hasWritePermission() && (
-                            <th >{t("Action")}</th>
-                          )}
-                        </tr>
-                      </thead>
-                      <tbody className="table_body">
-                        {!loading &&
-                          assets &&
-                          assets?.map((asset, index) => {
-                            return (
-                              <tr key={asset._id}>
-                                <td data-label="Date">
-                                  {new Date(
-                                    asset?.createdAt
-                                  )?.toLocaleDateString()}
-                                </td>
-                                <td data-label="Name">{asset?.name}</td>
-                                <td data-label="Document">
-                                  {asset?.url ? (
-                                    <>
-                                      <small className="d-flex align-items-center gap-2">
-                                        <div
-                                          className="doc-file"
-                                        >
-                                          <FileIcon
-                                            extension={
-                                              asset?.url
-                                                ?.split("/assets/")[1]
-                                                ?.split(".")[1]
-                                            }
-                                            {...defaultStyles[
-                                            asset?.url
-                                              ?.split("/assets/")[1]
-                                              ?.split(".")[1]
-                                            ]}
-                                          />
-                                        </div>
-                                        {/* <button disabled={isInProgress} className='button align-self-end yellow p-1 rounded-pill' onClick={() => download(asset?.url, asset?.url?.split('/assets/')[1])}>
-                                      <IconDownload size={20} stroke={2} />
-                                    </button> */}
-                                        <a
-                                          target="_blank"
-                                          href={asset?.url}
-                                          disabled={isInProgress}
-                                          className="button align-self-end yellow p-1 rounded-pill"
-                                        >
-                                          <IconEye size={20} stroke={2} />
-                                        </a>
-                                      </small>
-                                    </>
-                                  ) : null}
-                                  { }
-                                </td>
-                                <td data-label="Type">{asset?.type}</td>
-                                <td data-label="Format">{asset?.format}</td>
-                                <td data-label="Description">
-                                  {asset?.description}
-                                </td>
-                                <td data-label="Tags">
-                                  <div className="d-flex flex-wrap gap-3 justify-content-end">
-                                    {asset?.tags?.map((p) => (
-                                      <span className="badge text-white m-1">
-                                        {p.charAt(0).toUpperCase() + p.slice(1)}
-                                      </span>
-                                    ))}
-                                  </div>
-                                </td>
-                                <td data-label="Status">
-                                  {hasWritePermission() ? (
-                                    <FormSelect
-                                      className="status-dropdown"
-                                      onChange={(t) => {
-                                        const currentValue = t.target.value;
-                                        if (currentValue == "Pending") {
-                                          return;
-                                        } else {
-                                          handleAssetStatus(
-                                            asset?._id,
-                                            currentValue
-                                          );
-                                        }
-                                      }}
-                                    >
-                                      <option
-                                        value="Pending"
-                                        selected={asset?.status == "Pending"}
-                                      >
-                                        <small>{t("Pending")}</small>
-                                      </option>
-                                      <option
-                                        value="Approve"
-                                        selected={asset?.status == "Approve"}
-                                      >
-                                        <small>{t("Approve")}</small>
-                                      </option>
-                                      <option
-                                        value="Reject"
-                                        selected={asset?.status == "Reject"}
-                                      >
-                                        <small>{t("Reject")}</small>
-                                      </option>
-                                    </FormSelect>
-                                  ) : (
-                                    showAssetsStatus()
-                                  )}
-                                </td>
-                                <td data-label="Uploaded By">
-                                  {asset?.uploadedBy?.email}
-                                </td>
-
-                                {hasWritePermission() && (
-                                  <td data-label="Action">
-                                    <div className="dropdown">
-                                      <button
-                                        className="border-0 bg-transparent"
-                                        type="button"
-                                        id={`dropdownMenuButton-${asset._id}`}
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                      >
-                                        <i class="fa fa-ellipsis"></i>
-                                      </button>
-                                      <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${asset._id}`}>
-                                        <li>   <button
-                                          className="admin_action_edit"
-                                          onClick={() =>
-                                            handleEditAssets(asset._id)
-                                          }
-                                          title="Edit Asset"
-                                        >
-                                          <i className="fa fa-edit me-2"></i> Edit
-                                        </button></li>
-                                        <li>  <button
-                                          className="admin_action_edit"
-                                          onClick={() =>
-                                            handleCloneAssets(asset._id)
-                                          }
-                                          title="Clone Asset"
-                                        >
-                                          <i className="fa fa-clone me-2"></i> Clone
-                                        </button></li>
-                                        <li> <button
-                                          className="admin_action_delete"
-                                          onClick={() =>
-                                            handleAssetDelete(asset._id)
-                                          }
-                                          title="Delete User"
-                                        >
-                                          <i className="fa fa-trash me-2"></i> Delete
-                                        </button></li>
-                                      </ul>
-                                    </div>
-                                  </td>
-                                )}
-                              </tr>
-                            );
-                          })}
-
-                        {!loading && assets?.length === 0 && (
-                          <tr>
-                            <td
-                              colSpan={hasWritePermission() ? "4" : "3"}
-                              className="text-center py-4"
-                            >
-                              {/* { ? 
-                                `No users found matching "${searchUser}"` :  */}
-                              {t("No assets found")}
-                              {/* } */}
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
+                    <DataTable columns={columns} data={assets} />
                   </div>
 
                   {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}({totalItems}{" "}
-                          {t("total items")})
+                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}(
+                          {totalItems} {t("total items")})
                         </small>
                       </div>
                       <ReactPaginate

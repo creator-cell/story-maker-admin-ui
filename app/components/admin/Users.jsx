@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 
-import DeleteUser from "@/app/[locale]/(adminSide)/model/DeleteRole";
+import DeleteUser from "@/app/[locale]/(adminSide)/model/DeleteUser";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "../Loader";
@@ -131,9 +131,9 @@ export default function Users() {
       }
     } catch (error) {
       if (error.response?.status === 403) {
-        toast.error("You don't have permission to view users 9999");
+        toast.error(t("You don't have permission to view users 9999"));
       } else {
-        toast.error("Failed to fetch users");
+        toast.error(t("Failed to fetch users"));
       }
       setUsers([]);
       setTotalPages(0);
@@ -188,21 +188,19 @@ export default function Users() {
       name: (
         <div onClick={() => handleSort("name")} className="cursor">
           {t("First Name")}
-          {/* <i className={`fa ${getSortIcon("name")} ms-1`}></i> */}
+          <i className={`fa ${getSortIcon("name")} ms-1`}></i>
         </div>
       ),
       selector: row => row.name,
-      sortable: true,
     },
     {
       name: (
         <div onClick={() => handleSort("email")} className="cursor d-flex align-items-center">
           {t("Email Address")}
-          {/* <i className={`fa ${getSortIcon("email")} ms-1`}></i> */}
+          <i className={`fa ${getSortIcon("email")} ms-1`}></i>
         </div>
       ),
       selector: row => row.email,
-      sortable: true,
     },
     {
       name: t('Phone Number'),
@@ -212,11 +210,10 @@ export default function Users() {
       name: (
         <div onClick={() => handleSort("isActive")} className="cursor d-flex align-items-center">
           {t("Status")}
-          {/* <i className={`fa ${getSortIcon("isActive")} ms-1`}></i> */}
+          <i className={`fa ${getSortIcon("isActive")} ms-1`}></i>
         </div>
       ),
       selector: row => row.isActive ? 'Active' : 'Deactivate',
-      sortable: true,
       cell: row => (
         hasWritePermission() ? (
           <div className="form-check form-switch">
@@ -228,19 +225,17 @@ export default function Users() {
               checked={row.isActive}
               onChange={() => updateUserStatus(row._id)}
             />
-            <label className="form-check-label">
-              {row.isActive ? 'Active' : 'Deactivate'}
-            </label>
           </div>
-        ) : (
-          <>
-            {row.isActive ? (
-              <span className="badge bg-primary">Active</span>
-            ) : (
-              <span className="badge bg-secondary">Deactivate</span>
-            )}
-          </>
         )
+          : (
+            <>
+              {row.isActive ? (
+                <span className="badge bg-primary">Active</span>
+              ) : (
+                <span className="badge bg-secondary">Deactivate</span>
+              )}
+            </>
+          )
       )
     },
     {
@@ -252,28 +247,28 @@ export default function Users() {
               <button
                 className="border-0 bg-transparent"
                 type="button"
-                id={`dropdownMenuButton-${user._id}`}
+                id={`dropdownMenuButton-${row._id}`}
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 <i class="fa fa-ellipsis"></i>
               </button>
-              <ul  className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${user._id}`}>
-                <li>       
+              <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${row._id}`}>
+                <li>
                   <button
-                  className="admin_action_edit"
-                  onClick={() => handleEditUser(row._id)}
-                >
-                  <i className="fa-solid fa-pencil me-1"></i> {t("Edit")} 
-                </button>
+                    className="admin_action_edit"
+                    onClick={() => handleEditUser(row._id)}
+                  >
+                    <i className="fa-solid fa-pencil me-1"></i> {t("Edit")}
+                  </button>
                 </li>
-                <li>        
+                <li>
                   <button
-                  className="admin_action_delete"
-                  onClick={() => handleUserDelete(row._id)}
-                >
-                  <i className="fa fa-trash me-1"></i> {t("Delete")}
-                </button>
+                    className="admin_action_delete"
+                    onClick={() => handleUserDelete(row._id)}
+                  >
+                    <i className="fa fa-trash me-1"></i> {t("Delete")}
+                  </button>
                 </li>
               </ul>
             </div>
@@ -307,7 +302,7 @@ export default function Users() {
             if (usersMenu.read || usersMenu.both) {
               getUsers(1);
             } else {
-              toast.error("You don't have permission to access this page");
+              toast.error(t("You don't have permission to access this page"));
             }
           } else {
             // User doesn't have Users menu access
@@ -317,7 +312,7 @@ export default function Users() {
               both: false,
               hasUsersMenu: false,
             });
-            toast.error("You don't have permission to access this page");
+            toast.error(t("You don't have permission to access this page"));
           }
         } else {
           // No role permissions found
@@ -327,7 +322,7 @@ export default function Users() {
             both: false,
             hasUsersMenu: false,
           });
-          toast.error("You don't have permission to access this page");
+          toast.error(t("You don't have permission to access this page"));
         }
       } catch (error) {
         setUserPermissions({
@@ -336,7 +331,7 @@ export default function Users() {
           both: false,
           hasUsersMenu: false,
         });
-        toast.error("Error loading user permissions");
+        toast.error(t("Error loading user permissions"));
       }
     };
 
@@ -360,9 +355,8 @@ export default function Users() {
 
   const handleDeleteSuccess = () => {
     setDeleteUser(false);
-
     getUsers(currentPage + 1, sortByValue, searchUser, sortOrder);
-    //toast.success("User deleted successfully");
+    // toast.success("User deleted successfully");
   };
 
   return (
@@ -387,7 +381,7 @@ export default function Users() {
 
                     <div className="col-lg-9 col-md-8 col-12">
                       <div className="filter_field">
-                        <div className="form_group position-relative">
+                        <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             placeholder={t("Search by name, email, or phone...")}
@@ -441,7 +435,8 @@ export default function Users() {
                       columns={columns}
                       data={users}
                     />
-                    <table className="table">
+
+                    {/* <table className="table">
                       <thead>
                         <tr>
                           <th
@@ -571,7 +566,7 @@ export default function Users() {
                           </tr>
                         )}
                       </tbody>
-                    </table>
+                    </table> */}
                   </div>
 
                   {totalPages > 1 && (

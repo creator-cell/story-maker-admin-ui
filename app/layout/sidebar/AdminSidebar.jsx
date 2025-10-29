@@ -106,7 +106,9 @@ const AdminSidebar = ({ locale }) => {
   const handleChangeLanguage = (newLang) => {
     setLang(newLang);
     const localePrefix = `/${locale}`;
-    let basePath = pathname.startsWith(localePrefix) ? pathname.substring(localePrefix.length) : pathname;
+    let basePath = pathname.startsWith(localePrefix)
+      ? pathname.substring(localePrefix.length)
+      : pathname;
     if (basePath === "") {
       basePath = "/";
     }
@@ -144,20 +146,46 @@ const AdminSidebar = ({ locale }) => {
                 <div className="cust-check-group">
                   <div className="cust-check">
                     <label className="form-check-label" htmlFor="English">
-                      <input className="form-check-input" type="radio" name="language" id="English" value="en"
-                        onChange={(t) => {setLoader(true); handleChangeLanguage(t.target.value)}}
-                        checked={lang === 'en' ? true : false}
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="language"
+                        id="English"
+                        value="en"
+                        onChange={(t) => {
+                          setLoader(true);
+                          handleChangeLanguage(t.target.value);
+                        }}
+                        checked={lang === "en" ? true : false}
                       />
-                      <Image src="/flags/gb.svg" alt="english"  width={20} height={20} />
+                      <Image
+                        src="/flags/gb.svg"
+                        alt="english"
+                        width={20}
+                        height={20}
+                      />
                     </label>
                   </div>
                   <div className="cust-check">
                     <label className="form-check-label" htmlFor="Arabic">
-                      <input className="form-check-input" type="radio" name="language" id="Arabic" value="ar"
-                        onChange={(t) => {setLoader(true); handleChangeLanguage(t.target.value)}}
-                        checked={lang === 'ar' ? true : false}
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="language"
+                        id="Arabic"
+                        value="ar"
+                        onChange={(t) => {
+                          setLoader(true);
+                          handleChangeLanguage(t.target.value);
+                        }}
+                        checked={lang === "ar" ? true : false}
                       />
-                      <Image src="/flags/ar.svg" alt="arabic" width={20} height={20} />
+                      <Image
+                        src="/flags/ar.svg"
+                        alt="arabic"
+                        width={20}
+                        height={20}
+                      />
                     </label>
                   </div>
                 </div>
@@ -210,6 +238,20 @@ const AdminSidebar = ({ locale }) => {
                     />
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
+                         {hasMenuAccess("Dashboard") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${
+                                activeLink === "/admin/dashboard" ? "active" : ""
+                              }`}
+                              href={`/admin/dashboard`}
+                            >
+                            <i class="fa-solid fa-grip"></i>
+                              {t("Analytic Dashboard")}
+                            </CustomLink>
+                          </li>
+                        )}
+
                         {hasMenuAccess("Users") && (
                           <li className="nav-item">
                             <CustomLink
@@ -324,9 +366,47 @@ const AdminSidebar = ({ locale }) => {
                               }`}
                               href={`/admin/notification`}
                             >
-                              <i className="fa-solid fa-newspaper"></i>
+                              <i class="fa-solid fa-bell"></i>
                               {t("Notification")}
                               {!hasWriteAccess("Notification") && (
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
+                              )}
+                            </CustomLink>
+                          </li>
+                        )}
+                        {hasMenuAccess("Plans") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${
+                                activeLink === "/admin/plans" ? "active" : ""
+                              }`}
+                              href={`/admin/plans`}
+                            >
+                              <i className="fa-solid fa-clipboard-list"></i>
+                              {t("Plans")}
+                              {!hasWriteAccess("Plans") && (
+                                <small className="text-muted ms-1">
+                                  (Read Only)
+                                </small>
+                              )}
+                            </CustomLink>
+                          </li>
+                        )}
+                        {hasMenuAccess("Dashboard") && (
+                          <li className="nav-item">
+                            <CustomLink
+                              className={`nav-link ${
+                                activeLink === "/admin/dashboard"
+                                  ? "active"
+                                  : ""
+                              }`}
+                              href={`/admin/dashboard`}
+                            >
+                              <i className="fa-solid fa-newspaper"></i>
+                              {t("Dashboard")}
+                              {!hasWriteAccess("Dashboard") && (
                                 <small className="text-muted ms-1">
                                   (Read Only)
                                 </small>

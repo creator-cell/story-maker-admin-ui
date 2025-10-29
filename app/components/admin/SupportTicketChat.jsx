@@ -36,7 +36,7 @@ const ChatHistory = ({ ticketId }) => {
       });
       setTicket(response.data.ticket);
     } catch (err) {
-      toast.error("Failed to load ticket");
+      toast.error(t("Failed to load ticket"));
     } finally {
       setLoading(false);
     }
@@ -65,12 +65,12 @@ const ChatHistory = ({ ticketId }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      toast.success("Message sent");
+      toast.success(t("Message sent"));
       setChatMessage("");
       setImageFile(null);
       getTicket();
     } catch (err) {
-      toast.error("Failed to send message");
+      toast.error(t("Failed to send message"));
     }
   };
 
@@ -93,124 +93,135 @@ const ChatHistory = ({ ticketId }) => {
 
   return (
     <>
-      <div className="chat-container">
-        <div className="chat">
-          <p className="title">{t("Reply")}</p>
-          <div className="box">
-            <div className="type-messages gap-2 w-100">
-              <div className="d-flex flex-column">
-                <span>{t("Your message")}</span>
+      <div id="main_container">
+        <div className="inner_container">
+          <div className="container-lg container-fluid p-0">
+            <div className="comman_admin_layout flex-column p-0">
+              <div className="container-lg container-fluid p-0">
+                <div className="row mb-4">
+                  <div className="chat-container">
+                    <div className="chat">
+                      <p className="title">{t("Reply")}</p>
+                      <div className="box">
+                        <div className="type-messages gap-2 w-100">
+                          <div className="d-flex flex-column">
+                            <span>{t("Your message")}</span>
 
-                <textarea
-                  type="text"
-                  className="form-control mt-3"
-                  value={chatMessage}
-                  onChange={(e) => setChatMessage(e.target.value)}
-                  rows={4}
-                />
+                            <textarea
+                              type="text"
+                              className="form-control mt-3"
+                              value={chatMessage}
+                              onChange={(e) => setChatMessage(e.target.value)}
+                              rows={4}
+                            />
 
-                <div className="upload-file mt-4 gap-4 d-flex">
-                  <label htmlFor="file-upload" className="upload-text">
-                    <i className="fa-solid fa-file-arrow-up"></i> <span> {t("Upload a file")} </span>
-                  </label>
-                  <input type="file" id="file-upload" accept="image/*" onChange={handleFileChange} className="mt-4 d-none" />
+                            <div className="upload-file mt-4 gap-4 d-flex">
+                              <label htmlFor="file-upload" className="upload-text">
+                                <i className="fa-solid fa-file-arrow-up"></i> <span> {t("Upload a file")} </span>
+                              </label>
+                              <input type="file" id="file-upload" accept="image/*" onChange={handleFileChange} className="mt-4 d-none" />
+                            </div>
+                            <button
+                              className="button mt-4"
+                              onClick={sendChatMessage}
+                              disabled={loading || !chatMessage.trim() && !imageFile}
+                            >
+                              {t("Reply")}
+                            </button>
+                          </div>
+                          <div className="show-file mt-2">
+                            {selectedImage && (
+
+                              <img
+                                src={selectedImage}
+                                alt="preview"
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div className="chat">
+                      <p className="title">{t("Support Ticket Chat")}</p>
+
+                      <div className="box">
+                        {ticket?.messages?.length ? (
+                          ticket.messages.map((msg) => (
+                            <div key={msg._id}>
+                              <di className="user-chat" >
+                                <p>
+                                  <div className="icon-name">
+                                    <div className="user-initials pt-1">
+                                      {getInitials(msg?.sender?.name)}
+                                    </div>
+                                    <div className="name">
+                                      <small>
+                                        {msg?.sender?.name}
+                                      </small>
+                                      <small>
+                                        {msg.sentAt ? (() => {
+                                          const date = new Date(msg.sentAt);
+                                          const now = new Date();
+
+                                          const isToday = date.toDateString() === now.toDateString();
+
+                                          const yesterday = new Date();
+                                          yesterday.setDate(now.getDate() - 1);
+                                          const isYesterday = date.toDateString() === yesterday.toDateString();
+
+                                          let time = date.toLocaleString("en-GB", {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                            hour12: true,
+                                          });
+                                          time = time.replace("am", "AM").replace("pm", "PM");
+
+                                          if (isToday) {
+                                            return `Today at ${time}`;
+                                          } else if (isYesterday) {
+                                            return `Yesterday at ${time}`;
+                                          } else {
+                                            const formattedDate = date.toLocaleDateString("en-GB", {
+                                              day: "2-digit",
+                                              month: "2-digit",
+                                              year: "numeric",
+                                            });
+                                            return `${formattedDate} ${time}`;
+                                          }
+                                        })() : "Just now"}
+                                      </small>
+
+                                      <span> {msg.message}
+                                        <div className="mt-4 hide-show-image">
+                                          {msg.image && (
+                                            <div>
+                                              <img
+                                                src={`${API_URL.replace(/\/$/, "")}${msg.image}`}
+                                              />
+                                            </div>
+                                          )}
+                                        </div>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </p>
+                              </di>
+                            </div>
+                          ))
+                        ) : (
+                          <div>{t("No messages yet.")}</div>
+                        )}
+                        <div ref={messagesEndRef} />
+                      </div>
+                    </div>
+                  </div >
                 </div>
-                <button
-                  className="button mt-4"
-                  onClick={sendChatMessage}
-                  disabled={loading || !chatMessage.trim() && !imageFile}
-                >
-                  {t("Reply")}
-                </button>
-              </div>
-              <div className="show-file mt-2">
-                {selectedImage && (
-
-                  <img
-                    src={selectedImage}
-                    alt="preview"
-                  />
-                )}
               </div>
             </div>
           </div>
         </div>
-        <br />
-        <div className="chat">
-          <p className="title">{t("Support Ticket Chat")}</p>
-
-          <div className="box">
-            {ticket?.messages?.length ? (
-              ticket.messages.map((msg) => (
-                <div key={msg._id}>
-                  <di className="user-chat" >
-                    <p>
-                      <div className="icon-name">
-                        <div className="user-initials pt-1">
-                          {getInitials(msg?.sender?.name)}
-                        </div>
-                        <div className="name">
-                          <small>
-                            {msg?.sender?.name}
-                          </small>
-                          <small>
-                            {msg.sentAt ? (() => {
-                              const date = new Date(msg.sentAt);
-                              const now = new Date();
-
-                              const isToday = date.toDateString() === now.toDateString();
-
-                              const yesterday = new Date();
-                              yesterday.setDate(now.getDate() - 1);
-                              const isYesterday = date.toDateString() === yesterday.toDateString();
-
-                              let time = date.toLocaleString("en-GB", {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                                hour12: true,
-                              });
-                              time = time.replace("am", "AM").replace("pm", "PM");
-
-                              if (isToday) {
-                                return `Today at ${time}`;
-                              } else if (isYesterday) {
-                                return `Yesterday at ${time}`;
-                              } else {
-                                const formattedDate = date.toLocaleDateString("en-GB", {
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                  year: "numeric",
-                                });
-                                return `${formattedDate} ${time}`;
-                              }
-                            })() : "Just now"}
-                          </small>
-
-                          <span> {msg.message}
-                            <div className="mt-4 hide-show-image">
-                              {msg.image && (
-                                <div>
-                                  <img
-                                    src={`${API_URL.replace(/\/$/, "")}${msg.image}`}
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </span>
-                        </div>
-                      </div>
-                    </p>
-                  </di>
-                </div>
-              ))
-            ) : (
-              <div>{t("No messages yet.")}</div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-        </div>
-      </div >
+      </div>
     </>
   );
 };

@@ -11,12 +11,7 @@ import {
 } from "@/app/components/ui/dialog";
 import { cn } from "../../lib/utils";
 import { jsPDF } from "jspdf";
-// import {
-//   exportAsJson,
-//   exportAsPDF,
-//   exportAsPng,
-//   exportAsSVG,
-// } from "@/services/export-service";
+
 import { useEditorStore } from "../../../../redux/UserStore";
 import {
   Download,
@@ -26,11 +21,14 @@ import {
   FileJson,
   Loader2,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
+import axios from "axios";
 function ExportModal({ isOpen, onClose }) {
   const { canvas } = useEditorStore();
+  const { designId } = useEditorStore();
+  console.log("designId", designId);
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
 
   const [selectedFormat, setSelectedFormat] = useState("pdf");
   const [isExporting, setIsExporting] = useState(false);
@@ -39,19 +37,32 @@ function ExportModal({ isOpen, onClose }) {
   const exportFormats = [
     {
       id: "pdf",
-      name: "PDF Document",
+      name: t("PDF Document"),
       icon: File,
-      description: "Best for printing",
+      description: t("Best for printing"),
     },
     {
       id: "json",
-      name: "JSON Template",
+      name: t("JSON Template"),
       icon: FileJson,
-      description: "Editable template format",
+      description: t("Editable template format"),
     },
   ];
 
-  function exportAsPDF(canvas, fileName = "PDF Design", options = {}) {
+  const increaseTemplateUsage = async () => {
+    try {
+      const res = await axios.post(
+        `${API_URL}template/getUsage`,
+        { templateId: designId },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      console.log(res);
+    } catch (err) {}
+  };
+
+  async function exportAsPDF(canvas, fileName = "PDF Design", options = {}) {
     if (!canvas) return;
 
     try {
@@ -92,13 +103,13 @@ function ExportModal({ isOpen, onClose }) {
       );
 
       pdf.save(`${fileName}.pdf`);
-
+      await increaseTemplateUsage();
       return true;
     } catch (e) {
       return false;
     }
   }
-  const handleDownloadCSV = (tpl, name) => {
+  const handleDownloadCSV = async (tpl, name) => {
     try {
       const rawData = tpl.content ?? tpl;
       const jsonData =
@@ -135,7 +146,7 @@ function ExportModal({ isOpen, onClose }) {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-
+      await increaseTemplateUsage();
       return true;
     } catch (err) {
       console.error("CSV export error:", err);

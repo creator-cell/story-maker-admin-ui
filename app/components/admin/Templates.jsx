@@ -9,6 +9,9 @@ import Loader from "../Loader";
 import { jsPDF } from "jspdf";
 import ApproveTemplate from "../../[locale]/(adminSide)/model/ApproveTemplate";
 import { useTranslation } from "react-i18next";
+import DataTable from "react-data-table-component";
+import { useEditorStore } from "@/app/redux/UserStore";
+
 export default function Template() {
   const { t } = useTranslation();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
@@ -26,8 +29,10 @@ export default function Template() {
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const [approveModel, setApproveModel] = useState(false);
-
+  const [category, setCategory] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
   const [showRejectModal, setShowRejectModal] = useState(false);
+  const { designId } = useEditorStore();
   const getTemplates = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
@@ -69,8 +74,84 @@ export default function Template() {
     }
   };
 
+  const fetchCategory = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY}category`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+
+      const cats = res.data?.categories || [];
+      const parents = cats.filter((c) => !c.parentCategory);
+      const subs = cats.filter((c) => c.parentCategory);
+      console.log("parents", parents);
+      console.log("subs", subs);
+      setCategory(parents);
+      setSubCategory(subs);
+    } catch (err) {
+      toast.error(t("Failed to fetch categories"));
+      toast.error(t("Failed to fetch categories"));
+    }
+  };
+  const handleCategoryChange = async (templateId, categoryId) => {
+    try {
+      // Optionally, you can call API to update category
+      await axios.put(
+        `${API_URL}template/${templateId}`,
+        { category: categoryId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Update state locally
+      setTemplates((prev) =>
+        prev.map((tpl) =>
+          tpl._id === templateId
+            ? { ...tpl, category: { _id: categoryId } }
+            : tpl
+        )
+      );
+
+      toast.success(t("Category updated"));
+    } catch (err) {
+      toast.error(t("Failed to update category"));
+    }
+  };
+
+  const handleSubCategoryChange = async (templateId, subCategoryId) => {
+    try {
+      await axios.put(
+        `${API_URL}template/${templateId}`,
+        { subCategory: subCategoryId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setTemplates((prev) =>
+        prev.map((tpl) =>
+          tpl._id === templateId
+            ? { ...tpl, subCategory: { _id: subCategoryId } }
+            : tpl
+        )
+      );
+
+      toast.success(t("Subcategory updated"));
+    } catch (err) {
+      toast.error(t("Failed to update subcategory"));
+    }
+  };
+
   useEffect(() => {
     getTemplates(1);
+    fetchCategory();
   }, []);
 
   const handleEdit = (id) => {
@@ -100,11 +181,12 @@ export default function Template() {
           },
         }
       );
-      toast.success("Template clone successfully");
+      toast.success(t("Template clone successfully"));
+      await increaseTemplateUsage(id);
       getTemplates();
       router.push("/admin/template");
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Failed to update template");
+      toast.error(t("Failed to update template"));
     } finally {
       setLoader(false);
     }
@@ -115,8 +197,22 @@ export default function Template() {
     setShowDeletedId(true);
   };
 
-  const handleTemplateSubmit = async () => {
+  const increaseTemplateUsage = async (id) => {
+    try {
+      const res = await axios.post(
+        `${API_URL}template/getUsage`,
+        { templateId: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(res);
+    } catch (err) {}
+  };
 
+  const handleTemplateSubmit = async () => {
     try {
       setLoader(true);
       const responseData = await axios.post(
@@ -133,79 +229,7 @@ export default function Template() {
       router.push(`/admin/template/${responseData.data.template._id}`);
     } catch (err) {
       setLoader(false);
-      toast.error(err?.response?.data?.message || "Failed to add template");
-    }
-  };
-
-  const handleDownloadPDF = (tpl) => {
-    if (!tpl.content) {
-      toast.error("No template data found");
-      return;
-    }
-
-    const canvas = new fabric.StaticCanvas(null, { width: 800, height: 600 });
-
-    try {
-      const jsonData =
-        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
-
-      canvas.loadFromJSON(jsonData, () => {
-        const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
-
-        const pdf = new jsPDF("l", "pt", [canvas.width, canvas.height]);
-        pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height);
-        pdf.save(`${tpl.name || "template"}.pdf`);
-      });
-    } catch (err) {
-      toast.error("Error exporting PDF");
-    }
-  };
-  const handleDownloadCSV = (tpl) => {
-    if (!tpl.content) {
-      toast.error("No template data found");
-      return;
-    }
-
-    try {
-      const jsonData =
-        typeof tpl.content === "string" ? JSON.parse(tpl.content) : tpl.content;
-
-      // flatten objects
-      const rows = [];
-      jsonData.objects.forEach((obj) => {
-        rows.push({
-          type: obj.type,
-          text: obj.text || "",
-          left: obj.left,
-          top: obj.top,
-          width: obj.width,
-          height: obj.height,
-          fill: obj.fill,
-          stroke: obj.stroke,
-          fontSize: obj.fontSize,
-          fontFamily: obj.fontFamily,
-        });
-      });
-
-      // convert to CSV
-      const headers = Object.keys(rows[0]).join(",");
-      const csv = [
-        headers,
-        ...rows.map((r) => Object.values(r).join(",")),
-      ].join("\n");
-
-      const blob = new Blob([csv], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${tpl.name || "template"}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      toast.error("Error exporting CSV");
+      toast.error(t("Failed to add template"));
     }
   };
 
@@ -213,6 +237,130 @@ export default function Template() {
     setApproveModel(true);
     setDeleteId(id);
   };
+  const columns = [
+    {
+      name: t("Name"),
+      selector: (row) => row.name,
+    },
+    {
+      name: t("Status"),
+      selector: (row) => row.status,
+      cell: (row) => {
+        const translatedStatus = t(row.status);
+        return (
+          <span
+            className={`badge ${
+              row.status === "approved" ? "bg-success" : "bg-warning"
+            }`}
+          >
+            {translatedStatus}
+          </span>
+        );
+      },
+    },
+    {
+      name: t("Category"),
+      cell: (row) => (
+        <select
+          className="form-select"
+          value={row.category?._id || ""}
+          onChange={(e) => handleCategoryChange(row._id, e.target.value)}
+        >
+          <option value="">{t("Select Category")}</option>
+          {category?.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+      ),
+      minWidth: "160px",
+      wrap: true,
+    },
+    {
+      name: t("Sub Category"),
+      cell: (row) => {
+        const relatedSubs = subCategory.filter(
+          (sub) => sub.parentCategory === row.category?._id
+        );
+        return (
+          <select
+            className="form-select"
+            value={row.subCategory?._id || ""}
+            onChange={(e) => handleSubCategoryChange(row._id, e.target.value)}
+          >
+            <option value="">{t("Select Sub Category")}</option>
+            {relatedSubs.map((sub) => (
+              <option key={sub._id} value={sub._id}>
+                {sub.name}
+              </option>
+            ))}
+          </select>
+        );
+      },
+      minWidth: "160px",
+      wrap: true,
+    },
+    {
+      name: t("Action"),
+      cell: (row) => (
+        <div className="d-flex" data-label="Action">
+          <div className="dropdown">
+            <button
+              className="border-0 bg-transparent"
+              type="button"
+              id={`dropdownMenuButton-${row._id}`}
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i className="fa fa-ellipsis"></i>
+            </button>
+
+            <ul
+              className="dropdown-menu"
+              aria-labelledby={`ticketDropdownButton-${row._id}`}
+            >
+              <li>
+                <button
+                  className="admin_action_edit"
+                  onClick={() => handleEdit(row._id)}
+                >
+                  <i className="fa-solid fa-pencil me-2"></i> {t("Edit")}
+                </button>
+              </li>
+              <li>
+                <button
+                  className="admin_action_clone"
+                  onClick={() => handleClone(row._id, row.name, row.content)}
+                >
+                  <i className="fa-solid fa-clone"></i> {t("Clone")}
+                </button>
+              </li>
+              <li>
+                <button
+                  className="admin_action_delete"
+                  onClick={() => handleDelete(row._id)}
+                >
+                  <i className="fa fa-trash me-2"></i> {t("Delete")}
+                </button>
+              </li>
+              <li>
+                {currentUser.role.name === "Super Admin" &&
+                  row.status === "pending" && (
+                    <button
+                      className="admin_action_approve"
+                      onClick={() => handleApprove(row._id)}
+                    >
+                      <i className="fa-solid fa-thumbs-up"></i> {t("Approve")}
+                    </button>
+                  )}
+              </li>
+            </ul>
+          </div>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -234,7 +382,7 @@ export default function Template() {
                     <div className="col-lg-3"></div>
                     <div className="col-lg-9">
                       <div className="filter_field d-flex gap-2 justify-content-end">
-                        <div className="form_group position-relative">
+                        <div className="form_group position-relative search-bar">
                           <input
                             type="text"
                             placeholder={t("Search by name...")}
@@ -280,83 +428,16 @@ export default function Template() {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">{t("Loading...")}</span>
+                        <span className="visually-hidden">
+                          {t("Loading...")}
+                        </span>
                       </div>
                     </div>
                   )}
 
                   {/* Table */}
                   <div className="table-responsive">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>{t("Name")}</th>
-                          <th>{t("Status")}</th>
-                          <th>{t("Action")}</th>
-                        </tr>
-                      </thead>
-                      <tbody className="table_body">
-                        {!loading &&
-                          templates.map((tpl) => (
-                            <tr key={tpl._id}>
-                              <td data-label="Name">{tpl.name}</td>
-                              <td data-label="Status">
-                                <span
-                                  className={`badge ${tpl.status === "approved"
-                                      ? "bg-success"
-                                      : "bg-warning"
-                                    }`}
-                                >
-                                  {tpl.status.charAt(0).toUpperCase() + tpl.status.slice(1)}
-
-                                </span>
-                              </td>
-                              <td data-label="Action">
-                                <div className="template-button">
-                                  <button
-                                    className="button mx-1 mb-2"
-                                    onClick={() => handleEdit(tpl._id)}
-                                  >
-                                    {t("View/Edit")}
-                                  </button>
-                                  <button
-                                    className="button mx-1 mb-2"
-                                    onClick={() =>
-                                      handleClone(tpl._id, tpl.name, tpl.content)
-                                    }
-                                  >
-                                    {t("Clone")}
-                                  </button>
-                                  <button
-                                    className="button mx-1 mb-2"
-                                    onClick={() => handleDelete(tpl._id)}
-                                  >
-                                    {t("Delete/Reject")}
-                                  </button>
-                                  {currentUser.role.name === "Super Admin" &&
-                                    tpl.status === "pending" && (
-                                      <button
-                                        className="button mx-1 mb-2"
-                                        onClick={() => handleApprove(tpl._id)}
-                                      >
-                                        {t("Approve")}
-                                      </button>
-                                    )}
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        {!loading && templates.length === 0 && (
-                          <tr>
-                            <td colSpan="5" className="text-center py-4">
-                              {search
-                                ? `No templates found matching "${search}"`
-                                : "No templates found"}
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
+                    <DataTable columns={columns} data={templates} />
                   </div>
 
                   {/* Pagination */}

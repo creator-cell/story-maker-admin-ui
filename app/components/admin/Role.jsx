@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import CustomLink from "../CustomLink";
 import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
+import DataTable from 'react-data-table-component';
 
 export default function Roles() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
@@ -127,7 +128,7 @@ export default function Roles() {
             if (usersMenu.read || usersMenu.both) {
               getRole(1);
             } else {
-              toast.error("You don't have permission to access this page");
+              toast.error(t("You don't have permission to access this page"));
             }
           } else {
             // User doesn't have Users menu access
@@ -137,7 +138,7 @@ export default function Roles() {
               both: false,
               hasUsersMenu: false,
             });
-            toast.error("You don't have permission to access this page");
+            toast.error(t("You don't have permission to access this page"));
           }
         } else {
           // No role permissions found
@@ -147,7 +148,7 @@ export default function Roles() {
             both: false,
             hasUsersMenu: false,
           });
-          toast.error("You don't have permission to access this page");
+          toast.error(t("You don't have permission to access this page"));
         }
       } catch (error) {
         console.error("Error initializing user permissions:", error);
@@ -157,7 +158,7 @@ export default function Roles() {
           both: false,
           hasUsersMenu: false,
         });
-        toast.error("Error loading user permissions");
+        toast.error(t("Error loading user permissions"));
       }
     };
 
@@ -178,7 +179,114 @@ export default function Roles() {
     setLoader(true);
     router.push("/admin/role/add-role");
   };
+  const columns = [
+    {
+      name: t('Name'),
+      selector: row => row.name,
+      cell: row => <span>{row.name}</span>,
+    },
+    {
+      name: t('Menus & Permissions'),
+      cell: row =>
+        row.menu && row.menu.length > 0 ? (
+          <div>
+            {row.menu.map((item, i) => (
+              <div key={i}>{item.menuName}</div>
+            ))}
+          </div>
+        ) : (
+          <span className="text-muted">{t("No permissions assigned")}</span>
+        ),
+    },
+    {
+      name: t('Read'),
+      cell: row =>
+        row.menu && row.menu.length > 0 ? (
+          <div>
+            {row.menu.map((item, i) => (
+              <div key={i}>
+                <input type="checkbox" checked={item.read} readOnly />
+              </div>
+            ))}
+          </div>
+        ) : (
+          "-"
+        ),
+    },
+    {
+      name: t('Write'),
+      cell: row =>
+        row.menu && row.menu.length > 0 ? (
+          <div>
+            {row.menu.map((item, i) => (
+              <div key={i}>
+                <input type="checkbox" checked={item.write} readOnly />
+              </div>
+            ))}
+          </div>
+        ) : (
+          "-"
+        ),
+    },
+    {
+      name: t('Both'),
+      cell: row =>
+        row.menu && row.menu.length > 0 ? (
+          <div>
+            {row.menu.map((item, i) => (
+              <div key={i}>
+                <input type="checkbox" checked={item.both} readOnly />
+              </div>
+            ))}
+          </div>
+        ) : (
+          "-"
+        ),
+    },
+    {
+      name: t('Action'),
+      cell: row => (
+        <div className="d-flex" data-label="Action">
+          <div className="dropdown">
+            <button
+              className="border-0 bg-transparent"
+              type="button"
+              id={`dropdownMenuButton-${row._id}`}
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i className="fa fa-ellipsis"></i>
+            </button>
 
+            <ul
+              className="dropdown-menu"
+              aria-labelledby={`dropdownMenuButton-${row._id}`}
+            >
+              <li>
+                <button
+                  className="admin_action_edit"
+                  onClick={() => handleUserUpdate(row._id)}
+                >
+                  <i className="fa fa-edit me-1"></i> {t("Edit")}
+                </button>
+              </li>
+              {!row?.isSuperAdmin && (
+                <li>
+                  <button
+                    className="admin_action_delete"
+                    onClick={() => handleUserDelete(row._id)}
+                  >
+                    <i className="fa fa-trash me-1"></i> {t("Delete")}
+                  </button>
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+      ),
+      width: "120px",
+    }
+  ]
   return (
     <>
       <div id="main_container">
@@ -206,7 +314,11 @@ export default function Roles() {
                     </div>
                   </div>
                   <div className="table-responsive">
-                    <table className="table">
+                    <DataTable
+                      columns={columns}
+                      data={users}
+                    />
+                    {/* <table className="table">
                       <thead>
                         <tr>
                           <th>{t("Name")}</th>
@@ -313,7 +425,7 @@ export default function Roles() {
                           </tr>
                         )}
                       </tbody>
-                    </table>
+                    </table> */}
                   </div>
                 </div>
               </div>

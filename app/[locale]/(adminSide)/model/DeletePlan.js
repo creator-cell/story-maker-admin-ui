@@ -9,7 +9,6 @@ export default function DeletePlan({ show, onHide, data, setLoader, props }) {
       const { t } = useTranslation();
     
     const handlePlanDelete = async () => {
-        setLoader(true);
         axios({
             url: `${API_URL}plan/${data}`,
             method: "DELETE",
@@ -17,14 +16,14 @@ export default function DeletePlan({ show, onHide, data, setLoader, props }) {
                 "Authorization" : `Bearer ${localStorage.getItem("token")}`
             }
         }).then(res => {
-            toast(res.data?.message || "Plan delete successfully.", {
+            toast(t("Plan delete successfully"), {
                 theme:"light",
                 position: "top-right",
                 type: "success"
             });
             onHide();
         }).catch(err => {
-            toast(err?.response?.data?.errors?.[0]?.message ?? err?.response?.data?.message ?? "Failed to delete Plan", {
+            toast(t("Failed to delete Plan"), {
                 theme:"light",
                 position: "top-right",
                 type: "error"

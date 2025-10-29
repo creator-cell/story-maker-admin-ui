@@ -7,6 +7,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loader from "./Loader";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ForgetPassword() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
@@ -19,6 +23,7 @@ export default function ForgetPassword() {
   } = useForm({ defaultValues: { email: "" } });
   const router = useRouter();
   const [showLoader, setShowLoader] = useState(false);
+    const { t } = useTranslation();
 
   const handleForgotPassword = async (data) => {
     setShowLoader(true);
@@ -37,9 +42,7 @@ export default function ForgetPassword() {
       if (response) {
         // router.push('/reset-password');
         setShowLoader(false);
-        toast(
-          response.data?.message ||
-            "Reset password link has been sent to your email address.",
+        toast(t("Reset password link has been sent to your email address."),
           {
             theme: "dark",
             position: "top-right",
@@ -50,7 +53,7 @@ export default function ForgetPassword() {
     } catch (error) {
       setShowLoader(false);
       console.log(error);
-      toast(error.response.data?.message || "No email found", {
+      toast(t("No email found"), {
         theme: "dark",
         position: "top-right",
         type: "error",

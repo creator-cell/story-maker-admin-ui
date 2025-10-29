@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
 
@@ -9,6 +11,7 @@ const AddTicket = () => {
   const [ticket, setTicket] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
   const [loading, setLoading] = useState(false);
+    const { t } = useTranslation();
 
   const sendChatMessage = async () => {
     if (!chatMessage.trim()) return;
@@ -33,11 +36,11 @@ const AddTicket = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      toast.success("Message sent");
+      toast.success(t("Message sent"));
       setChatMessage("");
       getTicket();
     } catch (err) {
-      toast.error("Failed to send message");
+      toast.error(t("Failed to send message"));
     }
   };
 
