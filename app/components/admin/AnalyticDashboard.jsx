@@ -31,6 +31,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import TemplateChart from "./TemplateGraph";
 import UserGrowthChart from "./UserGraph";
+import { set } from "lodash";
 export default function AnalyticDashboard({ lang = "en" }) {
   const { t } = useTranslation();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_DASHBOARD;
@@ -42,6 +43,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [topTemplate, setTopTemplate] = useState();
+  const [storage, setStorage] = useState("");
   // default last 30 days
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 30))
@@ -145,6 +147,21 @@ export default function AnalyticDashboard({ lang = "en" }) {
     }
   };
 
+  const getS3Storage = async () => {
+    try {
+      const response = await axios.get(`${API_URL}dashboard/storage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      console.log(response.data.data.bucketSize);
+
+      setStorage(response.data.data.bucketSize);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const getUserChart = async (sDate, eDate) => {
     try {
       const start = formatDate(sDate || startDate);
@@ -223,7 +240,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
     getTemplateCount();
     getTemplate();
     getTopTemplate();
-
+    getS3Storage();
     getUserChart(startDate, endDate);
   }, []);
 
@@ -281,6 +298,11 @@ export default function AnalyticDashboard({ lang = "en" }) {
                             alt="active-user"
                           />
                         </div>
+                        <div className="">
+                          <p>{t("S3 bucket ")}</p>
+                          <h2>{storage}</h2>
+                          <span>{t("total used storage")}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -305,24 +327,29 @@ export default function AnalyticDashboard({ lang = "en" }) {
                     </div>
                   </div>
                 </div>
-                
-                <div
-                  className="analytic-dashboard">
+
+                <div className="analytic-dashboard">
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-6">
                       <div className="chart">
-                      <p>{t("Top used templates and assets")}</p>
-                      <div className="top-templates">
-                        {topTemplate?.map((template, index) => (
-                          <div className="template-items d-flex gap-2" key={template._id}>
-                            <div className="template-number">{index + 1}</div>
-                            <div className="template-details w-100">
-                            <p>{template.name.charAt(0).toUpperCase() + template.name.slice(1)}</p>
-                              <p>{template.templateCount}</p>
+                        <p>{t("Top used templates and assets")}</p>
+                        <div className="top-templates">
+                          {topTemplate?.map((template, index) => (
+                            <div
+                              className="template-items d-flex gap-2"
+                              key={template._id}
+                            >
+                              <div className="template-number">{index + 1}</div>
+                              <div className="template-details w-100">
+                                <p>
+                                  {template.name.charAt(0).toUpperCase() +
+                                    template.name.slice(1)}
+                                </p>
+                                <p>{template.templateCount}</p>
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                      </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
