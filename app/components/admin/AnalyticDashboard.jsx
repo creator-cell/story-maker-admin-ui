@@ -299,7 +299,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
                           />
                         </div>
                         <div className="">
-                          <p>{t("S3 bucket ")}</p>
+                          <p>{t("S3 bucket")}</p>
                           <h2>{storage}</h2>
                           <span>{t("total used storage")}</span>
                         </div>
