@@ -8784,9 +8784,11 @@ h6 {
 .analytic-dashboard .chart .view-chart {
   height: 300px;
 }
-.analytic-dashboard .chart .view-chart canvas{
+
+.analytic-dashboard .chart .view-chart canvas {
   background-color: white;
 }
+
 .analytic-dashboard .chart .pagination span {
   color: var(--black);
 }
@@ -10388,6 +10390,20 @@ html {
   margin-right: 15px;
 }
 
+.comman_admin_layout .admin_table .table-responsive .rdt_Pagination {
+  color: var(--form-textcolor) !important;
+  background-color: var(--form-color);
+  border: 1px solid #e5e7eb;
+  border-top: 0px;
+}
+
+[data-bs-theme=dark] button#pagination-next-page,
+[data-bs-theme=dark] button#pagination-previous-page,
+[data-bs-theme=dark] button#pagination-first-page,
+[data-bs-theme=dark] button#pagination-last-page {
+  fill: white;
+}
+
 .comman_admin_layout .admin_table .table-responsive .rdt_Table {
   border: 1px solid #e5e7eb;
   overflow: hidden;
@@ -10426,7 +10442,8 @@ html {
   top: auto !important;
   bottom: 100% !important;
 }
-.right-side{
+
+.right-side {
   position: relative;
   right: 0;
 }
