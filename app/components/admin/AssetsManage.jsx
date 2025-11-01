@@ -34,7 +34,7 @@ const AssetsManage = () => {
     write: false,
     both: false,
   });
-  const itemsPerPage = 20;
+  const itemsPerPage = 2;
   const router = useRouter();
 
   const hasWritePermission = () => {
@@ -83,16 +83,22 @@ const AssetsManage = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      setAssets(response.data?.data?.assets?.items);
+      if (response.data.data.assets) {
+        setAssets(response.data?.data?.assets?.items || [])
+        setTotalPages(response.data.data.assets.pagination.totalPages || 1)
+        setTotalItems(response.data.data.assets.pagination.totalItems || 0)
+        setCurrentPage((response.data.data.assets.pagination.currentPage || 1) -1)
+      }
     } catch (error) {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
         toast.error(t("You don't have permission to view users 9999"));
-        toast.error(t("You don't have permission to view users 9999"));
       } else {
         toast.error(t("Failed to fetch users"));
-        toast.error(t("Failed to fetch users"));
       }
+      setAssets([]);
+      setTotalPages(0);
+      setTotalItems(0)
     } finally {
       setLoader(false);
     }
@@ -411,7 +417,7 @@ const AssetsManage = () => {
                   {" "}
                   <button
                     className="admin_action_edit"
-                    onClick={(e) =>{ e.stopPropagation();handleEditAssets(row._id);setOpenDropdownId(null);}}
+                    onClick={(e) => { e.stopPropagation(); handleEditAssets(row._id); setOpenDropdownId(null); }}
                     title="Edit Asset"
                   >
                     <i className="fa fa-edit me-2"></i> {t("Edit")}
@@ -421,7 +427,7 @@ const AssetsManage = () => {
                   {" "}
                   <button
                     className="admin_action_clone"
-                    onClick={(e) => { e.stopPropagation();handleCloneAssets(row._id);setOpenDropdownId(null);}}
+                    onClick={(e) => { e.stopPropagation(); handleCloneAssets(row._id); setOpenDropdownId(null); }}
                     title="Clone Asset"
                   >
                     <i className="fa fa-clone me-2"></i> {t("Clone")}
@@ -431,7 +437,7 @@ const AssetsManage = () => {
                   {" "}
                   <button
                     className="admin_action_delete"
-                    onClick={(e) => { e.stopPropagation();handleAssetDelete(row._id);setOpenDropdownId(null);}}
+                    onClick={(e) => { e.stopPropagation(); handleAssetDelete(row._id); setOpenDropdownId(null); }}
                     title="Delete User"
                   >
                     <i className="fa fa-trash me-2"></i> {t("Delete")}
@@ -490,10 +496,18 @@ const AssetsManage = () => {
                   )}
 
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={assets} noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
+                    <DataTable columns={columns}
+                      data={assets}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={totalItems}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page) => getAssets(page)}
+                      paginationPerPage={itemsPerPage}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
                   </div>
 
-                  {totalPages > 1 && (
+                  {/* {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
@@ -515,7 +529,7 @@ const AssetsManage = () => {
                         disabledClassName="disabled"
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

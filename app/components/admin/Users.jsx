@@ -29,7 +29,7 @@ export default function Users() {
     write: false,
     both: false,
   });
-  const itemsPerPage = 20;
+  const itemsPerPage = 2;
   const router = useRouter();
   const [role, setRole] = useState("");
   const [userRolePermissions, setUserRolePermissions] = useState(null);
@@ -481,6 +481,12 @@ useEffect(() => {
                     <DataTable
                       columns={columns}
                       data={users}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={totalItems}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page)=> getUsers(page, sortByValue, searchUser, sortOrder)}
+                      paginationPerPage={itemsPerPage}
                       noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
                     />
 
@@ -617,7 +623,7 @@ useEffect(() => {
                     </table> */}
                   </div>
 
-                  {totalPages > 1 && (
+                  {/* {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
@@ -639,7 +645,7 @@ useEffect(() => {
                         disabledClassName="disabled"
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
