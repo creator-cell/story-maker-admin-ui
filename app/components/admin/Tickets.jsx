@@ -15,11 +15,12 @@ export default function Tickets() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [total, setTotalItems] = useState(0);
   const [search, setSearch] = useState("");
   const [loader, setLoader] = useState(false);
   const { t } = useTranslation();
   const [moderator, setAllModerator] = useState();
-  const itemsPerPage = 20;
+  const itemsPerPage = 2;
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
@@ -47,13 +48,17 @@ export default function Tickets() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      setTickets(res.data.data || []);
-      setTotalPages(res.data.pagination?.totalPages || 1);
-      setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
+      if (res.data) {
+        setTickets(res.data.data || []);
+        setTotalPages(res.data.totalPages || 1);
+        setTotalItems(res.data.total || 0);
+        setCurrentPage((res.data.page || 1) - 1);
+      }
     } catch (err) {
       toast.error(t("Failed to fetch tickets"));
       setTickets([]);
       setTotalPages(0);
+      setTotalItems(0);
     } finally {
       setLoader(false);
     }
@@ -82,6 +87,7 @@ export default function Tickets() {
         }
       );
       toast.success(t("Ticket Resolved"));
+
       getTickets(currentPage + 1, search);
       setLoader(false);
     } catch (err) {
@@ -120,21 +126,21 @@ export default function Tickets() {
     router.push(`/admin/tickets/add`);
   };
   useEffect(() => {
-      if (tickets.length > 0) {
-        setTimeout(() => {
-          const allRows = document.querySelectorAll(".rdt_TableRow");
-  
-          if (allRows.length > 5) {
-            allRows.forEach((row) => row.classList.remove("drop-up"));
-            const lastThree = Array.from(allRows).slice(-3);
-            lastThree.forEach((row) => row.classList.add("drop-up"));
-          } else {
-            allRows.forEach((row) => row.classList.remove("drop-up"));
-          }
-        }, 0);
-      }
-    }, [tickets]);
-  
+    if (tickets.length > 0) {
+      setTimeout(() => {
+        const allRows = document.querySelectorAll(".rdt_TableRow");
+
+        if (allRows.length > 5) {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+          const lastThree = Array.from(allRows).slice(-3);
+          lastThree.forEach((row) => row.classList.add("drop-up"));
+        } else {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+        }
+      }, 0);
+    }
+  }, [tickets]);
+
   const columns = [
     {
       name: t("User"),
@@ -215,7 +221,7 @@ export default function Tickets() {
               <li>
                 <button
                   className={`admin_action_resolve dropdown-item d-flex align-items-center gap-2 `}
-                  onClick={(e) =>{  e.stopPropagation();handleResolve(row._id);setOpenDropdownId(null);}}
+                  onClick={(e) => { e.stopPropagation(); handleResolve(row._id); setOpenDropdownId(null); }}
                   disabled={row.status === "Resolved"}
                 >
                   <i className="fa-solid fa-circle-check"></i>
@@ -302,9 +308,16 @@ export default function Tickets() {
                     </div>
                   )}
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={tickets} responsive noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
+                    <DataTable columns={columns} data={tickets}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={total}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page) => getTickets(page)}
+                      paginationPerPage={itemsPerPage}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
                   </div>
-                  {totalPages > 1 && (
+                  {/* {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
@@ -327,7 +340,7 @@ export default function Tickets() {
                         disabledClassName="disabled"
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

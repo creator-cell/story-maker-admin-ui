@@ -29,15 +29,13 @@ export default function Users() {
     write: false,
     both: false,
   });
-  const itemsPerPage = 2;
+  const itemsPerPage = 10;
   const router = useRouter();
   const [role, setRole] = useState("");
   const [userRolePermissions, setUserRolePermissions] = useState(null);
 
-  //  ADD: Custom dropdown open/close state
   const [openDropdownId, setOpenDropdownId] = useState(null);
 
-  //  ADD: Close dropdown when clicked outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (!e.target.closest(".custom-dropdown")) {
@@ -48,7 +46,6 @@ export default function Users() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  //  ADD: Toggle dropdown open/close
   const toggleDropdown = (id) => {
     setOpenDropdownId((prev) => (prev === id ? null : id));
   };
@@ -137,7 +134,6 @@ export default function Users() {
 
       if (response.data) {
         setUsers(response.data.items);
-
         setTotalPages(response.data.pagination.totalPages);
         setTotalItems(response.data.pagination.totalItems);
         setCurrentPage(response.data.pagination.currentPage - 1);
