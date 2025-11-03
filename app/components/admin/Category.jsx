@@ -16,9 +16,10 @@ export default function Categories() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [total, setTotalItems] = useState(0);
   const [search, setSearch] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
-  const itemsPerPage = 20;
+  const itemsPerPage = 10;
   const [loader, setLoader] = useState(false);
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -41,20 +42,25 @@ export default function Categories() {
   const getCategories = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
-      let url = `${API_URL}category?`;
+      let url = `${API_URL}category?page=${page}&pageSize=${itemsPerPage}`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
 
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      setCategories(res.data.categories || []);
-      setTotalPages(res.data.pagination?.totalPages || 1);
-      setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
+      if (res.data.items) {
+        setCategories(res.data.items || []);
+        setTotalPages(res.data.pagination?.totalPages || 1);
+        setTotalItems(res.data.pagination?.total || 0);
+        setCurrentPage((res.data.pagination?.page || 1) -1);
+      }
+
     } catch (err) {
       toast.error(t("Failed to fetch categories"));
       setCategories([]);
       setTotalPages(0);
+      setTotalItems(0);
     } finally {
       setLoader(false);
     }
@@ -212,7 +218,14 @@ export default function Categories() {
                     </div>
                   )}
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={categories} noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
+                    <DataTable columns={columns} data={categories}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={total}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page) => getCategories(page)}
+                      paginationPerPage={itemsPerPage}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
                     {/* <table className="table">
                       <thead>
                         <tr>
@@ -272,7 +285,7 @@ export default function Categories() {
                       </tbody>
                     </table> */}
                   </div>
-                  {totalPages > 1 && (
+                  {/* {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
@@ -295,7 +308,7 @@ export default function Categories() {
                         disabledClassName="disabled"
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

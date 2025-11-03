@@ -19,10 +19,11 @@ export default function Template() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [total, setTotalItems] = useState(0);
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [showDeletedId, setShowDeletedId] = useState(false);
-  const itemsPerPage = 20;
+  const itemsPerPage = 10;
   const [loader, setLoader] = useState(false);
   const userStr = localStorage.getItem("user");
   const userObj = userStr ? JSON.parse(userStr) : null;
@@ -77,12 +78,16 @@ export default function Template() {
         );
       }
 
-      setTemplates(filteredTemplates);
-      setTotalPages(res.data.pagination?.totalPages || 1);
-      setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
+      if (res.data) {
+        setTemplates(res.data.data || []);
+        setTotalPages(res.data.totalPages || 1);
+        setTotalItems(res.data.total || 0);
+        setCurrentPage((res.data.page || 1) - 1);
+      }
     } catch (err) {
       setTemplates([]);
       setTotalPages(0);
+      setTotalItems(0)
     } finally {
       setLoader(false);
     }
@@ -470,6 +475,12 @@ export default function Template() {
                     <DataTable
                       columns={columns}
                       data={templates}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={total}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page) => getTemplates(page)}
+                      paginationPerPage={itemsPerPage}
                       noDataComponent={
                         <div className="text-center py-4">
                           {t("There are no records to display")}
@@ -479,7 +490,7 @@ export default function Template() {
                   </div>
 
                   {/* Pagination */}
-                  {totalPages > 1 && (
+                  {/* {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
@@ -502,7 +513,7 @@ export default function Template() {
                         disabledClassName="disabled"
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
