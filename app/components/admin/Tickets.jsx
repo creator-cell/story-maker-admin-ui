@@ -20,7 +20,7 @@ export default function Tickets() {
   const [loader, setLoader] = useState(false);
   const { t } = useTranslation();
   const [moderator, setAllModerator] = useState();
-  const itemsPerPage = 2;
+  const itemsPerPage = 10;
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
@@ -50,14 +50,14 @@ export default function Tickets() {
 
       if (res.data) {
         setTickets(res.data.data || []);
-        setTotalPages(res.data.totalPages || 1);
+
         setTotalItems(res.data.total || 0);
         setCurrentPage((res.data.page || 1) - 1);
       }
     } catch (err) {
       toast.error(t("Failed to fetch tickets"));
       setTickets([]);
-      setTotalPages(0);
+
       setTotalItems(0);
     } finally {
       setLoader(false);
@@ -118,7 +118,7 @@ export default function Tickets() {
       });
 
       setAllModerator(response.data);
-    } catch (err) { }
+    } catch (err) {}
   };
 
   const handleNewChat = () => {
@@ -155,25 +155,25 @@ export default function Tickets() {
     },
     ...(currentUser?.role?.name === "Super Admin"
       ? [
-        {
-          name: t("Moderator"),
-          cell: (row) => (
-            <select
-              value={row?.moderator?._id || ""}
-              onChange={(e) => handleAssignModerator(row._id, e.target.value)}
-            >
-              <option value="">{t("Assign Moderator")}</option>
-              {moderator?.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          ),
-          minWidth: "160px",
-          wrap: true,
-        },
-      ]
+          {
+            name: t("Moderator"),
+            cell: (row) => (
+              <select
+                value={row?.moderator?._id || ""}
+                onChange={(e) => handleAssignModerator(row._id, e.target.value)}
+              >
+                <option value="">{t("Assign Moderator")}</option>
+                {moderator?.map((item) => (
+                  <option key={item._id} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            ),
+            minWidth: "160px",
+            wrap: true,
+          },
+        ]
       : []),
     {
       name: t("Last Message"),
@@ -191,7 +191,10 @@ export default function Tickets() {
     {
       name: t("Action"),
       cell: (row) => (
-        <div className="d-flex position-relative custom-dropdown" data-label="Action">
+        <div
+          className="d-flex position-relative custom-dropdown"
+          data-label="Action"
+        >
           <button
             className="border-0 bg-transparent"
             type="button"
@@ -203,13 +206,15 @@ export default function Tickets() {
             <i className="fa fa-ellipsis"></i>
           </button>
           {openDropdownId === row._id && (
-            <ul
-              className="dropdown-menu show right-side"
-            >
+            <ul className="dropdown-menu show right-side">
               <li>
                 <button
                   className="admin_action_edit dropdown-item d-flex align-items-center gap-2 "
-                  onClick={(e) => { e.stopPropagation(); handleUserUpdate(row._id); setOpenDropdownId(null); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUserUpdate(row._id);
+                    setOpenDropdownId(null);
+                  }}
                   disabled={row.status === "Resolved"}
                 >
                   <div className="eye-icon">
@@ -221,7 +226,11 @@ export default function Tickets() {
               <li>
                 <button
                   className={`admin_action_resolve dropdown-item d-flex align-items-center gap-2 `}
-                  onClick={(e) => { e.stopPropagation(); handleResolve(row._id); setOpenDropdownId(null); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleResolve(row._id);
+                    setOpenDropdownId(null);
+                  }}
                   disabled={row.status === "Resolved"}
                 >
                   <i className="fa-solid fa-circle-check"></i>
@@ -308,39 +317,22 @@ export default function Tickets() {
                     </div>
                   )}
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={tickets}
+                    <DataTable
+                      columns={columns}
+                      data={tickets}
                       pagination
                       paginationServer
                       paginationTotalRows={total}
                       paginationDefaultPage={currentPage + 1}
                       onChangePage={(page) => getTickets(page)}
                       paginationPerPage={itemsPerPage}
-                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
+                      noDataComponent={
+                        <div className="text-center py-4">
+                          {t("There are no records to display")}
+                        </div>
+                      }
+                    />
                   </div>
-                  {/* {totalPages > 1 && (
-                    <div className="pagination-container d-flex justify-content-between align-items-center">
-                      <div className="pagination-info">
-                        <small className="text-muted">
-                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}
-                        </small>
-                      </div>
-                      <ReactPaginate
-                        pageCount={totalPages}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={1}
-                        onPageChange={(selected) =>
-                          getTickets(selected.selected + 1, search)
-                        }
-                        containerClassName="pagination"
-                        activeClassName="active"
-                        previousLabel="Previous"
-                        nextLabel="Next"
-                        breakLabel="..."
-                        forcePage={currentPage}
-                        disabledClassName="disabled"
-                      />
-                    </div>
-                  )} */}
                 </div>
               </div>
             </div>
