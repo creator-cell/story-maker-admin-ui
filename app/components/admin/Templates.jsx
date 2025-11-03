@@ -87,7 +87,7 @@ export default function Template() {
     } catch (err) {
       setTemplates([]);
       setTotalPages(0);
-      setTotalItems(0)
+      setTotalItems(0);
     } finally {
       setLoader(false);
     }
@@ -176,8 +176,6 @@ export default function Template() {
     }
   }, [templates]);
 
-
-
   const handleEdit = (id) => {
     setLoader(true);
     router.push(`/admin/template/${id}`);
@@ -225,7 +223,7 @@ export default function Template() {
           },
         }
       );
-    } catch { }
+    } catch {}
   };
 
   const handleTemplateSubmit = async () => {
@@ -265,8 +263,9 @@ export default function Template() {
         const translatedStatus = t(row.status);
         return (
           <span
-            className={`badge ${row.status === "approved" ? "bg-success" : "bg-warning"
-              }`}
+            className={`badge ${
+              row.status === "approved" ? "bg-success" : "bg-warning"
+            }`}
           >
             {translatedStatus}
           </span>
@@ -335,9 +334,7 @@ export default function Template() {
           </button>
 
           {openDropdownId === row._id && (
-            <ul
-              className="dropdown-menu show right-side"
-            >
+            <ul className="dropdown-menu show right-side">
               <li>
                 <button
                   className="admin_action_edit"
@@ -385,8 +382,7 @@ export default function Template() {
                         setOpenDropdownId(null);
                       }}
                     >
-                      <i className="fa-solid fa-thumbs-up"></i>{" "}
-                      {t("Approve")}
+                      <i className="fa-solid fa-thumbs-up"></i> {t("Approve")}
                     </button>
                   </li>
                 )}
@@ -488,32 +484,6 @@ export default function Template() {
                       }
                     />
                   </div>
-
-                  {/* Pagination */}
-                  {/* {totalPages > 1 && (
-                    <div className="pagination-container d-flex justify-content-between align-items-center">
-                      <div className="pagination-info">
-                        <small className="text-muted">
-                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}
-                        </small>
-                      </div>
-                      <ReactPaginate
-                        pageCount={totalPages}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={1}
-                        onPageChange={(selected) =>
-                          getTemplates(selected.selected + 1, search)
-                        }
-                        containerClassName="pagination"
-                        activeClassName="active"
-                        previousLabel="Previous"
-                        nextLabel="Next"
-                        breakLabel="..."
-                        forcePage={currentPage}
-                        disabledClassName="disabled"
-                      />
-                    </div>
-                  )} */}
                 </div>
               </div>
             </div>

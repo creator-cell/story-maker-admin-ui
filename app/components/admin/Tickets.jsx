@@ -14,7 +14,7 @@ export default function Tickets() {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+
   const [total, setTotalItems] = useState(0);
   const [search, setSearch] = useState("");
   const [loader, setLoader] = useState(false);
