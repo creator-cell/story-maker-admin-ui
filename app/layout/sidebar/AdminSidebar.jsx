@@ -118,115 +118,135 @@ const AdminSidebar = ({ locale }) => {
     router.replace(newPath);
     setLoader(false);
   };
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       {loader && <Loader />}
       <div id="admin_header">
         <div className="container-fluid">
           <div className="row">
-            <div className="logo-img col-7">
-              <img className="" src="/frontCloud.png" alt="Raivaro Roaming" />
+            <div className="logo-img col-lg-1 col-7">
+              <img className="" src="/frontCloud.png" alt="Story Maker" />
             </div>
-            <div className="dark-mode d-flex gap-2 col-5">
-              <div className="toggle_theme">
-                <input
-                  type="checkbox"
-                  id="toggle_checkbox"
-                  checked={theme === "dark"}
-                  onChange={(e) =>
-                    setTheme(e.target.checked ? "dark" : "light")
-                  }
-                />
-                <label htmlFor="toggle_checkbox">
-                  <div id="star"></div>
-                  <div id="moon"></div>
-                </label>
-              </div>
-              <div id="languageswitcher">
-                <div className="cust-check-group">
-                  <div className="cust-check">
-                    <label className="form-check-label" htmlFor="English">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="language"
-                        id="English"
-                        value="en"
-                        onChange={(t) => {
-                          setLoader(true);
-                          handleChangeLanguage(t.target.value);
-                        }}
-                        checked={lang === "en" ? true : false}
-                      />
-                      <Image
-                        src="/flags/gb.svg"
-                        alt="english"
-                        width={20}
-                        height={20}
-                      />
+            <div className="dark-mode col-lg-11 col-5">
+              <div className="header_right">
+                <div className="toggle-btn">
+                  <button
+                    className="navbar-toggler admin_menuToggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                  >
+                    <span className="navbar-toggler-icon">
+                      <i className="fa-solid fa-bars-staggered"></i>
+                    </span>
+                  </button>
+                </div>
+                <div className="togglers">
+                  <div className="toggle_theme">
+                    <input
+                      type="checkbox"
+                      id="toggle_checkbox"
+                      checked={theme === "dark"}
+                      onChange={(e) =>
+                        setTheme(e.target.checked ? "dark" : "light")
+                      }
+                    />
+                    <label htmlFor="toggle_checkbox">
+                      <div id="star"></div>
+                      <div id="moon"></div>
                     </label>
                   </div>
-                  <div className="cust-check">
-                    <label className="form-check-label" htmlFor="Arabic">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="language"
-                        id="Arabic"
-                        value="ar"
-                        onChange={(t) => {
-                          setLoader(true);
-                          handleChangeLanguage(t.target.value);
-                        }}
-                        checked={lang === "ar" ? true : false}
-                      />
-                      <Image
-                        src="/flags/ar.svg"
-                        alt="arabic"
-                        width={20}
-                        height={20}
-                      />
-                    </label>
+                  <div className="custom-dropdown">
+                    <button 
+                      className="dropdown-toggle"
+                      onClick={() => setIsOpen(!isOpen)}
+                    >
+                      {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+                      {/* <span className={`arrow ${isOpen ? 'open' : ''}`}>▼</span> */}
+                    </button>
+                    {isOpen && (
+                      <div className="dropdown-menu">
+                        <div 
+                          className="dropdown-item"
+                          onClick={() => { setTheme('light'); setIsOpen(false); }}
+                        >
+                          ☀️ Light
+                        </div>
+                        <div 
+                          className="dropdown-item"
+                          onClick={() => { setTheme('dark'); setIsOpen(false); }}
+                        >
+                          🌙 Dark
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div id="languageswitcher">
+                    <div className="cust-check-group">
+                      <div className="cust-check">
+                        <label className="form-check-label" htmlFor="English">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="language"
+                            id="English"
+                            value="en"
+                            onChange={(t) => {
+                              setLoader(true);
+                              handleChangeLanguage(t.target.value);
+                            }}
+                            checked={lang === "en" ? true : false}
+                          />
+                          <Image
+                            src="/flags/gb.svg"
+                            alt="english"
+                            width={20}
+                            height={20}
+                          />
+                        </label>
+                      </div>
+                      <div className="cust-check">
+                        <label className="form-check-label" htmlFor="Arabic">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="language"
+                            id="Arabic"
+                            value="ar"
+                            onChange={(t) => {
+                              setLoader(true);
+                              handleChangeLanguage(t.target.value);
+                            }}
+                            checked={lang === "ar" ? true : false}
+                          />
+                          <Image
+                            src="/flags/ar.svg"
+                            alt="arabic"
+                            width={20}
+                            height={20}
+                          />
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* <select
-                value={lang}
-                onChange={(e) => handleChangeLanguage(e.target.value)}
-              >
-                <option value="en" checked={lang === "en" ? true : false}>
-                  <span>{t("English")}</span>
-                </option>
-                <option value="ar" checked={lang === "ar" ? true : false}>
-                  <span>{t("Arabic")}</span>
-                </option>
-              </select> */}
-              <div className="toggle-btn">
-                <button
-                  className="navbar-toggler admin_menuToggler d-lg-none"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
-                >
-                  <span className="navbar-toggler-icon">
-                    <i className="fa-solid fa-bars-staggered"></i>
-                  </span>
-                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="navbar-expand-lg">
+      {/* <div className=""> */}
         <div
           className="toggle_sideBar collapse navbar-collapse"
           id="navbarSupportedContent"
         >
           <div id="sidebar" className={lang === "ar" ? "sidebar_right" : ""}>
-            <nav className="navbar navbar-expand-xl">
+            <nav className="navbar">
               <div className="container-fluid h-100">
                 <div className="side_bar_content">
                   <div className="d-flex flex-column w-100 h-100" id="">
@@ -436,7 +456,7 @@ const AdminSidebar = ({ locale }) => {
             </nav>
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </>
   );
 };

@@ -3270,6 +3270,8 @@ h6 {
   margin: 0;
   background-color: var(--teal-blue);
 }
+#admin_header .header_right{display: flex;justify-content: space-between;align-items: center;width: 100%;margin:0 0 0 100px;}
+#admin_header .header_right .togglers{display:flex;justify-content:flex-end;align-items:center;width:auto;gap:20px;}
 
 #sidebar {
   width: 100%;
@@ -11409,9 +11411,7 @@ html {
   display: flex;
 }
 
-.logo-img img {
-  padding-left: 20px;
-}
+.logo-img img {padding-left: 20px;width: auto;max-width: 100%;  height: 60px;}
 
 .dark-mode {
   padding-right: 20px !important;
@@ -11421,9 +11421,14 @@ html {
   justify-content: flex-end;
   display: flex;
 }
+/* 
+.toggle_sideBar.collapse:not(.show) {
+  display: none !important;
+}
+.toggle_sideBar.collapse:not(.show) #sidebar{} */
 
 .toggle_theme {
-  padding-top: 37px;
+  padding-top:30px;
 }
 
 .toggle_theme #toggle_checkbox {
