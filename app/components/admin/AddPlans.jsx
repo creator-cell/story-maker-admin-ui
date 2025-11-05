@@ -38,8 +38,6 @@ const AddPlans = () => {
     name: "plans",
   });
 
-  useEffect(() => {}, []);
-
   const handleAddAssets = (data) => {
     setLoader(true);
     axios({

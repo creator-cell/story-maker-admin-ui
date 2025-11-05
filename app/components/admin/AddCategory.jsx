@@ -38,7 +38,6 @@ const AddCategoryPage = () => {
 
       setCategories(parentCategories || []);
     } catch (error) {
-      console.log("error", error);
       toast.error(t("Failed to fetch categories"), { theme: "dark" });
     }
   };
