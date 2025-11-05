@@ -251,6 +251,15 @@ export default function Template() {
     setDeleteId(id);
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.bootstrap) {
+      const collapseElement = document.getElementById("navbarSupportedContent");
+      if (collapseElement) {
+        new window.bootstrap.Collapse(collapseElement, { toggle: false });
+      }
+    }
+  }, []);
+
   const columns = [
     {
       name: t("Name"),
