@@ -342,7 +342,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
                   </div>
                 </div>
 
-                {/* <div className="analytic-dashboard">
+                <div className="analytic-dashboard" style={{ display: "none" }}>
                   <div className="row dashboard-content">
                     <div className="col-lg-12 col-md-12 col-12">
                       <div className="chart">
@@ -350,9 +350,9 @@ export default function AnalyticDashboard({ lang = "en" }) {
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
 
-                {/* <div className="analytic-dashboard">
+                <div className="analytic-dashboard" style={{ display: "none" }}>
                   <div className="row dashboard-content">
                     <div className="col-lg-12 col-md-12 col-12">
                       <div className="chart">
@@ -360,7 +360,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
 
                 <div className="analytic-dashboard">
                   <div className="row">
