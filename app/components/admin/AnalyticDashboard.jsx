@@ -339,21 +339,6 @@ export default function AnalyticDashboard({ lang = "en" }) {
                         </div>
                       </div>
                     </div>
-                    <div className="col-lg-4 col-md-4 col-12">
-                      <div className="box justify-content-center align-items-center">
-                        <div className="icon">
-                          <img
-                            src="/images/design-create.png"
-                            alt="active-user"
-                          />
-                        </div>
-                        <div className="">
-                          <p>{t("Designs Created")}</p>
-                          <h2>{templateCount}</h2>
-                          <span>{t("Total designs made by users")}</span>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
 
