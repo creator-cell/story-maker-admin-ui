@@ -3054,7 +3054,7 @@ h6 {
   outline: none;
   border: 0;
   background: none;
-  color: var(--black);
+  color: var(--dark);
   line-height: 1.2;
   font-size: 16px;
   font-weight: 600;
@@ -3069,7 +3069,7 @@ h6 {
   outline: none;
   border: 0;
   background: none;
-  color: var(--black);
+  color: var(--dark);
   line-height: 1.2;
   font-size: 16px;
   font-weight: 600;
@@ -3108,7 +3108,7 @@ h6 {
   text-decoration: none;
   outline: none;
   border: 0;
-  color: var(--black);
+  color: var(--dark);
   line-height: 1.2;
   font-size: 16px;
   font-weight: 600;
@@ -3556,7 +3556,7 @@ body:not(:has(.toggle_sideBar.show)) #admin_header{width:100%;}
 }
 
 .toggle-btn button{display:flex;justify-content:center;align-items:center;padding:0;margin:0;}
-.toggle-btn button span{display:block;color:var(--white);font-size:22px;font-weight:600;}
+.toggle-btn button span{display:block;color:var(--white);font-size:22px;font-weight:600;background-image:none;}
 
 .admin_table .table-responsive table .toggle {
   display: inline-block;
