@@ -350,7 +350,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="analytic-dashboard" style={{ display: "none" }}>
                   <div className="row dashboard-content">
@@ -360,7 +360,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="analytic-dashboard">
                   <div className="row">
