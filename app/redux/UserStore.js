@@ -146,7 +146,7 @@ async function saveCanvasState(
       // toast.success("Template updated successfully");
       //router.push("/admin/template");
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Failed to update template");
+      //  toast.error(err?.response?.data?.message || "Failed to update template");
     } finally {
       //  setLoader(false);
     }
