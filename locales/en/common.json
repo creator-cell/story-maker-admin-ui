@@ -354,5 +354,6 @@
   "S3 bucket": "S3 bucket",
   "total used storage": "total used storage",
   "Light": "Light",
-  "Dark": "Dark"
+  "Dark": "Dark",
+  "CSV File": "CSV File"
 }

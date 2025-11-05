@@ -37,7 +37,7 @@ export default function EditCategory({ userId }) {
         method: "GET",
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      const parentCategories = response.data?.categories.filter(
+      const parentCategories = response.data?.items.filter(
         (cat) => cat.parentCategory === null
       );
 
@@ -102,8 +102,7 @@ export default function EditCategory({ userId }) {
       router.push("/admin/category");
     } catch (error) {
       console.error(error);
-      toast.error(t("Failed to update category")
-      );
+      toast.error(t("Failed to update category"));
     } finally {
       setLoader(false);
     }
