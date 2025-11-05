@@ -101,7 +101,7 @@ export default function Template() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      const cats = res.data?.categories || [];
+      const cats = res.data?.items || [];
       const parents = cats.filter((c) => !c.parentCategory);
       const subs = cats.filter((c) => c.parentCategory);
       setCategory(parents);

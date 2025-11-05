@@ -29,7 +29,7 @@ function ExportModal({ isOpen, onClose }) {
   const { designId } = useEditorStore();
   console.log("designId", designId);
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
-
+  const [templateData,setTemplateData]=useState("")
   const [selectedFormat, setSelectedFormat] = useState("pdf");
   const [isExporting, setIsExporting] = useState(false);
   const { t } = useTranslation();
@@ -154,6 +154,28 @@ function ExportModal({ isOpen, onClose }) {
     }
   };
 
+   const fetchTemplate = async (designId) => {
+      // setLoader(true);
+  
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${designId}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          }
+        );
+        console.log("template data",res.data);
+        setTemplateData(res.data)
+        return res;
+      } catch (err) {
+        //toast.error("Failed to load template");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+useEffect(()=>{
+  fetchTemplate();
+},[designId])
   const handleExport = async () => {
     if (!canvas) return;
     setIsExporting(true);
