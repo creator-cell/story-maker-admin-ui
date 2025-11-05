@@ -3183,7 +3183,7 @@ h6 {
   font-size: 19px;
 }
 
-.admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .dropdown ul li .admin_action_edit {
+.admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .custom-dropdown ul li .admin_action_edit {
   background: none;
   border-radius: 5px;
   display: block;
@@ -3229,19 +3229,7 @@ h6 {
   background-color: transparent !important;
 }
 
-/* .admin_action_edit:hover {
-  opacity: 0.8;
-}
 
-.admin_action_delete:hover {
-  opacity: 0.8;
-}
-
-.admin_action_btn:hover,
-.admin_action_btn:focus,
-.admin_action_btn:active {
-  background-color: var(--dark);
-} */
 
 .login-btn {
   background-color: #808080;
@@ -3254,6 +3242,9 @@ h6 {
   transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+
+
+
 
 .login-btn:hover {
   background-color: #43484d !important;
@@ -3715,7 +3706,7 @@ h6 {
 }
 
 .admin_table .pagination li a {
-  border: 1px solid var(--alpha) !important;
+  border: 1px solid var(--black) !important;
   border-radius: 0;
   font-size: 14px;
   padding: 4px 10px;
@@ -3734,6 +3725,7 @@ h6 {
   background-color: var(--form-color);
   color: var(--black);
   cursor: not-allowed;
+  border: 1px solid var(--black) !important;
 }
 
 /* Pagination End */
@@ -4594,11 +4586,6 @@ h6 {
 
   .filter_orders {
     flex-direction: column;
-  }
-
-  .form_group,
-  .filter_date {
-    /* min-width: 100%; */
   }
 
   .tab-button {
@@ -8704,9 +8691,9 @@ h6 {
   gap: 15px;
   padding: 30px 30px 30px 20px;
   display: flex;
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 12px #0000001a !important;
   border-radius: 40px;
-  background-color: var(--dashboard-box);
+  background-color: var(--form-color);
   min-height: 180px;
 }
 
@@ -8724,6 +8711,11 @@ h6 {
   color: var(--form-textcolor);
   margin: 0;
   font-weight: bold;
+}
+
+.analytic-dashboard .box h3 {
+  margin: 0;
+  color: var(--form-textcolor);
 }
 
 .analytic-dashboard .box span {
@@ -8766,6 +8758,90 @@ h6 {
 
 .analytic-dashboard .slider .slick-dots li button:before {
   color: var(--form-textcolor) !important;
+}
+
+.analytic-dashboard .chart {
+  gap: 15px;
+  padding: 40px;
+  box-shadow: 0 4px 12px #0000001a !important;
+  border-radius: 40px;
+  background-color: var(--form-color);
+  min-height: 180px;
+}
+
+.analytic-dashboard .chart p {
+  color: var(--form-textcolor);
+  margin: 0;
+  font-weight: bold;
+}
+
+.analytic-dashboard .chart label {
+  color: var(--form-textcolor);
+}
+
+[data-bs-theme="dark"] input[type="date"].form-control::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.analytic-dashboard .chart .view-chart {
+  height: 300px;
+}
+
+.analytic-dashboard .chart .view-chart canvas {
+  background-color: white;
+}
+
+.analytic-dashboard .chart .pagination span {
+  color: var(--black);
+}
+
+.analytic-dashboard .chart .pagination .btn-previos {
+  background-color: var(--form-color) !important;
+  color: var(--black);
+  padding: 4px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--black);
+}
+
+.analytic-dashboard .chart .pagination .btn-next {
+  background-color: var(--form-color) !important;
+  color: var(--black);
+  padding: 4px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--black);
+}
+
+.analytic-dashboard .top-templates .template-items {
+  border-radius: 8px;
+  padding: 10px 0px;
+}
+
+.analytic-dashboard .top-templates .template-number {
+  background: #ededed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+.analytic-dashboard .top-templates .template-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ededed;
+  border-radius: 10px;
+  padding: 0px 20px 0px 10px;
+}
+
+.analytic-dashboard .top-templates .template-details p {
+  align-items: center;
+  padding: 10px;
+  color: black;
 }
 
 /* dashboard end  */
@@ -10316,6 +10392,20 @@ html {
   margin-right: 15px;
 }
 
+.comman_admin_layout .admin_table .table-responsive .rdt_Pagination {
+  color: var(--form-textcolor) !important;
+  background-color: var(--form-color);
+  border: 1px solid #e5e7eb;
+  border-top: 0px;
+}
+
+[data-bs-theme=dark] button#pagination-next-page,
+[data-bs-theme=dark] button#pagination-previous-page,
+[data-bs-theme=dark] button#pagination-first-page,
+[data-bs-theme=dark] button#pagination-last-page {
+  fill: white;
+}
+
 .comman_admin_layout .admin_table .table-responsive .rdt_Table {
   border: 1px solid #e5e7eb;
   overflow: hidden;
@@ -10348,6 +10438,16 @@ html {
 .comman_admin_layout .admin_table .table-responsive .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .dropdown ul {
   background-color: var(--form-color);
   border-color: var(--table-border);
+}
+
+.rdt_TableRow.drop-up .dropdown-menu {
+  top: auto !important;
+  bottom: 100% !important;
+}
+
+.right-side {
+  position: relative;
+  right: 0;
 }
 
 .chat-container .chat .box {
@@ -10905,14 +11005,11 @@ html {
   background-color: var(--template-collapse-btn);
 }
 
-/* Hover panel - keeping for compatibility with other files */
 .hover-panel {
   position: fixed;
   left: 64px;
   top: 56px;
-  /* Height of the header */
   bottom: 48px;
-  /* Height of the bottom bar */
   width: 280px;
   background: white;
   border-radius: 8px;

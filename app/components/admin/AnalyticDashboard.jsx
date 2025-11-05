@@ -31,6 +31,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import TemplateChart from "./TemplateGraph";
 import UserGrowthChart from "./UserGraph";
+import { set } from "lodash";
 export default function AnalyticDashboard({ lang = "en" }) {
   const { t } = useTranslation();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_DASHBOARD;
@@ -42,6 +43,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [topTemplate, setTopTemplate] = useState();
+  const [storage, setStorage] = useState("");
   // default last 30 days
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 30))
@@ -145,6 +147,21 @@ export default function AnalyticDashboard({ lang = "en" }) {
     }
   };
 
+  const getS3Storage = async () => {
+    try {
+      const response = await axios.get(`${API_URL}dashboard/storage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      console.log(response.data.data.bucketSize);
+
+      setStorage(response.data.data.bucketSize);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const getUserChart = async (sDate, eDate) => {
     try {
       const start = formatDate(sDate || startDate);
@@ -223,7 +240,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
     getTemplateCount();
     getTemplate();
     getTopTemplate();
-
+    getS3Storage();
     getUserChart(startDate, endDate);
   }, []);
 
@@ -252,9 +269,9 @@ export default function AnalyticDashboard({ lang = "en" }) {
                           />
                         </div>
                         <div className="">
-                          <p>Active Users</p>
+                          <p>{t("Active Users")}</p>
                           <h3>{activeUser}</h3>
-                          <span>Total active users this month </span>
+                          <span>{t("Total active users this month")}</span>
                         </div>
                       </div>
                     </div>
@@ -267,9 +284,9 @@ export default function AnalyticDashboard({ lang = "en" }) {
                           />
                         </div>
                         <div className="">
-                          <p>Designs Created</p>
+                          <p>{t("Designs Created")}</p>
                           <h2>{templateCount}</h2>
-                          <span>Total designs made by users</span>
+                          <span>{t("Total designs made by users")}</span>
                         </div>
                       </div>
                     </div>
@@ -281,21 +298,10 @@ export default function AnalyticDashboard({ lang = "en" }) {
                             alt="active-user"
                           />
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="analytic-dashboard">
-                  <div className="row dashboard-content">
-                    <div className="col-lg-12 col-md-12 col-12">
-                      <div className="box">
-                        <p>User growth over time</p>
-                        <div
-                          className="d-flex align-items-center"
-                          style={{ gap: 8, flexWrap: "wrap" }}
-                        >
-                          <UserGrowthChart />
+                        <div className="">
+                          <p>{t("S3 bucket")}</p>
+                          <h2>{storage}</h2>
+                          <span>{t("total used storage")}</span>
                         </div>
                       </div>
                     </div>
@@ -305,25 +311,45 @@ export default function AnalyticDashboard({ lang = "en" }) {
                 <div className="analytic-dashboard">
                   <div className="row dashboard-content">
                     <div className="col-lg-12 col-md-12 col-12">
-                      <p>Template Used</p>
-                      <TemplateChart />
+                      <div className="chart">
+                        <UserGrowthChart />
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div
-                  className="analytic-dashboard"
-                  dir={lang === "ar" ? "rtl" : "ltr"}
-                >
+
+                <div className="analytic-dashboard">
+                  <div className="row dashboard-content">
+                    <div className="col-lg-12 col-md-12 col-12">
+                      <div className="chart">
+                        <TemplateChart />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="analytic-dashboard">
                   <div className="row">
-                    <div className="col-lg-12 col-md-12 col-12 chart">
-                      <p>Top used templates and assets</p>
-                      <div className="slider autoplay">
-                        {topTemplate?.map((template) => (
-                          <div key={template._id} className="boxes">
-                            <p>{template.name}</p>
-                            <p>{template.templateCount}</p>
-                          </div>
-                        ))}
+                    <div className="col-lg-6 col-md-6 col-6">
+                      <div className="chart">
+                        <p>{t("Top used templates and assets")}</p>
+                        <div className="top-templates">
+                          {topTemplate?.map((template, index) => (
+                            <div
+                              className="template-items d-flex gap-2"
+                              key={template._id}
+                            >
+                              <div className="template-number">{index + 1}</div>
+                              <div className="template-details w-100">
+                                <p>
+                                  {template.name.charAt(0).toUpperCase() +
+                                    template.name.slice(1)}
+                                </p>
+                                <p>{template.templateCount}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>

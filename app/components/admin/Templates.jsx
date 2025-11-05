@@ -19,10 +19,11 @@ export default function Template() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [total, setTotalItems] = useState(0);
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [showDeletedId, setShowDeletedId] = useState(false);
-  const itemsPerPage = 20;
+  const itemsPerPage = 10;
   const [loader, setLoader] = useState(false);
   const userStr = localStorage.getItem("user");
   const userObj = userStr ? JSON.parse(userStr) : null;
@@ -33,19 +34,33 @@ export default function Template() {
   const [subCategory, setSubCategory] = useState([]);
   const [showRejectModal, setShowRejectModal] = useState(false);
   const { designId } = useEditorStore();
+
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".custom-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
+
   const getTemplates = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
       let url = `${API_URL}template?page=${page}&pageSize=${itemsPerPage}`;
-
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
-
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
       let allTemplates = res.data.data || [];
-
       let filteredTemplates = allTemplates;
 
       if (currentUser?.role === "admin") {
@@ -63,12 +78,16 @@ export default function Template() {
         );
       }
 
-      setTemplates(filteredTemplates);
-      setTotalPages(res.data.pagination?.totalPages || 1);
-      setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
+      if (res.data) {
+        setTemplates(res.data.data || []);
+        setTotalPages(res.data.totalPages || 1);
+        setTotalItems(res.data.total || 0);
+        setCurrentPage((res.data.page || 1) - 1);
+      }
     } catch (err) {
       setTemplates([]);
       setTotalPages(0);
+      setTotalItems(0);
     } finally {
       setLoader(false);
     }
@@ -82,33 +101,25 @@ export default function Template() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-
       const cats = res.data?.categories || [];
       const parents = cats.filter((c) => !c.parentCategory);
       const subs = cats.filter((c) => c.parentCategory);
-      console.log("parents", parents);
-      console.log("subs", subs);
       setCategory(parents);
       setSubCategory(subs);
     } catch (err) {
       toast.error(t("Failed to fetch categories"));
-      toast.error(t("Failed to fetch categories"));
     }
   };
+
   const handleCategoryChange = async (templateId, categoryId) => {
     try {
-      // Optionally, you can call API to update category
       await axios.put(
         `${API_URL}template/${templateId}`,
         { category: categoryId },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-
-      // Update state locally
       setTemplates((prev) =>
         prev.map((tpl) =>
           tpl._id === templateId
@@ -116,9 +127,8 @@ export default function Template() {
             : tpl
         )
       );
-
       toast.success(t("Category updated"));
-    } catch (err) {
+    } catch {
       toast.error(t("Failed to update category"));
     }
   };
@@ -129,12 +139,9 @@ export default function Template() {
         `${API_URL}template/${templateId}`,
         { subCategory: subCategoryId },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-
       setTemplates((prev) =>
         prev.map((tpl) =>
           tpl._id === templateId
@@ -142,9 +149,8 @@ export default function Template() {
             : tpl
         )
       );
-
       toast.success(t("Subcategory updated"));
-    } catch (err) {
+    } catch {
       toast.error(t("Failed to update subcategory"));
     }
   };
@@ -154,6 +160,22 @@ export default function Template() {
     fetchCategory();
   }, []);
 
+  useEffect(() => {
+    if (templates.length > 0) {
+      setTimeout(() => {
+        const allRows = document.querySelectorAll(".rdt_TableRow");
+
+        if (allRows.length > 5) {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+          const lastThree = Array.from(allRows).slice(-3);
+          lastThree.forEach((row) => row.classList.add("drop-up"));
+        } else {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+        }
+      }, 0);
+    }
+  }, [templates]);
+
   const handleEdit = (id) => {
     setLoader(true);
     router.push(`/admin/template/${id}`);
@@ -162,18 +184,11 @@ export default function Template() {
   const handleClone = async (id, name, content) => {
     setLoader(true);
     const userStr = localStorage.getItem("user");
-
     const userObj = userStr ? JSON.parse(userStr) : null;
-    //  router.push(`/admin/template/clone/${id}`);
     try {
       await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${id}`,
-        {
-          name: name,
-
-          content: content,
-          user: userObj._id,
-        },
+        { name, content, user: userObj._id },
         {
           headers: {
             "Content-Type": "application/json",
@@ -185,21 +200,21 @@ export default function Template() {
       await increaseTemplateUsage(id);
       getTemplates();
       router.push("/admin/template");
-    } catch (err) {
+    } catch {
       toast.error(t("Failed to update template"));
     } finally {
       setLoader(false);
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     setDeleteId(id);
     setShowDeletedId(true);
   };
 
   const increaseTemplateUsage = async (id) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `${API_URL}template/getUsage`,
         { templateId: id },
         {
@@ -208,8 +223,7 @@ export default function Template() {
           },
         }
       );
-      console.log(res);
-    } catch (err) {}
+    } catch {}
   };
 
   const handleTemplateSubmit = async () => {
@@ -224,10 +238,9 @@ export default function Template() {
           },
         }
       );
-
       setLoader(false);
       router.push(`/admin/template/${responseData.data.template._id}`);
-    } catch (err) {
+    } catch {
       setLoader(false);
       toast.error(t("Failed to add template"));
     }
@@ -237,6 +250,7 @@ export default function Template() {
     setApproveModel(true);
     setDeleteId(id);
   };
+
   const columns = [
     {
       name: t("Name"),
@@ -304,26 +318,31 @@ export default function Template() {
     {
       name: t("Action"),
       cell: (row) => (
-        <div className="d-flex" data-label="Action">
-          <div className="dropdown">
-            <button
-              className="border-0 bg-transparent"
-              type="button"
-              id={`dropdownMenuButton-${row._id}`}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i className="fa fa-ellipsis"></i>
-            </button>
+        <div
+          className="d-flex position-relative custom-dropdown"
+          data-label="Action"
+        >
+          <button
+            className="border-0 bg-transparent"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleDropdown(row._id);
+            }}
+          >
+            <i className="fa fa-ellipsis"></i>
+          </button>
 
-            <ul
-              className="dropdown-menu"
-              aria-labelledby={`ticketDropdownButton-${row._id}`}
-            >
+          {openDropdownId === row._id && (
+            <ul className="dropdown-menu show right-side">
               <li>
                 <button
                   className="admin_action_edit"
-                  onClick={() => handleEdit(row._id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(row._id);
+                    setOpenDropdownId(null);
+                  }}
                 >
                   <i className="fa-solid fa-pencil me-2"></i> {t("Edit")}
                 </button>
@@ -331,7 +350,11 @@ export default function Template() {
               <li>
                 <button
                   className="admin_action_clone"
-                  onClick={() => handleClone(row._id, row.name, row.content)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleClone(row._id, row.name, row.content);
+                    setOpenDropdownId(null);
+                  }}
                 >
                   <i className="fa-solid fa-clone"></i> {t("Clone")}
                 </button>
@@ -339,24 +362,32 @@ export default function Template() {
               <li>
                 <button
                   className="admin_action_delete"
-                  onClick={() => handleDelete(row._id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(row._id);
+                    setOpenDropdownId(null);
+                  }}
                 >
                   <i className="fa fa-trash me-2"></i> {t("Delete")}
                 </button>
               </li>
-              <li>
-                {currentUser.role.name === "Super Admin" &&
-                  row.status === "pending" && (
+              {currentUser.role.name === "Super Admin" &&
+                row.status === "pending" && (
+                  <li>
                     <button
                       className="admin_action_approve"
-                      onClick={() => handleApprove(row._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleApprove(row._id);
+                        setOpenDropdownId(null);
+                      }}
                     >
                       <i className="fa-solid fa-thumbs-up"></i> {t("Approve")}
                     </button>
-                  )}
-              </li>
+                  </li>
+                )}
             </ul>
-          </div>
+          )}
         </div>
       ),
     },
@@ -437,34 +468,22 @@ export default function Template() {
 
                   {/* Table */}
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={templates} />
+                    <DataTable
+                      columns={columns}
+                      data={templates}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={total}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page) => getTemplates(page)}
+                      paginationPerPage={itemsPerPage}
+                      noDataComponent={
+                        <div className="text-center py-4">
+                          {t("There are no records to display")}
+                        </div>
+                      }
+                    />
                   </div>
-
-                  {/* Pagination */}
-                  {totalPages > 1 && (
-                    <div className="pagination-container d-flex justify-content-between align-items-center">
-                      <div className="pagination-info">
-                        <small className="text-muted">
-                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}
-                        </small>
-                      </div>
-                      <ReactPaginate
-                        pageCount={totalPages}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={1}
-                        onPageChange={(selected) =>
-                          getTemplates(selected.selected + 1, search)
-                        }
-                        containerClassName="pagination"
-                        activeClassName="active"
-                        previousLabel="Previous"
-                        nextLabel="Next"
-                        breakLabel="..."
-                        forcePage={currentPage}
-                        disabledClassName="disabled"
-                      />
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

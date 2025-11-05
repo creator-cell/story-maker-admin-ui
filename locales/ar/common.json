@@ -336,5 +336,21 @@
   "no Description": "لا يوجد وصف",
   "no Tags": "لا توجد علامات",
   "no Price": "لا يوجد سعر",
-  "no Features": "لا توجد ميزات"
+  "no Features": "لا توجد ميزات",
+  "Active Users": "المستخدمون النشطون",
+  "Total active users this month": "إجمالي المستخدمين النشطين هذا الشهر",
+  "Designs Created": "التصاميم المُنشأة",
+  "Total designs made by users": "إجمالي التصاميم التي أنشأها المستخدمون",
+  "User Growth Over Time": "نمو المستخدمين مع مرور الوقت",
+  "Start Date:": "تاريخ البدء:",
+  "End Date:": "تاريخ الانتهاء:",
+  "Show Chart": "عرض الرسم البياني",
+  "Select a date range to view user growth.": "حدد نطاقًا زمنيًا لعرض نمو المستخدمين.",
+  "Template Usage Statistics": "إحصائيات استخدام القوالب",
+  "Previous": "السابق",
+  "Next": "التالي",
+  "Top used templates and assets": "أكثر القوالب والأصول استخدامًا",
+  "There are no records to display": "لا توجد سجلات للعرض",
+  "S3 bucket": "S3 bucket",
+  "total used storage": "إجمالي التخزين المستخدم"
 }

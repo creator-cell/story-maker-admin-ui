@@ -39,7 +39,21 @@ const PlansManage = () => {
     return userPermissions.write || userPermissions.both;
   };
 
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".custom-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
   const getPlans = async (page = 1, sort = sortByValue, search = "", order = sortOrder) => {
     setLoader(true);
     try {
@@ -162,8 +176,23 @@ const PlansManage = () => {
     };
 
     initializeUserPermissions();
-  }, []); // Only run on component mount
+  }, []);
 
+  useEffect(() => {
+    if (plans.length > 0) {
+      setTimeout(() => {
+        const allRows = document.querySelectorAll(".rdt_TableRow");
+
+        if (allRows.length > 4) {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+          const lastThree = Array.from(allRows).slice(-3);
+          lastThree.forEach((row) => row.classList.add("drop-up"));
+        } else {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+        }
+      }, 0);
+    }
+  }, [plans]);
   const columns = [
     {
       name: t('Date'),
@@ -223,85 +252,87 @@ const PlansManage = () => {
     {
       name: t('Action'),
       cell: row => (
-         hasWritePermission() && (
-          <td className="d-flex" data-label="Action">
-            <div className="dropdown">
-              <button
-                className="border-0 bg-transparent"
-                type="button"
-                id={`dropdownMenuButton-${row._id}`}
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="fa fa-ellipsis"></i>
-              </button>
-              <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${row._id}`}>
+        hasWritePermission() && (
+          <div className="d-flex position-relative custom-dropdown" data-label="Action">
+            <button
+              className="border-0 bg-transparent"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleDropdown(row._id);
+              }}
+            >
+              <i class="fa fa-ellipsis"></i>
+            </button>
+            {openDropdownId === row._id && (
+              <ul className="dropdown-menu show right-side">
                 <li> <button
                   className="admin_action_edit"
-                  onClick={() => handleEditPlans(row._id)}
+                  onClick={(e) => { e.stopPropagation(); handleEditPlans(row._id); setOpenDropdownId(null); }}
                 >
                   <i className="fa fa-edit me-2"></i> {t("Edit")}
                 </button></li>
                 <li><button
                   className="admin_action_delete"
-                  onClick={() => handlePlanDelete(row._id)}
+                  onClick={(e) => { e.stopPropagation(); handlePlanDelete(row._id); setOpenDropdownId(null); }}
                 >
                   <i className="fa fa-trash me-2"></i> {t("Delete")}
                 </button></li>
               </ul>
-            </div>
-          </td>
+            )}
+          </div>
         )
       )
     }
   ]
-return (
-  <>
-    <div id="main_container">
-      <div className="inner_container">
-        <div className="container p-0">
-          <div id="user" className="comman_admin_layout">
-            <div className="container p-0">
-              <div className="row">
-                <div className="col-lg-12 col-md-12 col-sm-12">
-                  <div className="title_head">
-                    <h1>{t("Plans List")}</h1>
-                  </div>
-                </div>
-              </div>
-              <div className="admin_table">
-                <div className="row table_filter justify-content-between align-items-center mb-3">
-                  <div className="col-lg-6 col-md-6 col-12">
-                    <div className="d-flex gap-2 align-items-center">
-
-                    </div>
-                  </div>
-
-                  <div className="col-lg-6 col-md-6 col-12">
-                    <div className="filter_field d-flex gap-2 justify-content-end">
-                      {hasWritePermission() && (
-                        <button className="button" onClick={() => { setLoader(true); router.push('/admin/plans/addplans') }}>
-                          {t("Add Plan")}
-                        </button>
-                      )}
+  return (
+    <>
+      <div id="main_container">
+        <div className="inner_container">
+          <div className="container p-0">
+            <div id="user" className="comman_admin_layout">
+              <div className="container p-0">
+                <div className="row">
+                  <div className="col-lg-12 col-md-12 col-sm-12">
+                    <div className="title_head">
+                      <h1>{t("Plans List")}</h1>
                     </div>
                   </div>
                 </div>
+                <div className="admin_table">
+                  <div className="row table_filter justify-content-between align-items-center mb-3">
+                    <div className="col-lg-6 col-md-6 col-12">
+                      <div className="d-flex gap-2 align-items-center">
 
-                {loading && (
-                  <div className="text-center py-4">
-                    <div className="spinner-border" role="status">
-                      <span className="visually-hidden">{t("Loading...")}</span>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6 col-md-6 col-12">
+                      <div className="filter_field d-flex gap-2 justify-content-end">
+                        {hasWritePermission() && (
+                          <button className="button" onClick={() => { setLoader(true); router.push('/admin/plans/addplans') }}>
+                            {t("Add Plan")}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
-                )}
 
-                <div className="table-responsive">
-                  <DataTable
-                    columns={columns}
-                    data={plans}
-                  />
-                  {/* <table className="table">
+                  {loading && (
+                    <div className="text-center py-4">
+                      <div className="spinner-border" role="status">
+                        <span className="visually-hidden">{t("Loading...")}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="table-responsive">
+                    <DataTable
+                      columns={columns}
+                      data={plans}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
+                    />
+                    {/* <table className="table">
                     <thead>
                       <tr>
                         <th>{t("Date")}</th>
@@ -378,50 +409,50 @@ return (
                       )}
                     </tbody>
                   </table> */}
-                </div>
-
-                {totalPages > 1 && (
-                  <div className="pagination-container d-flex justify-content-between align-items-center">
-                    <div className="pagination-info">
-                      <small className="text-muted">
-                        Page {currentPage + 1} of {totalPages}
-                        ({totalItems} total items)
-                      </small>
-                    </div>
-                    <ReactPaginate
-                      pageCount={totalPages}
-                      pageRangeDisplayed={3}
-                      marginPagesDisplayed={1}
-                      onPageChange={handlePageClick}
-                      containerClassName="pagination"
-                      activeClassName="active"
-                      previousLabel="Previous"
-                      nextLabel="Next"
-                      breakLabel="..."
-                      forcePage={currentPage}
-                      disabledClassName="disabled"
-                    />
                   </div>
-                )}
+
+                  {totalPages > 1 && (
+                    <div className="pagination-container d-flex justify-content-between align-items-center">
+                      <div className="pagination-info">
+                        <small className="text-muted">
+                          Page {currentPage + 1} of {totalPages}
+                          ({totalItems} total items)
+                        </small>
+                      </div>
+                      <ReactPaginate
+                        pageCount={totalPages}
+                        pageRangeDisplayed={3}
+                        marginPagesDisplayed={1}
+                        onPageChange={handlePageClick}
+                        containerClassName="pagination"
+                        activeClassName="active"
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        breakLabel="..."
+                        forcePage={currentPage}
+                        disabledClassName="disabled"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
+        {loader && <Loader />}
       </div>
-      {loader && <Loader />}
-    </div>
 
 
-    {hasWritePermission() && (
-      <DeletePlan
-        show={deletePlans}
-        data={plansId}
-        onHide={handleDeleteSuccess}
-      />
-    )}
+      {hasWritePermission() && (
+        <DeletePlan
+          show={deletePlans}
+          data={plansId}
+          onHide={handleDeleteSuccess}
+        />
+      )}
 
-  </>
-);
+    </>
+  );
 }
 
 export default PlansManage;

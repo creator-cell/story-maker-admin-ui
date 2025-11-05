@@ -16,31 +16,51 @@ export default function Categories() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [total, setTotalItems] = useState(0);
   const [search, setSearch] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
-  const itemsPerPage = 20;
+  const itemsPerPage = 10;
   const [loader, setLoader] = useState(false);
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const { t } = useTranslation();
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".custom-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
   const getCategories = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
-      let url = `${API_URL}category?`;
+      let url = `${API_URL}category?page=${page}&pageSize=${itemsPerPage}`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
 
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      setCategories(res.data.categories || []);
-      setTotalPages(res.data.pagination?.totalPages || 1);
-      setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
+      if (res.data.items) {
+        setCategories(res.data.items || []);
+        setTotalPages(res.data.pagination?.totalPages || 1);
+        setTotalItems(res.data.pagination?.total || 0);
+        setCurrentPage((res.data.pagination?.page || 1) -1);
+      }
+
     } catch (err) {
       toast.error(t("Failed to fetch categories"));
       setCategories([]);
       setTotalPages(0);
+      setTotalItems(0);
     } finally {
       setLoader(false);
     }
@@ -64,6 +84,21 @@ export default function Categories() {
     setDeleteUser(true);
     setCategoryId(id);
   };
+  useEffect(() => {
+    if (categories.length > 0) {
+      setTimeout(() => {
+        const allRows = document.querySelectorAll(".rdt_TableRow");
+
+        if (allRows.length > 5) {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+          const lastThree = Array.from(allRows).slice(-3);
+          lastThree.forEach((row) => row.classList.add("drop-up"));
+        } else {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+        }
+      }, 0);
+    }
+  }, [categories]);
   const columns = [
     {
       name: t("Category name"),
@@ -76,25 +111,25 @@ export default function Categories() {
     {
       name: t("Action"),
       cell: (row) => (
-        <div className="d-flex" data-label="Action">
-          <div className="dropdown">
-            <button
-              className="border-0 bg-transparent"
-              type="button"
-              id={`dropdownMenuButton-${row._id}`}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="fa fa-ellipsis"></i>
-            </button>
+        <div className="d-flex position-relative custom-dropdown" data-label="Action">
+          <button
+            className="border-0 bg-transparent"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleDropdown(row._id);
+            }}
+          >
+            <i class="fa fa-ellipsis"></i>
+          </button>
+          {openDropdownId === row._id && (
             <ul
-              className="dropdown-menu"
-              aria-labelledby={`dropdownMenuButton-${row._id}`}
+              className="dropdown-menu show right-side"
             >
               <li>
                 <button
                   className={`admin_action_edit`}
-                  onClick={() => handleEditCategory(row._id)}
+                  onClick={(e) => { e.stopPropagation(); handleEditCategory(row._id); setOpenDropdownId(null); }}
                 >
                   <i className="fa-solid fa-pencil me-2"></i> {t("Edit")}
                 </button>
@@ -102,14 +137,15 @@ export default function Categories() {
               <li>
                 <button
                   className={`admin_action_delete`}
-                  onClick={() => handleDeleteCategory(row._id)}
+                  onClick={(e) => { e.stopPropagation(); handleDeleteCategory(row._id); setOpenDropdownId(null); }}
                 >
                   <i className="fa fa-trash me-2"></i> {t("Delete")}
                 </button>
               </li>
             </ul>
-          </div>
+          )}
         </div>
+
       ),
     },
   ];
@@ -182,7 +218,14 @@ export default function Categories() {
                     </div>
                   )}
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={categories} />
+                    <DataTable columns={columns} data={categories}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={total}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page) => getCategories(page)}
+                      paginationPerPage={itemsPerPage}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
                     {/* <table className="table">
                       <thead>
                         <tr>
@@ -242,7 +285,7 @@ export default function Categories() {
                       </tbody>
                     </table> */}
                   </div>
-                  {totalPages > 1 && (
+                  {/* {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
@@ -265,7 +308,7 @@ export default function Categories() {
                         disabledClassName="disabled"
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

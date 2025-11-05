@@ -21,7 +21,21 @@ export default function Roles() {
   const [updateUserId, setUpdateUserId] = useState();
   const [loader, setLoader] = useState(false);
   const { t } = useTranslation();
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".custom-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
   const [userPermissions, setUserPermissions] = useState({
     read: false,
     write: false,
@@ -179,6 +193,21 @@ export default function Roles() {
     setLoader(true);
     router.push("/admin/role/add-role");
   };
+    useEffect(() => {
+        if (users.length > 0) {
+          setTimeout(() => {
+            const allRows = document.querySelectorAll(".rdt_TableRow");
+    
+            if (allRows.length > 4) {
+              allRows.forEach((row) => row.classList.remove("drop-up"));
+              const lastThree = Array.from(allRows).slice(-3);
+              lastThree.forEach((row) => row.classList.add("drop-up"));
+            } else {
+              allRows.forEach((row) => row.classList.remove("drop-up"));
+            }
+          }, 0);
+        }
+      }, [users]);
   const columns = [
     {
       name: t('Name'),
@@ -246,26 +275,25 @@ export default function Roles() {
     {
       name: t('Action'),
       cell: row => (
-        <div className="d-flex" data-label="Action">
-          <div className="dropdown">
-            <button
-              className="border-0 bg-transparent"
-              type="button"
-              id={`dropdownMenuButton-${row._id}`}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i className="fa fa-ellipsis"></i>
-            </button>
-
+        <div className="d-flex position-relative custom-dropdown" data-label="Action">
+          <button
+            className="border-0 bg-transparent"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleDropdown(row._id);
+            }}
+          >
+            <i className="fa fa-ellipsis"></i>
+          </button>
+          {openDropdownId === row._id && (
             <ul
-              className="dropdown-menu"
-              aria-labelledby={`dropdownMenuButton-${row._id}`}
+              className="dropdown-menu show right-side"
             >
               <li>
                 <button
                   className="admin_action_edit"
-                  onClick={() => handleUserUpdate(row._id)}
+                  onClick={(e) => { e.stopPropagation();handleUserUpdate(row._id);  setOpenDropdownId(null);}}
                 >
                   <i className="fa fa-edit me-1"></i> {t("Edit")}
                 </button>
@@ -274,14 +302,14 @@ export default function Roles() {
                 <li>
                   <button
                     className="admin_action_delete"
-                    onClick={() => handleUserDelete(row._id)}
+                    onClick={(e) => {e.stopPropagation(); handleUserDelete(row._id);setOpenDropdownId(null);}}
                   >
                     <i className="fa fa-trash me-1"></i> {t("Delete")}
                   </button>
                 </li>
               )}
             </ul>
-          </div>
+          )}
         </div>
       ),
       width: "120px",
@@ -317,6 +345,7 @@ export default function Roles() {
                     <DataTable
                       columns={columns}
                       data={users}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
                     />
                     {/* <table className="table">
                       <thead>

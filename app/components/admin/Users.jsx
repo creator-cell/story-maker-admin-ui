@@ -29,11 +29,26 @@ export default function Users() {
     write: false,
     both: false,
   });
-  const itemsPerPage = 20;
+  const itemsPerPage = 10;
   const router = useRouter();
   const [role, setRole] = useState("");
   const [userRolePermissions, setUserRolePermissions] = useState(null);
 
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".custom-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
   const updateUserStatus = async (updateUserId) => {
     try {
       const response = await axios({
@@ -119,7 +134,6 @@ export default function Users() {
 
       if (response.data) {
         setUsers(response.data.items);
-
         setTotalPages(response.data.pagination.totalPages);
         setTotalItems(response.data.pagination.totalItems);
         setCurrentPage(response.data.pagination.currentPage - 1);
@@ -183,6 +197,22 @@ export default function Users() {
     if (sortByValue !== field) return "fa-sort";
     return sortOrder === "asc" ? "fa-sort-up" : "fa-sort-down";
   };
+useEffect(() => {
+    if (users.length > 0) {
+      setTimeout(() => {
+        const allRows = document.querySelectorAll(".rdt_TableRow");
+
+        if (allRows.length > 5) {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+          const lastThree = Array.from(allRows).slice(-3);
+          lastThree.forEach((row) => row.classList.add("drop-up"));
+        } else {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+        }
+      }, 0);
+    }
+  }, [users]);
+
   const columns = [
     {
       name: (
@@ -242,22 +272,31 @@ export default function Users() {
       name: t('Action'),
       cell: row => (
         hasWritePermission() && (
-          <div className="d-flex" data-label="Action">
-            <div className="dropdown">
-              <button
-                className="border-0 bg-transparent"
-                type="button"
-                id={`dropdownMenuButton-${row._id}`}
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
+          <div className="d-flex position-relative custom-dropdown"
+            data-label="Action">
+
+            <button
+              className="border-0 bg-transparent"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleDropdown(row._id);
+              }}
+            >
+              <i class="fa fa-ellipsis"></i>
+            </button>
+            {openDropdownId === row._id && (
+              <ul className="dropdown-menu show right-side"
               >
-                <i class="fa fa-ellipsis"></i>
-              </button>
-              <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${row._id}`}>
                 <li>
                   <button
                     className="admin_action_edit"
-                    onClick={() => handleEditUser(row._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditUser(row._id);
+                      setOpenDropdownId(null);
+                    }
+                    }
                   >
                     <i className="fa-solid fa-pencil me-1"></i> {t("Edit")}
                   </button>
@@ -265,13 +304,17 @@ export default function Users() {
                 <li>
                   <button
                     className="admin_action_delete"
-                    onClick={() => handleUserDelete(row._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUserDelete(row._id);
+                      setOpenDropdownId(null);
+                    }}
                   >
                     <i className="fa fa-trash me-1"></i> {t("Delete")}
                   </button>
                 </li>
               </ul>
-            </div>
+            )}
           </div>
         )
       )
@@ -434,6 +477,13 @@ export default function Users() {
                     <DataTable
                       columns={columns}
                       data={users}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={totalItems}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page)=> getUsers(page, sortByValue, searchUser, sortOrder)}
+                      paginationPerPage={itemsPerPage}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
                     />
 
                     {/* <table className="table">
@@ -569,7 +619,7 @@ export default function Users() {
                     </table> */}
                   </div>
 
-                  {totalPages > 1 && (
+                  {/* {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
@@ -591,7 +641,7 @@ export default function Users() {
                         disabledClassName="disabled"
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

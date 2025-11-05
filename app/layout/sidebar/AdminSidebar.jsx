@@ -258,15 +258,17 @@ const AdminSidebar = ({ locale }) => {
                     />
                     <div className="d-flex justify-content-between flex-column h-100 mt-4">
                       <ul className="navbar-nav mb-2 mb-lg-0">
-                         {hasMenuAccess("Dashboard") && (
+                        {hasMenuAccess("Dashboard") && (
                           <li className="nav-item">
                             <CustomLink
                               className={`nav-link ${
-                                activeLink === "/admin/dashboard" ? "active" : ""
+                                activeLink === "/admin/dashboard"
+                                  ? "active"
+                                  : ""
                               }`}
                               href={`/admin/dashboard`}
                             >
-                            <i class="fa-solid fa-grip"></i>
+                              <i class="fa-solid fa-grip"></i>
                               {t("Analytic Dashboard")}
                             </CustomLink>
                           </li>
@@ -308,7 +310,7 @@ const AdminSidebar = ({ locale }) => {
                               }`}
                               href={`/admin/role`}
                             >
-                              <i className="fa-solid fa-newspaper"></i>
+                              <i class="fa-solid fa-users-gear"></i>
                               {t("Role")}
                               {!hasWriteAccess("Roles") && (
                                 <small className="text-muted ms-1">
@@ -414,7 +416,7 @@ const AdminSidebar = ({ locale }) => {
                             </CustomLink>
                           </li>
                         )}
-                        {hasMenuAccess("Dashboard") && (
+                        {/* {hasMenuAccess("Dashboard") && (
                           <li className="nav-item">
                             <CustomLink
                               className={`nav-link ${
@@ -424,7 +426,7 @@ const AdminSidebar = ({ locale }) => {
                               }`}
                               href={`/admin/dashboard`}
                             >
-                              <i className="fa-solid fa-newspaper"></i>
+                              <i class="fa-solid fa-grip"></i>
                               {t("Dashboard")}
                               {!hasWriteAccess("Dashboard") && (
                                 <small className="text-muted ms-1">
@@ -433,7 +435,7 @@ const AdminSidebar = ({ locale }) => {
                               )}
                             </CustomLink>
                           </li>
-                        )}
+                        )} */}
 
                         <li className="nav-item">
                           <button

@@ -1,6 +1,6 @@
 {
   "User List": "User List",
-  "Clear": "Clears",
+  "Clear": "Clear",
   "Add User": "Add User",
   "Loading...": "Loading...",
   "First Name": "First Name",
@@ -336,5 +336,21 @@
   "no Description": "no Description",
   "no Tags": "no Tags",
   "no Price": "no Price",
-  "no Features": "no Features"
+  "no Features": "no Features",
+  "Active Users": "Active Users",
+  "Total active users this month": "Total active users this month",
+  "Designs Created": "Designs Created",
+  "Total designs made by users": "Total designs made by users",
+  "User Growth Over Time": "User Growth Over Time",
+  "Start Date:": "Start Date:",
+  "End Date:": "End Date:",
+  "Show Chart": "Show Chart",
+  "Select a date range to view user growth.": "Select a date range to view user growth.",
+  "Template Usage Statistics": "Template Usage Statistics",
+  "Previous": "Previous",
+  "Next": "Next",
+  "Top used templates and assets": "Top used templates and assets",
+  "There are no records to display": "There are no records to display",
+  "S3 bucket": "S3 bucket",
+  "total used storage": "total used storage"
 }

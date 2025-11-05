@@ -14,15 +14,31 @@ export default function Tickets() {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+
+  const [total, setTotalItems] = useState(0);
   const [search, setSearch] = useState("");
   const [loader, setLoader] = useState(false);
   const { t } = useTranslation();
   const [moderator, setAllModerator] = useState();
-  const itemsPerPage = 20;
+  const itemsPerPage = 10;
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".custom-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
   const getTickets = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
@@ -32,13 +48,17 @@ export default function Tickets() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      setTickets(res.data.data || []);
-      setTotalPages(res.data.pagination?.totalPages || 1);
-      setCurrentPage(res.data.pagination?.currentPage - 1 || 0);
+      if (res.data) {
+        setTickets(res.data.data || []);
+
+        setTotalItems(res.data.total || 0);
+        setCurrentPage((res.data.page || 1) - 1);
+      }
     } catch (err) {
       toast.error(t("Failed to fetch tickets"));
       setTickets([]);
-      setTotalPages(0);
+
+      setTotalItems(0);
     } finally {
       setLoader(false);
     }
@@ -67,6 +87,7 @@ export default function Tickets() {
         }
       );
       toast.success(t("Ticket Resolved"));
+
       getTickets(currentPage + 1, search);
       setLoader(false);
     } catch (err) {
@@ -104,17 +125,33 @@ export default function Tickets() {
     setLoader(true);
     router.push(`/admin/tickets/add`);
   };
+  useEffect(() => {
+    if (tickets.length > 0) {
+      setTimeout(() => {
+        const allRows = document.querySelectorAll(".rdt_TableRow");
+
+        if (allRows.length > 5) {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+          const lastThree = Array.from(allRows).slice(-3);
+          lastThree.forEach((row) => row.classList.add("drop-up"));
+        } else {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+        }
+      }, 0);
+    }
+  }, [tickets]);
+
   const columns = [
     {
       name: t("User"),
       selector: (row) => row?.userId?.name || t("No User"),
       wrap: true,
-      width: "150px",
+      width: "200px",
     },
     {
       name: t("Status"),
       selector: (row) => row.status,
-      width: "100px",
+      width: "200px",
     },
     ...(currentUser?.role?.name === "Super Admin"
       ? [
@@ -147,31 +184,37 @@ export default function Tickets() {
             : ""}
         </div>
       ),
-      grow: 2,
+      minWidth: "200px",
+      maxWidth: "400px",
       wrap: true,
     },
     {
       name: t("Action"),
       cell: (row) => (
-        <div className="d-flex" data-label="Action">
-          <div className="dropdown">
-            <button
-              className="border-0 bg-transparent"
-              type="button"
-              id={`ticketDropdownButton-${row._id}`}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i className="fa fa-ellipsis"></i>
-            </button>
-            <ul
-              className="dropdown-menu"
-              aria-labelledby={`ticketDropdownButton-${row._id}`}
-            >
+        <div
+          className="d-flex position-relative custom-dropdown"
+          data-label="Action"
+        >
+          <button
+            className="border-0 bg-transparent"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleDropdown(row._id);
+            }}
+          >
+            <i className="fa fa-ellipsis"></i>
+          </button>
+          {openDropdownId === row._id && (
+            <ul className="dropdown-menu show right-side">
               <li>
                 <button
                   className="admin_action_edit dropdown-item d-flex align-items-center gap-2 "
-                  onClick={() => handleUserUpdate(row._id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUserUpdate(row._id);
+                    setOpenDropdownId(null);
+                  }}
                   disabled={row.status === "Resolved"}
                 >
                   <div className="eye-icon">
@@ -183,7 +226,11 @@ export default function Tickets() {
               <li>
                 <button
                   className={`admin_action_resolve dropdown-item d-flex align-items-center gap-2 `}
-                  onClick={() => handleResolve(row._id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleResolve(row._id);
+                    setOpenDropdownId(null);
+                  }}
                   disabled={row.status === "Resolved"}
                 >
                   <i className="fa-solid fa-circle-check"></i>
@@ -195,7 +242,7 @@ export default function Tickets() {
                 </button>
               </li>
             </ul>
-          </div>
+          )}
         </div>
       ),
       width: "100px",
@@ -270,32 +317,22 @@ export default function Tickets() {
                     </div>
                   )}
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={tickets} responsive />
+                    <DataTable
+                      columns={columns}
+                      data={tickets}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={total}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page) => getTickets(page)}
+                      paginationPerPage={itemsPerPage}
+                      noDataComponent={
+                        <div className="text-center py-4">
+                          {t("There are no records to display")}
+                        </div>
+                      }
+                    />
                   </div>
-                  {totalPages > 1 && (
-                    <div className="pagination-container d-flex justify-content-between align-items-center">
-                      <div className="pagination-info">
-                        <small className="text-muted">
-                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}
-                        </small>
-                      </div>
-                      <ReactPaginate
-                        pageCount={totalPages}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={1}
-                        onPageChange={(selected) =>
-                          getTickets(selected.selected + 1, search)
-                        }
-                        containerClassName="pagination"
-                        activeClassName="active"
-                        previousLabel="Previous"
-                        nextLabel="Next"
-                        breakLabel="..."
-                        forcePage={currentPage}
-                        disabledClassName="disabled"
-                      />
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

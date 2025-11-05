@@ -34,7 +34,7 @@ const AssetsManage = () => {
     write: false,
     both: false,
   });
-  const itemsPerPage = 20;
+  const itemsPerPage = 2;
   const router = useRouter();
 
   const hasWritePermission = () => {
@@ -48,7 +48,21 @@ const AssetsManage = () => {
   const hasUsersMenuAccess = () => {
     return userPermissions.hasUsersMenu;
   };
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".custom-dropdown")) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
   const getAssets = async (
     page = 1,
     sort = sortByValue,
@@ -69,16 +83,22 @@ const AssetsManage = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      setAssets(response.data?.data?.assets?.items);
+      if (response.data.data.assets) {
+        setAssets(response.data?.data?.assets?.items || [])
+        setTotalPages(response.data.data.assets.pagination.totalPages || 1)
+        setTotalItems(response.data.data.assets.pagination.totalItems || 0)
+        setCurrentPage((response.data.data.assets.pagination.currentPage || 1) -1)
+      }
     } catch (error) {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
         toast.error(t("You don't have permission to view users 9999"));
-        toast.error(t("You don't have permission to view users 9999"));
       } else {
         toast.error(t("Failed to fetch users"));
-        toast.error(t("Failed to fetch users"));
       }
+      setAssets([]);
+      setTotalPages(0);
+      setTotalItems(0)
     } finally {
       setLoader(false);
     }
@@ -269,7 +289,21 @@ const AssetsManage = () => {
 
     initializeUserPermissions();
   }, []); // Only run on component mount
+  useEffect(() => {
+    if (assets.length > 0) {
+      setTimeout(() => {
+        const allRows = document.querySelectorAll(".rdt_TableRow");
 
+        if (allRows.length > 3) {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+          const lastThree = Array.from(allRows).slice(-3);
+          lastThree.forEach((row) => row.classList.add("drop-up"));
+        } else {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+        }
+      }, 0);
+    }
+  }, [assets]);
   const columns = [
     {
       name: t("Date"),
@@ -324,7 +358,7 @@ const AssetsManage = () => {
     {
       name: t("Tags") || t("no Tags"),
       cell: (row) => (
-        <div className="d-flex flex-wrap gap-3 justify-content-start">
+        <div className="d-flex flex-wrap gap-1 justify-content-start">
           {row.tags?.map((p) => (
             <span className="badge text-white m-1" key={p}>
               {p.charAt(0).toUpperCase() + p.slice(1)}
@@ -364,26 +398,26 @@ const AssetsManage = () => {
       name: t("Action"),
       cell: (row) =>
         hasWritePermission() && (
-          <div className="d-flex" data-label="Action">
-            <div className="dropdown">
-              <button
-                className="border-0 bg-transparent"
-                type="button"
-                id={`dropdownMenuButton-${row._id}`}
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="fa fa-ellipsis"></i>
-              </button>
+          <div className="d-flex position-relative custom-dropdown" data-label="Action">
+            <button
+              className="border-0 bg-transparent"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleDropdown(row._id);
+              }}
+            >
+              <i class="fa fa-ellipsis"></i>
+            </button>
+            {openDropdownId === row._id && (
               <ul
-                className="dropdown-menu"
-                aria-labelledby={`dropdownMenuButton-${row._id}`}
+                className="dropdown-menu show right-side"
               >
                 <li>
                   {" "}
                   <button
                     className="admin_action_edit"
-                    onClick={() => handleEditAssets(row._id)}
+                    onClick={(e) => { e.stopPropagation(); handleEditAssets(row._id); setOpenDropdownId(null); }}
                     title="Edit Asset"
                   >
                     <i className="fa fa-edit me-2"></i> {t("Edit")}
@@ -393,7 +427,7 @@ const AssetsManage = () => {
                   {" "}
                   <button
                     className="admin_action_clone"
-                    onClick={() => handleCloneAssets(row._id)}
+                    onClick={(e) => { e.stopPropagation(); handleCloneAssets(row._id); setOpenDropdownId(null); }}
                     title="Clone Asset"
                   >
                     <i className="fa fa-clone me-2"></i> {t("Clone")}
@@ -403,14 +437,14 @@ const AssetsManage = () => {
                   {" "}
                   <button
                     className="admin_action_delete"
-                    onClick={() => handleAssetDelete(row._id)}
+                    onClick={(e) => { e.stopPropagation(); handleAssetDelete(row._id); setOpenDropdownId(null); }}
                     title="Delete User"
                   >
                     <i className="fa fa-trash me-2"></i> {t("Delete")}
                   </button>
                 </li>
               </ul>
-            </div>
+            )}
           </div>
         ),
     },
@@ -462,10 +496,18 @@ const AssetsManage = () => {
                   )}
 
                   <div className="table-responsive">
-                    <DataTable columns={columns} data={assets} />
+                    <DataTable columns={columns}
+                      data={assets}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={totalItems}
+                      paginationDefaultPage={currentPage + 1}
+                      onChangePage={(page) => getAssets(page)}
+                      paginationPerPage={itemsPerPage}
+                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
                   </div>
 
-                  {totalPages > 1 && (
+                  {/* {totalPages > 1 && (
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
@@ -487,7 +529,7 @@ const AssetsManage = () => {
                         disabledClassName="disabled"
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
