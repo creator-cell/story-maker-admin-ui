@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import CustomLink from "../../components/CustomLink";
 import { logout, userStore } from "../../redux/UserStore";
 import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
@@ -9,6 +8,8 @@ import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 import Loader from "../../components/Loader";
+import Link from "next/link";
+
 
 const AdminSidebar = ({ locale }) => {
   const { t } = useTranslation();
@@ -271,7 +272,7 @@ const AdminSidebar = ({ locale }) => {
                     <ul className="navbar-nav mb-2 mb-lg-0">
                       {hasMenuAccess("Dashboard") && (
                         <li className="nav-item">
-                          <CustomLink
+                          <Link
                             className={`nav-link ${
                               activeLink === "/admin/dashboard"
                                 ? "active"
@@ -281,13 +282,13 @@ const AdminSidebar = ({ locale }) => {
                           >
                             <i className="fa-solid fa-grip"></i>
                             {t("Analytic Dashboard")}
-                          </CustomLink>
+                          </Link>
                         </li>
                       )}
 
                       {hasMenuAccess("Users") && (
                         <li className="nav-item">
-                          <CustomLink
+                          <Link
                             className={`nav-link ${
                               activeLink === "/admin/users" ? "active" : ""
                             }`}
@@ -295,13 +296,13 @@ const AdminSidebar = ({ locale }) => {
                           >
                             <i className="fa-solid fa-users"></i>
                             {t("Users")}
-                          </CustomLink>
+                          </Link>
                         </li>
                       )}
 
                       {hasMenuAccess("Users") && (
                         <li className="nav-item">
-                          <CustomLink
+                          <Link
                             className={`nav-link ${
                               activeLink === "/admin/tickets" ? "active" : ""
                             }`}
@@ -309,13 +310,13 @@ const AdminSidebar = ({ locale }) => {
                           >
                             <i className="fa-solid fa-ticket"></i>
                             {t("Ticket")}
-                          </CustomLink>
+                          </Link>
                         </li>
                       )}
 
                       {hasMenuAccess("Roles") && (
                         <li className="nav-item">
-                          <CustomLink
+                          <Link
                             className={`nav-link ${
                               activeLink === "/admin/role" ? "active" : ""
                             }`}
@@ -328,13 +329,13 @@ const AdminSidebar = ({ locale }) => {
                                 ({t("Read Only")})
                               </small>
                             )}
-                          </CustomLink>
+                          </Link>
                         </li>
                       )}
 
                       {hasMenuAccess("Category") && (
                         <li className="nav-item">
-                          <CustomLink
+                          <Link
                             className={`nav-link ${
                               activeLink === "/admin/category" ? "active" : ""
                             }`}
@@ -347,13 +348,13 @@ const AdminSidebar = ({ locale }) => {
                                 ({t("Read Only")})
                               </small>
                             )}
-                          </CustomLink>
+                          </Link>
                         </li>
                       )}
 
                       {hasMenuAccess("Template") && (
                         <li className="nav-item">
-                          <CustomLink
+                          <Link
                             className={`nav-link ${
                               activeLink === "/admin/template" ? "active" : ""
                             }`}
@@ -366,13 +367,13 @@ const AdminSidebar = ({ locale }) => {
                                 ({t("Read Only")})
                               </small>
                             )}
-                          </CustomLink>
+                          </Link>
                         </li>
                       )}
 
                       {hasMenuAccess("Assets") && (
                         <li className="nav-item">
-                          <CustomLink
+                          <Link
                             className={`nav-link ${
                               activeLink === "/admin/assets" ? "active" : ""
                             }`}
@@ -385,13 +386,13 @@ const AdminSidebar = ({ locale }) => {
                                 ({t("Read Only")})
                               </small>
                             )}
-                          </CustomLink>
+                          </Link>
                         </li>
                       )}
 
                       {hasMenuAccess("Notification") && (
                         <li className="nav-item">
-                          <CustomLink
+                          <Link
                             className={`nav-link ${
                               activeLink === "/admin/notification"
                                 ? "active"
@@ -406,12 +407,12 @@ const AdminSidebar = ({ locale }) => {
                                 (Read Only)
                               </small>
                             )}
-                          </CustomLink>
+                          </Link>
                         </li>
                       )}
                       {hasMenuAccess("Plans") && (
                         <li className="nav-item">
-                          <CustomLink
+                          <Link
                             className={`nav-link ${
                               activeLink === "/admin/plans" ? "active" : ""
                             }`}
@@ -424,7 +425,7 @@ const AdminSidebar = ({ locale }) => {
                                 (Read Only)
                               </small>
                             )}
-                          </CustomLink>
+                          </Link>
                         </li>
                       )}
                       <li className="nav-item">
