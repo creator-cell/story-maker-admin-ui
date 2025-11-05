@@ -10547,10 +10547,6 @@ html {
   display: inline-block;
 }
 
-.canvas-container {
-  width: 100%;
-}
-
 .canvas-container .lower-canvas {
   width: 100% !important;
   border: 1px solid rgb(204, 204, 204) !important;
@@ -10940,25 +10936,6 @@ html {
 /* pagination css end  */
 
 /* template css start  */
-.properties {
-  z-index: 10;
-  background-color: var(--form-color);
-  border-left: 1px solid rgb(229, 231, 235);
-  width: 315px;
-  position: absolute;
-  top: 65px;
-  right: 10px;
-  height: 100vh;
-  overflow: auto;
-  color: var(--form-textcolor);
-}
-
-.right_text .properties {
-  position: absolute;
-  top: 65px;
-  left: 10px;
-  right: unset;
-}
 
 .properties .flip-h button {
   padding: 6px 15px 5px !important;
@@ -11067,27 +11044,9 @@ html {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* .upgrade-button {
-  background: #ffffff12;
-  padding: 10px;
-  font-size: 12px;
-} */
-/* 
-.upgrade-button svg {
-  height: 15px;
-} */
-
 .inner_container .header-gradient .search-input {
   min-width: 350px;
 }
-
-/* .icon-btn {
-  border-radius: 50%;
-  height: 35px;
-  width: 35px;
-} */
-
-
 
 .inner_container .editor-main .secondary-panel .panel-content .pencil-icon {
   height: 20px;
@@ -11135,21 +11094,6 @@ html {
 
 .inner_container .editor-main .secondary-panel .panel-content .pellete-icon {
   color: #8b3dff !important;
-}
-
-.inner_container .design-box .canvas-container {
-  user-select: none !important;
-  /* width: 90% !important; */
-  width: calc(100% - 126px) !important;
-  position: absolute !important;
-  top: 15% !important;
-  left: 8% !important;
-  transform: translate(0) !important;
-  height: 80% !important;
-}
-
-.right_text .inner_container .design-box .canvas-container {
-  left: 3% !important;
 }
 
 .inner_container .design-box .lower-canvas,
@@ -11271,7 +11215,7 @@ html {
   opacity: 0.8;
 }
 
-.inner_container .editor-main {
+.inner_container .editor-main {position:relative;
   height: 100vh;
   border: 1px solid #d1d1d1;
 }
@@ -11318,6 +11262,16 @@ html {
 .toggle_theme .dropdown-menu .dropdown-item svg,
 .toggle_theme .dropdown-menu .dropdown-item i{color:var(--form-textcolor);}
 
+
+/* New design for template by krishna */
+
+.canva_body{display: flex;justify-content: flex-start;align-items: center;padding: 0;margin: 0;}
+.canva_body .design-box{flex:1;display:block;width: 100%;margin:0;padding:0;}
+.canva_body .design-box .canvas-container{display:block;position:unset !important;width:calc(100% - 20px) !important;height:calc(100vh - 20px) !important;margin:auto auto;padding:0;transform:none !important;}
+.canva_body .properties {display: block;max-width:300px;width:100%;background-color: var(--form-color);border-left: 1px solid rgb(229, 231, 235);height: 100vh;overflow: auto;color: var(--form-textcolor);}
+
+
+/* New design for template by krishna */
 
 /* badge start  */
 .ReactTags__tags .ReactTags__selected span {
@@ -11386,74 +11340,18 @@ html {
 }
 
 
-
-@media (max-width: 1366px) {
-  .inner_container .design-box .canvas-container {
-    user-select: none !important;
-    width: calc(100% - 126px) !important;
-    position: absolute !important;
-    top: 15% !important;
-    left: 8.5% !important;
-    transform: translate(0) !important;
-    height: 80% !important;
-  }
-
-  .right_text .inner_container .design-box .canvas-container {
-    left: 2% !important;
-  }
-}
-
 @media (max-width: 1280px) {
-  .inner_container .design-box .canvas-container {
-    user-select: none !important;
-    width: calc(100% - 126px) !important;
-    position: absolute !important;
-    top: 15% !important;
-    left: 9% !important;
-    transform: translate(0) !important;
-    height: 80% !important;
-  }
-
-  .right_text .inner_container .design-box .canvas-container {
-    left: 3% !important;
-  }
-
   .chat-container .chat .box .type-messages textarea {
     width: 350px;
   }
 }
 
-@media (max-width: 1199px) {
-  .inner_container .design-box .canvas-container {
-    user-select: none !important;
-    width: calc(100% - 126px) !important;
-    position: absolute !important;
-    top: 15% !important;
-    left: 10% !important;
-    transform: translate(0) !important;
-    height: 80% !important;
-  }
-
-  .right_text .inner_container .design-box .canvas-container {
-    left: 5% !important;
-  }
+@media only screen and (max-width: 991px)  {
+  .canva_body .properties{position: absolute;right: 0;z-index: 2;}
+  .secondary-panel{position: absolute;left:70px;z-index:6;}
 }
 
 @media (max-width: 992px) {
-  .inner_container .design-box .canvas-container {
-    user-select: none !important;
-    width: calc(100% - 126px) !important;
-    position: absolute !important;
-    top: 15% !important;
-    left: 11% !important;
-    transform: translate(0) !important;
-    height: 80% !important;
-  }
-
-  .right_text .inner_container .design-box .canvas-container {
-    left: 5% !important;
-  }
-
   .chat-container {
     width: 100%;
   }
@@ -11482,14 +11380,10 @@ html {
   }
 }
 
-@media only screen and (max-width: 991px)  {
-}
+
 
 
 @media (max-width: 767px) {
-  .properties {
-    width: 160px;
-  }
 
   .properties .height-and-width {
     flex-wrap: wrap;
@@ -11523,10 +11417,6 @@ html {
     width: 100%;
   }
 
-  .editor-main .secondary-panel {
-    width: 140px !important;
-  }
-
   .editor-main .secondary-panel .panel-content .add-text-btn button {
     padding: 10px !important;
     display: flex !important;
@@ -11546,20 +11436,6 @@ html {
 
   .editor-main .secondary-panel .panel-content .draw-button .draw-main input {
     width: 100%;
-  }
-
-  .inner_container .design-box .canvas-container {
-    user-select: none !important;
-    width: calc(100% - 148px) !important;
-    position: absolute !important;
-    top: 15% !important;
-    left: 17% !important;
-    transform: translate(0) !important;
-    height: 80% !important;
-  }
-
-  .right_text .inner_container .design-box .canvas-container {
-    left: 5% !important;
   }
 
   .chat-container .chat .box .type-messages textarea {
@@ -11601,10 +11477,6 @@ html {
     height: auto;
   }
 
-  .properties {
-    top: 55px;
-  }
-
   .header-gradient {
     flex-wrap: wrap;
     padding: 5px;
@@ -11613,20 +11485,6 @@ html {
 
   .inner_container .header-gradient .search-input {
     min-width: 250px;
-  }
-
-  .inner_container .design-box .canvas-container {
-    user-select: none !important;
-    width: calc(100% - 148px) !important;
-    position: absolute !important;
-    top: 15% !important;
-    left: 24% !important;
-    transform: translate(0) !important;
-    height: 80% !important;
-  }
-
-  .right_text .inner_container .design-box .canvas-container {
-    left: 12% !important;
   }
 
   .chat-container .chat .box .type-messages textarea {
@@ -11640,27 +11498,8 @@ html {
   }
 }
 
-@media (max-width: 400px) {
-  .properties {
-    top: 90px;
-  }
-}
 
 @media (min-width: 320px) and (max-width: 360px) {
-  .inner_container .design-box .canvas-container {
-    user-select: none !important;
-    width: calc(100% - 148px) !important;
-    height: 80% !important;
-    position: absolute !important;
-    top: 15% !important;
-    left: 33% !important;
-    transform: translate(0) !important;
-  }
-
-  .right_text .inner_container .design-box .canvas-container {
-    left: 24% !important;
-    width: calc(100% - 190px) !important;
-  }
 
   .admin_table .table-responsive table tbody tr td {
     vertical-align: middle;

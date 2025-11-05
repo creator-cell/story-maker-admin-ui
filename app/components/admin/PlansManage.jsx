@@ -262,7 +262,7 @@ const PlansManage = () => {
                 toggleDropdown(row._id);
               }}
             >
-              <i class="fa fa-ellipsis"></i>
+              <i className="fa fa-ellipsis"></i>
             </button>
             {openDropdownId === row._id && (
               <ul className="dropdown-menu show right-side">
@@ -332,83 +332,6 @@ const PlansManage = () => {
                       data={plans}
                       noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
                     />
-                    {/* <table className="table">
-                    <thead>
-                      <tr>
-                        <th>{t("Date")}</th>
-                        <th>{t("Name")}</th>
-                        <th>{t("Title")}</th>
-                        <th className="w-25">{t("Description")}</th>
-                        <th>{t("Price")}</th>
-                        <th>{t("Duration")} </th>
-                        <th>{t("Features")}</th>
-                        <th>{t("Uploaded By")}</th>
-                        {hasWritePermission() && <th>{t("Action")}</th>}
-                      </tr>
-                    </thead>
-                    <tbody className="table_body">
-                      {!loading && plans && plans?.map((plan, index) => {
-                        return (
-                          <tr key={plan._id}>
-                            <td data-label="Date">{new Date(plan?.createdAt)?.toLocaleDateString()}</td>
-                            <td data-label="Name">{plan?.name}</td>
-                            <td data-label="Title">{plan?.title}</td>
-                            <td data-label="Description">{plan?.description}</td>
-                            <td data-label="Price">{plan?.price ? parseFloat(plan?.price).toFixed(2) : ""}</td>
-                            <td data-label="Duration">{plan?.duration ? <span class="badge bg-success text-light m-1">{plan?.duration}</span> : ""}</td>
-                            <td data-label="Features">
-                              <div className="d-flex flex-wrap gap-3 justify-content-end">
-                                {plan?.features?.map(p => (
-                                  <span class="badge bg-Secondary text-light m-1">{p}</span>
-                                ))}
-                              </div>
-                            </td>
-                            <td data-label="Uploaded By">{plan?.uploadedBy?.email}</td>
-
-                            {hasWritePermission() && (
-                              <td data-label="Action">
-                                <div className="dropdown">
-                                  <button
-                                    className="border-0 bg-transparent"
-                                    type="button"
-                                    id={`dropdownMenuButton-${plan._id}`}
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                  >
-                                    <i class="fa fa-ellipsis"></i>
-                                  </button>
-                                  <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${plan._id}`}>
-                                    <li> <button
-                                      className="admin_action_edit"
-                                      onClick={() => handleEditPlans(plan._id)}
-                                    >
-                                      <i className="fa fa-edit me-2"></i> Edit
-                                    </button></li>
-                                    <li><button
-                                      className="admin_action_delete"
-                                      onClick={() => handlePlanDelete(plan._id)}
-                                    >
-                                      <i className="fa fa-trash me-2"></i> Delete
-                                    </button></li>
-                                  </ul>
-                                </div>
-                              </td>
-                            )}
-                          </tr>
-                        );
-                      })}
-
-                      {!loading && plans?.length === 0 && (
-                        <tr>
-                          <td colSpan={hasWritePermission() ? "4" : "3"} className="text-center py-4">
-                            {}
-                            No plans found
-                            {}
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table> */}
                   </div>
 
                   {totalPages > 1 && (

@@ -173,18 +173,13 @@ function MainEditor(props) {
   return (
     <div id="main_container" className="p-2">
       <div className="inner_container">
-        <div className="flex flex-col h-screen overflow-hidden">
+        <div className="d-flex flex-column h-100 overflow-hidden">
           <Header />
-          <div className="flex flex-1 overflow-hidden">
+          <div className="canva_body">
             {isEditing && <Sidebar />}
-
-            <div className="flex-1 flex flex-col overflow-hidden relative">
-              <main className="flex-1 overflow-hidden bg-[#f0f0f0] flex items-center justify-center">
-                <Canvas />
-              </main>
-            </div>
+            <Canvas />
+            {showProperties && isEditing && <Properties />}
           </div>
-          {showProperties && isEditing && <Properties />}
           {/* <SubscriptionModal
         isOpen={showPremiumModal}
         onClose={setShowPremiumModal}
