@@ -103,7 +103,7 @@ function Canvas() {
 
   return (
     <div
-      className="design-box overflow-auto"
+      className="design-box"
       ref={canvasContainerRef}
     >
       <canvas ref={canvasRef} />

@@ -407,7 +407,7 @@ const AssetsManage = () => {
                 toggleDropdown(row._id);
               }}
             >
-              <i class="fa fa-ellipsis"></i>
+              <i className="fa fa-ellipsis"></i>
             </button>
             {openDropdownId === row._id && (
               <ul
@@ -506,30 +506,6 @@ const AssetsManage = () => {
                       paginationPerPage={itemsPerPage}
                       noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
                   </div>
-
-                  {/* {totalPages > 1 && (
-                    <div className="pagination-container d-flex justify-content-between align-items-center">
-                      <div className="pagination-info">
-                        <small className="text-muted">
-                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}(
-                          {totalItems} {t("total items")})
-                        </small>
-                      </div>
-                      <ReactPaginate
-                        pageCount={totalPages}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={1}
-                        onPageChange={handlePageClick}
-                        containerClassName="pagination"
-                        activeClassName="active"
-                        previousLabel="Previous"
-                        nextLabel="Next"
-                        breakLabel="..."
-                        forcePage={currentPage}
-                        disabledClassName="disabled"
-                      />
-                    </div>
-                  )} */}
                 </div>
               </div>
             </div>

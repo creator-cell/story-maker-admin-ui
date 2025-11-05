@@ -117,7 +117,6 @@ function Header() {
               className={cn("h-5 w-5", saveStatus === "Saved" && "text-white")}
             />
           )}
-
           {saveStatus === "Saving..." && (
             <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-yellow-400 animate-pulse" />
           )}

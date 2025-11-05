@@ -392,12 +392,11 @@ function Properties() {
       console.error("Error while applying blur !", e);
     }
   };
-
   return (
     <>
       <div className="properties">
         <div className="d-flex align-items-center justify-content-between p-3 border-bottom">
-          <div className="d-flex align-items-center gap-2">
+          <div className="d-flex align-items-center justify-content-between gap-2">
             <span className="font-medium">{t("Properties")}</span>
           </div>
         </div>

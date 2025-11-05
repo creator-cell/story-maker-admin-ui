@@ -181,43 +181,6 @@ export default function Notification() {
                       data={notifications}
                       noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
                     />
-                    {/* <table className="table">
-                      <thead>
-                        <tr>
-                          <th className="cursor">{t("Date")}</th>
-                          <th className="cursor"> {t("Message")}</th>
-                          <th className="cursor">{t("Send By")}</th>
-                          <th className="cursor">{t("Type")}</th>
-                          <th className="cursor">{t("Deliver Count")}</th>
-                        </tr>
-                      </thead>
-                      <tbody className="table_body">
-                        {!loading &&
-                          notifications &&
-                          notifications.map((notification, index) => {
-                            return (
-                              <tr key={index}>
-                                <td data-label="Date">{new Date(notification?.updatedAt).toLocaleDateString()}</td>
-                                <td data-label="Message">{notification?.message}</td>
-                                <td data-label="Send By">{notification?.sendedBy?.name}</td>
-                                <td data-label="Type">{notification?.type?.toUpperCase()}</td>
-                                <td data-label="Deliver Count">{notification?.deliverCount}</td>
-                              </tr>
-                            );
-                          })}
-
-                        {!loading && notifications.length === 0 && (
-                          <tr>
-                            <td
-                              colSpan={"4"}
-                              className="text-center py-4"
-                            >
-                              {t("No notification found")}
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table> */}
                   </div>
 
                   {totalPages > 1 && (

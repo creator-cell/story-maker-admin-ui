@@ -120,7 +120,7 @@ export default function Categories() {
               toggleDropdown(row._id);
             }}
           >
-            <i class="fa fa-ellipsis"></i>
+            <i className="fa fa-ellipsis"></i>
           </button>
           {openDropdownId === row._id && (
             <ul
@@ -226,89 +226,8 @@ export default function Categories() {
                       onChangePage={(page) => getCategories(page)}
                       paginationPerPage={itemsPerPage}
                       noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
-                    {/* <table className="table">
-                      <thead>
-                        <tr>
-                          <th>{t("Category name")}</th>
-                          <th>{t("Category description")}</th>
-                          <th>{t("Action")}</th>
-                        </tr>
-                      </thead>
-                      <tbody className="table_body">
-                        {!loading &&
-                          categories.map((category) => (
-                            <tr key={category._id}>
-                              <td data-label="Category name">{category.name}</td>
-                              <td data-label="Category description">{category.description}</td>
-                              <td data-label="Action">
-                                <div className="dropdown">
-                                  <button
-                                    className="border-0 bg-transparent"
-                                    type="button"
-                                    id={`dropdownMenuButton-${category._id}`}
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                  >
-                                    <i class="fa fa-ellipsis"></i>
-                                  </button>
-                                  <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${category._id}`}>
-                                    <li>   <button
-                                      className={`admin_action_edit`}
-                                      onClick={() =>
-                                        handleEditCategory(category._id)
-                                      }
-                                    >
-                                      <i className="fa-solid fa-pencil me-2"></i> Edit
-                                    </button></li>
-                                    <li>    <button
-                                      className={`admin_action_delete`}
-                                      onClick={() =>
-                                        handleDeleteCategory(category._id)
-                                      }
-                                    >
-                                      <i className="fa fa-trash me-2"></i> Delete
-                                    </button></li>
-                                  </ul>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        {!loading && categories.length === 0 && (
-                          <tr>
-                            <td colSpan="5" className="text-center py-4">
-                              {search
-                                ? `No category found matching "${search}"`
-                                : "No category found"}
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table> */}
+                    
                   </div>
-                  {/* {totalPages > 1 && (
-                    <div className="pagination-container d-flex justify-content-between align-items-center">
-                      <div className="pagination-info">
-                        <small className="text-muted">
-                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}
-                        </small>
-                      </div>
-                      <ReactPaginate
-                        pageCount={totalPages}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={1}
-                        onPageChange={(selected) =>
-                          getCategories(selected.selected + 1, search)
-                        }
-                        containerClassName="pagination"
-                        activeClassName="active"
-                        previousLabel="Previous"
-                        nextLabel="Next"
-                        breakLabel="..."
-                        forcePage={currentPage}
-                        disabledClassName="disabled"
-                      />
-                    </div>
-                  )} */}
                 </div>
               </div>
             </div>
