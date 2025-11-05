@@ -354,5 +354,6 @@
   "S3 bucket": "S3 bucket",
   "total used storage": "إجمالي التخزين المستخدم",
   "Light": "فاتح",
-  "Dark": "داكن"
+  "Dark": "داكن",
+  "CSV File": "ملف CSV"
 }

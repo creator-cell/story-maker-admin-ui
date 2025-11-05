@@ -37,34 +37,6 @@ function Header() {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const { t } = useTranslation();
 
-  const fetchCategories = async () => {
-    console.log("fetch cat");
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY}category`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      const categoriesData = res.data.categories || [];
-      console.log("cat data", categoriesData);
-      setAllCategories(categoriesData);
-      const parentCategories = res.data?.categories.filter(
-        (cat) => !cat.parentCategory
-      );
-      console.log(parentCategories);
-      setParentCategories(parentCategories || []);
-      console.log(categoriesData);
-      console.log(parentCategories);
-    } catch {
-      toast.error(t("Failed to fetch categories"));
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
   useEffect(() => {
     if (!canvas) return;
     canvas.selection = isEditing;
@@ -81,20 +53,6 @@ function Header() {
 
   const handleExport = () => {
     setShowExportModal(true);
-  };
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-
-    const relatedSubCategories = allCategories.filter(
-      (cat) => cat.parentCategory === category._id
-    );
-    setSubCategories(relatedSubCategories);
-    setSelectedSubcategory(null);
-  };
-
-  const handleSubcategoryChange = (subcategory) => {
-    setSelectedSubcategory(subcategory);
   };
 
   return (

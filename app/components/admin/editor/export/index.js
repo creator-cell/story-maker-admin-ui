@@ -29,7 +29,7 @@ function ExportModal({ isOpen, onClose }) {
   const { designId } = useEditorStore();
   console.log("designId", designId);
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
-
+  const [templateData, setTemplateData] = useState("");
   const [selectedFormat, setSelectedFormat] = useState("pdf");
   const [isExporting, setIsExporting] = useState(false);
   const { t } = useTranslation();
@@ -43,7 +43,7 @@ function ExportModal({ isOpen, onClose }) {
     },
     {
       id: "json",
-      name: t("JSON Template"),
+      name: t("CSV File"),
       icon: FileJson,
       description: t("Editable template format"),
     },
@@ -62,91 +62,106 @@ function ExportModal({ isOpen, onClose }) {
     } catch (err) {}
   };
 
-  async function exportAsPDF(canvas, fileName = "PDF Design", options = {}) {
-    if (!canvas) return;
+  async function exportAsPDF(data, fileName = "Usage Report") {
+    if (!data) return;
 
     try {
-      const defaultOptions = {
-        format: "a4",
-        orientation: "landscape",
+      const pdf = new jsPDF({
+        orientation: "portrait",
         unit: "mm",
-        ...options,
+        format: "a4",
+      });
+
+      const margin = 15;
+      const lineHeight = 10;
+      let y = margin;
+
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(16);
+      pdf.text(fileName, margin, y);
+      y += lineHeight * 1.5;
+
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(12);
+
+      // Prepare and flatten data
+      const report = {
+        "Template ID": data._id,
+        "Template Name": data.name,
+        "Template Count": data.templateCount,
+        Status: data.status,
+        "User ID": data.user?._id,
+        "User Name": data.user?.name,
+        "User Email": data.user?.email,
+        "User Phone": data.user?.phone,
+        "Email Verified": data.user?.emailVerified ? "Yes" : "No",
+        "User Active": data.user?.isActive ? "Yes" : "No",
+        "Created At": new Date(data.createdAt).toLocaleString(),
+        "Updated At": new Date(data.updatedAt).toLocaleString(),
       };
 
-      const pdf = new jsPDF(
-        defaultOptions.orientation,
-        defaultOptions.unit,
-        defaultOptions.format
-      );
+      Object.entries(report).forEach(([key, value]) => {
+        pdf.text(`${key}: ${value ?? "-"}`, margin, y);
+        y += lineHeight;
 
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-
-      const scale =
-        Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight) * 0.9; //90% available space
-
-      const x = (pdfWidth - canvasWidth * scale) / 2;
-      const y = (pdfHeight - canvasHeight * scale) / 2;
-
-      const imgData = canvas.toDataURL("image/png", 1.0);
-
-      pdf.addImage(
-        imgData,
-        "PNG",
-        x,
-        y,
-        canvasWidth * scale,
-        canvasHeight * scale
-      );
+        // Add new page if needed
+        if (y > 280) {
+          pdf.addPage();
+          y = margin;
+        }
+      });
 
       pdf.save(`${fileName}.pdf`);
-      await increaseTemplateUsage();
+      await increaseTemplateUsage?.();
       return true;
-    } catch (e) {
+    } catch (err) {
+      console.error("PDF export error:", err);
       return false;
     }
   }
-  const handleDownloadCSV = async (tpl, name) => {
-    try {
-      const rawData = tpl.content ?? tpl;
-      const jsonData =
-        typeof rawData === "string" ? JSON.parse(rawData) : rawData;
 
-      if (!jsonData._objects?.length) {
-        console.log("no object found");
+  const handleDownloadCSV = async (data, name) => {
+    try {
+      if (!data) {
+        console.log("No data found");
         return false;
       }
 
-      const allKeys = Array.from(
-        new Set(jsonData._objects.flatMap((obj) => Object.keys(obj)))
+      // Flatten user data for easy CSV conversion
+      const report = {
+        Template_ID: data._id,
+        Template_Name: data.name,
+        Template_Count: data.templateCount,
+        Status: data.status,
+        User_ID: data.user?._id,
+        User_Name: data.user?.name,
+        User_Email: data.user?.email,
+        User_Phone: data.user?.phone,
+        Email_Verified: data.user?.emailVerified ? "Yes" : "No",
+        User_Active: data.user?.isActive ? "Yes" : "No",
+        Created_At: new Date(data.createdAt).toLocaleString(),
+        Updated_At: new Date(data.updatedAt).toLocaleString(),
+      };
+
+      const headers = Object.keys(report);
+      const values = Object.values(report).map((val) =>
+        typeof val === "string" ? `"${val.replace(/"/g, '""')}"` : val
       );
 
-      const rows = jsonData._objects.map((obj) =>
-        allKeys.map((key) => {
-          let val = obj[key];
-          if (val === null || val === undefined) return "";
-          if (typeof val === "object") return JSON.stringify(val);
-          return String(val).replace(/,/g, " ");
-        })
-      );
+      const csv = [headers.join(","), values.join(",")].join("\n");
 
-      const csv = [allKeys.join(","), ...rows.map((r) => r.join(","))].join(
-        "\n"
-      );
-
+      // Create and trigger download
       const blob = new Blob([csv], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `${tpl.name || name || "template"}.csv`);
+      link.setAttribute("download", `${data.name || "usage-report"}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-      await increaseTemplateUsage();
+
+      console.log("CSV downloaded successfully");
       return true;
     } catch (err) {
       console.error("CSV export error:", err);
@@ -154,6 +169,28 @@ function ExportModal({ isOpen, onClose }) {
     }
   };
 
+  const fetchTemplate = async () => {
+    // setLoader(true);
+
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${designId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      console.log("template data", res.data);
+      setTemplateData(res.data.template);
+      return res;
+    } catch (err) {
+      //toast.error("Failed to load template");
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchTemplate();
+  }, [designId]);
   const handleExport = async () => {
     if (!canvas) return;
     setIsExporting(true);
@@ -163,11 +200,11 @@ function ExportModal({ isOpen, onClose }) {
 
       switch (selectedFormat) {
         case "json":
-          successFlag = handleDownloadCSV(canvas, "JSON FileName");
+          successFlag = handleDownloadCSV(templateData, "JSON FileName");
           break;
 
         case "pdf":
-          successFlag = exportAsPDF(canvas, "PDF FileName");
+          successFlag = await exportAsPDF(templateData, "PDF FileName");
           break;
 
         default:
