@@ -2,13 +2,15 @@
 import Login from "@/app/components/Login";
 import initTranslations from "@/app/i18n";
 import TranslationProvider from "@/app/components/TranslationProvider";
+import { ThemeProvider } from "next-themes";
+
 const i18nNamespaces = ["common"];
 const Home = async ({ params }) => {
   const { locale } = await params;
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
-  console.log("locale", locale);
   return (
     <>
+    <ThemeProvider attribute="data-bs-theme" defaultTheme="light">
       <TranslationProvider
         locale={locale}
         namespaces={i18nNamespaces}
@@ -16,6 +18,7 @@ const Home = async ({ params }) => {
       >
         <Login />
       </TranslationProvider>
+    </ThemeProvider>
     </>
   );
 };

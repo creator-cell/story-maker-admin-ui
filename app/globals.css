@@ -2777,22 +2777,19 @@ h6 {
 
 /* Login Register */
 
-.auth {
-  display: block;
-  width: 100%;
-  padding: 40px 0;
-  margin: 0;
-  border-top: 2px solid var(--beta) !important;
-}
+.login_header {display:flex;justify-content:center;align-items:center;background:var(--Whitesmoke);width: 100%;padding:10px 0;margin: 0;border:0px !important;position:relative;}
+.login_header .header_right{display:block;width:100%;}
+.login_header .togglers{display:flex;justify-content:flex-end;align-items:center;gap:0;border-radius:0px;width: 100%;}
+.login_header .toggle_theme{display:flex;justify-content:center;align-items:center;flex-direction:column;position:relative;}
+.login_header .toggle_theme .dropdown-toggle{min-height:46px;border-radius:0;}
+.login_header .toggle_theme .dropdown-toggle img{width: 30px;max-width: 30px;height: 30px;}
+.login_header .toggle_theme .dropdown-menu.dropright{position: absolute;right: 0;top: 50px;}
+.auth .form-control,
+.auth .form-control:focus,
+.auth .form-control:visited{background-color:var(--white);border: 1px solid var(--table-border) !important;}
+.auth_form {display: block;width: 100%;padding: 40px 40px;background-color:var(--form-color);border-radius: 10px;position:relative;}
 
-.auth_form {
-  display: block;
-  width: 100%;
-  padding: 40px 40px;
-  background-color: ghostwhite;
-  border-radius: 10px;
-}
-
+.auth {display:flex;justify-content:center;align-items:center;flex-direction:column;height:100vh;background:var(--Whitesmoke);width: 100%;padding: 40px 0;margin: 0;border:0px !important;position:relative;}
 .auth_form .task {
   position: absolute;
   bottom: 4px;
@@ -11249,7 +11246,7 @@ html {
 }
 
 .toggle_theme .dropdown-toggle{position:relative;display:flex;justify-content:flex-start;align-items:center;width:auto;padding:8px 32px 8px 10px;background-color:var(--form-color);outline:none;border:0;text-decoration:none;border-radius:4px;}
-.toggle_theme .dropdown-toggle:after{content:'\f078';position:absolute;border:0;font-family:'Font Awesome 7 Free';font-weight:900;font-size:12px;right:10px;}
+.toggle_theme .dropdown-toggle:after{content:'\f078';position:absolute;border:0;font-family:'Font Awesome 6 Free','Font Awesome 7 Free';font-weight:900;font-size:12px;right:10px;}
 .toggle_theme .dropdown-toggle img{width:20px;height:20px;max-width:20px;}
 .toggle_theme .dropdown-menu{background-color:var(--form-color);}
 .toggle_theme .dropdown-menu.dropright{background-color:var(--form-color);position:absolute;right:30px;}
