@@ -353,5 +353,7 @@
   "There are no records to display": "لا توجد سجلات للعرض",
   "S3 bucket": "S3 bucket",
   "total used storage": "إجمالي التخزين المستخدم",
+  "Light": "فاتح",
+  "Dark": "داكن",
   "CSV File": "ملف CSV"
 }
