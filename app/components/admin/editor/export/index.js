@@ -43,7 +43,7 @@ function ExportModal({ isOpen, onClose }) {
     },
     {
       id: "json",
-      name: t("JSON Template"),
+      name: t("CSV File"),
       icon: FileJson,
       description: t("Editable template format"),
     },

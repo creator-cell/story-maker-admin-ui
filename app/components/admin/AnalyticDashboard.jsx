@@ -39,6 +39,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
   const [activeUser, setActiveUser] = useState("");
   const [templateCount, setTemplateCount] = useState("");
   const [templates, setTemplates] = useState([]);
+  const [assetsTotalCount, setAssetsTotalCount] = useState("");
   const [chartData, setChartData] = useState({});
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -126,6 +127,19 @@ export default function AnalyticDashboard({ lang = "en" }) {
     }
   };
 
+  const getAssetsCount = async () => {
+    try {
+      const response = await axios.get(`${API_URL}dashboard/assets`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      console.log(response.data.data.templateCount);
+      setAssetsTotalCount(response.data.data.templateCount);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const getTemplate = async (pageNum = 1) => {
     try {
       const response = await axios.get(`${API_URL_TEMPLATE}template`, {
@@ -242,6 +256,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
     getTopTemplate();
     getS3Storage();
     getUserChart(startDate, endDate);
+    getAssetsCount();
   }, []);
 
   return (
@@ -307,8 +322,42 @@ export default function AnalyticDashboard({ lang = "en" }) {
                     </div>
                   </div>
                 </div>
-
                 <div className="analytic-dashboard">
+                  <div className="row dashboard-content">
+                    <div className="col-lg-4 col-md-4 col-12">
+                      <div className="box justify-content-center align-items-center">
+                        <div className="icon">
+                          <img
+                            src="/images/active-user.png"
+                            alt="active-user"
+                          />
+                        </div>
+                        <div className="">
+                          <p>{t("Assets")}</p>
+                          <h3>{assetsTotalCount}</h3>
+                          <span>{t("Total assets created")}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-4 col-md-4 col-12">
+                      <div className="box justify-content-center align-items-center">
+                        <div className="icon">
+                          <img
+                            src="/images/design-create.png"
+                            alt="active-user"
+                          />
+                        </div>
+                        <div className="">
+                          <p>{t("Designs Created")}</p>
+                          <h2>{templateCount}</h2>
+                          <span>{t("Total designs made by users")}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* <div className="analytic-dashboard">
                   <div className="row dashboard-content">
                     <div className="col-lg-12 col-md-12 col-12">
                       <div className="chart">
@@ -316,9 +365,9 @@ export default function AnalyticDashboard({ lang = "en" }) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
-                <div className="analytic-dashboard">
+                {/* <div className="analytic-dashboard">
                   <div className="row dashboard-content">
                     <div className="col-lg-12 col-md-12 col-12">
                       <div className="chart">
@@ -326,7 +375,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="analytic-dashboard">
                   <div className="row">

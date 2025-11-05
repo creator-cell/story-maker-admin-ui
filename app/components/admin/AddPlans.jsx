@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 const AddPlans = () => {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const [loader, setLoader] = useState(false);
   const [roles, setRoles] = useState([]);
   const router = useRouter();
@@ -38,7 +38,7 @@ const AddPlans = () => {
     name: "plans",
   });
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const handleAddAssets = (data) => {
     setLoader(true);
@@ -54,8 +54,8 @@ const AddPlans = () => {
         features:
           data?.features?.length > 0
             ? data?.features?.map((p) => {
-              return p.id;
-            })
+                return p.id;
+              })
             : [],
       }),
     })
@@ -76,13 +76,11 @@ const AddPlans = () => {
         router.push("/admin/plans");
       })
       .catch((err) => {
-        toast(t("Failed to add plans"),
-          {
-            type: "error",
-            theme: "light",
-            position: "top-right",
-          }
-        );
+        toast(t("Failed to add plans"), {
+          type: "error",
+          theme: "light",
+          position: "top-right",
+        });
       })
       .finally(() => {
         setLoader(false);
@@ -206,7 +204,11 @@ const AddPlans = () => {
                           name="duration"
                           render={({ field: { onChange, value } }) => {
                             return (
-                              <select className="form-control" value={value} onChange={onChange}>
+                              <select
+                                className="form-control"
+                                value={value}
+                                onChange={onChange}
+                              >
                                 <option value="" selected>
                                   {t("Please select")}
                                 </option>
@@ -232,39 +234,73 @@ const AddPlans = () => {
 
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <div className="form_group">
-                        <label htmlFor="full-name">{t("Features")}</label>
+                        <label htmlFor="features">{t("Features")}</label>
                         <Controller
                           control={control}
                           name="features"
-                          render={({ field: { onChange, value } }) => (
-                            <ReactTags
-                              tags={value}
-                              separators={[SEPARATORS.COMMA, SEPARATORS.ENTER]}
-                              handleDelete={(index) => {
-                                const filterTags = value?.filter(
-                                  (f, i) => i != index
-                                );
-                                onChange(filterTags);
-                              }}
-                              handleAddition={(tag) => {
-                                if (!value) {
-                                  onChange([tag]);
-                                } else {
-                                  onChange([...value, tag]);
-                                }
-                              }}
-                              classNames={{
-                                tagInputField: "form-control"
-                              }}
-                            />
-                          )}
+                          render={({ field: { onChange, value = [] } }) => {
+                            const [inputValue, setInputValue] =
+                              React.useState("");
+
+                            const handleAdd = () => {
+                              const trimmed = inputValue.trim();
+                              if (trimmed) {
+                                onChange([...value, { name: trimmed }]);
+                                setInputValue("");
+                              }
+                            };
+
+                            const handleDelete = (index) => {
+                              onChange(value.filter((_, i) => i !== index));
+                            };
+
+                            return (
+                              <>
+                                <div className="d-flex gap-2">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    value={inputValue}
+                                    onChange={(e) =>
+                                      setInputValue(e.target.value)
+                                    }
+                                    placeholder={t("Enter a feature")}
+                                  />
+                                  <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={handleAdd}
+                                    disabled={!inputValue.trim()}
+                                  >
+                                    {t("Add")}
+                                  </button>
+                                </div>
+
+                                <ul className="mt-2 list-unstyled">
+                                  {value.map((item, index) => (
+                                    <li
+                                      key={index}
+                                      className="d-flex justify-content-between align-items-center border rounded p-2 mb-2"
+                                    >
+                                      <span>{item.name}</span>
+                                      <button
+                                        type="button"
+                                        className="btn btn-sm btn-danger"
+                                        onClick={() => handleDelete(index)}
+                                      >
+                                        {t("Delete")}
+                                      </button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </>
+                            );
+                          }}
                         />
                       </div>
-                      {errors?.features ? (
-                        <p className="text-danger">
-                          {errors?.features?.message}
-                        </p>
-                      ) : null}
+                      {errors?.features && (
+                        <p className="text-danger">{errors.features.message}</p>
+                      )}
                     </div>
 
                     <div className="col-12 mt-3 d-flex gap-3">
