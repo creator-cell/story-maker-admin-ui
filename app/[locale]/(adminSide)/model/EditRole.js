@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 export default function EditRole({ show, onHide, data, onUpdate }) {
       const { t } = useTranslation();
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
     const [menuPermissions, setMenuPermissions] = useState({
         Users: {
             read: false,
@@ -127,7 +127,7 @@ export default function EditRole({ show, onHide, data, onUpdate }) {
                 menuPermissions: filteredMenuPermissions
             };
 
-            const response = await fetch(`${API_URL}role/${data._id}`, {
+            const response = await fetch(`${API_URL}user/role/${data._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ export default function EditRole({ show, onHide, data, onUpdate }) {
         if (!data?._id) return;
 
         try {
-            const response = await fetch(`${API_URL}role/${data._id}`, {
+            const response = await fetch(`${API_URL}user/role/${data._id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

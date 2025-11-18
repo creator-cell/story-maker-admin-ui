@@ -49,7 +49,7 @@ const AddAssets = () => {
     // newFormData.append("tags", data?.tags?.map(p => { return p?.text }));
     axios({
       method: "POST",
-      url: `${process.env.NEXT_PUBLIC_SERVER_URL_ASSETS}assets`,
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}assets`,
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

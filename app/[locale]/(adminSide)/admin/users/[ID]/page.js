@@ -1,5 +1,5 @@
 import initTranslations from '@/app/i18n';
-import EditUser from '../../../../../components/admin/EditUser';
+import EditUser from '@/app/components/admin/EditUser';
 import TranslationProvider from '@/app/components/TranslationProvider';
 
 const i18nNamespaces = ["common"];

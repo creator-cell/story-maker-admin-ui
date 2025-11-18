@@ -13,7 +13,7 @@
 //             return;
 //         }
 //         axios({
-//             url:`${process.env.NEXT_PUBLIC_SERVER_URL_USER}users`,
+//             url:`${process.env.NEXT_PUBLIC_SERVER_URL_V1}user/users`,
 //             method:"GET",
 //             headers: {
 //                 "Authorization":`Bearer ${localStorage.getItem("token")}`

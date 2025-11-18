@@ -134,7 +134,7 @@ async function saveCanvasState(
     };
     try {
       await axios.put(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${designId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/${designId}`,
         designData,
         {
           headers: {

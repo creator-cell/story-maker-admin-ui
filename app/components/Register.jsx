@@ -10,7 +10,7 @@ import PhoneNumber from "react-phone-number-input";
 import { useTranslation } from "react-i18next";
 
 export default function Register() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -36,7 +36,7 @@ export default function Register() {
     setShowLoader(true);
     try {
       const response = await axios({
-        url: `${API_URL}users/register`,
+        url: `${API_URL}auth/register`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",

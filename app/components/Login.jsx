@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from "next-themes";
 
 const Login = ({ locale }) =>{
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const {
     formState: { errors },
     handleSubmit,
@@ -41,7 +41,7 @@ const Login = ({ locale }) =>{
     setShowLoader(true);
     try {
       const response = await axios({
-        url: `${API_URL}users/login`,
+        url: `${API_URL}auth/login`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
-import Loader from "../../components/Loader";
-import VerifyEmail from "../../components/VerifyEmail";
+import Loader from "@/app/components/Loader";
+import VerifyEmail from "@/app/components/VerifyEmail";
 
 export default function Page(){
   return (

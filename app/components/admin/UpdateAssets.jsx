@@ -46,7 +46,7 @@ const UpdateAssets = () => {
         setLoader(true);
         axios({
             method: "GET",
-            url: `${process.env.NEXT_PUBLIC_SERVER_URL_ASSETS}assets?id=${ID}`,
+            url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}assets?id=${ID}`,
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
@@ -92,7 +92,7 @@ const UpdateAssets = () => {
         // newFormData.append("tags", data?.tags?.map(p => { return p?.text }));
         axios({
             method: "PUT",
-            url: `${process.env.NEXT_PUBLIC_SERVER_URL_ASSETS}assets/${ID}`,
+            url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}assets/${ID}`,
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${localStorage.getItem("token")}`

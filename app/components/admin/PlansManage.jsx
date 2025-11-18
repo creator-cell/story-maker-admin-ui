@@ -16,7 +16,7 @@ import DataTable from 'react-data-table-component';
 const PlansManage = () => {
   const { t } = useTranslation();
   const { download, isInProgress } = useDownloader();
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_PLANS;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [loader, setLoader] = useState(false);
   const [plans, setPlans] = useState([]);
   const [deletePlans, setDeletePlans] = useState(false);
@@ -57,7 +57,7 @@ const PlansManage = () => {
   const getPlans = async (page = 1, sort = sortByValue, search = "", order = sortOrder) => {
     setLoader(true);
     try {
-      let url = `${API_URL}plan?page=${page}&pageSize=${itemsPerPage}`;
+      let url = `${API_URL}billing-subscription/plan?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
       if (search && search.trim()) url += `&search=${encodeURIComponent(search.trim())}`;
@@ -86,7 +86,7 @@ const PlansManage = () => {
   const getUserDetail = async () => {
     try {
       const response = await axios({
-        url: `${API_URL}me`,
+        url: `${API_URL}billing-subscription/me`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",

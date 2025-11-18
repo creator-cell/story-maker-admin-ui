@@ -73,7 +73,7 @@ function MainEditor(props) {
 
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${designId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/${designId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

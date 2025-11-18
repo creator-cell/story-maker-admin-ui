@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
-import ResetPassword from "../../components/ResetPassword"
-import Loader from "../../components/Loader";
+import ResetPassword from "@/app/components/ResetPassword"
+import Loader from "@/app/components/Loader";
 
 export default function Page(){
   return(

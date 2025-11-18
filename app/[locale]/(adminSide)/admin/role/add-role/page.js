@@ -1,5 +1,5 @@
 import initTranslations from "@/app/i18n";
-import AddRole from "../../../../../components/admin/AddRole";
+import AddRole from "@/app/components/admin/AddRole";
 import TranslationProvider from "@/app/components/TranslationProvider";
 const i18nNamespaces = ["common"];
 const Page = async ({ params }) => {

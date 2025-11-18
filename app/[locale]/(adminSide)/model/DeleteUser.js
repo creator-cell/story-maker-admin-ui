@@ -4,13 +4,13 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function DeleteUser({ show, onHide, data, props }) {
-    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+    const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
       const { t } = useTranslation();
     
     const handleUserDelete = async () => {
      
         try {
-            const response = await fetch(`${API_URL}users/${data}`, {
+            const response = await fetch(`${API_URL}user/users/${data}`, {
                 method: 'DELETE',
                 headers: {Authorization: `Bearer ${localStorage.getItem("token")}`} 
             });

@@ -38,7 +38,7 @@ const AddUserPage = () => {
   const fetchRoles = async () => {
     try {
       const response = await axios({
-        url: `${process.env.NEXT_PUBLIC_SERVER_URL_USER}role`,
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}user/role`,
         method: "GET",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -86,7 +86,7 @@ const AddUserPage = () => {
     setLoader(true);
 
     axios({
-      url: `${process.env.NEXT_PUBLIC_SERVER_URL_USER}users`,
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}user/users`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",

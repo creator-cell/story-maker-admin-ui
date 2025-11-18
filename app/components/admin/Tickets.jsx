@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
 
 export default function Tickets() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -42,7 +42,7 @@ export default function Tickets() {
   const getTickets = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
-      let url = `${API_URL}tickets?page=${page}&pageSize=${itemsPerPage}&user=${currentUser._id}&role=${currentUser.role.name}`;
+      let url = `${API_URL}ticket-support?page=${page}&pageSize=${itemsPerPage}&user=${currentUser._id}&role=${currentUser.role.name}`;
       if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -80,7 +80,7 @@ export default function Tickets() {
     setLoader(true);
     try {
       await axios.put(
-        `${API_URL}tickets/${ticketId}`,
+        `${API_URL}ticket-support/${ticketId}`,
         { status: "Resolved" },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -98,7 +98,7 @@ export default function Tickets() {
   const handleAssignModerator = async (ticketId, moderatorId) => {
     try {
       await axios.put(
-        `${API_URL}tickets/${ticketId}`,
+        `${API_URL}ticket-support/${ticketId}`,
         { moderator: moderatorId },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -113,7 +113,7 @@ export default function Tickets() {
 
   const getAllModerator = async () => {
     try {
-      const response = await axios.get(`${API_URL}tickets/moderator`, {
+      const response = await axios.get(`${API_URL}ticket-support/moderator`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 

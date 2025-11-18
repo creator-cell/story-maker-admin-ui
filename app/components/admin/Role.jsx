@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import DataTable from 'react-data-table-component';
 
 export default function Roles() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
   const [deleteUser, setDeleteUser] = useState(false);
@@ -47,7 +47,7 @@ export default function Roles() {
 
   const getRole = async () => {
     try {
-      let url = `${API_URL}role`;
+      let url = `${API_URL}user/role`;
 
       const response = await axios({
         url,
@@ -87,7 +87,7 @@ export default function Roles() {
     setLoader(true);
     try {
       const response = await axios({
-        url: `${API_URL}me`,
+        url: `${API_URL}user/me`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",

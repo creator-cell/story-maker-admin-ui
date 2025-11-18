@@ -17,8 +17,7 @@ import DataTable from "react-data-table-component";
 const AssetsManage = () => {
   const { t } = useTranslation();
   const { download, isInProgress } = useDownloader();
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSETS;
-  const USER_API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [loader, setLoader] = useState(false);
   const [assets, setAssets] = useState([]);
   const [deleteAssets, setDeleteAssets] = useState(false);
@@ -152,7 +151,7 @@ const AssetsManage = () => {
   const getUserDetail = async () => {
     try {
       const response = await axios({
-        url: `${process.env.NEXT_PUBLIC_SERVER_URL_USER}me`,
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}user/me`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",

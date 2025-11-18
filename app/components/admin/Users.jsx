@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import DataTable from 'react-data-table-component';
 
 export default function Users() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
@@ -52,7 +52,7 @@ export default function Users() {
   const updateUserStatus = async (updateUserId) => {
     try {
       const response = await axios({
-        url: `${API_URL}users/status/${updateUserId}`,
+        url: `${API_URL}user/users/status/${updateUserId}`,
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +82,7 @@ export default function Users() {
   const getUserDetail = async () => {
     try {
       const response = await axios({
-        url: `${process.env.NEXT_PUBLIC_SERVER_URL_USER}me`,
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}user/me`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -120,7 +120,7 @@ export default function Users() {
   ) => {
     try {
       setLoader(true);
-      let url = `${API_URL}users?page=${page}&pageSize=${itemsPerPage}`;
+      let url = `${API_URL}user/users?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
       if (search && search.trim())

@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
-const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
+const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
 
 const ChatHistory = ({ ticketId }) => {
   const { t } = useTranslation();
@@ -31,7 +31,7 @@ const ChatHistory = ({ ticketId }) => {
   const getTicket = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}tickets/${ticketId}`, {
+      const response = await axios.get(`${API_URL}ticket-support/${ticketId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setTicket(response.data.ticket);
@@ -59,7 +59,7 @@ const ChatHistory = ({ ticketId }) => {
     console.log("imageFile", imageFile);
 
     try {
-      await axios.put(`${API_URL}tickets/${ticketId}`, formData, {
+      await axios.put(`${API_URL}ticket-support/${ticketId}`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
@@ -197,7 +197,7 @@ const ChatHistory = ({ ticketId }) => {
                                           {msg.image && (
                                             <div>
                                               <img
-                                                src={`${API_URL.replace(/\/$/, "")}${msg.image}`}
+                                                src={`${String(API_URL+"ticket-support").replace(/\/$/, "")}${msg.image}`}
                                               />
                                             </div>
                                           )}

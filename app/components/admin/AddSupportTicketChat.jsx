@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
-const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_SUPPORT_TICKET;
+const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
 
 const AddChatHistory = () => {
   const currentUser = localStorage.getItem("user");
@@ -29,7 +29,7 @@ const AddChatHistory = () => {
 
     try {
       await axios.post(
-        `${API_URL}tickets`,
+        `${API_URL}ticket-support`,
         {
           messages: [newMessage],
           userId: user._id,

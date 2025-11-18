@@ -16,7 +16,7 @@ export default function Notification() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_NOTIFICATION;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
 
   const handleSend = (type) => {
     if (!message.trim()) return;

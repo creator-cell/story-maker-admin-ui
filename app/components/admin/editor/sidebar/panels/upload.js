@@ -27,7 +27,7 @@ function UploadPanel() {
     try {
       setIsLoading(true);
 
-      let url = `${process.env.NEXT_PUBLIC_SERVER_URL_ASSETS}assets?page=1&pageSize=20`;
+      let url = `${process.env.NEXT_PUBLIC_SERVER_URL_V1}assets?page=1&pageSize=20`;
 
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -69,7 +69,7 @@ function UploadPanel() {
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_ASSETS}assets?isTemplateUpload=true`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}assets?isTemplateUpload=true`,
         newFormData,
         {
           headers: {

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function ApproveTemplate({ show, onHide, data, props }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const { t } = useTranslation();
 
   const handleUserDelete = async () => {

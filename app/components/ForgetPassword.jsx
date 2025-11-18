@@ -1,19 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import CustomLink from "./CustomLink";
+import CustomLink from "@/app/components/CustomLink";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import Loader from "./Loader";
-import React from "react";
-import { useTranslation } from "react-i18next";
+import Loader from "@/app/components/Loader";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
 export default function ForgetPassword() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_AUTH;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const {
     formState: { errors },
     handleSubmit,
@@ -29,7 +27,7 @@ export default function ForgetPassword() {
     setShowLoader(true);
     try {
       const response = await axios({
-        url: `${API_URL}users/forgot-password`,
+        url: `${API_URL}auth/forgot-password`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
