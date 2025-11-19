@@ -28,7 +28,7 @@ const AdminSidebar = ({ locale }) => {
   const [activeLink, setActiveLink] = useState("");
   const [shouldRender, setShouldRender] = useState(true);
   const [userRolePermissions, setUserRolePermissions] = useState(null);
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
 
   useEffect(() => {
     const isAdminRoute = pathname?.includes("/admin");
@@ -50,7 +50,7 @@ const AdminSidebar = ({ locale }) => {
   const getUser = async () => {
     try {
       const response = await axios({
-        url: `${API_URL}me`,
+        url: `${API_URL}user/me`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -8,7 +8,7 @@ import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
 
 export default function EditRole({ roleId }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const { t } = useTranslation();
@@ -90,7 +90,7 @@ export default function EditRole({ roleId }) {
   const getRoleDetails = async () => {
     try {
       const response = await axios({
-        url: `${API_URL}role/${roleId}`,
+        url: `${API_URL}user/role/${roleId}`,
         method: "GET",
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
@@ -201,7 +201,7 @@ export default function EditRole({ roleId }) {
           }, {});
 
         const response = await axios({
-          url: `${API_URL}role/${roleId}`,
+          url: `${API_URL}user/role/${roleId}`,
           method: "PUT",
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           data: {

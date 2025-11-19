@@ -1,15 +1,15 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "../../globals.css";
+import "@/app/globals.css";
 import "react-phone-number-input/style.css";
-import { UserProvider } from "../../helper/UserProvider";
+import { UserProvider } from "@/app/helper/UserProvider";
 
 import { ToastContainer } from "react-toastify";
 
-import { LoaderProvider } from "../../helper/LoaderContext";
-import LoaderManager from "../../helper/LoaderManager";
+import { LoaderProvider } from "@/app/helper/LoaderContext";
+import LoaderManager from "@/app/helper/LoaderManager";
 import Script from "next/script";
-import initTranslations from "../../i18n";
-import TranslationProvider from "../../components/TranslationProvider";
+import initTranslations from "@/app/i18n";
+import TranslationProvider from "@/app/components/TranslationProvider";
 const i18nNamespaces = ["common"];
 
 const geistSans = Geist({
@@ -29,7 +29,6 @@ export const metadata = {
 
 export default async function RootLayout({ children, params }) {
   const { locale } = await params;
-  console.log(locale);
   const { resources } = await initTranslations(locale, i18nNamespaces);
 
   return (

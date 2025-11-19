@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function DeleteAssets({ show, onHide, data, setLoader, props }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_ASSETS;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const { t } = useTranslation();
 
   const handleAssetsDelete = async () => {

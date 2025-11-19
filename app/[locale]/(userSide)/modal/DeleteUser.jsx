@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useTranslation } from "react-i18next";
 export default function DeleteUser({ show, onHide, data, props }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const dispatch = useDispatch();
   const router = useRouter();
   const { t } = useTranslation();
@@ -17,7 +17,7 @@ export default function DeleteUser({ show, onHide, data, props }) {
 
     try {
       const response = await axios({
-        url: `${API_URL}/users/change-status/${data}`,
+        url: `${API_URL}user/users/change-status/${data}`,
         method: "POST",
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         data: {

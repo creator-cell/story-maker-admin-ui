@@ -34,8 +34,7 @@ import UserGrowthChart from "./UserGraph";
 import { set } from "lodash";
 export default function AnalyticDashboard({ lang = "en" }) {
   const { t } = useTranslation();
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_DASHBOARD;
-  const API_URL_TEMPLATE = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [activeUser, setActiveUser] = useState("");
   const [templateCount, setTemplateCount] = useState("");
   const [templates, setTemplates] = useState([]);
@@ -142,7 +141,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
   };
   const getTemplate = async (pageNum = 1) => {
     try {
-      const response = await axios.get(`${API_URL_TEMPLATE}template`, {
+      const response = await axios.get(`${API_URL}template`, {
         params: { page: pageNum, pageSize: 10 },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -215,7 +214,7 @@ export default function AnalyticDashboard({ lang = "en" }) {
   const getTopTemplate = async (pageNum = 1) => {
     try {
       const response = await axios.get(
-        `${API_URL_TEMPLATE}template/getTopTemplate`,
+        `${API_URL}template/getTopTemplate`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

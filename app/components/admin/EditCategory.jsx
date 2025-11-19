@@ -8,7 +8,7 @@ import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
 
 export default function EditCategory({ userId }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);

@@ -28,7 +28,7 @@ function ExportModal({ isOpen, onClose }) {
   const { canvas } = useEditorStore();
   const { designId } = useEditorStore();
   console.log("designId", designId);
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [templateData, setTemplateData] = useState("");
   const [selectedFormat, setSelectedFormat] = useState("pdf");
   const [isExporting, setIsExporting] = useState(false);
@@ -174,7 +174,7 @@ function ExportModal({ isOpen, onClose }) {
 
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${designId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/${designId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

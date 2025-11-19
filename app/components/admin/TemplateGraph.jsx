@@ -24,7 +24,7 @@ ChartJS.register(
 
 export default function TemplateChart() {
       const { t } = useTranslation();
-  const API_URL_TEMPLATE = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
+  const API_URL_TEMPLATE = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [chartData, setChartData] = useState({});
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);

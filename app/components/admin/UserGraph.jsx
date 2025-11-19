@@ -24,7 +24,7 @@ ChartJS.register(
 
 export default function UserGrowthChart() {
   const { t } = useTranslation();
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_DASHBOARD;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [chartData, setChartData] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");

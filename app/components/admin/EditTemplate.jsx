@@ -81,7 +81,7 @@ export default function EditTemplatePage({ id, isClone }) {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}category`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/category`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -100,7 +100,7 @@ export default function EditTemplatePage({ id, isClone }) {
     setLoader(true);
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/${id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -164,7 +164,7 @@ export default function EditTemplatePage({ id, isClone }) {
     if (isClone) {
       try {
         await axios.post(
-          `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${id}`,
+          `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/${id}`,
           {
             name: data.name,
             category: data.category,
@@ -191,7 +191,7 @@ export default function EditTemplatePage({ id, isClone }) {
     } else {
       try {
         await axios.put(
-          `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${id}`,
+          `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/${id}`,
           {
             name: data.name,
             category: data.category,

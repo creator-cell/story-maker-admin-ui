@@ -21,7 +21,7 @@ export default function EditUser({ userId }) {
     formState: { errors },
     trigger,
   } = useForm();
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const route = useRouter();
   const router = useRouter();
   const [dob, setDob] = useState(null);
@@ -31,7 +31,7 @@ export default function EditUser({ userId }) {
   const getUserDetails = async () => {
     try {
       const response = await axios({
-        url: `${API_URL}users/${userId}`,
+        url: `${API_URL}user/users/${userId}`,
         method: "GET",
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
@@ -52,7 +52,7 @@ export default function EditUser({ userId }) {
   const fetchRoles = async () => {
     try {
       const response = await axios({
-        url: `${API_URL}role`,
+        url: `${API_URL}user/role`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -78,7 +78,7 @@ export default function EditUser({ userId }) {
     if (data) {
       try {
         const response = await axios({
-          url: `${API_URL}users/${userId}`,
+          url: `${API_URL}user/users/${userId}`,
           method: "PUT",
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           data: {

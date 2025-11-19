@@ -1,5 +1,5 @@
 import initTranslations from "@/app/i18n";
-import AddChatHistory from "../../../../../components/admin/AddSupportTicketChat";
+import AddChatHistory from "@/app/components/admin/AddSupportTicketChat";
 import TranslationProvider from "@/app/components/TranslationProvider";
 const i18nNamespaces = ["common"];
 const Page = async ({ params }) => {

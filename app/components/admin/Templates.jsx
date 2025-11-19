@@ -14,7 +14,7 @@ import { useEditorStore } from "@/app/redux/UserStore";
 
 export default function Template() {
   const { t } = useTranslation();
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -96,7 +96,7 @@ export default function Template() {
   const fetchCategory = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY}category`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}category`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -187,7 +187,7 @@ export default function Template() {
     const userObj = userStr ? JSON.parse(userStr) : null;
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template/${id}`,
         { name, content, user: userObj._id },
         {
           headers: {
@@ -230,7 +230,7 @@ export default function Template() {
     try {
       setLoader(true);
       const responseData = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE}template`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL_V1}template`,
         { name: "Untitle design", content: "", user: currentUser._id },
         {
           headers: {

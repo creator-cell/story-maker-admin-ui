@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 export default function DeleteTemplate({ show, onHide, data, props }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_TEMPLATE;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const router = useRouter();
   const { t } = useTranslation();
 

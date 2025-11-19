@@ -42,7 +42,7 @@ const AddPlans = () => {
     setLoader(true);
     axios({
       method: "POST",
-      url: `${process.env.NEXT_PUBLIC_SERVER_URL_PLANS}plan`,
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}billing-subscription/plan`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

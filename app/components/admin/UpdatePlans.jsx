@@ -43,7 +43,7 @@ const UpdatePlans = () => {
     setLoader(true);
     axios({
       method: "GET",
-      url: `${process.env.NEXT_PUBLIC_SERVER_URL_PLANS}plan?id=${ID}`,
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}billing-subscription/plan?id=${ID}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -83,7 +83,7 @@ const UpdatePlans = () => {
     setLoader(true);
     axios({
       method: "PUT",
-      url: `${process.env.NEXT_PUBLIC_SERVER_URL_PLANS}plan/${ID}`,
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}billing-subscription/plan/${ID}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

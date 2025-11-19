@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
 
 export default function Categories() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_CATEGORY;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState();
   const [loading, setLoading] = useState(false);

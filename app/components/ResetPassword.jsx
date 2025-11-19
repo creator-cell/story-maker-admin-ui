@@ -5,13 +5,10 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 export default function ResetPassword() {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_USER;
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const searchParams = useSearchParams();
   const router = useRouter();
   const resetToken = searchParams.get("token");
@@ -35,7 +32,7 @@ export default function ResetPassword() {
   const handleResetPassword = async (data) => {
     try {
       const response = await axios({
-        url: `${API_URL}users/reset-password`,
+        url: `${API_URL}user/users/reset-password`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
