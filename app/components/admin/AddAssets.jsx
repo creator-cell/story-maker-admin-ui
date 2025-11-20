@@ -13,6 +13,7 @@ const AddAssets = () => {
   const [loader, setLoader] = useState(false);
   const [roles, setRoles] = useState([]);
   const router = useRouter();
+  const [category, setCategory] = useState([]);
   const { t } = useTranslation();
 
   const {
@@ -30,10 +31,9 @@ const AddAssets = () => {
       format: "",
       description: "",
       tags: [],
+      category: null
     },
   });
-
-  useEffect(() => { }, []);
 
   const handleAddAssets = (data) => {
     setLoader(true);
@@ -46,6 +46,9 @@ const AddAssets = () => {
     data?.tags?.map((p, index) => {
       newFormData.append(`tags[${index}]`, p?.text);
     });
+    if (data?.category) {
+      newFormData.append("category", data.category);
+    }
     // newFormData.append("tags", data?.tags?.map(p => { return p?.text }));
     axios({
       method: "POST",
@@ -64,6 +67,7 @@ const AddAssets = () => {
           name: null,
           tags: [],
           type: null,
+          category: null
         });
         toast(t("assets added successfully."), {
           type: "success",
@@ -85,6 +89,26 @@ const AddAssets = () => {
         setLoader(false);
       });
   };
+
+  const fetchCategories = () => {
+    setLoader(true);
+    axios.get(
+      `${process.env.NEXT_PUBLIC_SERVER_URL_V1}category`,
+      {headers:
+        {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        },
+      }
+    ).then(res => {
+      setCategory(res.data.items || []);
+    }).catch(err => {}).finally(() => {
+      setLoader(false);
+    });
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <div id="main_container">
@@ -245,6 +269,31 @@ const AddAssets = () => {
                       </div>
                       {errors?.tags ? (
                         <p className="text-danger">{errors?.tags?.message}</p>
+                      ) : null}
+                    </div>
+
+                    <div className="col-lg-6 col-md-6 col-12 mb-3">
+                      <div className="form_group">
+                        <label htmlFor="full-name">{t("Select category")}</label>
+                        <Controller
+                          name="category"
+                          control={control}
+                          render={({ field }) => (
+                            <select {...field} id="category" className="form-control">
+                              <option value="">{t("Choose an option")}</option>
+                              { category?.map(p => {
+                                return (
+                                  <option value={p?._id}>{p?.name}</option>
+                                );
+                              })}
+                            </select>
+                          )}
+                        />
+                      </div>
+                      {errors?.category ? (
+                        <p className="text-danger">
+                          {errors?.category?.message}
+                        </p>
                       ) : null}
                     </div>
 
