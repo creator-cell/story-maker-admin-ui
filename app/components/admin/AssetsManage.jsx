@@ -33,7 +33,7 @@ const AssetsManage = () => {
     write: false,
     both: false,
   });
-  const itemsPerPage = 2;
+  const itemsPerPage = 10;
   const router = useRouter();
 
   const hasWritePermission = () => {
@@ -352,6 +352,12 @@ const AssetsManage = () => {
       name: t("Description") || t("no Description"),
       selector: (row) => row.description,
       width: "200px",
+      wrap: true,
+    },
+    {
+      name: t("Category") || t("no Category"),
+      selector: (row) => row?.category?.name,
+      width: "100px",
       wrap: true,
     },
     {
