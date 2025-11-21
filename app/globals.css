@@ -2788,7 +2788,7 @@ h6 {
 .auth .form-control:focus,
 .auth .form-control:visited{background-color:var(--white);border: 1px solid var(--table-border) !important;}
 .auth_form {display: block;width: 100%;padding: 40px 40px;background-color:var(--form-color);border-radius: 10px;position:relative;}
-
+.auth .auth_form .boxwrap form .mb-input input{color: black;}
 .auth {display:flex;justify-content:center;align-items:center;flex-direction:column;height:100vh;background:var(--Whitesmoke);width: 100%;padding: 40px 0;margin: 0;border:0px !important;position:relative;}
 .auth_form .task {
   position: absolute;
