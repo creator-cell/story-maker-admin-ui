@@ -1,4 +1,4 @@
-import UpdatePlans from "@/app/components/admin/UpdatePlans";
+import UpdatePlans from "@/app/components/admin/plans/UpdatePlans";
 import TranslationProvider from "@/app/components/TranslationProvider";
 import initTranslations from "@/app/i18n";
 

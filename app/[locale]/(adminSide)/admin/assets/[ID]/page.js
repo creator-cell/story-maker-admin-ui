@@ -1,4 +1,4 @@
-import UpdateAssets from "@/app/components/admin/UpdateAssets";
+import UpdateAssets from "@/app/components/admin/assets/UpdateAssets";
 import TranslationProvider from "@/app/components/TranslationProvider";
 import initTranslations from "@/app/i18n";
 

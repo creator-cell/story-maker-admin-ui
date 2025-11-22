@@ -1,5 +1,5 @@
 // import Login from "../../components/Login";
-import Login from "@/app/components/Login";
+import Login from "@/app/components/auth/Login";
 import initTranslations from "@/app/i18n";
 import TranslationProvider from "@/app/components/TranslationProvider";
 import { ThemeProvider } from "next-themes";

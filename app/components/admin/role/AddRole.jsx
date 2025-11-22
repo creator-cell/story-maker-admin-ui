@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import Loader from "../../components/Loader";
+import Loader from "../../Loader";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 

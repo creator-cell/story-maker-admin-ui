@@ -1,27 +1,19 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import axios from "axios";
+import Loader from "../../Loader";
 import { useRouter } from "next/navigation";
-import Loader from "../Loader";
 import { useTranslation } from "react-i18next";
 
-export default function EditCategory({ userId }) {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
-  const router = useRouter();
+const AddCategoryPage = () => {
   const [loader, setLoader] = useState(false);
   const [categories, setCategories] = useState([]);
+  const router = useRouter();
   const { t } = useTranslation();
 
-  const {
-    handleSubmit,
-    register,
-    reset,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useForm({
+  const { handleSubmit, register, reset, watch, setValue } = useForm({
     defaultValues: {
       name: "",
       slug: "",
@@ -30,82 +22,70 @@ export default function EditCategory({ userId }) {
     },
   });
 
-  const fetchCategories = async () => {
+  const fetchCategory = async () => {
     try {
       const response = await axios({
-        url: `${API_URL}category`,
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}category`,
         method: "GET",
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
+
       const parentCategories = response.data?.items.filter(
-        (cat) => cat.parentCategory === null
+        (cat) => !cat.parentCategory
       );
 
       setCategories(parentCategories || []);
     } catch (error) {
-      console.error(error);
-      toast.error(t("Failed to load categories"));
+      toast.error(t("Failed to fetch categories"), { theme: "dark" });
     }
   };
-
-  const getCategoryDetails = async () => {
-    try {
-      const response = await axios({
-        url: `${API_URL}category/${userId}`,
-        method: "GET",
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
-
-      const category = response.data.category;
-
-      reset({
-        name: category.name || "",
-        slug: category.slug || "",
-        parentId: category.parentCategory || "",
-        description: category.description || "",
-      });
-    } catch (error) {
-      console.error(error);
-      toast.error(t("Failed to load category"));
-    }
-  };
-
   useEffect(() => {
-    fetchCategories();
-    getCategoryDetails();
+    fetchCategory();
   }, []);
 
+  // Auto-generate slug when name changes
   useEffect(() => {
     const nameValue = watch("name") || "";
-    if (!watch("slug")) {
-      setValue("slug", nameValue.trim().toLowerCase().replace(/\s+/g, "-"));
-    }
-  }, [watch("name")]);
+    setValue("slug", nameValue.trim().toLowerCase().replace(/\s+/g, "-"));
+  }, [watch("name"), setValue]);
 
-  const handleUpdate = async (data) => {
+  const handleCategory = (data) => {
     if (!data.name) {
-      toast.error(t("Category name is required"));
-      toast.error(t("Category name is required"));
+      toast.error(t("Category name is required"), { theme: "dark" });
       return;
     }
 
     setLoader(true);
-    try {
-      await axios({
-        url: `${API_URL}category/${userId}`,
-        method: "PUT",
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        data,
-      });
 
-      toast.success(t("Category updated successfully"));
-      router.push("/admin/category");
-    } catch (error) {
-      console.error(error);
-      toast.error(t("Failed to update category"));
-    } finally {
-      setLoader(false);
-    }
+    axios({
+      url: `${process.env.NEXT_PUBLIC_SERVER_URL_V1}category`,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      data: {
+        name: data.name,
+        slug: data.slug,
+        parentCategory: data.parentId || null,
+        description: data.description,
+      },
+    })
+      .then(() => {
+        setLoader(false);
+        toast.success(t("Category added"), { theme: "dark" });
+        reset();
+        router.push("/admin/category");
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error", err);
+        toast.error(t("Failed to add category"), {
+          theme: "dark",
+        });
+      });
   };
 
   return (
@@ -117,19 +97,18 @@ export default function EditCategory({ userId }) {
               <div className="row mb-4">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                   <div className="title_head">
-                    <h1>{t("Edit Category")}</h1>
+                    <h1>{t("Add Category")}</h1>
                   </div>
                 </div>
               </div>
 
               <div className="admin_form_panel">
-                <form onSubmit={handleSubmit(handleUpdate)}>
+                <form onSubmit={handleSubmit(handleCategory)}>
                   {/* Name */}
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-12 mb-3">
                       <label className="form-label">
-                        {t("Name")}
-                        <span className="text-danger"> *</span>
+                        {t("Name")} <span className="text-danger"> *</span>
                       </label>
                       <input
                         type="text"
@@ -167,11 +146,12 @@ export default function EditCategory({ userId }) {
                         defaultValue=""
                       >
                         <option value="">{t("None")}</option>
-                        {categories.map((cat) => (
-                          <option key={cat._id} value={cat._id}>
-                            {cat.name}
-                          </option>
-                        ))}
+                        {categories &&
+                          categories.map((cat) => (
+                            <option key={cat._id} value={cat._id}>
+                              {cat.name}
+                            </option>
+                          ))}
                       </select>
                       <small className="">
                         {t(
@@ -191,9 +171,9 @@ export default function EditCategory({ userId }) {
                     </div>
 
                     {/* Buttons */}
-                    <div className="d-flex flex-wrap gap-3">
+                    <div className="d-flex gap-3">
                       <button type="submit" className="button">
-                        {t("Update Category")}
+                        {t("Add Category")}
                       </button>
                       <button
                         type="button"
@@ -216,4 +196,6 @@ export default function EditCategory({ userId }) {
       {loader && <Loader />}
     </div>
   );
-}
+};
+
+export default AddCategoryPage;

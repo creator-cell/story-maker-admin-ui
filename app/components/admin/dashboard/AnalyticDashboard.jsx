@@ -29,8 +29,8 @@ ChartJS.register(
 
 import "react-datepicker/dist/react-datepicker.css";
 
-import TemplateChart from "./TemplateGraph";
-import UserGrowthChart from "./UserGraph";
+import TemplateChart from "../tenplate/TemplateGraph";
+import UserGrowthChart from "../users/UserGraph";
 import { set } from "lodash";
 export default function AnalyticDashboard({ lang = "en" }) {
   const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import AnalyticDashboard from "@/app/components/admin/AnalyticDashboard";
+import AnalyticDashboard from "@/app/components/admin/dashboard/AnalyticDashboard";
 import TranslationProvider from "@/app/components/TranslationProvider";
 import initTranslations from "@/app/i18n";
 const i18nNamespaces = ["common"];

@@ -6,7 +6,7 @@ import ReactPaginate from "react-paginate";
 import DeleteUser from "@/app/[locale]/(adminSide)/model/DeleteUser";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import Loader from "../Loader";
+import Loader from "../../Loader";
 import { useTranslation } from "react-i18next";
 import DataTable from 'react-data-table-component';
 
