@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
-import CustomLink from "./CustomLink";
+import CustomLink from "@/app/components/CustomLink";
 import React, { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import Loader from "./Loader";
+import Loader from "@/app/components/Loader";
 import PhoneNumber from "react-phone-number-input";
 import { useTranslation } from "react-i18next";
 

@@ -3,21 +3,10 @@
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/app/components/ui/select";
-import { Slider } from "@/app/components/ui/slider";
 import { Textarea } from "@/app/components/ui/textarea";
-import { fontFamilies } from "../../config";
-import {
-  cloneSelectedObject,
-  deletedSelectedObject,
-} from "./../../fabric/fabric-utils";
-import { useEditorStore } from "../../../../redux/UserStore";
+import { fontFamilies } from "@/app/components/admin/config/index";
+import { cloneSelectedObject, deletedSelectedObject } from "@/app/components/admin/fabric/fabric-utils";
+import { useEditorStore } from "@/app/redux/UserStore";
 import {
   Bold,
   Copy,

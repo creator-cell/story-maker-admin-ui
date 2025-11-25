@@ -1,11 +1,8 @@
 "use client";
 
-import { addShapeToCanvas } from "./../../../fabric/fabric-utils";
-import {
-  shapeDefinitions,
-  shapeTypes,
-} from "./../../../fabric/shapes/shape-definitions";
-import { useEditorStore } from "../../../../../redux/UserStore";
+import { addShapeToCanvas } from "@/app/components/admin/fabric/fabric-utils";
+import { shapeDefinitions, shapeTypes } from "@/app/components/admin/fabric/shapes/shape-definitions";
+import { useEditorStore } from "@/app/redux/UserStore";
 import { useEffect, useRef, useState } from "react";
 
 function ElementsPanel() {

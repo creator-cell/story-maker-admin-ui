@@ -9,9 +9,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/app/components/ui/tooltip";
-import { colorPresets } from "../../../config";
-import { centerCanvas } from "./../../../fabric/fabric-utils";
-import { useEditorStore } from "../../../../../redux/UserStore";
+import { colorPresets } from "@/app/components/admin/config/index";
+import { centerCanvas } from "@/app/components/admin/fabric/fabric-utils";
+import { useEditorStore } from "@/app/redux/UserStore";
 import { Check, Palette } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

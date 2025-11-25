@@ -1,6 +1,5 @@
 'use client';
 
-import InstallApp from "@/Modal/InstallApp";
 import { useEffect, useState } from "react";
 
 const ShowInstallModel = () => {

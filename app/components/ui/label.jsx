@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
 
-import { cn } from "../admin/lib/utils";
+import { cn } from "@/app/components/admin/lib/utils";
 
 function Label({ className, ...props }) {
   return (

@@ -1,14 +1,13 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import CustomLink from "../CustomLink";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { setCookie } from "cookies-next/client";
-import { login, userStore } from "../../redux/UserStore";
+import { login, userStore } from "@/app/redux/UserStore";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import Loader from "../Loader";
+import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "next-themes";
 

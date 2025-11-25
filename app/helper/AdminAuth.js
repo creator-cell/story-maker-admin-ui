@@ -3,7 +3,6 @@
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import PageLoader from "@/components/PageLoader";
 
 const AdminAuth = (ProtectedComponent) => {
     return (props) => {
@@ -29,7 +28,7 @@ const AdminAuth = (ProtectedComponent) => {
 
         return (
             <>
-            { loader ? <PageLoader/> : <ProtectedComponent { ...props } /> }
+            <ProtectedComponent { ...props } />
             </>
         );
     }

@@ -3,7 +3,6 @@
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import PageLoader from "@/components/PageLoader";
 
 const WithoutAuth = (Public) => {
     return (props) => {
@@ -24,7 +23,7 @@ const WithoutAuth = (Public) => {
 
         return (
             <>
-            { loader ? <PageLoader/> : <Public { ...props } /> }
+            <Public { ...props } />
             </>
         );
     }

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useLoader } from "../helper/LoaderContext";
+import { useLoader } from "@/app/helper/LoaderContext";
 
 export default function CustomLink({ href, children, onClick, ...props }) {
   const { setLoading } = useLoader();

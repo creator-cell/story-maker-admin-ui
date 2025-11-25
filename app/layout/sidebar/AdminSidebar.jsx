@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import { logout, userStore } from "../../redux/UserStore";
+import { logout, userStore } from "@/app/redux/UserStore";
 import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
-import Loader from "../../components/Loader";
+import Loader from "@/app/components/Loader";
 import Link from "next/link";
 
 

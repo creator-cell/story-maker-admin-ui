@@ -9,10 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/app/components/ui/dialog";
-import { cn } from "../../lib/utils";
+import { cn } from "@/app/components/admin/lib/utils";
 import { jsPDF } from "jspdf";
 
-import { useEditorStore } from "../../../../redux/UserStore";
+import { useEditorStore } from "@/app/redux/UserStore";
 import {
   Download,
   File,

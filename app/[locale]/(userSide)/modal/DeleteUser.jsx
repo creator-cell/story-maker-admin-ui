@@ -1,7 +1,7 @@
 'use client';
 import { Modal, Container, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { logout } from "@/app/redux/UserStore";
 import { useRouter } from "next/navigation";

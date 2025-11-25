@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useEditorStore } from "../../../../redux/UserStore";
+import { useEditorStore } from "@/app/redux/UserStore";
 
-import {
-  initializeFabric,
-  customizeBoundingBox,
-} from "./../../fabric/fabric-utils";
+import { initializeFabric, customizeBoundingBox } from "@/app/components/admin/fabric/fabric-utils";
 
 function Canvas() {
   const canvasRef = useRef(null);

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-// import DeleteAsset from "../../../(adminSide)/model/DeleteAssets";
 import DeleteAsset from "@/app/[locale]/(adminSide)/model/DeleteAssets";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -10,7 +9,7 @@ import { FileIcon, defaultStyles } from "react-file-icon";
 import { IconDownload, IconEye, IconView360 } from "@tabler/icons-react";
 import useDownloader from "react-use-downloader";
 import { FormSelect } from "react-bootstrap";
-import Loader from "../../Loader";
+import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
 

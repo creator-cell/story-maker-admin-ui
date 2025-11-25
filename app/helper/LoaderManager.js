@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useLoader } from "./LoaderContext";
-import Loader from "../components/Loader";
+import { useLoader } from "@/app/helper/LoaderContext";
+import Loader from "@/app/components/Loader";
 
 export default function LoaderManager() {
   const { loading, setLoading } = useLoader();

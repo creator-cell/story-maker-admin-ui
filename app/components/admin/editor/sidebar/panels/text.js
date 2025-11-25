@@ -1,11 +1,10 @@
 "use client";
 
 import { Button } from "@/app/components/ui/button";
-import { textPresets } from "../../../config";
-import { addTextToCanvas } from "./../../../fabric/fabric-utils";
-import { useEditorStore } from "../../../../../redux/UserStore";
+import { textPresets } from "@/app/components/admin/config/index";
+import { addTextToCanvas } from "@/app/components/admin/fabric/fabric-utils";
+import { useEditorStore } from "@/app/redux/UserStore";
 import { Type } from "lucide-react";
-import { Label } from "@radix-ui/react-dropdown-menu";
 import { useTranslation } from "react-i18next";
 
 function TextPanel() {

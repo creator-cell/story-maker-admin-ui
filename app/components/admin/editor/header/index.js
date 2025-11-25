@@ -1,15 +1,12 @@
 "use client";
 
 import { Input } from "@/app/components/ui/input";
-import { useEditorStore } from "../../../../redux/UserStore";
-import axios from "axios";
+import { useEditorStore } from "@/app/redux/UserStore";
 import { Download, Loader2, Save } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import ExportModal from "../export";
-import { toast } from "sonner";
 import { cn } from "../../lib/utils";
-import { Dropdown } from "bootstrap";
 import { useTranslation } from "react-i18next";
 
 function Header() {
