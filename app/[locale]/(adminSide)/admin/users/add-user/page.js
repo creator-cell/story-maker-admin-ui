@@ -1,5 +1,5 @@
 import initTranslations from '@/app/i18n';
-import EditUser from '@/app/components/admin/AddUser';
+import EditUser from '@/app/components/admin/users/AddUser';
 import TranslationProvider from '@/app/components/TranslationProvider';
 const i18nNamespaces = ["common"];
 const Page = async ({ params }) => {

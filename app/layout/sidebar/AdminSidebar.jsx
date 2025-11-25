@@ -335,7 +335,7 @@ const AdminSidebar = ({ locale }) => {
         </div>
       </div>
       <div
-        className={`toggle_sideBar collapse navbar-collapse ${
+        className={`toggle_sideBar collapse navbar-collapse show ${
           lang === "ar" ? "sidebar_right" : ""
         }`}
         id="navbarSupportedContent"

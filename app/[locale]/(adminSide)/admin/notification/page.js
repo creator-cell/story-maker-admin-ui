@@ -1,4 +1,4 @@
-import Notification from "@/app/components/admin/Notification";
+import Notification from "@/app/components/admin/notification/Notification";
 import TranslationProvider from "@/app/components/TranslationProvider";
 import initTranslations from "@/app/i18n";
 const i18nNamespaces = ["common"];

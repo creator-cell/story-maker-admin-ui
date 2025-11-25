@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import Loader from "../Loader";
+import Loader from "../../Loader";
 import { useTranslation } from "react-i18next";
 
 export default function EditUser({ userId }) {

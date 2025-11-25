@@ -1,5 +1,5 @@
 import initTranslations from "@/app/i18n";
-import UserChat from "@/app/components/admin/SupportTicketChat";
+import UserChat from "@/app/components/admin/tickets/SupportTicketChat";
 import TranslationProvider from "@/app/components/TranslationProvider";
 
 const i18nNamespaces = ["common"];

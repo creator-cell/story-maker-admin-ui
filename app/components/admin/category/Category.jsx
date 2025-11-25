@@ -4,8 +4,8 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import DeleteCategory from "../../[locale]/(adminSide)/model/DeleteCategory";
-import Loader from "../Loader";
+import DeleteCategory from "../../../[locale]/(adminSide)/model/DeleteCategory";
+import Loader from "../../Loader";
 import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
 

@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import DeleteUser from "../../[locale]/(adminSide)/model/DeleteRole";
-import EditRole from "../../[locale]/(adminSide)/model/EditRole";
+import DeleteUser from "../../../[locale]/(adminSide)/model/DeleteRole";
+import EditRole from "../../../[locale]/(adminSide)/model/EditRole";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import CustomLink from "../CustomLink";
-import Loader from "../Loader";
+import CustomLink from "../../CustomLink";
+import Loader from "../../Loader";
 import { useTranslation } from "react-i18next";
 import DataTable from 'react-data-table-component';
 

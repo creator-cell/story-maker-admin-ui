@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import Loader from "../Loader";
+import Loader from "../../Loader";
 import { useTranslation } from "react-i18next";
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
 

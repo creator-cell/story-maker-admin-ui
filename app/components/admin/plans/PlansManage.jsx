@@ -8,7 +8,7 @@ import { FileIcon, defaultStyles } from "react-file-icon";
 import { IconDownload, IconEye, IconView360 } from "@tabler/icons-react";
 import useDownloader from "react-use-downloader";
 import { FormSelect } from "react-bootstrap";
-import Loader from "../Loader";
+import Loader from "../../Loader";
 import DeletePlan from "@/app/[locale]/(adminSide)/model/DeletePlan";
 import { useTranslation } from "react-i18next";
 import DataTable from 'react-data-table-component';

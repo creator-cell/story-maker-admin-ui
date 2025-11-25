@@ -1,4 +1,4 @@
-import Tickets from "@/app/components/admin/Tickets";
+import Tickets from "@/app/components/admin/tickets/Tickets";
 import TranslationProvider from "@/app/components/TranslationProvider";
 import initTranslations from "@/app/i18n";
 const i18nNamespaces = ["common"];

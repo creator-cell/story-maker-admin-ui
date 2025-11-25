@@ -1,5 +1,4 @@
-import AddAssets from "@/app/components/admin/AddAssets";
-import AddPlans from "@/app/components/admin/AddPlans";
+import AddPlans from "@/app/components/admin/plans/AddPlans";
 import TranslationProvider from "@/app/components/TranslationProvider";
 import initTranslations from "@/app/i18n";
 

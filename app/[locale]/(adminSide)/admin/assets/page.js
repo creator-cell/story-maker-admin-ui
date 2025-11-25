@@ -1,4 +1,4 @@
-import AssetsManage from "@/app/components/admin/AssetsManage";
+import AssetsManage from "@/app/components/admin/assets/AssetsManage";
 import TranslationProvider from "@/app/components/TranslationProvider";
 import initTranslations from "@/app/i18n";
 const i18nNamespaces = ["common"];
