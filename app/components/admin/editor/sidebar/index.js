@@ -16,9 +16,8 @@ import TextPanel from "./panels/text";
 import UploadPanel from "./panels/upload";
 import DrawingPanel from "./panels/draw";
 import SettingsPanel from "./panels/settings";
-import AiPanel from "./panels/ai";
-import { useEditorStore } from "../../../../redux/UserStore";
-import { toggleDrawingMode } from "../../fabric/fabric-utils";
+import { useEditorStore } from "@/app/redux/UserStore";
+import { toggleDrawingMode } from "@/app/components/admin/fabric/fabric-utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 

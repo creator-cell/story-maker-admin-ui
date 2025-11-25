@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 // import Modal from "react-modal"; // For chat modal
 import { useRouter } from "next/navigation";
-import Loader from "../../Loader";
+import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
 

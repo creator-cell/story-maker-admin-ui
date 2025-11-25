@@ -2,14 +2,11 @@
 
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { addImageToCanvas } from "./../../../fabric/fabric-utils";
-//import { fetchWithAuth } from "@/services/base-service";
-//import { uploadFileWithAuth } from "@/services/upload-service";
+import { addImageToCanvas } from "@/app/components/admin/fabric/fabric-utils";
 import axios from "axios";
-import { useEditorStore } from "../../../../../redux/UserStore";
+import { useEditorStore } from "@/app/redux/UserStore";
 import { Loader2, Upload } from "lucide-react";
 import { toast } from "react-toastify";
-// import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 

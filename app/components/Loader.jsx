@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LoaderImage from "../../public/images/loader.gif";
+import LoaderImage from "@/public/images/loader.gif";
 export default function Loader() {
   return (
     <div

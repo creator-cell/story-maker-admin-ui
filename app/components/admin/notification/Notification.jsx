@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Loader from "../../Loader";
+import Loader from "@/app/components/Loader";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";

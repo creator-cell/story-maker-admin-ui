@@ -1,15 +1,13 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import Canvas from "./canvas";
-import Header from "./header";
-import Sidebar from "./sidebar";
+import Canvas from "@/app/components/admin/editor/canvas/index";
+import Header from "@/app/components/admin/editor/header/index";
+import Sidebar from "@/app/components/admin/editor/sidebar/index";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { useEditorStore } from "../../../redux/UserStore";
-//import { getUserDesignByID } from "@/services/design-service";
-import Properties from "./properties";
-//import SubscriptionModal from "../subscription/premium-modal";
+import { useEditorStore } from "@/app/redux/UserStore";
+import Properties from "@/app/components/admin/editor/properties/index";
 
 function MainEditor(props) {
   const params = useParams();

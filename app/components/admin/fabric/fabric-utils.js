@@ -1,5 +1,5 @@
-import { shapeDefinitions } from "./shapes/shape-definitions";
-import { createShape } from "./shapes/shape-factory";
+import { shapeDefinitions } from "@/app/components/admin/fabric/shapes/shape-definitions";
+import { createShape } from "@/app/components/admin/fabric/shapes/shape-factory";
 
 export const initializeFabric = async (canvasEl, containerEl) => {
   try {

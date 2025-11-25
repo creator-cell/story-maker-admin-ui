@@ -1,6 +1,6 @@
 import initTranslations from "@/app/i18n";
 // import Login from "../../components/Login";
-import Login from "@/app/components/Login";
+import Login from "@/app/components/auth/Login";
 import TranslationProvider from "@/app/components/TranslationProvider";
 const i18nNamespaces = ["common"];
 

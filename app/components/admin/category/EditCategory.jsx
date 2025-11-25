@@ -4,7 +4,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import Loader from "../../Loader";
+import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
 
 export default function EditCategory({ userId }) {

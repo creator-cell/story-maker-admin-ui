@@ -3,13 +3,11 @@
 import { Button } from "@/app/components/ui/button";
 import { Textarea } from "@/app/components/ui/textarea";
 
-//import { generateImageFromAI } from "@/services/upload-service";
-import { useEditorStore } from "../../../../../redux/UserStore";
+import { useEditorStore } from "@/app/redux/UserStore";
 import { Loader, Sparkles, Wand2 } from "lucide-react";
 import { useState } from "react";
 
-import { fabric } from "fabric";
-import { addImageToCanvas } from "./../../../fabric/fabric-utils";
+import { addImageToCanvas } from "@/app/components/admin/fabric/fabric-utils";
 
 function AiPanel() {
   const { canvas } = useEditorStore();

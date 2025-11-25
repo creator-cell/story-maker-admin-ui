@@ -51,9 +51,8 @@
 "use client";
 
 import { Provider } from "react-redux";
-import { userStore, login } from "../redux/UserStore";
+import { userStore, login } from "@/app/redux/UserStore";
 import { useEffect } from "react";
-import axios from "axios";
 
 export const UserProvider = ({ children }) => {
   useEffect(() => {

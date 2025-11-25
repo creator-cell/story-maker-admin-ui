@@ -3,7 +3,6 @@
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { Slider } from "@/app/components/ui/slider";
 import {
   Tabs,
   TabsContent,
@@ -11,12 +10,8 @@ import {
   TabsTrigger,
 } from "@/app/components/ui/tabs";
 
-import {
-  toggleDrawingMode,
-  toggleEraseMode,
-  updateDrawingBrush,
-} from "./../../../fabric/fabric-utils";
-import { useEditorStore } from "../../../../../redux/UserStore";
+import { toggleDrawingMode, toggleEraseMode, updateDrawingBrush } from "@/app/components/admin/fabric/fabric-utils";
+import { useEditorStore } from "@/app/redux/UserStore";
 import {
   Droplets,
   EraserIcon,
@@ -27,7 +22,7 @@ import {
   Plus,
 } from "lucide-react";
 import { useState } from "react";
-import { drawingPanelColorPresets, brushSizes } from "./../../../config/index";
+import { drawingPanelColorPresets, brushSizes } from "@/app/components/admin/config/index";
 import { useTranslation } from "react-i18next";
 
 function DrawingPanel() {

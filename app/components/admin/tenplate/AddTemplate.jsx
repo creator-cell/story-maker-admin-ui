@@ -3,20 +3,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import Loader from "../../components/Loader";
-import FabricToolbar from "./FabricToolBar";
-import { setupCustomControls } from "./canvas/CustomControls";
-import { initCanvas } from "./canvas/InitShapes";
-import { addShape } from "./canvas/AddShapes";
-import { addLine } from "./canvas/AddLines";
-
-import { addStickyNote } from "./canvas/AddStickyNotes";
-import { addTable } from "./canvas/AddTable";
-import { enableErase, setDrawingMode } from "./canvas/DrawingTools";
-import { onUploadImage } from "./canvas/ImageTools";
-import FabricTextEditorToolbar from "./canvas/FabricTextEditorToolbar";
+import Loader from "@/app/components/Loader";
+import FabricToolbar from "@/app/components/admin/tenplate/FabricToolBar";
+import { initCanvas } from "@/app/components/admin/canvas/InitShapes";
+import { addShape } from "@/app/components/admin/canvas/AddShapes";
+import { addLine } from "@/app/components/admin/canvas/AddLines";
+import { addStickyNote } from "@/app/components/admin/canvas/AddStickyNotes";
+import { addTable } from "@/app/components/admin/canvas/AddTable";
+import { enableErase, setDrawingMode } from "@/app/components/admin/canvas/DrawingTools";
+import { onUploadImage } from "@/app/components/admin/canvas/ImageTools";
+import FabricTextEditorToolbar from "@/app/components/admin/canvas/FabricTextEditorToolbar";
 import axios from "axios";
-import Categories from "./Category";
 import { useTranslation } from "react-i18next";
 
 export default function AddTemplatePage() {

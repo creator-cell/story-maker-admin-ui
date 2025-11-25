@@ -3,7 +3,6 @@
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import PageLoader from "@/components/PageLoader";
 
 const Auth = (ProtectedComponent) => {
     return (props) => {
@@ -24,7 +23,7 @@ const Auth = (ProtectedComponent) => {
 
         return (
             <>
-            { loader ? <PageLoader/> : <ProtectedComponent { ...props } /> }
+            <ProtectedComponent { ...props } />
             </>
         );
     }

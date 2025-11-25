@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import FabricTextEditorToolbar from "./canvas/FabricTextEditorToolbar";
-
 export default function FabricToolbar({
   onAddShape,
   onAddText,

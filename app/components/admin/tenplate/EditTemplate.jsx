@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import Loader from "../../components/Loader";
+import Loader from "@/app/components/Loader";
 import { useRouter } from "next/navigation";
 import DeleteTemplate from "@/app/(adminSide)/model/DeleteTemplate";
 import ApproveTemplate from "@/app/(adminSide)/model/ApproveTemplate";

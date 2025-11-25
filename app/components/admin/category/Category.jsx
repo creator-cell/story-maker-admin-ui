@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import DeleteCategory from "../../../[locale]/(adminSide)/model/DeleteCategory";
-import Loader from "../../Loader";
+import DeleteCategory from "@/app/[locale]/(adminSide)/model/DeleteCategory"
+import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
 

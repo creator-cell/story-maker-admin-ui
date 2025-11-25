@@ -1,11 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import axios from "axios";
-import Loader from "../../auth/Loader";
-import { useRouter } from "next/navigation";
+import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {

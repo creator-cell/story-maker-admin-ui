@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import Loader from "../../Loader";
-import { WithContext as ReactTags, SEPARATORS } from "react-tag-input";
+import Loader from "@/app/components/Loader";
 
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
