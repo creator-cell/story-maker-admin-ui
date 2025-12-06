@@ -12,6 +12,42 @@ import { FormSelect } from "react-bootstrap";
 import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "58px",
+      fontSize: "15px",
+      borderBottom: "1px solid #F1F1F1",
+    },
+    highlightOnHoverStyle: {
+      backgroundColor: "#F8FBFF",
+      transitionDuration: "0.3s",
+      borderRadius: "6px",
+    },
+  },
+  headCells: {
+    style: {
+      backgroundColor: "#EEF3FF",
+      color: "#1B3C7A",
+      fontWeight: "600",
+      borderBottom: "2px solid #DCE6FF",
+      fontSize: "14px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "18px",
+      paddingRight: "18px",
+    },
+  },
+  pagination: {
+    style: {
+      borderTop: "1px solid #E6E6E6",
+      paddingTop: "12px",
+      paddingBottom: "12px",
+    },
+  },
+};
 
 const AssetsManage = () => {
   const { t } = useTranslation();
@@ -82,10 +118,12 @@ const AssetsManage = () => {
       });
 
       if (response.data.data.assets) {
-        setAssets(response.data?.data?.assets?.items || [])
-        setTotalPages(response.data.data.assets.pagination.totalPages || 1)
-        setTotalItems(response.data.data.assets.pagination.totalItems || 0)
-        setCurrentPage((response.data.data.assets.pagination.currentPage || 1) -1)
+        setAssets(response.data?.data?.assets?.items || []);
+        setTotalPages(response.data.data.assets.pagination.totalPages || 1);
+        setTotalItems(response.data.data.assets.pagination.totalItems || 0);
+        setCurrentPage(
+          (response.data.data.assets.pagination.currentPage || 1) - 1
+        );
       }
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -96,7 +134,7 @@ const AssetsManage = () => {
       }
       setAssets([]);
       setTotalPages(0);
-      setTotalItems(0)
+      setTotalItems(0);
     } finally {
       setLoader(false);
     }
@@ -402,7 +440,10 @@ const AssetsManage = () => {
       name: t("Action"),
       cell: (row) =>
         hasWritePermission() && (
-          <div className="d-flex position-relative custom-dropdown" data-label="Action">
+          <div
+            className="d-flex position-relative custom-dropdown"
+            data-label="Action"
+          >
             <button
               className="border-0 bg-transparent"
               type="button"
@@ -414,14 +455,16 @@ const AssetsManage = () => {
               <i className="fa fa-ellipsis"></i>
             </button>
             {openDropdownId === row._id && (
-              <ul
-                className="dropdown-menu show right-side"
-              >
+              <ul className="dropdown-menu show right-side">
                 <li>
                   {" "}
                   <button
                     className="admin_action_edit"
-                    onClick={(e) => { e.stopPropagation(); handleEditAssets(row._id); setOpenDropdownId(null); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditAssets(row._id);
+                      setOpenDropdownId(null);
+                    }}
                     title="Edit Asset"
                   >
                     <i className="fa fa-edit me-2"></i> {t("Edit")}
@@ -431,7 +474,11 @@ const AssetsManage = () => {
                   {" "}
                   <button
                     className="admin_action_clone"
-                    onClick={(e) => { e.stopPropagation(); handleCloneAssets(row._id); setOpenDropdownId(null); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCloneAssets(row._id);
+                      setOpenDropdownId(null);
+                    }}
                     title="Clone Asset"
                   >
                     <i className="fa fa-clone me-2"></i> {t("Clone")}
@@ -441,7 +488,11 @@ const AssetsManage = () => {
                   {" "}
                   <button
                     className="admin_action_delete"
-                    onClick={(e) => { e.stopPropagation(); handleAssetDelete(row._id); setOpenDropdownId(null); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAssetDelete(row._id);
+                      setOpenDropdownId(null);
+                    }}
                     title="Delete User"
                   >
                     <i className="fa fa-trash me-2"></i> {t("Delete")}
@@ -499,8 +550,9 @@ const AssetsManage = () => {
                     </div>
                   )}
 
-                  <div className="table-responsive">
-                    <DataTable columns={columns}
+                  <div className="table-responsive shadow-sm rounded-4 border">
+                    <DataTable
+                      columns={columns}
                       data={assets}
                       pagination
                       paginationServer
@@ -508,7 +560,13 @@ const AssetsManage = () => {
                       paginationDefaultPage={currentPage + 1}
                       onChangePage={(page) => getAssets(page)}
                       paginationPerPage={itemsPerPage}
-                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
+                      noDataComponent={
+                        <div className="text-center py-4">
+                          {t("There are no records to display")}
+                        </div>
+                      }
+                      customStyles={customStyles}
+                    />
                   </div>
                 </div>
               </div>

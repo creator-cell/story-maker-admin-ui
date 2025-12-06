@@ -10,6 +10,43 @@ import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
 import { useEditorStore } from "@/app/redux/UserStore";
 
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "58px",
+      fontSize: "15px",
+      borderBottom: "1px solid #F1F1F1",
+    },
+    highlightOnHoverStyle: {
+      backgroundColor: "#F8FBFF",
+      transitionDuration: "0.3s",
+      borderRadius: "6px",
+    },
+  },
+  headCells: {
+    style: {
+      backgroundColor: "#EEF3FF",
+      color: "#1B3C7A",
+      fontWeight: "600",
+      borderBottom: "2px solid #DCE6FF",
+      fontSize: "14px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "18px",
+      paddingRight: "18px",
+    },
+  },
+  pagination: {
+    style: {
+      borderTop: "1px solid #E6E6E6",
+      paddingTop: "12px",
+      paddingBottom: "12px",
+    },
+  },
+};
+
 export default function Template() {
   const { t } = useTranslation();
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
@@ -418,7 +455,7 @@ export default function Template() {
                   {/* Filters */}
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-3"></div>
-                    <div className="col-lg-9">
+                    <div className="col-lg-7">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative search-bar">
                           <input
@@ -474,7 +511,7 @@ export default function Template() {
                   )}
 
                   {/* Table */}
-                  <div className="table-responsive">
+                  <div className="table-responsive shadow-sm rounded-4 border">
                     <DataTable
                       columns={columns}
                       data={templates}
@@ -489,6 +526,7 @@ export default function Template() {
                           {t("There are no records to display")}
                         </div>
                       }
+                      customStyles={customStyles}
                     />
                   </div>
                 </div>

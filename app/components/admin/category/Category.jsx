@@ -3,10 +3,47 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import DeleteCategory from "@/app/[locale]/(adminSide)/model/DeleteCategory"
+import DeleteCategory from "@/app/[locale]/(adminSide)/model/DeleteCategory";
 import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
 import DataTable from "react-data-table-component";
+
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "58px",
+      fontSize: "15px",
+      borderBottom: "1px solid #F1F1F1",
+    },
+    highlightOnHoverStyle: {
+      backgroundColor: "#F8FBFF",
+      transitionDuration: "0.3s",
+      borderRadius: "6px",
+    },
+  },
+  headCells: {
+    style: {
+      backgroundColor: "#EEF3FF",
+      color: "#1B3C7A",
+      fontWeight: "600",
+      borderBottom: "2px solid #DCE6FF",
+      fontSize: "14px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "18px",
+      paddingRight: "18px",
+    },
+  },
+  pagination: {
+    style: {
+      borderTop: "1px solid #E6E6E6",
+      paddingTop: "12px",
+      paddingBottom: "12px",
+    },
+  },
+};
 
 export default function Categories() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
@@ -52,9 +89,8 @@ export default function Categories() {
         setCategories(res.data.items || []);
         setTotalPages(res.data.pagination?.totalPages || 1);
         setTotalItems(res.data.pagination?.total || 0);
-        setCurrentPage((res.data.pagination?.page || 1) -1);
+        setCurrentPage((res.data.pagination?.page || 1) - 1);
       }
-
     } catch (err) {
       toast.error(t("Failed to fetch categories"));
       setCategories([]);
@@ -110,7 +146,10 @@ export default function Categories() {
     {
       name: t("Action"),
       cell: (row) => (
-        <div className="d-flex position-relative custom-dropdown" data-label="Action">
+        <div
+          className="d-flex position-relative custom-dropdown"
+          data-label="Action"
+        >
           <button
             className="border-0 bg-transparent"
             type="button"
@@ -122,13 +161,15 @@ export default function Categories() {
             <i className="fa fa-ellipsis"></i>
           </button>
           {openDropdownId === row._id && (
-            <ul
-              className="dropdown-menu show right-side"
-            >
+            <ul className="dropdown-menu show right-side">
               <li>
                 <button
                   className={`admin_action_edit`}
-                  onClick={(e) => { e.stopPropagation(); handleEditCategory(row._id); setOpenDropdownId(null); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditCategory(row._id);
+                    setOpenDropdownId(null);
+                  }}
                 >
                   <i className="fa-solid fa-pencil me-2"></i> {t("Edit")}
                 </button>
@@ -136,7 +177,11 @@ export default function Categories() {
               <li>
                 <button
                   className={`admin_action_delete`}
-                  onClick={(e) => { e.stopPropagation(); handleDeleteCategory(row._id); setOpenDropdownId(null); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteCategory(row._id);
+                    setOpenDropdownId(null);
+                  }}
                 >
                   <i className="fa fa-trash me-2"></i> {t("Delete")}
                 </button>
@@ -144,7 +189,6 @@ export default function Categories() {
             </ul>
           )}
         </div>
-
       ),
     },
   ];
@@ -216,16 +260,23 @@ export default function Categories() {
                       </div>
                     </div>
                   )}
-                  <div className="table-responsive">
-                    <DataTable columns={columns} data={categories}
+                  <div className="table-responsive shadow-sm rounded-4 border">
+                    <DataTable
+                      columns={columns}
+                      data={categories}
                       pagination
                       paginationServer
                       paginationTotalRows={total}
                       paginationDefaultPage={currentPage + 1}
                       onChangePage={(page) => getCategories(page)}
                       paginationPerPage={itemsPerPage}
-                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>} />
-                    
+                      noDataComponent={
+                        <div className="text-center py-4">
+                          {t("There are no records to display")}
+                        </div>
+                      }
+                      customStyles={customStyles}
+                    />
                   </div>
                 </div>
               </div>

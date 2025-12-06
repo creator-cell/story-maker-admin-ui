@@ -136,10 +136,14 @@ const AdminSidebar = ({ locale }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   return (
     <>
       {loader && <Loader />}
-      <div id="admin_header">
+      <div
+        id="admin_header"
+        style={{ position: "sticky", top: "0px", zIndex: "10" }}
+      >
         <div className="container-fluid">
           <div className="row">
             <div className="logo-img col-lg-5 col-md-2 col-4">
@@ -154,7 +158,10 @@ const AdminSidebar = ({ locale }) => {
                   aria-label="Toggle navigation"
                 >
                   <span className="navbar-toggler-icon">
-                    <i className="fa-solid fa-bars-staggered"></i>
+                    <i
+                      className="fa-solid fa-bars-staggered"
+                      style={{ color: "#2383aa" }}
+                    ></i>
                   </span>
                 </button>
               </div>
