@@ -9,7 +9,6 @@ import { useTranslation } from "react-i18next";
 import Loader from "@/app/components/Loader";
 import Link from "next/link";
 
-
 const AdminSidebar = ({ locale }) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -339,7 +338,7 @@ const AdminSidebar = ({ locale }) => {
         }`}
         id="navbarSupportedContent"
       >
-        <div id="sidebar">
+        <div id="sidebar" className="scrollbar-hide">
           <button
             className="navbar-toggler close_box"
             type="button"
@@ -357,7 +356,15 @@ const AdminSidebar = ({ locale }) => {
             <div className="container-fluid h-100">
               <div className="side_bar_content">
                 <div className="d-flex flex-column w-100 h-100" id="">
-                  <img src="/frontCloud.png" alt="Story maker" loading="lazy" />
+                  <div class="d-flex justify-content-between align-items-center">
+                    <img
+                      src="/frontCloud.png"
+                      alt="Story maker"
+                      loading="lazy"
+                    />
+                    {/* <p>Close</p> */}
+                  </div>
+
                   <div className="d-flex justify-content-between flex-column h-100 mt-2">
                     <ul className="navbar-nav mb-2 mb-lg-0">
                       {hasMenuAccess("Dashboard") && (

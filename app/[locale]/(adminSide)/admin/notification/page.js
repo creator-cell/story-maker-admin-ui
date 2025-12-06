@@ -4,7 +4,7 @@ import initTranslations from "@/app/i18n";
 const i18nNamespaces = ["common"];
 const Page = async ({ params }) => {
   const { locale } = await params;
-  console.log("params", locale);
+  // console.log("params", locale);
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
     return (
           <TranslationProvider

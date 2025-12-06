@@ -266,7 +266,7 @@ export default function Tickets() {
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-3"></div>
-                    <div className="col-lg-9">
+                    <div className="col-lg-7">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative search-bar">
                           <input
