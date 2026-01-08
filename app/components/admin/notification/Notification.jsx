@@ -5,7 +5,44 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { useTranslation } from "react-i18next";
-import DataTable from 'react-data-table-component';
+import DataTable from "react-data-table-component";
+
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "58px",
+      fontSize: "15px",
+      borderBottom: "1px solid #F1F1F1",
+    },
+    highlightOnHoverStyle: {
+      backgroundColor: "#F8FBFF",
+      transitionDuration: "0.3s",
+      borderRadius: "6px",
+    },
+  },
+  headCells: {
+    style: {
+      backgroundColor: "#EEF3FF",
+      color: "#1B3C7A",
+      fontWeight: "600",
+      borderBottom: "2px solid #DCE6FF",
+      fontSize: "14px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "18px",
+      paddingRight: "18px",
+    },
+  },
+  pagination: {
+    style: {
+      borderTop: "1px solid #E6E6E6",
+      paddingTop: "12px",
+      paddingBottom: "12px",
+    },
+  },
+};
 
 export default function Notification() {
   const { t } = useTranslation();
@@ -23,33 +60,36 @@ export default function Notification() {
 
     setLoader(true);
     axios({
-      url: `${API_URL}notification/${type == "sms" ? 'sms' : 'mail'}`,
+      url: `${API_URL}notification/${type == "sms" ? "sms" : "mail"}`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       data: JSON.stringify({
-        message: message
+        message: message,
+      }),
+    })
+      .then((res) => {
+        setMessage("");
+        toast(t("Notification sended successfully"), {
+          theme: "light",
+          type: "success",
+          position: "top-right",
+        });
+        getNotifications();
       })
-    }).then(res => {
-      setMessage("");
-      toast(t("Notification sended successfully"), {
-        theme: "light",
-        type: "success",
-        position: "top-right"
+      .catch((err) => {
+        console.log(err);
+        toast(t("Something want wrong"), {
+          theme: "light",
+          type: "error",
+          position: "top-right",
+        });
+      })
+      .finally(() => {
+        setLoader(false);
       });
-      getNotifications();
-    }).catch(err => {
-      console.log(err);
-      toast(t("Something want wrong"), {
-        theme: "light",
-        type: "error",
-        position: "top-right"
-      });
-    }).finally(() => {
-      setLoader(false);
-    });
   };
 
   const getNotifications = (page = 1) => {
@@ -58,56 +98,58 @@ export default function Notification() {
       url: `${API_URL}notification?page=${page}`,
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
-    }).then(res => {
-      setNotifications(res?.data?.data?.items);
-      setTotalPages(res?.data?.data?.pagination?.totalPages);
-      setTotalItems(res?.data?.data?.pagination?.totalItems);
-      setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
-    }).catch(err => {
-      console.log(err);
-    }).finally(() => {
-      setLoader(false);
-    });
-  }
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        setNotifications(res?.data?.data?.items);
+        setTotalPages(res?.data?.data?.pagination?.totalPages);
+        setTotalItems(res?.data?.data?.pagination?.totalItems);
+        setCurrentPage(res?.data?.data?.pagination?.currentPage - 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  };
 
   const handlePageClick = (selectedPage) => {
     console.log(selectedPage);
     getNotifications(selectedPage?.selected + 1);
-  }
+  };
 
   useEffect(() => {
     getNotifications();
   }, []);
   const columns = [
     {
-      name: t('Date'),
-      selector: (row) => new Date(row.updatedAt).toLocaleDateString()
+      name: t("Date"),
+      selector: (row) => new Date(row.updatedAt).toLocaleDateString(),
     },
     {
-      name: t('Message'),
+      name: t("Message"),
       selector: (row) => row.message,
       wrap: true,
       minWidth: "200px",
-
     },
     {
-      name: t('Send By'),
+      name: t("Send By"),
       selector: (row) => row.sendedBy?.name,
       width: "150px",
     },
     {
-      name: t('Type'),
+      name: t("Type"),
       selector: (row) => row.type?.toUpperCase(),
       width: "120px",
     },
     {
-      name: t('Deliver Count'),
+      name: t("Deliver Count"),
       selector: (row) => row.deliverCount,
       width: "150px",
     },
-  ]
+  ];
   return (
     <>
       <div id="main_container">
@@ -129,7 +171,7 @@ export default function Notification() {
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="notification col-lg-9 col-md-8 col-12">
+                    <div className="notification col-lg-7 col-md-6 col-12">
                       <div className="filter_field">
                         <div className="form_group position-relative search-bar">
                           <input
@@ -147,39 +189,46 @@ export default function Notification() {
                           title="Send By Email"
                           onClick={() => handleSend("mail")}
                         >
-                          {t("Send by")} <i className="fa-solid fa-envelope"></i>
+                          {t("Send by")}{" "}
+                          <i className="fa-solid fa-envelope"></i>
                         </button>
                         <button
                           className="button"
                           title="Send By SMS"
                           onClick={() => handleSend("sms")}
                         >
-                          {t("Send by")} <i className="fa-solid fa-comment-sms"></i>
+                          {t("Send by")}{" "}
+                          <i className="fa-solid fa-comment-sms"></i>
                         </button>
                       </div>
                     </div>
                   </div>
                   <div className="col-lg-8 col-md-6 col-12">
                     <div className="filter_field d-flex gap-2 justify-content-end">
-                      <div className="form_group position-relative">
-                      </div>
+                      <div className="form_group position-relative"></div>
                     </div>
                   </div>
-
 
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">{t("Loading...")}</span>
+                        <span className="visually-hidden">
+                          {t("Loading...")}
+                        </span>
                       </div>
                     </div>
                   )}
 
-                  <div className="table-responsive">
+                  <div className="table-responsive shadow-sm rounded-4 border">
                     <DataTable
                       columns={columns}
                       data={notifications}
-                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
+                      noDataComponent={
+                        <div className="text-center py-4">
+                          {t("There are no records to display")}
+                        </div>
+                      }
+                      customStyles={customStyles}
                     />
                   </div>
 
@@ -187,8 +236,8 @@ export default function Notification() {
                     <div className="pagination-container d-flex justify-content-between align-items-center flex-wrap">
                       <div className="pagination-info">
                         <small>
-                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}({totalItems}{" "}
-                          {t("total items")})
+                          {t("Page")} {currentPage + 1} {t("of")} {totalPages}(
+                          {totalItems} {t("total items")})
                         </small>
                       </div>
                       <ReactPaginate

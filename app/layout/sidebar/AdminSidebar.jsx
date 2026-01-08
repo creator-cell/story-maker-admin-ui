@@ -9,7 +9,6 @@ import { useTranslation } from "react-i18next";
 import Loader from "@/app/components/Loader";
 import Link from "next/link";
 
-
 const AdminSidebar = ({ locale }) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -137,10 +136,14 @@ const AdminSidebar = ({ locale }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   return (
     <>
       {loader && <Loader />}
-      <div id="admin_header">
+      <div
+        id="admin_header"
+        style={{ position: "sticky", top: "0px", zIndex: "10" }}
+      >
         <div className="container-fluid">
           <div className="row">
             <div className="logo-img col-lg-5 col-md-2 col-4">
@@ -155,7 +158,10 @@ const AdminSidebar = ({ locale }) => {
                   aria-label="Toggle navigation"
                 >
                   <span className="navbar-toggler-icon">
-                    <i className="fa-solid fa-bars-staggered"></i>
+                    <i
+                      className="fa-solid fa-bars-staggered"
+                      style={{ color: "#2383aa" }}
+                    ></i>
                   </span>
                 </button>
               </div>
@@ -339,7 +345,7 @@ const AdminSidebar = ({ locale }) => {
         }`}
         id="navbarSupportedContent"
       >
-        <div id="sidebar">
+        <div id="sidebar" className="scrollbar-hide">
           <button
             className="navbar-toggler close_box"
             type="button"
@@ -357,7 +363,15 @@ const AdminSidebar = ({ locale }) => {
             <div className="container-fluid h-100">
               <div className="side_bar_content">
                 <div className="d-flex flex-column w-100 h-100" id="">
-                  <img src="/frontCloud.png" alt="Story maker" loading="lazy" />
+                  <div class="d-flex justify-content-between align-items-center">
+                    <img
+                      src="/frontCloud.png"
+                      alt="Story maker"
+                      loading="lazy"
+                    />
+                    {/* <p>Close</p> */}
+                  </div>
+
                   <div className="d-flex justify-content-between flex-column h-100 mt-2">
                     <ul className="navbar-nav mb-2 mb-lg-0">
                       {hasMenuAccess("Dashboard") && (

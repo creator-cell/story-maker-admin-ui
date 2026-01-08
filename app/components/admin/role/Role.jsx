@@ -7,7 +7,44 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
-import DataTable from 'react-data-table-component';
+import DataTable from "react-data-table-component";
+
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "58px",
+      fontSize: "15px",
+      borderBottom: "1px solid #F1F1F1",
+    },
+    highlightOnHoverStyle: {
+      backgroundColor: "#F8FBFF",
+      transitionDuration: "0.3s",
+      borderRadius: "6px",
+    },
+  },
+  headCells: {
+    style: {
+      backgroundColor: "#EEF3FF",
+      color: "#1B3C7A",
+      fontWeight: "600",
+      borderBottom: "2px solid #DCE6FF",
+      fontSize: "14px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "18px",
+      paddingRight: "18px",
+    },
+  },
+  pagination: {
+    style: {
+      borderTop: "1px solid #E6E6E6",
+      paddingTop: "12px",
+      paddingBottom: "12px",
+    },
+  },
+};
 
 export default function Roles() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
@@ -191,30 +228,30 @@ export default function Roles() {
     setLoader(true);
     router.push("/admin/role/add-role");
   };
-    useEffect(() => {
-        if (users.length > 0) {
-          setTimeout(() => {
-            const allRows = document.querySelectorAll(".rdt_TableRow");
-    
-            if (allRows.length > 4) {
-              allRows.forEach((row) => row.classList.remove("drop-up"));
-              const lastThree = Array.from(allRows).slice(-3);
-              lastThree.forEach((row) => row.classList.add("drop-up"));
-            } else {
-              allRows.forEach((row) => row.classList.remove("drop-up"));
-            }
-          }, 0);
+  useEffect(() => {
+    if (users.length > 0) {
+      setTimeout(() => {
+        const allRows = document.querySelectorAll(".rdt_TableRow");
+
+        if (allRows.length > 4) {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
+          const lastThree = Array.from(allRows).slice(-3);
+          lastThree.forEach((row) => row.classList.add("drop-up"));
+        } else {
+          allRows.forEach((row) => row.classList.remove("drop-up"));
         }
-      }, [users]);
+      }, 0);
+    }
+  }, [users]);
   const columns = [
     {
-      name: t('Name'),
-      selector: row => row.name,
-      cell: row => <span>{row.name}</span>,
+      name: t("Name"),
+      selector: (row) => row.name,
+      cell: (row) => <span>{row.name}</span>,
     },
     {
-      name: t('Menus & Permissions'),
-      cell: row =>
+      name: t("Menus & Permissions"),
+      cell: (row) =>
         row.menu && row.menu.length > 0 ? (
           <div>
             {row.menu.map((item, i) => (
@@ -226,8 +263,8 @@ export default function Roles() {
         ),
     },
     {
-      name: t('Read'),
-      cell: row =>
+      name: t("Read"),
+      cell: (row) =>
         row.menu && row.menu.length > 0 ? (
           <div>
             {row.menu.map((item, i) => (
@@ -241,8 +278,8 @@ export default function Roles() {
         ),
     },
     {
-      name: t('Write'),
-      cell: row =>
+      name: t("Write"),
+      cell: (row) =>
         row.menu && row.menu.length > 0 ? (
           <div>
             {row.menu.map((item, i) => (
@@ -256,8 +293,8 @@ export default function Roles() {
         ),
     },
     {
-      name: t('Both'),
-      cell: row =>
+      name: t("Both"),
+      cell: (row) =>
         row.menu && row.menu.length > 0 ? (
           <div>
             {row.menu.map((item, i) => (
@@ -271,9 +308,12 @@ export default function Roles() {
         ),
     },
     {
-      name: t('Action'),
-      cell: row => (
-        <div className="d-flex position-relative custom-dropdown" data-label="Action">
+      name: t("Action"),
+      cell: (row) => (
+        <div
+          className="d-flex position-relative custom-dropdown"
+          data-label="Action"
+        >
           <button
             className="border-0 bg-transparent"
             type="button"
@@ -285,13 +325,15 @@ export default function Roles() {
             <i className="fa fa-ellipsis"></i>
           </button>
           {openDropdownId === row._id && (
-            <ul
-              className="dropdown-menu show right-side"
-            >
+            <ul className="dropdown-menu show right-side">
               <li>
                 <button
                   className="admin_action_edit"
-                  onClick={(e) => { e.stopPropagation();handleUserUpdate(row._id);  setOpenDropdownId(null);}}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUserUpdate(row._id);
+                    setOpenDropdownId(null);
+                  }}
                 >
                   <i className="fa fa-edit me-1"></i> {t("Edit")}
                 </button>
@@ -300,7 +342,11 @@ export default function Roles() {
                 <li>
                   <button
                     className="admin_action_delete"
-                    onClick={(e) => {e.stopPropagation(); handleUserDelete(row._id);setOpenDropdownId(null);}}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUserDelete(row._id);
+                      setOpenDropdownId(null);
+                    }}
                   >
                     <i className="fa fa-trash me-1"></i> {t("Delete")}
                   </button>
@@ -311,8 +357,8 @@ export default function Roles() {
         </div>
       ),
       width: "120px",
-    }
-  ]
+    },
+  ];
   return (
     <>
       <div id="main_container">
@@ -339,11 +385,16 @@ export default function Roles() {
                       </div>
                     </div>
                   </div>
-                  <div className="table-responsive">
+                  <div className="table-responsive shadow-sm rounded-4 border">
                     <DataTable
                       columns={columns}
                       data={users}
-                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
+                      noDataComponent={
+                        <div className="text-center py-4">
+                          {t("There are no records to display")}
+                        </div>
+                      }
+                      customStyles={customStyles}
                     />
                   </div>
                 </div>

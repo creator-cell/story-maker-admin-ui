@@ -3,18 +3,61 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
-// import Modal from "react-modal"; // For chat modal
 import { useRouter } from "next/navigation";
 import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
+
+createTheme("blueTheme", {
+  text: { primary: "#1C2C5B" },
+  background: { default: "#FFFFFF" },
+  context: { background: "#E3EFFF", text: "#1C2C5B" },
+  divider: { default: "#E1E8FF" },
+  highlightOnHover: { default: "#F4F7FF" },
+});
+
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "58px",
+      fontSize: "15px",
+      borderBottom: "1px solid #F1F1F1",
+    },
+    highlightOnHoverStyle: {
+      backgroundColor: "#F8FBFF",
+      transitionDuration: "0.3s",
+      borderRadius: "6px",
+    },
+  },
+  headCells: {
+    style: {
+      backgroundColor: "#EEF3FF",
+      color: "#1B3C7A",
+      fontWeight: "600",
+      borderBottom: "2px solid #DCE6FF",
+      fontSize: "14px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "18px",
+      paddingRight: "18px",
+    },
+  },
+  pagination: {
+    style: {
+      borderTop: "1px solid #E6E6E6",
+      paddingTop: "12px",
+      paddingBottom: "12px",
+    },
+  },
+};
 
 export default function Tickets() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-
   const [total, setTotalItems] = useState(0);
   const [search, setSearch] = useState("");
   const [loader, setLoader] = useState(false);
@@ -23,7 +66,6 @@ export default function Tickets() {
   const itemsPerPage = 10;
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user"));
-
   const [openDropdownId, setOpenDropdownId] = useState(null);
 
   useEffect(() => {
@@ -39,6 +81,7 @@ export default function Tickets() {
   const toggleDropdown = (id) => {
     setOpenDropdownId((prev) => (prev === id ? null : id));
   };
+
   const getTickets = async (page = 1, searchTerm = "") => {
     setLoader(true);
     try {
@@ -50,14 +93,12 @@ export default function Tickets() {
 
       if (res.data) {
         setTickets(res.data.data || []);
-
         setTotalItems(res.data.total || 0);
         setCurrentPage((res.data.page || 1) - 1);
       }
     } catch (err) {
       toast.error(t("Failed to fetch tickets"));
       setTickets([]);
-
       setTotalItems(0);
     } finally {
       setLoader(false);
@@ -67,6 +108,7 @@ export default function Tickets() {
   useEffect(() => {
     getAllModerator();
   }, []);
+
   useEffect(() => {
     getTickets(1);
   }, []);
@@ -87,7 +129,6 @@ export default function Tickets() {
         }
       );
       toast.success(t("Ticket Resolved"));
-
       getTickets(currentPage + 1, search);
       setLoader(false);
     } catch (err) {
@@ -116,7 +157,6 @@ export default function Tickets() {
       const response = await axios.get(`${API_URL}ticket-support/moderator`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-
       setAllModerator(response.data);
     } catch (err) {}
   };
@@ -125,11 +165,11 @@ export default function Tickets() {
     setLoader(true);
     router.push(`/admin/tickets/add`);
   };
+
   useEffect(() => {
     if (tickets.length > 0) {
       setTimeout(() => {
         const allRows = document.querySelectorAll(".rdt_TableRow");
-
         if (allRows.length > 5) {
           allRows.forEach((row) => row.classList.remove("drop-up"));
           const lastThree = Array.from(allRows).slice(-3);
@@ -161,6 +201,10 @@ export default function Tickets() {
               <select
                 value={row?.moderator?._id || ""}
                 onChange={(e) => handleAssignModerator(row._id, e.target.value)}
+                style={{
+                  padding: "4px 8px",
+                  borderRadius: "8px",
+                }}
               >
                 <option value="">{t("Assign Moderator")}</option>
                 {moderator?.map((item) => (
@@ -266,7 +310,7 @@ export default function Tickets() {
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-3"></div>
-                    <div className="col-lg-9">
+                    <div className="col-lg-7">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         <div className="form_group position-relative search-bar">
                           <input
@@ -316,10 +360,14 @@ export default function Tickets() {
                       </div>
                     </div>
                   )}
-                  <div className="table-responsive">
+                  <div className="table-responsive shadow-sm rounded-4 border">
                     <DataTable
                       columns={columns}
                       data={tickets}
+                      theme="blueTheme"
+                      customStyles={customStyles}
+                      highlightOnHover
+                      striped
                       pagination
                       paginationServer
                       paginationTotalRows={total}

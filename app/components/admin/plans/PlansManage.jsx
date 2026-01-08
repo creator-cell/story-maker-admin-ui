@@ -1,14 +1,51 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import useDownloader from "react-use-downloader";
 import Loader from "@/app/components/Loader";
 import DeletePlan from "@/app/[locale]/(adminSide)/model/DeletePlan";
 import { useTranslation } from "react-i18next";
-import DataTable from 'react-data-table-component';
+import DataTable from "react-data-table-component";
+
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "58px",
+      fontSize: "15px",
+      borderBottom: "1px solid #F1F1F1",
+    },
+    highlightOnHoverStyle: {
+      backgroundColor: "#F8FBFF",
+      transitionDuration: "0.3s",
+      borderRadius: "6px",
+    },
+  },
+  headCells: {
+    style: {
+      backgroundColor: "#EEF3FF",
+      color: "#1B3C7A",
+      fontWeight: "600",
+      borderBottom: "2px solid #DCE6FF",
+      fontSize: "14px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "18px",
+      paddingRight: "18px",
+    },
+  },
+  pagination: {
+    style: {
+      borderTop: "1px solid #E6E6E6",
+      paddingTop: "12px",
+      paddingBottom: "12px",
+    },
+  },
+};
 
 const PlansManage = () => {
   const { t } = useTranslation();
@@ -27,7 +64,7 @@ const PlansManage = () => {
   const [userPermissions, setUserPermissions] = useState({
     read: false,
     write: false,
-    both: false
+    both: false,
   });
   const itemsPerPage = 20;
   const router = useRouter();
@@ -51,13 +88,19 @@ const PlansManage = () => {
   const toggleDropdown = (id) => {
     setOpenDropdownId((prev) => (prev === id ? null : id));
   };
-  const getPlans = async (page = 1, sort = sortByValue, search = "", order = sortOrder) => {
+  const getPlans = async (
+    page = 1,
+    sort = sortByValue,
+    search = "",
+    order = sortOrder
+  ) => {
     setLoader(true);
     try {
       let url = `${API_URL}billing-subscription/plan?page=${page}&pageSize=${itemsPerPage}`;
 
       if (sort) url += `&sortBy=${sort}&sortOrder=${order}`;
-      if (search && search.trim()) url += `&search=${encodeURIComponent(search.trim())}`;
+      if (search && search.trim())
+        url += `&search=${encodeURIComponent(search.trim())}`;
 
       const response = await axios({
         url: url,
@@ -67,7 +110,6 @@ const PlansManage = () => {
 
       setPlans(response.data?.data?.plan?.items);
       console.log(response.data);
-
     } catch (error) {
       console.error("Error fetching users:", error);
       if (error.response?.status === 403) {
@@ -87,42 +129,44 @@ const PlansManage = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
       return response.data;
     } catch (err) {
       console.log("Error fetching user data:", err);
-
     }
   };
 
   const handleEditPlans = (updateAssetId) => {
     setLoader(true);
     router.push(`/admin/plans/${updateAssetId}`);
-  }
+  };
 
   const handlePlanDelete = (deletePlanId) => {
     setPlansId(deletePlanId);
     setDeletePlans(true);
-  }
+  };
 
   const handleDeleteSuccess = () => {
     setDeletePlans(false);
     getPlans();
-  }
-
+  };
 
   useEffect(() => {
     const initializeUserPermissions = async () => {
       try {
         const userData = await getUserDetail();
 
-        if (userData && userData.rolePermissions && userData.rolePermissions.menu) {
+        if (
+          userData &&
+          userData.rolePermissions &&
+          userData.rolePermissions.menu
+        ) {
           // Find the Users menu permissions
           const usersMenu = userData.rolePermissions.menu.find(
-            menu => menu.menuName === "Plans"
+            (menu) => menu.menuName === "Plans"
           );
 
           if (usersMenu) {
@@ -131,7 +175,7 @@ const PlansManage = () => {
               read: usersMenu.read || false,
               write: usersMenu.write || false,
               both: usersMenu.both || false,
-              hasUsersMenu: true
+              hasUsersMenu: true,
             });
 
             // If user has read permission or both, fetch users
@@ -146,7 +190,7 @@ const PlansManage = () => {
               read: false,
               write: false,
               both: false,
-              hasUsersMenu: false
+              hasUsersMenu: false,
             });
             toast.error(t("You don't have permission to access this page"));
           }
@@ -156,7 +200,7 @@ const PlansManage = () => {
             read: false,
             write: false,
             both: false,
-            hasUsersMenu: false
+            hasUsersMenu: false,
           });
           toast.error(t("You don't have permission to access this page"));
         }
@@ -166,7 +210,7 @@ const PlansManage = () => {
           read: false,
           write: false,
           both: false,
-          hasUsersMenu: false
+          hasUsersMenu: false,
         });
         toast.error(t("Error loading user permissions"));
       }
@@ -192,30 +236,29 @@ const PlansManage = () => {
   }, [plans]);
   const columns = [
     {
-      name: t('Date'),
+      name: t("Date"),
       selector: (row) => new Date(row.createdAt).toLocaleDateString(),
     },
     {
-      name: t('Name'),
-      selector: row => row.name
+      name: t("Name"),
+      selector: (row) => row.name,
     },
     {
-      name: t('Title'),
-      selector: row => row.title
+      name: t("Title"),
+      selector: (row) => row.title,
     },
     {
-      name: t('Description') || t("no Description"),
-      selector: row => row.description,
+      name: t("Description") || t("no Description"),
+      selector: (row) => row.description,
       wrap: true,
       minWidth: "250px",
     },
     {
-      name: t('Price') || t("no Price"),
-      selector: (row) =>
-        row.price ? parseFloat(row.price).toFixed(2) : "",
+      name: t("Price") || t("no Price"),
+      selector: (row) => (row.price ? parseFloat(row.price).toFixed(2) : ""),
     },
     {
-      name: t('Duration'),
+      name: t("Duration"),
       cell: (row) =>
         row.duration ? (
           <span className="badge bg-success text-light m-1">
@@ -227,7 +270,7 @@ const PlansManage = () => {
       width: "120px",
     },
     {
-      name: t('Features') || t("no Features"),
+      name: t("Features") || t("no Features"),
       cell: (row) => (
         <div
           className="d-flex flex-wrap gap-2"
@@ -242,15 +285,18 @@ const PlansManage = () => {
       ),
     },
     {
-      name: t('Uploaded By'),
+      name: t("Uploaded By"),
       selector: (row) => row.uploadedBy?.email,
       minWidth: "200px",
     },
     {
-      name: t('Action'),
-      cell: row => (
+      name: t("Action"),
+      cell: (row) =>
         hasWritePermission() && (
-          <div className="d-flex position-relative custom-dropdown" data-label="Action">
+          <div
+            className="d-flex position-relative custom-dropdown"
+            data-label="Action"
+          >
             <button
               className="border-0 bg-transparent"
               type="button"
@@ -263,25 +309,37 @@ const PlansManage = () => {
             </button>
             {openDropdownId === row._id && (
               <ul className="dropdown-menu show right-side">
-                <li> <button
-                  className="admin_action_edit"
-                  onClick={(e) => { e.stopPropagation(); handleEditPlans(row._id); setOpenDropdownId(null); }}
-                >
-                  <i className="fa fa-edit me-2"></i> {t("Edit")}
-                </button></li>
-                <li><button
-                  className="admin_action_delete"
-                  onClick={(e) => { e.stopPropagation(); handlePlanDelete(row._id); setOpenDropdownId(null); }}
-                >
-                  <i className="fa fa-trash me-2"></i> {t("Delete")}
-                </button></li>
+                <li>
+                  {" "}
+                  <button
+                    className="admin_action_edit"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditPlans(row._id);
+                      setOpenDropdownId(null);
+                    }}
+                  >
+                    <i className="fa fa-edit me-2"></i> {t("Edit")}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="admin_action_delete"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePlanDelete(row._id);
+                      setOpenDropdownId(null);
+                    }}
+                  >
+                    <i className="fa fa-trash me-2"></i> {t("Delete")}
+                  </button>
+                </li>
               </ul>
             )}
           </div>
-        )
-      )
-    }
-  ]
+        ),
+    },
+  ];
   return (
     <>
       <div id="main_container">
@@ -299,15 +357,19 @@ const PlansManage = () => {
                 <div className="admin_table">
                   <div className="row table_filter justify-content-between align-items-center mb-3">
                     <div className="col-lg-6 col-md-6 col-12">
-                      <div className="d-flex gap-2 align-items-center">
-
-                      </div>
+                      <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
                     <div className="col-lg-6 col-md-6 col-12">
                       <div className="filter_field d-flex gap-2 justify-content-end">
                         {hasWritePermission() && (
-                          <button className="button" onClick={() => { setLoader(true); router.push('/admin/plans/addplans') }}>
+                          <button
+                            className="button"
+                            onClick={() => {
+                              setLoader(true);
+                              router.push("/admin/plans/addplans");
+                            }}
+                          >
                             {t("Add Plan")}
                           </button>
                         )}
@@ -318,16 +380,23 @@ const PlansManage = () => {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">{t("Loading...")}</span>
+                        <span className="visually-hidden">
+                          {t("Loading...")}
+                        </span>
                       </div>
                     </div>
                   )}
 
-                  <div className="table-responsive">
+                  <div className="table-responsive shadow-sm rounded-4 border">
                     <DataTable
                       columns={columns}
                       data={plans}
-                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
+                      noDataComponent={
+                        <div className="text-center py-4">
+                          {t("There are no records to display")}
+                        </div>
+                      }
+                      customStyles={customStyles}
                     />
                   </div>
 
@@ -335,8 +404,8 @@ const PlansManage = () => {
                     <div className="pagination-container d-flex justify-content-between align-items-center">
                       <div className="pagination-info">
                         <small className="text-muted">
-                          Page {currentPage + 1} of {totalPages}
-                          ({totalItems} total items)
+                          Page {currentPage + 1} of {totalPages}({totalItems}{" "}
+                          total items)
                         </small>
                       </div>
                       <ReactPaginate
@@ -362,7 +431,6 @@ const PlansManage = () => {
         {loader && <Loader />}
       </div>
 
-
       {hasWritePermission() && (
         <DeletePlan
           show={deletePlans}
@@ -370,9 +438,8 @@ const PlansManage = () => {
           onHide={handleDeleteSuccess}
         />
       )}
-
     </>
   );
-}
+};
 
 export default PlansManage;

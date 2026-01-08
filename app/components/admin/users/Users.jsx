@@ -8,7 +8,44 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "@/app/components/Loader";
 import { useTranslation } from "react-i18next";
-import DataTable from 'react-data-table-component';
+import DataTable from "react-data-table-component";
+
+const customStyles = {
+  rows: {
+    style: {
+      minHeight: "58px",
+      fontSize: "15px",
+      borderBottom: "1px solid #F1F1F1",
+    },
+    highlightOnHoverStyle: {
+      backgroundColor: "#F8FBFF",
+      transitionDuration: "0.3s",
+      borderRadius: "6px",
+    },
+  },
+  headCells: {
+    style: {
+      backgroundColor: "#EEF3FF",
+      color: "#1B3C7A",
+      fontWeight: "600",
+      borderBottom: "2px solid #DCE6FF",
+      fontSize: "14px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "18px",
+      paddingRight: "18px",
+    },
+  },
+  pagination: {
+    style: {
+      borderTop: "1px solid #E6E6E6",
+      paddingTop: "12px",
+      paddingBottom: "12px",
+    },
+  },
+};
 
 export default function Users() {
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL_V1;
@@ -197,7 +234,7 @@ export default function Users() {
     if (sortByValue !== field) return "fa-sort";
     return sortOrder === "asc" ? "fa-sort-up" : "fa-sort-down";
   };
-useEffect(() => {
+  useEffect(() => {
     if (users.length > 0) {
       setTimeout(() => {
         const allRows = document.querySelectorAll(".rdt_TableRow");
@@ -221,30 +258,36 @@ useEffect(() => {
           <i className={`fa ${getSortIcon("name")} ms-1`}></i>
         </div>
       ),
-      selector: row => row.name,
+      selector: (row) => row.name,
     },
     {
       name: (
-        <div onClick={() => handleSort("email")} className="cursor d-flex align-items-center">
+        <div
+          onClick={() => handleSort("email")}
+          className="cursor d-flex align-items-center"
+        >
           {t("Email Address")}
           <i className={`fa ${getSortIcon("email")} ms-1`}></i>
         </div>
       ),
-      selector: row => row.email,
+      selector: (row) => row.email,
     },
     {
-      name: t('Phone Number'),
-      selector: row => row.phone
+      name: t("Phone Number"),
+      selector: (row) => row.phone,
     },
     {
       name: (
-        <div onClick={() => handleSort("isActive")} className="cursor d-flex align-items-center">
+        <div
+          onClick={() => handleSort("isActive")}
+          className="cursor d-flex align-items-center"
+        >
           {t("Status")}
           <i className={`fa ${getSortIcon("isActive")} ms-1`}></i>
         </div>
       ),
-      selector: row => row.isActive ? 'Active' : 'Deactivate',
-      cell: row => (
+      selector: (row) => (row.isActive ? "Active" : "Deactivate"),
+      cell: (row) =>
         hasWritePermission() ? (
           <div className="form-check form-switch">
             <input
@@ -256,25 +299,24 @@ useEffect(() => {
               onChange={() => updateUserStatus(row._id)}
             />
           </div>
-        )
-          : (
-            <>
-              {row.isActive ? (
-                <span className="badge bg-primary">Active</span>
-              ) : (
-                <span className="badge bg-secondary">Deactivate</span>
-              )}
-            </>
-          )
-      )
+        ) : (
+          <>
+            {row.isActive ? (
+              <span className="badge bg-primary">Active</span>
+            ) : (
+              <span className="badge bg-secondary">Deactivate</span>
+            )}
+          </>
+        ),
     },
     {
-      name: t('Action'),
-      cell: row => (
+      name: t("Action"),
+      cell: (row) =>
         hasWritePermission() && (
-          <div className="d-flex position-relative custom-dropdown"
-            data-label="Action">
-
+          <div
+            className="d-flex position-relative custom-dropdown"
+            data-label="Action"
+          >
             <button
               className="border-0 bg-transparent"
               type="button"
@@ -286,8 +328,7 @@ useEffect(() => {
               <i className="fa fa-ellipsis"></i>
             </button>
             {openDropdownId === row._id && (
-              <ul className="dropdown-menu show right-side"
-              >
+              <ul className="dropdown-menu show right-side">
                 <li>
                   <button
                     className="admin_action_edit"
@@ -295,8 +336,7 @@ useEffect(() => {
                       e.stopPropagation();
                       handleEditUser(row._id);
                       setOpenDropdownId(null);
-                    }
-                    }
+                    }}
                   >
                     <i className="fa-solid fa-pencil me-1"></i> {t("Edit")}
                   </button>
@@ -316,9 +356,8 @@ useEffect(() => {
               </ul>
             )}
           </div>
-        )
-      )
-    }
+        ),
+    },
   ];
   useEffect(() => {
     const initializeUserPermissions = async () => {
@@ -422,20 +461,20 @@ useEffect(() => {
                       <div className="d-flex gap-2 align-items-center"></div>
                     </div>
 
-                    <div className="col-lg-9 col-md-8 col-12">
+                    <div className="col-lg-7 col-md-6 col-12">
                       <div className="filter_field">
                         <div className="form_group position-relative search-bar">
                           <input
                             type="text"
-                            placeholder={t("Search by name, email, or phone...")}
+                            placeholder={t(
+                              "Search by name, email, or phone..."
+                            )}
                             className="form-control"
                             value={searchUser}
                             onChange={handleSearchInputChange}
                             onKeyPress={handleSearchKeyPress}
                           />
-                          <i
-                            className="fa-solid fa-magnifying-glass"
-                          ></i>
+                          <i className="fa-solid fa-magnifying-glass"></i>
                         </div>
 
                         <button
@@ -468,12 +507,14 @@ useEffect(() => {
                   {loading && (
                     <div className="text-center py-4">
                       <div className="spinner-border" role="status">
-                        <span className="visually-hidden">{t("Loading...")}</span>
+                        <span className="visually-hidden">
+                          {t("Loading...")}
+                        </span>
                       </div>
                     </div>
                   )}
 
-                  <div className="table-responsive">
+                  <div className="table-responsive shadow-sm rounded-4 border">
                     <DataTable
                       columns={columns}
                       data={users}
@@ -481,9 +522,16 @@ useEffect(() => {
                       paginationServer
                       paginationTotalRows={totalItems}
                       paginationDefaultPage={currentPage + 1}
-                      onChangePage={(page)=> getUsers(page, sortByValue, searchUser, sortOrder)}
+                      onChangePage={(page) =>
+                        getUsers(page, sortByValue, searchUser, sortOrder)
+                      }
                       paginationPerPage={itemsPerPage}
-                      noDataComponent={<div className="text-center py-4">{t("There are no records to display")}</div>}
+                      noDataComponent={
+                        <div className="text-center py-4">
+                          {t("There are no records to display")}
+                        </div>
+                      }
+                      customStyles={customStyles}
                     />
                   </div>
                 </div>
