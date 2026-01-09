@@ -100,48 +100,52 @@ const ChatHistory = ({ ticketId }) => {
               <div className="container-lg container-fluid p-0">
                 <div className="row mb-4">
                   <div className="chat-container">
-                    <div className="chat">
-                      <p className="title">{t("Reply")}</p>
-                      <div className="box">
-                        <div className="type-messages gap-2 w-100">
-                          <div className="d-flex flex-column">
-                            <span>{t("Your message")}</span>
+                    {ticket && ticket.status !== "Resolved" && (
+                      <>
+                        <div className="chat">
+                          <p className="title">{t("Reply")}</p>
+                          <div className="box">
+                            <div className="type-messages gap-2 w-100">
+                              <div className="d-flex flex-column">
+                                <span>{t("Your message")}</span>
 
-                            <textarea
-                              type="text"
-                              className="form-control mt-3"
-                              value={chatMessage}
-                              onChange={(e) => setChatMessage(e.target.value)}
-                              rows={4}
-                            />
+                                <textarea
+                                  type="text"
+                                  className="form-control mt-3"
+                                  value={chatMessage}
+                                  onChange={(e) => setChatMessage(e.target.value)}
+                                  rows={4}
+                                />
 
-                            <div className="upload-file mt-4 gap-4 d-flex">
-                              <label htmlFor="file-upload" className="upload-text">
-                                <i className="fa-solid fa-file-arrow-up"></i> <span> {t("Upload a file")} </span>
-                              </label>
-                              <input type="file" id="file-upload" accept="image/*" onChange={handleFileChange} className="mt-4 d-none" />
+                                <div className="upload-file mt-4 gap-4 d-flex">
+                                  <label htmlFor="file-upload" className="upload-text">
+                                    <i className="fa-solid fa-file-arrow-up"></i> <span> {t("Upload a file")} </span>
+                                  </label>
+                                  <input type="file" id="file-upload" accept="image/*" onChange={handleFileChange} className="mt-4 d-none" />
+                                </div>
+                                <button
+                                  className="button mt-4"
+                                  onClick={sendChatMessage}
+                                  disabled={loading || !chatMessage.trim() && !imageFile}
+                                >
+                                  {t("Reply")}
+                                </button>
+                              </div>
+                              <div className="show-file mt-2">
+                                {selectedImage && (
+
+                                  <img
+                                    src={selectedImage}
+                                    alt="preview"
+                                  />
+                                )}
+                              </div>
                             </div>
-                            <button
-                              className="button mt-4"
-                              onClick={sendChatMessage}
-                              disabled={loading || !chatMessage.trim() && !imageFile}
-                            >
-                              {t("Reply")}
-                            </button>
-                          </div>
-                          <div className="show-file mt-2">
-                            {selectedImage && (
-
-                              <img
-                                src={selectedImage}
-                                alt="preview"
-                              />
-                            )}
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <br />
+                        <br />
+                      </>
+                    )}
                     <div className="chat">
                       <p className="title">{t("Support Ticket Chat")}</p>
 
