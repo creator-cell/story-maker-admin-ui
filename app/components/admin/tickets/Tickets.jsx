@@ -259,7 +259,6 @@ export default function Tickets() {
                     handleUserUpdate(row._id);
                     setOpenDropdownId(null);
                   }}
-                  disabled={row.status === "Resolved"}
                 >
                   <div className="eye-icon">
                     <i className="fa-solid fa-eye"></i>
