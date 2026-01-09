@@ -138,6 +138,7 @@ export default function Tickets() {
 
   const handleAssignModerator = async (ticketId, moderatorId) => {
     try {
+      setLoader(true);
       await axios.put(
         `${API_URL}ticket-support/${ticketId}`,
         { moderator: moderatorId },
@@ -145,9 +146,11 @@ export default function Tickets() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
+      setLoader(false);
       toast.success(t("Moderator assigned"));
       getTickets(currentPage + 1, search);
     } catch (err) {
+      setLoader(false);
       toast.error(t("Failed to assign moderator"));
     }
   };
@@ -206,7 +209,9 @@ export default function Tickets() {
                   borderRadius: "8px",
                 }}
               >
-                <option value="">{t("Assign Moderator")}</option>
+                <option value="" disabled>
+                  {t("Assign Moderator")}
+                </option>
                 {moderator?.map((item) => (
                   <option key={item._id} value={item._id}>
                     {item.name}
